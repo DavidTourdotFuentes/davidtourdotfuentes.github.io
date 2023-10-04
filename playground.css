@@ -20,10 +20,21 @@ hr {
   width: 75%;
   margin: 40px auto;
   padding: 2em;
-  clip-path: inset(0 20px 20pxem 0 round 20px);
 
   backdrop-filter: contrast(110%) brightness(120%) saturate(200%) blur(4px);
   border-radius: 20px;
+}
+
+.play-stop-button {
+  position: relative;
+  left: 40%;
+  width: 40px;
+  height: 40px;
+  background-image: url("ressources/generic/Play.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:contain;
+  cursor: pointer;
 }
 
 /*
@@ -31,19 +42,77 @@ hr {
   border: 1px solid blueviolet;
 }
 */
+
+.media-select, .slider-section {
+  display: block;
+  width: 200px;
+}
+
 .slider-section p{
   display: inline-block;
   margin: 10px;
 }
 
 .media-player {
-  display: flex;
+  display: contents;
   align-items: center;
 }
 .media-player button {
-  margin-right: 30px;
   border: 2px solid white;
   border-radius: 10px;
+}
+
+.media-select {
+  position: relative;
+  display: inline-block;
+  width: 70%;
+}
+.media-select select {
+  font-family: "Roboto";
+  display: inline-block;
+  position;
+  width: 100%;
+  cursor: pointer;
+  padding: 5px 25px 5px 5px;
+  outline: 0;
+  border: 2px solid white;
+  border-radius: 15px;
+  background: transparent;
+  color: white;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.media-select option {
+  background: rgba(0, 0, 0, 0);
+  color: black;
+}
+.media-select select::-ms-expand {
+  display: none;
+}
+.media-select select:hover,
+.media-select select:focus {
+  background: #ffffff0e;
+}
+.media-select select:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.media-select-arrow {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 10px;
+  height: 10px; 
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 0px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+.media-select select:disabled ~ .media-select-arrow {
+  border-top-color: white;
 }
 
 .playground-section h3 {
@@ -62,16 +131,4 @@ hr {
   grid-column: 1 / span 2;
   text-align: center;
   word-wrap: break-word;
-}
-
-
-.play-stop-button {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  background-image: url("ressources/generic/Play.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size:contain;
-  cursor: pointer;
 }
