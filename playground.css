@@ -1,0 +1,77 @@
+hr {
+  display: block;
+  position: relative;
+  width: 75%;
+  margin: 20px auto;
+}
+
+.basic-slider {
+  position: relative;
+  vertical-align: middle;
+}
+
+.playground-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, auto);
+  justify-items: center;
+  gap: 20px;
+  border: 2px solid white;
+  width: 75%;
+  margin: 40px auto;
+  padding: 2em;
+  clip-path: inset(0 20px 20pxem 0 round 20px);
+
+  backdrop-filter: contrast(110%) brightness(120%) saturate(200%) blur(4px);
+  border-radius: 20px;
+}
+
+/*
+.playground-section * {
+  border: 1px solid blueviolet;
+}
+*/
+.slider-section p{
+  display: inline-block;
+  margin: 10px;
+}
+
+.media-player {
+  display: flex;
+  align-items: center;
+}
+.media-player button {
+  margin-right: 30px;
+  border: 2px solid white;
+  border-radius: 10px;
+}
+
+.playground-section h3 {
+  grid-column: 1 / span 2;
+  text-align: center;
+}
+
+.playground-section .media-player {
+  grid-row: 2;
+  grid-column: 1 / span 2;
+  text-align: center;
+}
+
+.playground-section p {
+  grid-row: 3;
+  grid-column: 1 / span 2;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+
+.play-stop-button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background-image: url("ressources/generic/Play.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:contain;
+  cursor: pointer;
+}

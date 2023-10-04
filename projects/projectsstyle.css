@@ -1,0 +1,231 @@
+    /*
+    Colors :
+    Bleu générique : #55dcd8 / 85, 220, 216
+    Bleu accent : #609edb / 96, 158, 219
+    Rouge : #db726b / 219, 114, 107
+    Vert : #4bdb85 / 75, 219, 133
+    Orange : #dba140 / 219, 161, 64
+*/
+
+@font-face {
+    font-family: "ProximaNova";
+    src: local("Proxima Nova Font"), url("../ressources/Proxima Nova Font.otf") format("opentype");
+}
+
+
+::before,
+::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary-color: rgb(85, 220, 216); /*Bleu générique : #55dcd8 / 85, 220, 216*/
+    --primary-color-alpha: rgba(85, 220, 216, 0.7);
+    --secondary-color: rgb(96, 158, 219); /*Bleu accent : #609edb / 96, 158, 219*/
+    --secondary-color-alpha: rgba(96, 158, 219, 0.7);
+    --error-color: rgb(219, 114, 107); /*Rouge : #db726b / 219, 114, 107*/
+    --validate-color: rgb(75, 219, 133); /*Vert : #4bdb85 / 75, 219, 133*/
+    --marked-color: rgb(219, 161, 64); /*Orange : #dba140 / 219, 161, 64*/
+    --marked-color-alpha: rgba(219, 161, 64, 0.75);
+    --neutral-color: rgb(160, 160, 160);
+    --neutral-color-alpha: rgba(160, 160, 160, 0.15);
+}
+
+body {
+    margin: 0;
+    font-family: Montserrat, Helvetica, sans-serif;
+    background-color: black;
+    background-image: url('../ressources/images/background.jpg');
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    background-size: cover;
+}
+
+nav {
+    position: sticky;
+    width: 100%;
+    height: 60px;
+    z-index: 10;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    background: rgb(0,0, 0);
+    box-shadow: 0px 1px 2px white;
+}
+
+nav img {
+    width: 20px;
+    display:none;
+}
+
+.nav-icon {
+    display: grid;
+    align-items: center;
+    margin-left: 10px;
+}
+
+/*Tourdot-Fuentes David*/
+.nav-icon a {
+    font-family: ProximaNova, cursive;
+    letter-spacing: 0px;
+    font-size: 35px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    text-decoration: none;
+    text-shadow: 6px 4px 20px var(--primary-color-alpha);
+    font-weight:200;
+}
+
+.nav-icon img {
+    width: 40px;
+    transform: rotate(-17deg) translateX(5px);
+}
+
+.navlinks-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin-left: 20px;
+}
+.navlinks-container a {
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 20px;
+    font-weight: 400;
+    text-decoration: none;
+    color: var(--secondary-color);
+    position: relative;
+    transition: color 0.35s ease-out;
+    text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    transition: all 0.1s ease-out;
+}
+
+.navlinks-container a::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -4px;
+    width: 100%;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: center;
+    background: var(--primary-color);
+    transition: all 0.35s ease-out;
+}
+.navlinks-container a:hover::after {
+    transform: scaleX(1);
+}
+
+.navlinks-container a:hover {
+    color: var(--primary-color);
+    text-shadow: 10px 10px 40px var(--primary-color);
+}
+
+p {
+    font-family: 'Rubik', cursive;
+    color: var(--neutral-color);
+    font-size: 1.25em;
+}
+
+
+.link {
+    color: var(--secondary-color);
+    font-family: 'Rubik', cursive;
+    font-size: 1.25em;
+}
+.link:hover {
+    color: var(--primary-color);
+    text-shadow: 6px 4px 20px var(--primary-color-alpha);
+}
+.link:active {
+    color: var(--validate-color);
+}
+
+@media screen and (max-width: 1100px) {
+    .project-left {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr;
+    }
+
+    .project-icon-left {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 1;
+        grid-row-end: 1;
+    }
+
+    .project-info-left {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 2;
+        grid-row-end: 2;
+        text-align: center;
+    }
+
+    .project-desc-left {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 3;
+        grid-row-end: 3;
+    }
+
+    .project-jobs-left {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 4;
+        grid-row-end: 4;
+    }
+
+    .project-right {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 0.5fr 0.5fr 0.5fr;
+    }
+
+    .project-icon-right {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 1;
+        grid-row-end: 1;
+    }
+
+    .project-info-right {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 2;
+        grid-row-end: 2;
+        text-align: center;
+    }
+
+    .project-desc-right {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 3;
+        grid-row-end: 3;
+    }
+
+    .project-jobs-right {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 4;
+        grid-row-end: 4;
+    }
+}
+
+@media screen and (max-width: 940px) {
+    .banner {
+        width: 90%;
+    }
+
+    .nav-icon {
+        order : 2;
+        margin: 0 auto;
+    }
+
+    .main-navlinks {
+        order:1;
+    }
+}

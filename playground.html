@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang=”fr”>
+
+<!-- Ceci est un commentaire -->
+
+<head>
+    <meta charset="utf-8" />
+    <title>Tourdot-Fuentes David | Profil</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="playground.css" />
+</head>
+
+<body>
+    <div class="background-filter"></div>
+    <nav>
+      <div class="nav-icon" aria-label="visit homepage" aria-current="page">
+        <div class="font-effect-neon">
+          <a href="#">Tourdot-Fuentes David</a>
+        </div>
+      </div>
+
+      <div class="volume">
+        <button class="volume-button" onclick="toggleMute()" id="volButton"></button>
+        <input class="volume-slider" type="range" min="0" max="100" value="75" id="volSlider" oninput="setVolume(this.value)"/>
+      </div>
+
+      <div class="main-navlinks">
+        <div class="navlinks-container">
+          <a href="index.html" aria-current="page">Accueil</a>
+          <a href="projects.html">Projets</a>
+          <a href="playground.html">Playground</a>
+        </div>
+      </div>
+    </nav>
+
+    <h1>Playground</h1>
+
+    <section class="playground-section">
+      <h3>Darkest Canopy : Bande Son Interractive</h3>
+      <div class="media-player">
+        <button class="play-stop-button" onclick="playStopToggle(this, 'DarkestCanopy_Music')" data-clicked="false"></button>
+        <div class="slider-section">
+          <p>Exploration</p>
+          <input class="basic-slider" type="range" min="0" max="100" value="0" id="DarkestCanopy_MusicSlider" oninput="setParam(this.value, 'ExplorationOrFight_param', false)"/>
+          <p>Fight</p>
+        </div>
+      </div>
+      <p>Pour le Jeu Vidéo <strong>Darkest Canopy</strong>, le choix s'est porté sur une transition fluide et dynamique de musique. En effet, le gameplay oscille entre des phases de combat et des phases de repos. La musique se devait de réagir de façon fluide a ces changements</p>
+    </section>
+    
+    <section class="playground-section">
+      <h3>Extrait 2</h3>
+      <div class="media-player">
+        <button class="play-stop-button" onclick="playStopToggle(this, 'Extrait2')" data-clicked="false"></button>
+        <div class="slider-section">
+          <p>1</p>
+          <input class="basic-slider" type="range" min="0" max="100" value="0" id="Extrait2" oninput="setParam(this.value, 'Extrait2_param', false)"/>
+          <p>2</p>
+        </div>
+      </div>
+      <p>Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.</p>
+    </section>
+
+    <div class="bottominfo">
+        <output id="display_out">Please wait... Loading...</output><br />
+        <br />
+        <output id="display_out2"></output><br />
+      </div>
+</body>
+
+</html>
+
+
+<script type="text/javascript" src="fmodstudio.js"></script>
+<script src="script.js"></script>
