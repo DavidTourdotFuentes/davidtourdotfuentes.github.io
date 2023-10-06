@@ -20,16 +20,10 @@ hr {
   width: 75%;
   margin: 20px auto;
   padding: 2em;
-<<<<<<< HEAD
-=======
-  clip-path: inset(0 20px 20pxem 0 round 20px);
-
->>>>>>> parent of 558fc9d (Dropdown integration + test playground layout)
   backdrop-filter: contrast(110%) brightness(120%) saturate(200%) blur(4px);
   border-radius: 20px;
 }
 
-<<<<<<< HEAD
 .playground-section .media-player {
   display: block;
 }
@@ -58,61 +52,13 @@ hr {
   cursor: pointer;
 }
 
-=======
->>>>>>> parent of 558fc9d (Dropdown integration + test playground layout)
 /*
 .playground-section * {
   border: 1px solid blueviolet;
 }
 */
-<<<<<<< HEAD
-
-=======
-.slider-section p{
-  display: inline-block;
-  margin: 10px;
-}
-
-.media-player {
-  display: flex;
-  align-items: center;
-}
->>>>>>> parent of 558fc9d (Dropdown integration + test playground layout)
 .media-player button {
   margin-right: 30px;
   border: 2px solid white;
   border-radius: 10px;
-<<<<<<< HEAD
-=======
-}
-
-.playground-section h3 {
-  grid-column: 1 / span 2;
-  text-align: center;
-}
-
-.playground-section .media-player {
-  grid-row: 2;
-  grid-column: 1 / span 2;
-  text-align: center;
-}
-
-.playground-section p {
-  grid-row: 3;
-  grid-column: 1 / span 2;
-  text-align: center;
-  word-wrap: break-word;
-}
-
-
-.play-stop-button {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  background-image: url("ressources/generic/Play.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size:contain;
-  cursor: pointer;
->>>>>>> parent of 558fc9d (Dropdown integration + test playground layout)
 }
