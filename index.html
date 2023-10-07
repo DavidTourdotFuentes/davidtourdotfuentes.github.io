@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html lang=”fr”>
-
-<!-- Ceci est un commentaire -->
-
-<head>
+<html lang="”fr”">
+  <head>
     <meta charset="utf-8" />
     <title>Tourdot-Fuentes David | Profil</title>
     <link rel="stylesheet" href="style.css" />
-</head>
+  </head>
 
-<body>
-    <div class="background-filter"></div>
+  <body data-barba="wrapper">
+    <div class="fade-transition"></div>
+
     <nav>
       <div class="nav-icon" aria-label="visit homepage" aria-current="page">
         <div class="font-effect-neon">
@@ -19,8 +17,20 @@
       </div>
 
       <div class="volume">
-        <button class="volume-button" onclick="toggleMute()" id="volButton"></button>
-        <input class="volume-slider" type="range" min="0" max="100" value="75" id="volSlider" oninput="setVolume(this.value)"/>
+        <button
+          class="volume-button"
+          onclick="toggleMute()"
+          id="volButton"
+        ></button>
+        <input
+          class="volume-slider"
+          type="range"
+          min="0"
+          max="100"
+          value="75"
+          id="volSlider"
+          oninput="setVolume(this.value)"
+        />
       </div>
 
       <div class="main-navlinks">
@@ -32,28 +42,34 @@
       </div>
     </nav>
 
-    <h1>Profil Personnel</h1>
+    <main data-barba="container" data-barba-namespace="home">
+      <div class="background-filter"></div>
 
-    <div class="profile-content">
+      <h1>Profil Personnel</h1>
+
+      <div class="profile-content">
         <img src="ressources/generic/DavidTF.png" />
         <p>
-            Hello ! Moi c'est David Tourdot-Fuentes, Sound Designer et Compositeur, récemment sorti de 3iS Bordeaux !
+          Hello ! Moi c'est David Tourdot-Fuentes, Sound Designer et
+          Compositeur, récemment sorti de 3iS Bordeaux !
         </p>
         <p>
-            Bienvenue sur mon site !<br/>Plus qu'un simple Portfolio, ce site web interractif propose une immersion a travers tous les projets auquels j'ai pu participer.
+          Bienvenue sur mon site !<br />Plus qu'un simple Portfolio, ce site web
+          interractif propose une immersion a travers tous les projets auquels
+          j'ai pu participer.
         </p>
-    </div>
-
-
-    <div class="bottominfo">
-        <output id="display_out">Please wait... Loading...</output><br />
-        <br />
-        <output id="display_out2"></output><br />
       </div>
-</body>
 
+      <div class="bottominfo">
+        <output id="display_out">Please wait... Loading...</output>
+        <output id="display_out2"></output>
+      </div>
+    </main>
+
+    <script type="text/javascript" src="fmodstudio.js"></script>
+    <script src="fmod.js"></script>
+    <script src="https://unpkg.com/@barba/core"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>
-
-
-<script type="text/javascript" src="fmodstudio.js"></script>
-<script src="script.js"></script>

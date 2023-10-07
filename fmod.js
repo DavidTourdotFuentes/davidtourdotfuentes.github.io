@@ -32,7 +32,6 @@ links.forEach((link) => {
   });
 });
 
-
 // Simple error checking function for all FMOD return values.
 function CHECK_RESULT(result) {
   if (result != FMOD.OK) {
@@ -134,18 +133,19 @@ function main() {
 }
 
 function toggleMute() {
-
   playClickButton();
 
-  if(!masterVolumeMute) {
-    masterVolumeButton.style.backgroundImage = "url(../../ressources/generic/VolumeMute.png)"
+  if (!masterVolumeMute) {
+    masterVolumeButton.style.backgroundImage =
+      "url(../../ressources/generic/VolumeMute.png)";
     masterVolumeSlider.value = 0;
     const event = new Event("input");
     masterVolumeSlider.dispatchEvent(event);
 
     masterVolumeMute = true;
-  }else{
-    masterVolumeButton.style.backgroundImage = "url(../../ressources/generic/VolumeFull.png)"
+  } else {
+    masterVolumeButton.style.backgroundImage =
+      "url(../../ressources/generic/VolumeFull.png)";
     masterVolumeSlider.value = 75;
     const event = new Event("input");
     masterVolumeSlider.dispatchEvent(event);
@@ -158,11 +158,13 @@ function toggleMute() {
 function setVolume(val) {
   playTickSlider();
 
-  if(val == 0){
-    masterVolumeButton.style.backgroundImage = "url(../../ressources/generic/VolumeMute.png)"
+  if (val == 0) {
+    masterVolumeButton.style.backgroundImage =
+      "url(../../ressources/generic/VolumeMute.png)";
     masterVolumeMute = true;
-  }else{
-    masterVolumeButton.style.backgroundImage = "url(../../ressources/generic/VolumeFull.png)"
+  } else {
+    masterVolumeButton.style.backgroundImage =
+      "url(../../ressources/generic/VolumeFull.png)";
   }
   if (gEventInstance) {
     var result = gSystem.setParameterByName(
@@ -175,7 +177,7 @@ function setVolume(val) {
   console.log("La valeur du slider est : " + val);
 }
 
-function setParam(val, paramName, ignoreSeekSpeed){
+function setParam(val, paramName, ignoreSeekSpeed) {
   playTickSlider();
 
   var result = gSystem.setParameterByName(
@@ -206,7 +208,7 @@ function playTickSlider() {
   // Release will clean up the instance when it completes
   CHECK_RESULT(eventInstance.val.release());
 }
-function playHoverLink(){
+function playLinkHover() {
   // One-shot event
   var eventInstance = {};
   CHECK_RESULT(eventHoverLink.val.createInstance(eventInstance));
@@ -234,23 +236,24 @@ function playSwapToFront() {
   // Release will clean up the instance when it completes
   CHECK_RESULT(eventInstance.val.release());
 }
-function playCardHover(){
-    // One-shot event
-    var eventInstance = {};
-    CHECK_RESULT(eventCardHover.val.createInstance(eventInstance));
-    CHECK_RESULT(eventInstance.val.start());
-  
-    // Release will clean up the instance when it completes
-    CHECK_RESULT(eventInstance.val.release());
+function playCardHover() {
+  // One-shot event
+  var eventInstance = {};
+  CHECK_RESULT(eventCardHover.val.createInstance(eventInstance));
+  CHECK_RESULT(eventInstance.val.start());
+
+  // Release will clean up the instance when it completes
+  CHECK_RESULT(eventInstance.val.release());
 }
-function playStopToggle(button, name){
-  
+function playStopToggle(button, name) {
   playClickButton();
 
-  if(button.dataset.clicked === "true"){
+  if (button.dataset.clicked === "true") {
     // Audio
-    if(name === "DarkestCanopy_Music"){
-      CHECK_RESULT(eventDarkestCanopyMusic.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+    if (name === "DarkestCanopy_Music") {
+      CHECK_RESULT(
+        eventDarkestCanopyMusic.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT)
+      );
     }
 
     // Visuels
@@ -258,9 +261,9 @@ function playStopToggle(button, name){
 
     // Logique
     button.dataset.clicked = "false";
-  }else{
+  } else {
     // Audio
-    if(name === "DarkestCanopy_Music"){
+    if (name === "DarkestCanopy_Music") {
       CHECK_RESULT(eventDarkestCanopyMusic.val.start());
     }
 
@@ -273,7 +276,6 @@ function playStopToggle(button, name){
 
   console.log(button.dataset.clicked);
 }
-
 
 // Helper function to load a bank by name.
 function loadBank(name) {
@@ -291,24 +293,37 @@ function initApplication() {
   loadBank("Master.strings.bank");
 
   // Get Events
-  CHECK_RESULT(gSystem.getEvent("event:/Generic/ClickButton", eventClickButton));
+  CHECK_RESULT(
+    gSystem.getEvent("event:/Generic/ClickButton", eventClickButton)
+  );
   CHECK_RESULT(gSystem.getEvent("event:/Generic/TickSlider", eventTickSlider));
   CHECK_RESULT(gSystem.getEvent("event:/Generic/HoverLink", eventHoverLink));
-  CHECK_RESULT(gSystem.getEvent("event:/ProjectsPage/SwapToFront", eventSwapToFront));
-  CHECK_RESULT(gSystem.getEvent("event:/ProjectsPage/SwapToBack", eventSwapToBack));
-  CHECK_RESULT(gSystem.getEvent("event:/ProjectsPage/CardHover", eventCardHover));
+  CHECK_RESULT(
+    gSystem.getEvent("event:/ProjectsPage/SwapToFront", eventSwapToFront)
+  );
+  CHECK_RESULT(
+    gSystem.getEvent("event:/ProjectsPage/SwapToBack", eventSwapToBack)
+  );
+  CHECK_RESULT(
+    gSystem.getEvent("event:/ProjectsPage/CardHover", eventCardHover)
+  );
 
   var descDarkestCanopyMusic = {};
-  CHECK_RESULT(gSystem.getEvent("event:/DarkestCanopy/Music", descDarkestCanopyMusic));
-  CHECK_RESULT(descDarkestCanopyMusic.val.createInstance(eventDarkestCanopyMusic));
-
+  CHECK_RESULT(
+    gSystem.getEvent("event:/DarkestCanopy/Music", descDarkestCanopyMusic)
+  );
+  CHECK_RESULT(
+    descDarkestCanopyMusic.val.createInstance(eventDarkestCanopyMusic)
+  );
 
   var masterVolParameterValue = 75.0; // Initialisation du volume
-  CHECK_RESULT(gSystem.setParameterByName(
-    "MasterVol_param",
-    masterVolParameterValue,
-    false
-  ));
+  CHECK_RESULT(
+    gSystem.setParameterByName(
+      "MasterVol_param",
+      masterVolParameterValue,
+      false
+    )
+  );
 
   OutputAudioWorklet_resumeAudio();
 }
