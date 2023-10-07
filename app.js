@@ -24,7 +24,7 @@ barba.init({
         TLAnim.to(fade, {display: "block", opacity: '100%', ease: "power2.out", duration: 0.5})
         //.set(body, {overflow: "hidden"})
 
-        await delay(2000);
+        await delay(1500);
         done();
 
         let href = data.next.url.path;
