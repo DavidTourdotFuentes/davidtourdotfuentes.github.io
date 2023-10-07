@@ -228,6 +228,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{ae5307f0-fe49-4744-a06e-28ef41871ae9}">
+		<property name="volume">
+			<value>-6</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{443d8418-87dd-468d-a56f-170181305956}</destination>
 		</relationship>
@@ -475,7 +478,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{f0bcb6fd-f1dc-44bf-a6c3-71e72c428341}">
 		<property name="volume">
-			<value>2.5</value>
+			<value>5</value>
 		</property>
 		<property name="name">
 			<value>Pad 01 Intro</value>
@@ -931,7 +934,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{1ec8864c-b366-4fb8-b63b-16ee5be9975e}">
 		<property name="volume">
-			<value>-1</value>
+			<value>-8</value>
 		</property>
 		<property name="name">
 			<value>Pad 02</value>

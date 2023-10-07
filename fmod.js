@@ -11,9 +11,11 @@ var gSystemCore; // Global 'SystemCore' object which has the Core API functions.
 var eventClickButton = {};
 var eventTickSlider = {};
 var eventHoverLink = {};
+var eventSwitchPages = {};
 var eventSwapToBack = {};
 var eventSwapToFront = {};
 var eventCardHover = {};
+var eventWebsiteMusic = {};
 var eventDarkestCanopyMusic = {};
 var gEventInstance = {};
 
@@ -218,6 +220,16 @@ function playLinkHover() {
   CHECK_RESULT(eventInstance.val.release());
 }
 
+function playSwitchPages() {
+  // One-shot event
+  var eventInstance = {};
+  CHECK_RESULT(eventSwitchPages.val.createInstance(eventInstance));
+  CHECK_RESULT(eventInstance.val.start());
+
+  // Release will clean up the instance when it completes
+  CHECK_RESULT(eventInstance.val.release());
+}
+
 function playSwapToBack() {
   // One-shot event
   var eventInstance = {};
@@ -289,33 +301,25 @@ function initApplication() {
   loadBank("Master.strings.bank");
 
   // Get Events
-  CHECK_RESULT(
-    gSystem.getEvent("event:/Generic/ClickButton", eventClickButton)
-  );
+  var descWebsiteMusic = {};
+  CHECK_RESULT(gSystem.getEvent("event:/Music/Music", descWebsiteMusic));
+  CHECK_RESULT(descWebsiteMusic.val.createInstance(eventWebsiteMusic));
+  CHECK_RESULT(eventWebsiteMusic.val.start());
+
+  CHECK_RESULT(gSystem.getEvent("event:/Generic/ClickButton", eventClickButton));
   CHECK_RESULT(gSystem.getEvent("event:/Generic/TickSlider", eventTickSlider));
   CHECK_RESULT(gSystem.getEvent("event:/Generic/HoverLink", eventHoverLink));
-  CHECK_RESULT(
-    gSystem.getEvent("event:/ProjectsPage/SwapToFront", eventSwapToFront)
-  );
-  CHECK_RESULT(
-    gSystem.getEvent("event:/ProjectsPage/SwapToBack", eventSwapToBack)
-  );
+  CHECK_RESULT(gSystem.getEvent("event:/Generic/SwitchPages", eventSwitchPages));
+  CHECK_RESULT(gSystem.getEvent("event:/ProjectsPage/SwapToFront", eventSwapToFront));
+  CHECK_RESULT(gSystem.getEvent("event:/ProjectsPage/SwapToBack", eventSwapToBack));
 
   var descCardHover = {};
-  CHECK_RESULT(
-    gSystem.getEvent("event:/ProjectsPage/CardHover", descCardHover)
-  );
-  CHECK_RESULT(
-    descCardHover.val.createInstance(eventCardHover)
-  );
+  CHECK_RESULT(gSystem.getEvent("event:/ProjectsPage/CardHover", descCardHover));
+  CHECK_RESULT(descCardHover.val.createInstance(eventCardHover));
 
   var descDarkestCanopyMusic = {};
-  CHECK_RESULT(
-    gSystem.getEvent("event:/DarkestCanopy/Music", descDarkestCanopyMusic)
-  );
-  CHECK_RESULT(
-    descDarkestCanopyMusic.val.createInstance(eventDarkestCanopyMusic)
-  );
+  CHECK_RESULT(gSystem.getEvent("event:/DarkestCanopy/Music", descDarkestCanopyMusic));
+  CHECK_RESULT(descDarkestCanopyMusic.val.createInstance(eventDarkestCanopyMusic));
 
   var masterVolParameterValue = 75.0; // Initialisation du volume
   CHECK_RESULT(

@@ -15,23 +15,26 @@ barba.init({
   transitions: [
     {
       async leave(data){
+
+        // Sound
+        playSwitchPages();
+
+        // System
         const done = this.async();
-        TLAnim.to(fade, {display: "block", opacity: '100%', ease: "power2.out", duration: 1})
+        TLAnim.to(fade, {display: "block", opacity: '100%', ease: "power2.out", duration: 0.5})
         //.set(body, {overflow: "hidden"})
 
         await delay(2000);
         done();
 
         let href = data.next.url.path;
-        console.log(href);
         if(href == "/projects.html"){
           refreshProjectsPage();
-          console.log("Projects refreshed !");
         }
       },
       enter(){
-        TLAnim.from(fade, {display: "block", opacity: '100%'})
-        TLAnim.to(fade, {opacity: '0%', ease: "power2.in", duration: 1})
+        TLAnim.from(fade, {display: "block", opacity: '100%', duration: 1})
+        TLAnim.to(fade, {opacity: '0%', ease: "power2.in", duration: 0})
         .set(fade, {display: "none"}) 
         //.set(body, {overflow: auto})
       }

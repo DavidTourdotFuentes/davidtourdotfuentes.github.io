@@ -56,11 +56,7 @@
 			<destination>{161cb4e0-73a6-4ba0-a5be-443db851276a}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{539d5f6a-856f-43a3-be57-191e1530b7b0}">
-		<property name="maxVoices">
-			<value>1</value>
-		</property>
-	</object>
+	<object class="EventAutomatableProperties" id="{539d5f6a-856f-43a3-be57-191e1530b7b0}" />
 	<object class="MarkerTrack" id="{240fa500-6630-4204-864f-125ccb37598f}" />
 	<object class="GroupTrack" id="{65a37465-22c4-427f-b39c-21c88a772ebe}">
 		<relationship name="modules">
@@ -104,6 +100,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{2e4da524-687c-47b4-934b-d5ce5cf99b16}">
+		<property name="volume">
+			<value>-3</value>
+		</property>
 		<property name="name">
 			<value>Swap To Front</value>
 		</property>
