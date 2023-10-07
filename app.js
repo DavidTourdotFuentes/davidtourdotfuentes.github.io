@@ -14,13 +14,20 @@ function delay(n){
 barba.init({
   transitions: [
     {
-      async leave(){
+      async leave(data){
         const done = this.async();
         TLAnim.to(fade, {display: "block", opacity: '100%', ease: "power2.out", duration: 1})
         //.set(body, {overflow: "hidden"})
 
         await delay(2000);
         done();
+
+        let href = data.next.url.path;
+        console.log(href);
+        if(href == "/projects.html"){
+          refreshProjectsPage();
+          console.log("Projects refreshed !");
+        }
       },
       enter(){
         TLAnim.from(fade, {display: "block", opacity: '100%'})

@@ -39,4 +39,7 @@ cards.forEach((card) => {
   card.addEventListener("mouseenter", () => {
     playCardHover();
   });
+  card.addEventListener("mouseleave", () => {
+    stopCardHover();
+  });
 });

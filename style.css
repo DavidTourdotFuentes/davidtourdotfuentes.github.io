@@ -376,12 +376,11 @@ main {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   grid-gap: 30px;
-  padding: 0px 40px;
 }
 
 .card-wrapper {
   position: relative;
-  min-height: 473px;
+  min-height: 422px;
   perspective: 2000px;
   perspective-origin: top;
 }
@@ -399,7 +398,7 @@ main {
   color: white;
   font-weight: bold;
   box-shadow: 0 0 0 0px var(--primary-color);
-  border-radius: 8px;
+  border-radius: 10px;
   user-select: none;
 }
 
@@ -419,7 +418,7 @@ main {
   height: 100%;
   width: 100%;
   padding: 0;
-  border-radius: 8px;
+  border-radius: 10px;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
@@ -486,7 +485,7 @@ main {
   font-family: "Franklin Gothic", cursive;
   font-weight: 600;
   color: white;
-  font-size: 1.25em;
+  font-size: 1em;
   margin: 40px 0px 5px 0px;
 }
 
@@ -504,7 +503,7 @@ main {
   font-family: "Franklin Gothic", cursive;
   font-weight: 300;
   color: white;
-  font-size: 1em;
+  font-size: 0.9em;
   text-decoration: none;
 }
 

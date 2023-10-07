@@ -28,7 +28,7 @@ links.forEach((link) => {
     playLinkHover();
   });
   link.addEventListener("click", () => {
-    playLinkHover();
+    playClickButton();
   });
 });
 
@@ -237,23 +237,19 @@ function playSwapToFront() {
   CHECK_RESULT(eventInstance.val.release());
 }
 function playCardHover() {
-  // One-shot event
-  var eventInstance = {};
-  CHECK_RESULT(eventCardHover.val.createInstance(eventInstance));
-  CHECK_RESULT(eventInstance.val.start());
-
-  // Release will clean up the instance when it completes
-  CHECK_RESULT(eventInstance.val.release());
+  CHECK_RESULT(eventCardHover.val.start());
 }
+function stopCardHover() {
+  CHECK_RESULT(eventCardHover.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+}
+
 function playStopToggle(button, name) {
   playClickButton();
 
   if (button.dataset.clicked === "true") {
     // Audio
     if (name === "DarkestCanopy_Music") {
-      CHECK_RESULT(
-        eventDarkestCanopyMusic.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT)
-      );
+      CHECK_RESULT(eventDarkestCanopyMusic.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
     }
 
     // Visuels
@@ -304,8 +300,13 @@ function initApplication() {
   CHECK_RESULT(
     gSystem.getEvent("event:/ProjectsPage/SwapToBack", eventSwapToBack)
   );
+
+  var descCardHover = {};
   CHECK_RESULT(
-    gSystem.getEvent("event:/ProjectsPage/CardHover", eventCardHover)
+    gSystem.getEvent("event:/ProjectsPage/CardHover", descCardHover)
+  );
+  CHECK_RESULT(
+    descCardHover.val.createInstance(eventCardHover)
   );
 
   var descDarkestCanopyMusic = {};
