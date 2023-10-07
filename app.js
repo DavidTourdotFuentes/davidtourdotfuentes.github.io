@@ -15,15 +15,14 @@ barba.init({
     {
       async leave(){
         const done = this.async();
-        TLAnim.set(fade, {display: "block"});
-        TLAnim.to(fade, {opacity: '100%', ease: "power2.out", duration: 0.5});
+        TLAnim.to(fade, {display: "block", opacity: '100%', ease: "power2.out", duration: 1});
 
         await delay(2000);
         done();
       },
       enter(){
-        TLAnim
-        .to(fade, {left: '-100%', ease: "power2.in", duration: 0.5})
+        TLAnim.from(fade, {display: "block", opacity: '100%'})
+        TLAnim.to(fade, {opacity: '0%', ease: "power2.in", duration: 1})
         .set(fade, {display: "none"}) 
       }
     }
