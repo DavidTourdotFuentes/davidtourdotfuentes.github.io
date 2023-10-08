@@ -31,6 +31,14 @@ function startExperience(){
   main();
   playStartExperience();
 }
+function startExperiencePlayground(){
+  TLAnim.from(firstScreen, {display: "flex", opacity: '100%', duration: 1})
+  TLAnim.to(firstScreen, {opacity: '0%', ease: "power2.in", duration: 0})
+  .set(firstScreen, {display: "none"})
+  main();
+  playStartExperience();
+  setParam(0, "MusicState_param", false);
+}
 
 function delay(n){
   return new Promise((done) => {
