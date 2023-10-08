@@ -60,7 +60,7 @@ nav {
   top: 0px;
   align-items: center;
   background: rgb(5, 5, 5);
-  box-shadow: 0px 1px 2px white;
+  box-shadow: 0px 1px 0px white;
 }
 
 .nav-icon {
@@ -316,6 +316,36 @@ body {
 main {
   padding-left: 4em;
   padding-right: 4em;
+  padding-bottom: 5em;
+}
+
+.bottominfo {
+  display: flex;
+  position: absolute;
+  width: 100vw;
+  height: 50px;
+  justify-content: center;
+  gap: 40px;
+  align-items: center;
+  bottom: 0;
+  left: 0;
+  align-items: center;
+  background: rgb(5, 5, 5);
+  box-shadow: 0px 0px 0px 1px white;
+}
+
+.bottominfo output {
+  font-family: "Roboto";
+  font-weight: 200;
+  color: white;
+  font-size: 0.8em;
+  text-decoration: none;
+}
+
+.bottominfo .fmod-logo {
+  filter: invert(100%);
+  width: 120px;
+  height: auto;
 }
 
 .profile-content {

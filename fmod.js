@@ -57,9 +57,6 @@ function prerun() {
   fileName = ["Master.bank", "Master.strings.bank"];
 
   for (var count = 0; count < fileName.length; count++) {
-    document.querySelector("#display_out2").value =
-      "Loading " + fileName[count] + "...";
-
     FMOD.FS_createPreloadedFile(
       folderName,
       fileName[count],
@@ -342,49 +339,11 @@ function updateApplication() {
   result = gSystemCore.getCPUUsage(cpu);
   CHECK_RESULT(result);
 
-  var channelsplaying = {};
-  result = gSystemCore.getChannelsPlaying(channelsplaying, null);
-  CHECK_RESULT(result);
-
-  document.querySelector("#display_out").value =
-    "Channels Playing = " +
-    channelsplaying.val +
-    " : CPU = dsp " +
-    cpu.dsp.toFixed(2) +
-    "% stream " +
-    cpu.stream.toFixed(2) +
-    "% update " +
-    cpu.update.toFixed(2) +
-    "% total " +
-    (cpu.dsp + cpu.stream + cpu.update).toFixed(2) +
-    "%";
-
-  var numbuffers = {};
-  var buffersize = {};
-  result = gSystemCore.getDSPBufferSize(buffersize, numbuffers);
-  CHECK_RESULT(result);
-
-  var rate = {};
-  result = gSystemCore.getSoftwareFormat(rate, null, null);
-  CHECK_RESULT(result);
-
   var sysrate = {};
   result = gSystemCore.getDriverInfo(0, null, null, sysrate, null, null);
   CHECK_RESULT(result);
 
-  var ms = (numbuffers.val * buffersize.val * 1000) / rate.val;
-  document.querySelector("#display_out2").value =
-    "Mixer rate = " +
-    rate.val +
-    "hz : System rate = " +
-    sysrate.val +
-    "hz : DSP buffer size = " +
-    numbuffers.val +
-    " buffers of " +
-    buffersize.val +
-    " samples (" +
-    ms.toFixed(2) +
-    " ms)";
+  document.querySelector("#display_out").value = "(" + sysrate.val + "Hz, CPU : " + (cpu.dsp + cpu.stream + cpu.update).toFixed(2) + "%)";
 
   // Update FMOD
   result = gSystem.update();
