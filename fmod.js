@@ -1,6 +1,6 @@
 var FMOD = {}; // FMOD global object which must be declared to enable 'main' and 'preRun' and then call the constructor function.
 FMOD["preRun"] = prerun; // Will be called before FMOD runs, but after the Emscripten runtime has initialized
-FMOD["onRuntimeInitialized"] = main; // Called when the Emscripten runtime has initialized
+//FMOD["onRuntimeInitialized"] = main; // Called when the Emscripten runtime has initialized
 FMOD["INITIAL_MEMORY"] = 64 * 1024 * 1024; // FMOD Heap defaults to 16mb which is enough for this demo, but set it differently here for demonstration (64mb)
 FMODModule(FMOD); // Calling the constructor function with our object
 
@@ -8,6 +8,7 @@ const links = document.querySelectorAll(".navlinks-container a");
 
 var gSystem; // Global 'System' object which has the Studio API functions.
 var gSystemCore; // Global 'SystemCore' object which has the Core API functions.
+var eventStartExperience = {};
 var eventClickButton = {};
 var eventTickSlider = {};
 var eventHoverLink = {};
@@ -177,8 +178,6 @@ function setVolume(val) {
 }
 
 function setParam(val, paramName, ignoreSeekSpeed) {
-  playTickSlider();
-
   var result = gSystem.setParameterByName(
     paramName,
     parseFloat(val),
@@ -187,6 +186,16 @@ function setParam(val, paramName, ignoreSeekSpeed) {
   CHECK_RESULT(result);
 
   console.log("Nouvelle valeur : " + val);
+}
+
+function playStartExperience() {
+  // One-shot event
+  var eventInstance = {};
+  CHECK_RESULT(eventStartExperience.val.createInstance(eventInstance));
+  CHECK_RESULT(eventInstance.val.start());
+
+  // Release will clean up the instance when it completes
+  CHECK_RESULT(eventInstance.val.release());
 }
 
 function playClickButton() {
@@ -282,15 +291,6 @@ function playStopToggle(button, name) {
   console.log(button.dataset.clicked);
 }
 
-// Helper function to load a bank by name.
-function loadBank(name) {
-  var bankhandle = {};
-  CHECK_RESULT(
-    gSystem.loadBankFile("/" + name, FMOD.STUDIO_LOAD_BANK_NORMAL, bankhandle)
-  );
-}
-
-// Called from main, does some application setup.  In our case we will load some sounds.
 function initApplication() {
   console.log("Loading events\n");
 
@@ -303,6 +303,7 @@ function initApplication() {
   CHECK_RESULT(descWebsiteMusic.val.createInstance(eventWebsiteMusic));
   CHECK_RESULT(eventWebsiteMusic.val.start());
 
+  CHECK_RESULT(gSystem.getEvent("event:/Generic/StartExperience", eventStartExperience));
   CHECK_RESULT(gSystem.getEvent("event:/Generic/ClickButton", eventClickButton));
   CHECK_RESULT(gSystem.getEvent("event:/Generic/TickSlider", eventTickSlider));
   CHECK_RESULT(gSystem.getEvent("event:/Generic/HoverLink", eventHoverLink));
@@ -328,6 +329,14 @@ function initApplication() {
   );
 
   OutputAudioWorklet_resumeAudio();
+}
+
+// Helper function to load a bank by name.
+function loadBank(name) {
+  var bankhandle = {};
+  CHECK_RESULT(
+    gSystem.loadBankFile("/" + name, FMOD.STUDIO_LOAD_BANK_NORMAL, bankhandle)
+  );
 }
 
 // Called from main, on an interval that updates at a regular rate (like in a game loop).

@@ -1,3 +1,4 @@
+const firstScreen = document.querySelector(".start-experience");
 const fade = document.querySelector(".fade-transition");
 const body = document.querySelector("body");
 
@@ -23,6 +24,14 @@ for(var i = 0; i < allLinks.length; i++) {
   allLinks[i].addEventListener('click', cbk);
 }
 
+function startExperience(){
+  TLAnim.from(firstScreen, {display: "flex", opacity: '100%', duration: 1})
+  TLAnim.to(firstScreen, {opacity: '0%', ease: "power2.in", duration: 0})
+  .set(firstScreen, {display: "none"})
+  main();
+  playStartExperience();
+}
+
 function delay(n){
   return new Promise((done) => {
     setTimeout(()=> {
@@ -35,7 +44,6 @@ barba.init({
   transitions: [
     {
       async leave(data){
-
         isAnimating = true;
 
         // Sound
@@ -52,6 +60,11 @@ barba.init({
         let href = data.next.url.path;
         if(href == "/projects.html"){
           refreshProjectsPage();
+        }
+        if(data.next.url.path == "/playground.html"){
+          setParam(0, "MusicState_param", false);
+        }else{
+          setParam(1, "MusicState_param", false);
         }
       },
       enter(){

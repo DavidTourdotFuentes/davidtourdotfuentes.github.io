@@ -4,9 +4,16 @@
     <meta charset="utf-8" />
     <title>Tourdot-Fuentes David | Playground</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
   </head>
 
   <body data-barba="wrapper">
+    <div class="start-experience">
+      <button onclick="startExperience()">Start Experience</button>
+    </div>
+
     <div class="fade-transition"></div>
 
     <nav>
@@ -66,6 +73,7 @@
                 value="0"
                 id="DarkestCanopy_MusicSlider"
                 oninput="setParam(this.value, 'ExplorationOrFight_param', false)"
+                oninput="playTickSlider()"
               />
               <p>Combat</p>
             </div>
