@@ -3,6 +3,26 @@ const body = document.querySelector("body");
 
 const TLAnim = gsap.timeline();
 
+var isAnimating = false;
+
+
+var allLinks = document.querySelectorAll('a[href]');
+var cbk = function(e) {
+ if((e.currentTarget.href === window.location.href)) {
+   e.preventDefault();
+   e.stopPropagation();
+ }
+
+ if(isAnimating === true){
+  e.preventDefault();
+  e.stopPropagation();
+ }
+};
+
+for(var i = 0; i < allLinks.length; i++) {
+  allLinks[i].addEventListener('click', cbk);
+}
+
 function delay(n){
   return new Promise((done) => {
     setTimeout(()=> {
@@ -15,6 +35,8 @@ barba.init({
   transitions: [
     {
       async leave(data){
+
+        isAnimating = true;
 
         // Sound
         playSwitchPages();
@@ -36,7 +58,7 @@ barba.init({
         TLAnim.from(fade, {display: "block", opacity: '100%', duration: 1})
         TLAnim.to(fade, {opacity: '0%', ease: "power2.in", duration: 0})
         .set(fade, {display: "none"}) 
-        //.set(body, {overflow: auto})
+        isAnimating = false;
       }
     }
   ]
