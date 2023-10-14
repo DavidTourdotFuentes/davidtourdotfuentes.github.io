@@ -44,7 +44,6 @@ button {
 .start-experience {
   display: flex;
   position: fixed;
-  scale: 1;
   z-index: 2;
   width: 100vw;
   height: 100vh;
@@ -55,7 +54,7 @@ button {
 }
 .start-experience button {
   font-family: 'Roboto', sans-serif;
-  font-size: 150%;
+  font-size: 30px;
   display: flex;
   width: 250px;
   height: 100px;
@@ -150,12 +149,6 @@ nav {
 .navlinks-container a:hover {
   color: var(--primary-color);
   text-shadow: 10px 10px 40px var(--primary-color);
-}
-
-iframe {
-  display: flex;
-  align-content: center;
-  justify-content: center;
 }
 
 .volume {
