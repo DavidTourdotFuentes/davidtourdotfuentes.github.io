@@ -1,10 +1,18 @@
 const firstScreen = document.querySelector(".start-experience");
+const firstScreenButton = document.querySelector(".start-experience button");
 const fade = document.querySelector(".fade-transition");
 const body = document.querySelector("body");
 
 const TLAnim = gsap.timeline();
 
 var isAnimating = false;
+
+window.addEventListener('load', () => {
+  console.log("loaded !");
+  firstScreenButton.textContent = "Visit Portfolio";
+  firstScreenButton.classList.add('loaded');
+  firstScreenButton.disabled = false;
+})
 
 
 var allLinks = document.querySelectorAll('a[href]');
