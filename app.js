@@ -75,7 +75,8 @@ barba.init({
 
         let href = data.next.url.path;
         if(href == "/projects.html"){
-          refreshProjectsPage();
+          loadingProjects();
+          console.log("Loading projects");
         }
         if(data.next.url.path == "/playground.html"){
           setParam(0, "MusicState_param", false);

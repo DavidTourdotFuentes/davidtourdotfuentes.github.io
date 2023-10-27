@@ -62,13 +62,13 @@ button {
   border: 0px solid transparent;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 }
 
 button.loaded {
   scale: 105%;
   border: 4px solid white;
   transition: all 1s ease;
+  cursor: pointer;
 }
 
 
