@@ -1,5 +1,6 @@
 const firstScreen = document.querySelector(".start-experience");
 const firstScreenButton = document.querySelector(".start-experience button");
+const loaderAnim = document.querySelector(".loader");
 const fade = document.querySelector(".fade-transition");
 const body = document.querySelector("body");
 
@@ -11,6 +12,7 @@ window.addEventListener('load', () => {
   console.log("loaded !");
   firstScreenButton.textContent = "Visit Portfolio";
   firstScreenButton.classList.add('loaded');
+  loaderAnim.classList.add('loaded');
   firstScreenButton.disabled = false;
 })
 
