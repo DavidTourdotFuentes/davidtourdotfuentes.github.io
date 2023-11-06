@@ -40,6 +40,7 @@ function startExperience(){
   .set(firstScreen, {display: "none"})
   main();
   playStartExperience();
+  scroll(0,0);
 }
 function startExperiencePlayground(){
   TLAnim.from(firstScreen, {display: "flex", opacity: '100%', duration: 1})

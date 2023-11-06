@@ -123,7 +123,7 @@ div#loader-anim.loader.loaded {
 .fade-transition {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   width: 100vw;
   height: 100vh;
   background: black;
@@ -458,11 +458,11 @@ main {
 .unity { grid-area: 2 / 5 / 2 / 7; }
 .unreal { grid-area: 2 / 7 / 2 / 9; }
 .audition { grid-area: 3 / 2 / 3 / 4; }
-.dante { grid-area: 3 / 4 / 3 / 6; }
+.bitwig { grid-area: 3 / 4 / 3 / 6; }
 .max { grid-area: 3 / 6 / 3 / 8; }
 .reaper { grid-area: 4 / 1 / 4 / 3; }
 .protools { grid-area: 4 / 3 / 4 / 5; }
-.bitwig { grid-area: 4 / 5 / 4 / 7; }
+.dante { grid-area: 4 / 5 / 4 / 7; }
 .ableton { grid-area: 4 / 7 / 4 / 9; }
 
 .softwares-used-section > a {
@@ -559,6 +559,7 @@ main {
 /* CSS DE LA PAGE PROJECTS */
 
 .card-container {
+  padding: 0 4em;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   grid-gap: 30px;

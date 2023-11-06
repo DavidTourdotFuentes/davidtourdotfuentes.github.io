@@ -4,7 +4,7 @@ FMOD["preRun"] = prerun; // Will be called before FMOD runs, but after the Emscr
 FMOD["INITIAL_MEMORY"] = 64 * 1024 * 1024; // FMOD Heap defaults to 16mb which is enough for this demo, but set it differently here for demonstration (64mb)
 FMODModule(FMOD); // Calling the constructor function with our object
 
-const links = document.querySelectorAll(".navlinks-container a");
+const links = document.querySelectorAll(".navlinks-container a, .softwares-used-section a");
 
 var gSystem; // Global 'System' object which has the Studio API functions.
 var gSystemCore; // Global 'SystemCore' object which has the Core API functions.
