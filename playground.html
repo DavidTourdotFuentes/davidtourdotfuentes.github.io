@@ -80,7 +80,7 @@
                 max="100"
                 value="0"
                 id="DarkestCanopy_MusicSlider"
-                oninput="setParam(this.value, 'ExplorationOrFight_param', false)"
+                oninput="setParam(this.value, 'DarkestCanopyMusic_param', false)"
                 oninput="playTickSlider()"
               />
               <p>Combat</p>
@@ -128,21 +128,26 @@
         </section>
 
         <section class="playground-section">
-          <h3>Phantom Memories : Ambiant Transitions</h3>
+          <h3>Hide And Flee : Ambiant Transitions</h3>
           <div class="media-player">
             <button
               class="play-stop-button"
-              onclick="playStopToggle(this, 'Extrait2')"
+              onclick="playStopToggle(this, 'HideAndFlee_Amb')"
               data-clicked="false"
             ></button>
-            <div class="select-section">
-              <div class="media-select">
-                <select>
-                  <option>Gameplay Ambiant</option>
-                  <option>Mindmap Ambiant</option>
-                </select>
-                <!--<div class="media-select-arrow"></div>-->
-              </div>
+            <div class="slider-section">
+              <p>Plain</p>
+              <input
+                class="basic-slider"
+                type="range"
+                min="0"
+                max="100"
+                value="0"
+                id="HideAndFlee_AmbSlider"
+                oninput="setParam(this.value, 'HideAndFleeAmbiance_param', false)"
+                oninput="playTickSlider()"
+              />
+              <p>Forest</p>
             </div>
           </div>
           <p class="desc">
@@ -167,12 +172,12 @@
         <output id="display_out">Please wait... Loading...</output>
       </div>
     </main>
-
-    <script type="text/javascript" src="fmodstudio.js"></script>
-    <script src="fmod.js"></script>
-    <script src="https://unpkg.com/@barba/core"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
-    <script src="app.js"></script>
-    <script src="projects.js"></script>
   </body>
+
+  <script type="text/javascript" src="fmodstudio.js"></script>
+  <script src="fmod.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
+  <script src="app.js"></script>
+  <script src="projects.js"></script>
 </html>

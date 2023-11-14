@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="ParameterPreset" id="{b963f4a1-ea4a-4986-b708-ac0a20edfedd}">
 		<property name="name">
-			<value>ExplorationOrFight_param</value>
+			<value>DarkestCanopyMusic_param</value>
 		</property>
 		<relationship name="folder">
 			<destination>{9db65d31-c1a7-4cf1-8287-4ff8a90bd7b8}</destination>

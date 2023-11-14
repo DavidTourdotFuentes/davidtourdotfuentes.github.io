@@ -18,6 +18,7 @@ var eventSwapToFront = {};
 var eventCardHover = {};
 var eventWebsiteMusic = {};
 var eventDarkestCanopyMusic = {};
+var eventHideAndFleeAmb = {};
 var gEventInstance = {};
 
 var masterVolumeMute = false;
@@ -269,6 +270,9 @@ function playStopToggle(button, name) {
     if (name === "DarkestCanopy_Music") {
       CHECK_RESULT(eventDarkestCanopyMusic.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
     }
+    if (name === "HideAndFlee_Amb") {
+      CHECK_RESULT(eventHideAndFleeAmb.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+    }
 
     // Visuels
     button.style.backgroundImage = "url(../../ressources/generic/Play.png)";
@@ -279,6 +283,9 @@ function playStopToggle(button, name) {
     // Audio
     if (name === "DarkestCanopy_Music") {
       CHECK_RESULT(eventDarkestCanopyMusic.val.start());
+    }
+    if (name === "HideAndFlee_Amb") {
+      CHECK_RESULT(eventHideAndFleeAmb.val.start());
     }
 
     // Visuels
@@ -316,8 +323,12 @@ function initApplication() {
   CHECK_RESULT(descCardHover.val.createInstance(eventCardHover));
 
   var descDarkestCanopyMusic = {};
-  CHECK_RESULT(gSystem.getEvent("event:/DarkestCanopy/Music", descDarkestCanopyMusic));
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/DarkestCanopy_Music", descDarkestCanopyMusic));
   CHECK_RESULT(descDarkestCanopyMusic.val.createInstance(eventDarkestCanopyMusic));
+
+  var descHideAndFleeAmb = {};
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/HideAndFlee_Amb", descHideAndFleeAmb));
+  CHECK_RESULT(descHideAndFleeAmb.val.createInstance(eventHideAndFleeAmb));
 
   var masterVolParameterValue = 75.0; // Initialisation du volume
   CHECK_RESULT(

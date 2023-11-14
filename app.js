@@ -8,6 +8,14 @@ const TLAnim = gsap.timeline();
 
 var isAnimating = false;
 
+function reloadJS(file) {
+  var script = document.createElement("script");
+  script.src = "/" + file + ".js";
+  myWindow = window.open(script.src + "?v=" + Math.random());
+  document.body.appendChild(script);
+  myWindow.close();
+ }
+
 window.addEventListener('load', () => {
   console.log("loaded !");
   firstScreenButton.textContent = "Visit Portfolio";
@@ -78,7 +86,7 @@ barba.init({
 
         let href = data.next.url.path;
         if(href == "/projects.html"){
-          loadingProjects();
+          reloadJS("projects");
           console.log("Loading projects");
         }
         if(data.next.url.path == "/playground.html"){
