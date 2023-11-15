@@ -96,20 +96,46 @@
 
         <section class="playground-section">
           <h3>Phantom Memories : Ambiant Transitions</h3>
-          <div class="media-player">
-            <button
-              class="play-stop-button"
-              onclick="playStopToggle(this, 'Extrait2')"
-              data-clicked="false"
-            ></button>
-            <div class="select-section">
-              <div class="media-select">
-                <select>
-                  <option>Gameplay Ambiant</option>
-                  <option>Mindmap Ambiant</option>
-                </select>
-                <!--<div class="media-select-arrow"></div>-->
-              </div>
+          <div class="launch-pad">
+            <div class="media-player" id="play-amb">
+              <p>Start MindMap</p>
+              <button
+                class="play-stop-button"
+                onclick="playStopToggle(this, 'Extrait2')"
+                data-clicked="false"
+              ></button>
+            </div>
+            <div class="media-player" id="stop-amb">
+              <p>Stop MindMap</p>
+              <button
+                class="play-stop-button"
+                onclick="playStopToggle(this, 'Extrait2')"
+                data-clicked="false"
+              ></button>
+            </div>
+            <div class="media-player" id="connect">
+              <p>Start connection</p>
+              <button
+                class="play-stop-button"
+                onclick="playStopToggle(this, 'Extrait2')"
+                data-clicked="false"
+              ></button>
+            </div>
+            <div class="media-player" id="connect-fail">
+              <p>Connection failed</p>
+              <button
+                class="play-stop-button"
+                onclick="playStopToggle(this, 'Extrait2')"
+                data-clicked="false"
+              ></button>
+            </div>
+            <div class="media-player" id="connect-sucess">
+              <p>Connection success</p>
+              <button
+                class="play-stop-button"
+                onclick="playStopToggle(this, 'Extrait2')"
+                data-clicked="false"
+              ></button>
             </div>
           </div>
           <p class="desc">

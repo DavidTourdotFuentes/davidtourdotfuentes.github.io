@@ -839,6 +839,23 @@ hr {
   margin: 10px;
 }
 
+.playground-section .launch-pad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 30px;
+}
+
+.launch-pad .media-player { display:block }
+.launch-pad .media-player button { margin: 10px; }
+
+.launch-pad #play-amb { grid-area: 1 / 2 / 2 / 3; }
+.launch-pad #stop-amb { grid-area: 1 / 4 / 2 / 5; }
+.launch-pad #connect { grid-area: 2 / 3 / 3 / 4; }
+.launch-pad #connect-fail { grid-area: 3 / 2 / 4 / 3; }
+.launch-pad #connect-sucess { grid-area: 3 / 4 / 4 / 5; }
+
 .media-player {
   display: flex;
   align-items: center;
