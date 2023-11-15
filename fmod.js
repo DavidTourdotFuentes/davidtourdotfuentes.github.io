@@ -262,6 +262,11 @@ function stopCardHover() {
   CHECK_RESULT(eventCardHover.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
 }
 
+function stopAllExemples(){
+  CHECK_RESULT(eventDarkestCanopyMusic.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+  CHECK_RESULT(eventHideAndFleeAmb.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+}
+
 function playStopToggle(button, name) {
   playClickButton();
 

@@ -93,6 +93,8 @@ barba.init({
           setParam(0, "MusicState_param", false);
         }else{
           setParam(1, "MusicState_param", false);
+          // Stopper tous les events sons de playground
+          stopAllExemples();
         }
       },
       enter(){
