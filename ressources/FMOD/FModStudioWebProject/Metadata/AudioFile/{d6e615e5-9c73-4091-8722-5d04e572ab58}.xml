@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{d6e615e5-9c73-4091-8722-5d04e572ab58}">
+		<property name="assetPath">
+			<value>PhantomMemories/SFX_MindMap_Closing.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>3.008</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{3d227071-b102-4b1f-a757-b80386a81fb5}</destination>
+		</relationship>
+	</object>
+</objects>

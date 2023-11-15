@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="EncodableAsset" id="{21a086f2-8514-4aad-b837-d848d01fe84b}">
+		<property name="assetPath">
+			<value>PhantomMemories/</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{3d227071-b102-4b1f-a757-b80386a81fb5}</destination>
+		</relationship>
+	</object>
+</objects>

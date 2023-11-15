@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{89da3449-85ed-421f-9ba7-a185adaaf89b}">
 		<property name="assetPath">
-			<value>FX/Ambiant/Forest_1.wav</value>
+			<value>HideAndFlee/Forest_1.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>
