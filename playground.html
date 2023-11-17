@@ -2,7 +2,7 @@
 <html lang="”fr”">
   <head>
     <meta charset="utf-8" />
-    <title>Tourdot-Fuentes David | Playground</title>
+    <title>David Tourdot-Fuentes | Playground</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +27,7 @@
     <nav>
       <div class="nav-icon" aria-label="visit homepage" aria-current="page">
         <div class="font-effect-neon">
-          <a href="index.html">Tourdot-Fuentes David</a>
+          <a href="index.html">David Tourdot-Fuentes</a>
         </div>
       </div>
 
@@ -95,47 +95,37 @@
         </section>
 
         <section class="playground-section">
-          <h3>Phantom Memories : Ambiant Transitions</h3>
-          <div class="launch-pad">
+          <h3>Phantom Memories : Système de MindMap</h3>
+          <div class="pm-amb">
             <div class="media-player" id="play-amb">
+              <button
+                class="play-stop-button"
+                onclick="playStopToggle(this, 'PhantomMemories_MindMap')"
+                data-clicked="false"
+              ></button>
               <p>Start MindMap</p>
-              <button
-                class="play-stop-button"
-                onclick="playStopToggle(this, 'Extrait2')"
-                data-clicked="false"
-              ></button>
-            </div>
-            <div class="media-player" id="stop-amb">
-              <p>Stop MindMap</p>
-              <button
-                class="play-stop-button"
-                onclick="playStopToggle(this, 'Extrait2')"
-                data-clicked="false"
-              ></button>
             </div>
             <div class="media-player" id="connect">
-              <p>Start connection</p>
               <button
                 class="play-stop-button"
-                onclick="playStopToggle(this, 'Extrait2')"
+                onclick="playStopToggle(this, 'PhantomMemories_MindMap_connect')"
                 data-clicked="false"
               ></button>
+              <p>Start Connection</p>
             </div>
             <div class="media-player" id="connect-fail">
-              <p>Connection failed</p>
               <button
                 class="play-stop-button"
-                onclick="playStopToggle(this, 'Extrait2')"
-                data-clicked="false"
+                onclick="playOneShot('PhantomMemories_MindMap_connect_fail')"
               ></button>
+              <p>Connection Failed</p>
             </div>
             <div class="media-player" id="connect-sucess">
-              <p>Connection success</p>
               <button
                 class="play-stop-button"
-                onclick="playStopToggle(this, 'Extrait2')"
-                data-clicked="false"
-              ></button>
+                onclick="playOneShot('PhantomMemories_MindMap_connect_success')"
+                ></button>
+              <p>Connection Success</p>
             </div>
           </div>
           <p class="desc">

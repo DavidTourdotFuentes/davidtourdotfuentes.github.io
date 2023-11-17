@@ -17,11 +17,12 @@ function reloadJS(file) {
  }
 
 window.addEventListener('load', () => {
-  console.log("loaded !");
   firstScreenButton.textContent = "Visit Portfolio";
   firstScreenButton.classList.add('loaded');
   loaderAnim.classList.add('loaded');
   firstScreenButton.disabled = false;
+
+  document.body.style.backgroundImage = "url('ressources/generic/background.jpg')";
 })
 
 

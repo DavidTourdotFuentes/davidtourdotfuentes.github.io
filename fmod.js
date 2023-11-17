@@ -18,6 +18,11 @@ var eventSwapToFront = {};
 var eventCardHover = {};
 var eventWebsiteMusic = {};
 var eventDarkestCanopyMusic = {};
+var eventPMMindMapOpen = {};
+var eventPMMindMapClose = {};
+var eventPMMindMapConnect = {};
+var eventPMMindMapConnectionFail = {};
+var eventPMMindMapConnectionSucess = {};
 var eventHideAndFleeAmb = {};
 var gEventInstance = {};
 
@@ -25,7 +30,6 @@ var masterVolumeMute = false;
 const masterVolumeButton = document.getElementById("volButton");
 const masterVolumeSlider = document.getElementById("volSlider");
 var playStopState = false;
-const playStopButton = document.querySelectorAll("play-stop-button");
 
 links.forEach((link) => {
   link.addEventListener("mouseenter", () => {
@@ -75,13 +79,9 @@ function main() {
   var outval = {};
   var result;
 
-  console.log("Creating FMOD System object\n");
-
   // Create the system and check the result
   result = FMOD.Studio_System_Create(outval);
   CHECK_RESULT(result);
-
-  console.log("grabbing system object from temporary and storing it\n");
 
   // Take out our System object
   gSystem = outval.val;
@@ -93,13 +93,11 @@ function main() {
 
   // Optional.  Setting DSP Buffer size can affect latency and stability.
   // Processing is currently done in the main thread so anything lower than 2048 samples can cause stuttering on some devices.
-  console.log("set DSP Buffer size.\n");
   result = gSystemCore.setDSPBufferSize(2048, 2);
   CHECK_RESULT(result);
 
   // Optional.  Set sample rate of mixer to be the same as the OS output rate.
   // This can save CPU time and latency by avoiding the automatic insertion of a resampler at the output stage.
-  console.log("Set mixer sample rate");
   result = gSystemCore.getDriverInfo(0, null, null, outval, null, null);
   CHECK_RESULT(result);
   result = gSystemCore.setSoftwareFormat(
@@ -108,8 +106,6 @@ function main() {
     0
   );
   CHECK_RESULT(result);
-
-  console.log("initialize FMOD\n");
 
   // 1024 virtual channels
   result = gSystem.initialize(
@@ -121,12 +117,10 @@ function main() {
   CHECK_RESULT(result);
 
   // Starting up your typical JavaScript application loop
-  console.log("initialize Application\n");
 
   initApplication();
 
   // Set the framerate to 50 frames per second, or 20ms.
-  console.log("Start game loop\n");
 
   window.setInterval(updateApplication, 20);
 
@@ -185,8 +179,6 @@ function setParam(val, paramName, ignoreSeekSpeed) {
     ignoreSeekSpeed
   );
   CHECK_RESULT(result);
-
-  console.log("Nouvelle valeur : " + val);
 }
 
 function playStartExperience() {
@@ -267,6 +259,21 @@ function stopAllExemples(){
   CHECK_RESULT(eventHideAndFleeAmb.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
 }
 
+function playOneShot(name) {
+  if(name === "PhantomMemories_MindMap_connect_fail") {
+    // One-shot event
+    var eventInstance = {};
+    CHECK_RESULT(eventPMMindMapConnectionFail.val.createInstance(eventInstance));
+    CHECK_RESULT(eventInstance.val.start());
+  }
+  if(name === "PhantomMemories_MindMap_connect_success") {
+    // One-shot event
+    var eventInstance = {};
+    CHECK_RESULT(eventPMMindMapConnectionSucess.val.createInstance(eventInstance));
+    CHECK_RESULT(eventInstance.val.start());
+  }
+}
+
 function playStopToggle(button, name) {
   playClickButton();
 
@@ -278,7 +285,18 @@ function playStopToggle(button, name) {
     if (name === "HideAndFlee_Amb") {
       CHECK_RESULT(eventHideAndFleeAmb.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
     }
-
+    if (name === "PhantomMemories_MindMap") {
+      // One-shot event
+      var eventInstance = {};
+      CHECK_RESULT(eventPMMindMapClose.val.createInstance(eventInstance));
+      CHECK_RESULT(eventInstance.val.start());
+    }
+    if (name === "PhantomMemories_MindMap_connect") {
+      // One-shot event
+      var eventInstance = {};
+      CHECK_RESULT(eventPMMindMapConnect.val.createInstance(eventInstance));
+      CHECK_RESULT(eventInstance.val.start());
+    }
     // Visuels
     button.style.backgroundImage = "url(../../ressources/generic/Play.png)";
 
@@ -292,6 +310,18 @@ function playStopToggle(button, name) {
     if (name === "HideAndFlee_Amb") {
       CHECK_RESULT(eventHideAndFleeAmb.val.start());
     }
+    if (name === "PhantomMemories_MindMap") {
+      // One-shot event
+      var eventInstance = {};
+      CHECK_RESULT(eventPMMindMapOpen.val.createInstance(eventInstance));
+      CHECK_RESULT(eventInstance.val.start());
+    }
+    if (name === "PhantomMemories_MindMap_connect") {
+      // One-shot event
+      var eventInstance = {};
+      CHECK_RESULT(eventPMMindMapConnectionFail.val.createInstance(eventInstance));
+      CHECK_RESULT(eventInstance.val.start());
+    }
 
     // Visuels
     button.style.backgroundImage = "url(../../ressources/generic/Stop.png)";
@@ -299,13 +329,9 @@ function playStopToggle(button, name) {
     // Logique
     button.dataset.clicked = "true";
   }
-
-  console.log(button.dataset.clicked);
 }
 
 function initApplication() {
-  console.log("Loading events\n");
-
   loadBank("Master.bank");
   loadBank("Master.strings.bank");
 
@@ -330,6 +356,12 @@ function initApplication() {
   var descDarkestCanopyMusic = {};
   CHECK_RESULT(gSystem.getEvent("event:/Playground/DarkestCanopy_Music", descDarkestCanopyMusic));
   CHECK_RESULT(descDarkestCanopyMusic.val.createInstance(eventDarkestCanopyMusic));
+
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_open", eventPMMindMapOpen));
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_close", eventPMMindMapClose));
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connect", eventPMMindMapConnect));
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connect_fail", eventPMMindMapConnectionFail));
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connect_success", eventPMMindMapConnectionSucess));
 
   var descHideAndFleeAmb = {};
   CHECK_RESULT(gSystem.getEvent("event:/Playground/HideAndFlee_Amb", descHideAndFleeAmb));
