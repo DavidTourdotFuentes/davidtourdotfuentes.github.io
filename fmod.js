@@ -275,7 +275,7 @@ function playOneShot(name) {
 }
 
 function playStopToggle(button, name) {
-  playClickButton();
+  //playClickButton();
 
   if (button.dataset.clicked === "true") {
     // Audio
@@ -294,7 +294,7 @@ function playStopToggle(button, name) {
     if (name === "PhantomMemories_MindMap_connect") {
       // One-shot event
       var eventInstance = {};
-      CHECK_RESULT(eventPMMindMapConnect.val.createInstance(eventInstance));
+      CHECK_RESULT(eventPMMindMapConnectionFail.val.createInstance(eventInstance));
       CHECK_RESULT(eventInstance.val.start());
     }
     // Visuels
@@ -319,7 +319,7 @@ function playStopToggle(button, name) {
     if (name === "PhantomMemories_MindMap_connect") {
       // One-shot event
       var eventInstance = {};
-      CHECK_RESULT(eventPMMindMapConnectionFail.val.createInstance(eventInstance));
+      CHECK_RESULT(eventPMMindMapConnect.val.createInstance(eventInstance));
       CHECK_RESULT(eventInstance.val.start());
     }
 
