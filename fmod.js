@@ -266,6 +266,7 @@ function playOneShot(name) {
     var eventInstance = {};
     CHECK_RESULT(eventPMMindMapConnectionFail.val.createInstance(eventInstance));
     CHECK_RESULT(eventInstance.val.start());
+    resetPlayStopToggle(document.querySelector('.media-player#connect .play-stop-button'));
     toggleAnimationPM01('graphic-line-02', false);
     toggleAnimationPM01('graphic-line-03', false);
   }
@@ -274,9 +275,15 @@ function playOneShot(name) {
     var eventInstance = {};
     CHECK_RESULT(eventPMMindMapConnectionSucess.val.createInstance(eventInstance));
     CHECK_RESULT(eventInstance.val.start());
+    resetPlayStopToggle(document.querySelector('.media-player#connect .play-stop-button'));
     toggleAnimationPM01('graphic-line-02', false);
     toggleAnimationPM01('graphic-line-03', false);
   }
+}
+
+function resetPlayStopToggle(button){
+  button.style.backgroundImage = "url(../../ressources/generic/Play.png)";
+  button.dataset.clicked = "false";
 }
 
 function playStopToggle(button, name) {

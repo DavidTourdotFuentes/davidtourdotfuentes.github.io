@@ -863,27 +863,28 @@ hr {
   background: white;
   position: absolute;
   height: 1px;
-  transform: scale(0%);
   transition: all 0.35s ease-in-out;
   transform-origin: left;
   transform-style: preserve-3D;
 }
 
 .graphic-line-01 {
-  top: 40.5%;
-  left: 36%;
+  top: 224px;
+  left: 413px;
   width: 115px;
-
+  transform: scale(0%);
 }
 .graphic-line-02 {
-  top: 38%;
+  top: 204px;
   left: 55%;
   width: 100px;
+  transform: scale(0%) rotate(-24deg);
 }
 .graphic-line-03 {
-  top: 42%;
+  top: 244px;
   left: 55%;
   width: 100px;
+  transform: scale(0%) rotate(24deg);
 }
 
 .graphic-line-01-extend {
