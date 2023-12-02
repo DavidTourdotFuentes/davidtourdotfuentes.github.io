@@ -60,6 +60,14 @@ function startExperiencePlayground(){
   setParam(0, "MusicState_param", false);
 }
 
+function toggleAnimationPM01(target, animate){
+  if(animate){
+    document.querySelector('.' + target).classList.add(target + '-extend');
+  }else{
+    document.querySelector('.' + target).classList.remove(target + '-extend');
+  }
+}
+
 function delay(n){
   return new Promise((done) => {
     setTimeout(()=> {

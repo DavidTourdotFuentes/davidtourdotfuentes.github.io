@@ -266,12 +266,16 @@ function playOneShot(name) {
     var eventInstance = {};
     CHECK_RESULT(eventPMMindMapConnectionFail.val.createInstance(eventInstance));
     CHECK_RESULT(eventInstance.val.start());
+    toggleAnimationPM01('graphic-line-02', false);
+    toggleAnimationPM01('graphic-line-03', false);
   }
   if(name === "PhantomMemories_MindMap_connect_success") {
     // One-shot event
     var eventInstance = {};
     CHECK_RESULT(eventPMMindMapConnectionSucess.val.createInstance(eventInstance));
     CHECK_RESULT(eventInstance.val.start());
+    toggleAnimationPM01('graphic-line-02', false);
+    toggleAnimationPM01('graphic-line-03', false);
   }
 }
 
@@ -291,10 +295,13 @@ function playStopToggle(button, name) {
       var eventInstance = {};
       CHECK_RESULT(eventPMMindMapClose.val.createInstance(eventInstance));
       CHECK_RESULT(eventInstance.val.start());
+      toggleAnimationPM01('graphic-line-01', false);
     }
     if (name === "PhantomMemories_MindMap_connect") {
       CHECK_RESULT(eventPMMindMapConnect.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
       CHECK_RESULT(eventPMMindMapConnectLoop.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+      toggleAnimationPM01('graphic-line-02', false);
+      toggleAnimationPM01('graphic-line-03', false);
     }
     // Visuels
     button.style.backgroundImage = "url(../../ressources/generic/Play.png)";
@@ -314,9 +321,12 @@ function playStopToggle(button, name) {
       var eventInstance = {};
       CHECK_RESULT(eventPMMindMapOpen.val.createInstance(eventInstance));
       CHECK_RESULT(eventInstance.val.start());
+      toggleAnimationPM01('graphic-line-01', true);
     }
     if (name === "PhantomMemories_MindMap_connect") {
       CHECK_RESULT(eventPMMindMapConnect.val.start());
+      toggleAnimationPM01('graphic-line-02', true);
+      toggleAnimationPM01('graphic-line-03', true);
     }
 
     // Visuels
