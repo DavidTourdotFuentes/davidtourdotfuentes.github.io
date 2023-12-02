@@ -21,6 +21,7 @@ var eventDarkestCanopyMusic = {};
 var eventPMMindMapOpen = {};
 var eventPMMindMapClose = {};
 var eventPMMindMapConnect = {};
+var eventPMMindMapConnectLoop = {};
 var eventPMMindMapConnectionFail = {};
 var eventPMMindMapConnectionSucess = {};
 var eventHideAndFleeAmb = {};
@@ -292,10 +293,8 @@ function playStopToggle(button, name) {
       CHECK_RESULT(eventInstance.val.start());
     }
     if (name === "PhantomMemories_MindMap_connect") {
-      // One-shot event
-      var eventInstance = {};
-      CHECK_RESULT(eventPMMindMapConnectionFail.val.createInstance(eventInstance));
-      CHECK_RESULT(eventInstance.val.start());
+      CHECK_RESULT(eventPMMindMapConnect.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+      CHECK_RESULT(eventPMMindMapConnectLoop.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
     }
     // Visuels
     button.style.backgroundImage = "url(../../ressources/generic/Play.png)";
@@ -317,10 +316,7 @@ function playStopToggle(button, name) {
       CHECK_RESULT(eventInstance.val.start());
     }
     if (name === "PhantomMemories_MindMap_connect") {
-      // One-shot event
-      var eventInstance = {};
-      CHECK_RESULT(eventPMMindMapConnect.val.createInstance(eventInstance));
-      CHECK_RESULT(eventInstance.val.start());
+      CHECK_RESULT(eventPMMindMapConnect.val.start());
     }
 
     // Visuels
@@ -359,7 +355,15 @@ function initApplication() {
 
   CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_open", eventPMMindMapOpen));
   CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_close", eventPMMindMapClose));
-  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connect", eventPMMindMapConnect));
+  
+  var descPMMindMapConnect = {};
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connect", descPMMindMapConnect));
+  CHECK_RESULT(descPMMindMapConnect.val.createInstance(eventPMMindMapConnect));
+
+  var descPMMindMapConnectLoop = {};
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connecting_loop", descPMMindMapConnectLoop));
+  CHECK_RESULT(descPMMindMapConnectLoop.val.createInstance(eventPMMindMapConnectLoop));
+
   CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connect_fail", eventPMMindMapConnectionFail));
   CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connect_success", eventPMMindMapConnectionSucess));
 
