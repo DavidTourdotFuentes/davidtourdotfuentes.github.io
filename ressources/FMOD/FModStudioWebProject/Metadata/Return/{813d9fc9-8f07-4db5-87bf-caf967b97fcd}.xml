@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerReturn" id="{813d9fc9-8f07-4db5-87bf-caf967b97fcd}">
+		<property name="name">
+			<value>JewsHarp</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{d437687b-d59b-47a0-ab46-3d4c197c7dce}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{4c1e70cf-e75e-4240-9c92-267e8fa09327}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{db0403c0-79fa-4e86-8dc7-dea08f99207b}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{d437687b-d59b-47a0-ab46-3d4c197c7dce}">
+		<relationship name="effects">
+			<destination>{3fec034c-577a-48c7-a019-c02b57febc49}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{4c1e70cf-e75e-4240-9c92-267e8fa09327}" />
+	<object class="MixerBusFader" id="{3fec034c-577a-48c7-a019-c02b57febc49}" />
+</objects>

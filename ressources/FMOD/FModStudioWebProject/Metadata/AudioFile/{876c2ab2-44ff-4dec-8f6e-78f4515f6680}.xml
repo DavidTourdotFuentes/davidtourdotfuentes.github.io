@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{876c2ab2-44ff-4dec-8f6e-78f4515f6680}">
+		<property name="assetPath">
+			<value>MUSIC/CITY/Mx_City_Fx_C.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>59.0769375</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{3d227071-b102-4b1f-a757-b80386a81fb5}</destination>
+		</relationship>
+	</object>
+</objects>

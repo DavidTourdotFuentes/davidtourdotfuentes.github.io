@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerReturn" id="{bfe86242-0b80-444f-ac5d-8b29242c6e06}">
+		<property name="name">
+			<value>Woowdwinds</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{ec2666cd-d3cf-4b45-894a-96be4a7b51f2}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{26e64c7a-6910-4b09-b0a9-e7daecb249d9}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{54d33003-d5fb-476a-b3d3-b5b3bfd47d60}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{ec2666cd-d3cf-4b45-894a-96be4a7b51f2}">
+		<relationship name="effects">
+			<destination>{1ed84ad1-6482-49e8-af9c-1777249d6daa}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{26e64c7a-6910-4b09-b0a9-e7daecb249d9}" />
+	<object class="MixerBusFader" id="{1ed84ad1-6482-49e8-af9c-1777249d6daa}" />
+</objects>

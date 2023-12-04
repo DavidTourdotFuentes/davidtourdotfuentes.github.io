@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerReturn" id="{bd93f4dd-ce35-4555-adf9-9910729cfa03}">
+		<property name="name">
+			<value>Whistle</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{9c580f23-bf7e-4514-a1ef-9a6313f8b138}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{24f3dde1-b31a-4228-a013-6fca7df3e19b}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{db0403c0-79fa-4e86-8dc7-dea08f99207b}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{9c580f23-bf7e-4514-a1ef-9a6313f8b138}">
+		<relationship name="effects">
+			<destination>{c518e092-77c6-48e3-b7ff-1efc3babf33f}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{24f3dde1-b31a-4228-a013-6fca7df3e19b}" />
+	<object class="MixerBusFader" id="{c518e092-77c6-48e3-b7ff-1efc3babf33f}" />
+</objects>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerReturn" id="{cfba1e70-ddcf-4742-912e-de48c9a65581}">
+		<property name="name">
+			<value>SynthChords</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{e48a9087-aae2-4ce7-9c9f-9c56afd3b478}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{b572c92e-9e61-49bf-9e5e-5098687a6a87}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{39cac802-4c6e-4591-825b-9e1772eee2a6}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{e48a9087-aae2-4ce7-9c9f-9c56afd3b478}">
+		<relationship name="effects">
+			<destination>{8278e387-74cd-44ad-848d-afaa37adc96f}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{b572c92e-9e61-49bf-9e5e-5098687a6a87}" />
+	<object class="MixerBusFader" id="{8278e387-74cd-44ad-848d-afaa37adc96f}" />
+</objects>

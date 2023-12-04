@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerReturn" id="{ad0c1ffe-fa08-401c-91c4-0af8d3a069fe}">
+		<property name="name">
+			<value>Violin</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{c489c1ae-a0e7-4ae8-92c1-306fcb53406d}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{fe7d9979-edc7-41c4-91e7-d1255234d3c4}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{54d33003-d5fb-476a-b3d3-b5b3bfd47d60}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{c489c1ae-a0e7-4ae8-92c1-306fcb53406d}">
+		<relationship name="effects">
+			<destination>{5b37a67f-0755-4d02-8f8b-76f85ccf90a8}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{fe7d9979-edc7-41c4-91e7-d1255234d3c4}" />
+	<object class="MixerBusFader" id="{5b37a67f-0755-4d02-8f8b-76f85ccf90a8}" />
+</objects>

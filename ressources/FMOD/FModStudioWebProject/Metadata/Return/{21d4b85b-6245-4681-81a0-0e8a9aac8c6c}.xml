@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerReturn" id="{21d4b85b-6245-4681-81a0-0e8a9aac8c6c}">
+		<property name="name">
+			<value>Cello</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{31eb0be1-41b1-44f1-a2fb-6ef408427963}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{aa6dbf43-48d5-4fb9-a2c1-c7f250b6ce95}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{54d33003-d5fb-476a-b3d3-b5b3bfd47d60}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{31eb0be1-41b1-44f1-a2fb-6ef408427963}">
+		<relationship name="effects">
+			<destination>{d5412ef8-2e2a-4208-b0d3-7e77172a6c41}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{aa6dbf43-48d5-4fb9-a2c1-c7f250b6ce95}" />
+	<object class="MixerBusFader" id="{d5412ef8-2e2a-4208-b0d3-7e77172a6c41}" />
+</objects>

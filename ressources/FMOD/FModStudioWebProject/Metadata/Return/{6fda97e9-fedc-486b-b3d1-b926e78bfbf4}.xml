@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="MixerReturn" id="{6fda97e9-fedc-486b-b3d1-b926e78bfbf4}">
+		<property name="name">
+			<value>SynthArp</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{35526ac8-e47d-483d-b035-74fbfdb9c335}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{b1e7a5d9-f551-479d-b36d-071c91127836}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{39cac802-4c6e-4591-825b-9e1772eee2a6}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{35526ac8-e47d-483d-b035-74fbfdb9c335}">
+		<relationship name="effects">
+			<destination>{b498fd7e-f8f8-4daf-8d86-037c9eb0726a}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{b1e7a5d9-f551-479d-b36d-071c91127836}" />
+	<object class="MixerBusFader" id="{b498fd7e-f8f8-4daf-8d86-037c9eb0726a}" />
+</objects>
