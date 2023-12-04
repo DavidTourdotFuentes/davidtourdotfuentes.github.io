@@ -4,6 +4,9 @@
 		<property name="name">
 			<value>SynthChords</value>
 		</property>
+		<relationship name="automators">
+			<destination>{8d4f02ae-b808-48bd-9e0f-68a38962e041}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{e48a9087-aae2-4ce7-9c9f-9c56afd3b478}</destination>
 		</relationship>
@@ -14,11 +17,47 @@
 			<destination>{39cac802-4c6e-4591-825b-9e1772eee2a6}</destination>
 		</relationship>
 	</object>
+	<object class="Automator" id="{8d4f02ae-b808-48bd-9e0f-68a38962e041}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>volume</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{caa4c300-e640-4fc0-ade6-c2d42de55227}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusEffectChain" id="{e48a9087-aae2-4ce7-9c9f-9c56afd3b478}">
 		<relationship name="effects">
 			<destination>{8278e387-74cd-44ad-848d-afaa37adc96f}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{b572c92e-9e61-49bf-9e5e-5098687a6a87}" />
+	<object class="AutomationCurve" id="{caa4c300-e640-4fc0-ade6-c2d42de55227}">
+		<relationship name="parameter">
+			<destination>{5ad94677-6ea0-4a83-bd75-7d073ee92d52}</destination>
+		</relationship>
+		<relationship name="automationPoints">
+			<destination>{b27f8bdb-f766-4914-866f-7538ce348f27}</destination>
+			<destination>{204e68fc-0ca4-4b6d-a214-0b1efe565d05}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusFader" id="{8278e387-74cd-44ad-848d-afaa37adc96f}" />
+	<object class="AutomationPoint" id="{b27f8bdb-f766-4914-866f-7538ce348f27}">
+		<property name="position">
+			<value>1</value>
+		</property>
+		<property name="value">
+			<value>0</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{204e68fc-0ca4-4b6d-a214-0b1efe565d05}">
+		<property name="position">
+			<value>0</value>
+		</property>
+		<property name="value">
+			<value>-80</value>
+		</property>
+		<property name="curveShape">
+			<value>-0.316231698</value>
+		</property>
+	</object>
 </objects>

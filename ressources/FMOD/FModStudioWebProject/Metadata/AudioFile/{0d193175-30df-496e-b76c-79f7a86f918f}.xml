@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{0d193175-30df-496e-b76c-79f7a86f918f}">
 		<property name="assetPath">
-			<value>MUSIC/DESERT/Mx_Desert_Flute_B.wav</value>
+			<value>LofiClicker/DESERT/Mx_Desert_Flute_B.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>

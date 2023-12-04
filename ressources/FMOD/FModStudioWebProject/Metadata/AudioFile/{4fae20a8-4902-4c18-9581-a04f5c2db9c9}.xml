@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{4fae20a8-4902-4c18-9581-a04f5c2db9c9}">
 		<property name="assetPath">
-			<value>MUSIC/FOREST/Mx_Dimension_1_Woodwinds_C.wav</value>
+			<value>LofiClicker/FOREST/Mx_Dimension_1_Woodwinds_C.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>

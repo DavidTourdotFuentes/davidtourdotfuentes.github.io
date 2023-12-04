@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="EncodableAsset" id="{ac2b714a-80ba-4bac-9178-12a1d9faa521}">
+		<property name="assetPath">
+			<value>LofiClicker/DESERT/</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{3d227071-b102-4b1f-a757-b80386a81fb5}</destination>
+		</relationship>
+	</object>
+</objects>

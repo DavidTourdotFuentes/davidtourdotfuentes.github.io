@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{6f8087e5-f9d4-4768-90e3-8ad4e9352599}">
 		<property name="assetPath">
-			<value>MUSIC/CITY/Mx_City_Percs_B.wav</value>
+			<value>LofiClicker/CITY/Mx_City_Percs_B.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>

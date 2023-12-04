@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{cba84444-7121-400e-83ec-3cec503ee300}">
+		<property name="name">
+			<value>City_Vol_Fx</value>
+		</property>
+		<relationship name="folder">
+			<destination>{bcd02038-8b6d-44a1-8bd5-1123bf908096}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{9d8d7143-5b2d-48f4-8d56-9453a127e663}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{9d8d7143-5b2d-48f4-8d56-9453a127e663}">
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="seekSpeed">
+			<value>2</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>

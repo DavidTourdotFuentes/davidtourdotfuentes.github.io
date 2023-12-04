@@ -4,6 +4,9 @@
 		<property name="name">
 			<value>Whistle</value>
 		</property>
+		<relationship name="automators">
+			<destination>{16442457-9f41-4543-91ed-60ae3e1e6b26}</destination>
+		</relationship>
 		<relationship name="effectChain">
 			<destination>{9c580f23-bf7e-4514-a1ef-9a6313f8b138}</destination>
 		</relationship>
@@ -14,11 +17,47 @@
 			<destination>{db0403c0-79fa-4e86-8dc7-dea08f99207b}</destination>
 		</relationship>
 	</object>
+	<object class="Automator" id="{16442457-9f41-4543-91ed-60ae3e1e6b26}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>volume</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{a9f2fd1b-f07c-4c0e-b2b4-2a11649f6b43}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusEffectChain" id="{9c580f23-bf7e-4514-a1ef-9a6313f8b138}">
 		<relationship name="effects">
 			<destination>{c518e092-77c6-48e3-b7ff-1efc3babf33f}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{24f3dde1-b31a-4228-a013-6fca7df3e19b}" />
+	<object class="AutomationCurve" id="{a9f2fd1b-f07c-4c0e-b2b4-2a11649f6b43}">
+		<relationship name="parameter">
+			<destination>{188d20df-a8a5-4170-812b-8684b9c6fe1c}</destination>
+		</relationship>
+		<relationship name="automationPoints">
+			<destination>{8375ccef-b0fa-48f5-baac-5e0986ce9f22}</destination>
+			<destination>{7a8666e7-4631-4bb3-9e29-eab7521251bc}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusFader" id="{c518e092-77c6-48e3-b7ff-1efc3babf33f}" />
+	<object class="AutomationPoint" id="{8375ccef-b0fa-48f5-baac-5e0986ce9f22}">
+		<property name="position">
+			<value>1</value>
+		</property>
+		<property name="value">
+			<value>0</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{7a8666e7-4631-4bb3-9e29-eab7521251bc}">
+		<property name="position">
+			<value>0</value>
+		</property>
+		<property name="value">
+			<value>-75</value>
+		</property>
+		<property name="curveShape">
+			<value>-0.302098781</value>
+		</property>
+	</object>
 </objects>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPresetFolder" id="{2de9e3b5-e25c-49cc-b2b3-fe9f948c2fc1}">
+		<property name="name">
+			<value>LofiClicker_Desert</value>
+		</property>
+		<relationship name="folder">
+			<destination>{28ad3f17-8a87-4047-a064-c25c0ee9095c}</destination>
+		</relationship>
+	</object>
+</objects>
