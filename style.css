@@ -886,7 +886,6 @@ hr {
   width: 100px;
   transform: scale(0%) rotate(24deg);
 }
-
 .graphic-line-01-extend {
   transform: scale(100%);
 }
@@ -896,6 +895,38 @@ hr {
 .graphic-line-03-extend {
   transform: scale(100%) rotate(24deg);
 }
+
+
+.playground-section .lc-music {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr 1fr 25px 1fr 1fr 25px 1fr 1fr;
+  grid-column-gap: 50px;
+  grid-row-gap: 0 px;
+}
+
+.lc-music .media-player { display:block }
+.lc-music .media-player button { margin: 10px; }
+
+.lc-music #forest { grid-area: 1 / 1 / 1 / 6; }
+.lc-music #forest-cello { grid-area: 2 / 1; }
+.lc-music #forest-piano { grid-area: 2 / 2 }
+.lc-music #forest-violin { grid-area: 2 / 4; }
+.lc-music #forest-woodwinds { grid-area: 2 / 5; }
+
+.lc-music #desert { grid-area: 4 / 1 / 4 / 6; }
+.lc-music #desert-banjo { grid-area: 5 / 1; }
+.lc-music #desert-flute { grid-area: 5 / 2 }
+.lc-music #desert-jewsharp { grid-area: 5 / 3; }
+.lc-music #desert-percussions { grid-area: 5 / 4; }
+.lc-music #desert-whistle { grid-area: 5 / 5; }
+
+.lc-music #city { grid-area: 7 / 1 / 7 / 6; }
+.lc-music #city-bass { grid-area: 8 / 1; }
+.lc-music #city-fx { grid-area: 8 / 2 }
+.lc-music #city-percs { grid-area: 8 / 3; }
+.lc-music #city-syntharp { grid-area: 8 / 4; }
+.lc-music #city-synthchords { grid-area: 8 / 5; }
 
 .media-player {
   display: flex;

@@ -17,14 +17,21 @@ var eventSwapToBack = {};
 var eventSwapToFront = {};
 var eventCardHover = {};
 var eventWebsiteMusic = {};
-var eventDarkestCanopyMusic = {};
-var eventPMMindMapOpen = {};
-var eventPMMindMapClose = {};
-var eventPMMindMapConnect = {};
-var eventPMMindMapConnectLoop = {};
-var eventPMMindMapConnectionFail = {};
-var eventPMMindMapConnectionSucess = {};
-var eventHideAndFleeAmb = {};
+
+var playgroundEventsMap = new Map([
+  ["DarkestCanopy_Music", {}],
+  ["PhantomMemories_MindMap_open", {}],
+  ["PhantomMemories_MindMap_close", {}],
+  ["PhantomMemories_MindMap_connect", {}],
+  ["PhantomMemories_MindMap_connecting_loop", {}],
+  ["PhantomMemories_MindMap_connect_fail", {}],
+  ["PhantomMemories_MindMap_connect_success", {}],
+  ["HideAndFlee_Amb", {}],
+  ["LofiClicker_Music_Forest", {}],
+  ["LofiClicker_Music_Desert", {}],
+  ["LofiClicker_Music_City", {}]
+]);
+
 var gEventInstance = {};
 
 var masterVolumeMute = false;
@@ -255,29 +262,28 @@ function stopCardHover() {
   CHECK_RESULT(eventCardHover.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
 }
 
-function stopAllExemples(){
-  CHECK_RESULT(eventDarkestCanopyMusic.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
-  CHECK_RESULT(eventHideAndFleeAmb.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+function stopAllExamples(){
+  CHECK_RESULT(playgroundEventsMap.get(value).val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
 }
 
-function playOneShot(name) {
-  if(name === "PhantomMemories_MindMap_connect_fail") {
-    // One-shot event
-    var eventInstance = {};
-    CHECK_RESULT(eventPMMindMapConnectionFail.val.createInstance(eventInstance));
-    CHECK_RESULT(eventInstance.val.start());
-    resetPlayStopToggle(document.querySelector('.media-player#connect .play-stop-button'));
-    toggleAnimationPM01('graphic-line-02', false);
-    toggleAnimationPM01('graphic-line-03', false);
-  }
-  if(name === "PhantomMemories_MindMap_connect_success") {
-    // One-shot event
-    var eventInstance = {};
-    CHECK_RESULT(eventPMMindMapConnectionSucess.val.createInstance(eventInstance));
-    CHECK_RESULT(eventInstance.val.start());
-    resetPlayStopToggle(document.querySelector('.media-player#connect .play-stop-button'));
-    toggleAnimationPM01('graphic-line-02', false);
-    toggleAnimationPM01('graphic-line-03', false);
+function playOneShotPM(name) {
+  // One-shot event
+  var eventInstance = {};
+  CHECK_RESULT(playgroundEventsMap.get(name).val.createInstance(eventInstance));
+  CHECK_RESULT(eventInstance.val.start());
+  resetPlayStopToggle(document.querySelector('.media-player#connect .play-stop-button'));
+  CHECK_RESULT(playgroundEventsMap.get("PhantomMemories_MindMap_connecting_loop").val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+  toggleAnimationPM01('graphic-line-02', false);
+  toggleAnimationPM01('graphic-line-03', false);
+}
+
+function buttonSet(button, state) {
+  if(state){
+    button.style.backgroundImage = "url(../../ressources/generic/Stop.png)";
+    button.dataset.clicked = "true";
+  }else{
+    button.style.backgroundImage = "url(../../ressources/generic/Play.png)";
+    button.dataset.clicked = "false";
   }
 }
 
@@ -287,60 +293,76 @@ function resetPlayStopToggle(button){
 }
 
 function playStopToggle(button, name) {
-  //playClickButton();
+  if (button.dataset.clicked === "true") 
+  {
+    CHECK_RESULT(playgroundEventsMap.get(name).val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+    
+    buttonSet(button, false);
+  } else {
+    CHECK_RESULT(playgroundEventsMap.get(name).val.start());
 
+    buttonSet(button, true);
+  }
+}
+
+function playStopTogglePM(button, name) {
   if (button.dataset.clicked === "true") {
-    // Audio
-    if (name === "DarkestCanopy_Music") {
-      CHECK_RESULT(eventDarkestCanopyMusic.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
-    }
-    if (name === "HideAndFlee_Amb") {
-      CHECK_RESULT(eventHideAndFleeAmb.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
-    }
     if (name === "PhantomMemories_MindMap") {
       // One-shot event
       var eventInstance = {};
-      CHECK_RESULT(eventPMMindMapClose.val.createInstance(eventInstance));
+      CHECK_RESULT(playgroundEventsMap.get("PhantomMemories_MindMap_close").val.createInstance(eventInstance));
       CHECK_RESULT(eventInstance.val.start());
+      CHECK_RESULT(playgroundEventsMap.get("PhantomMemories_MindMap_connecting_loop").val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
       toggleAnimationPM01('graphic-line-01', false);
     }
     if (name === "PhantomMemories_MindMap_connect") {
-      CHECK_RESULT(eventPMMindMapConnect.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
-      CHECK_RESULT(eventPMMindMapConnectLoop.val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+      CHECK_RESULT(playgroundEventsMap.get("PhantomMemories_MindMap_connect").val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+      CHECK_RESULT(playgroundEventsMap.get("PhantomMemories_MindMap_connecting_loop").val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
       toggleAnimationPM01('graphic-line-02', false);
       toggleAnimationPM01('graphic-line-03', false);
     }
-    // Visuels
-    button.style.backgroundImage = "url(../../ressources/generic/Play.png)";
 
-    // Logique
-    button.dataset.clicked = "false";
+    buttonSet(button, false);
+
   } else {
-    // Audio
-    if (name === "DarkestCanopy_Music") {
-      CHECK_RESULT(eventDarkestCanopyMusic.val.start());
-    }
-    if (name === "HideAndFlee_Amb") {
-      CHECK_RESULT(eventHideAndFleeAmb.val.start());
-    }
     if (name === "PhantomMemories_MindMap") {
       // One-shot event
       var eventInstance = {};
-      CHECK_RESULT(eventPMMindMapOpen.val.createInstance(eventInstance));
+      CHECK_RESULT(playgroundEventsMap.get("PhantomMemories_MindMap_open").val.createInstance(eventInstance));
       CHECK_RESULT(eventInstance.val.start());
       toggleAnimationPM01('graphic-line-01', true);
     }
     if (name === "PhantomMemories_MindMap_connect") {
-      CHECK_RESULT(eventPMMindMapConnect.val.start());
+      CHECK_RESULT(playgroundEventsMap.get("PhantomMemories_MindMap_connect").val.start());
+      CHECK_RESULT(playgroundEventsMap.get("PhantomMemories_MindMap_connecting_loop").val.start());
       toggleAnimationPM01('graphic-line-02', true);
       toggleAnimationPM01('graphic-line-03', true);
     }
 
-    // Visuels
-    button.style.backgroundImage = "url(../../ressources/generic/Stop.png)";
+    buttonSet(button, true);
+  }
+}
 
-    // Logique
-    button.dataset.clicked = "true";
+function playStopTrackToggleLC(button, paramName){
+  if (button.dataset.clicked === "true") 
+  {
+    var result = gSystem.setParameterByName(
+      paramName,
+      parseFloat(0),
+      false
+    );
+    CHECK_RESULT(result);
+    
+    buttonSet(button, false);
+  } else {
+    var result = gSystem.setParameterByName(
+      paramName,
+      parseFloat(1),
+      false
+    );
+    CHECK_RESULT(result);
+
+    buttonSet(button, true);
   }
 }
 
@@ -368,25 +390,35 @@ function initApplication() {
 
   var descDarkestCanopyMusic = {};
   CHECK_RESULT(gSystem.getEvent("event:/Playground/DarkestCanopy_Music", descDarkestCanopyMusic));
-  CHECK_RESULT(descDarkestCanopyMusic.val.createInstance(eventDarkestCanopyMusic));
+  CHECK_RESULT(descDarkestCanopyMusic.val.createInstance(playgroundEventsMap.get("DarkestCanopy_Music")));
 
-  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_open", eventPMMindMapOpen));
-  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_close", eventPMMindMapClose));
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_open", playgroundEventsMap.get("PhantomMemories_MindMap_open")));
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_close", playgroundEventsMap.get("PhantomMemories_MindMap_close")));
   
   var descPMMindMapConnect = {};
   CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connect", descPMMindMapConnect));
-  CHECK_RESULT(descPMMindMapConnect.val.createInstance(eventPMMindMapConnect));
+  CHECK_RESULT(descPMMindMapConnect.val.createInstance(playgroundEventsMap.get("PhantomMemories_MindMap_connect")));
 
-  var descPMMindMapConnectLoop = {};
-  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connecting_loop", descPMMindMapConnectLoop));
-  CHECK_RESULT(descPMMindMapConnectLoop.val.createInstance(eventPMMindMapConnectLoop));
+  var descPMMindMapConnectingLoop = {};
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connecting_loop", descPMMindMapConnectingLoop));
+  CHECK_RESULT(descPMMindMapConnectingLoop.val.createInstance(playgroundEventsMap.get("PhantomMemories_MindMap_connecting_loop")));
 
-  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connect_fail", eventPMMindMapConnectionFail));
-  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connect_success", eventPMMindMapConnectionSucess));
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connect_fail", playgroundEventsMap.get("PhantomMemories_MindMap_connect_fail")));
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/PhantomMemories_MindMap_connect_success", playgroundEventsMap.get("PhantomMemories_MindMap_connect_success")));
 
   var descHideAndFleeAmb = {};
   CHECK_RESULT(gSystem.getEvent("event:/Playground/HideAndFlee_Amb", descHideAndFleeAmb));
-  CHECK_RESULT(descHideAndFleeAmb.val.createInstance(eventHideAndFleeAmb));
+  CHECK_RESULT(descHideAndFleeAmb.val.createInstance(playgroundEventsMap.get("HideAndFlee_Amb")));
+
+  var descLofiClikerForest = {};
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/LofiClicker_Music_Forest", descLofiClikerForest));
+  CHECK_RESULT(descLofiClikerForest.val.createInstance(playgroundEventsMap.get("LofiClicker_Music_Forest")));
+  var descLofiClikerDesert = {};
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/LofiClicker_Music_Desert", descLofiClikerDesert));
+  CHECK_RESULT(descLofiClikerDesert.val.createInstance(playgroundEventsMap.get("LofiClicker_Music_Desert")));
+  var descLofiClikerCity = {};
+  CHECK_RESULT(gSystem.getEvent("event:/Playground/LofiClicker_Music_City", descLofiClikerCity));
+  CHECK_RESULT(descLofiClikerCity.val.createInstance(playgroundEventsMap.get("LofiClicker_Music_City")));
 
   var masterVolParameterValue = 75.0; // Initialisation du volume
   CHECK_RESULT(

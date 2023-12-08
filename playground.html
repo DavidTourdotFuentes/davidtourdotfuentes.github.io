@@ -102,17 +102,17 @@
             <div class="media-player" id="play-amb">
               <button
                 class="play-stop-button"
-                onclick="playStopToggle(this, 'PhantomMemories_MindMap')"
+                onclick="playStopTogglePM(this, 'PhantomMemories_MindMap')"
                 data-clicked="false"
               >
-                <div class="graphic-line-01"></div>
+              <div class="graphic-line-01"></div>
               </button>
               <p>Ouvrir / Fermer<br>la MindMap</p>
-              </div>
+            </div>
             <div class="media-player" id="connect">
               <button
                 class="play-stop-button"
-                onclick="playStopToggle(this, 'PhantomMemories_MindMap_connect')"
+                onclick="playStopTogglePM(this, 'PhantomMemories_MindMap_connect')"
                 data-clicked="false"
               >
                 <div class="graphic-line-02"></div>
@@ -124,13 +124,13 @@
               <p>Echouer la connexion</p>
               <button
                 class="play-stop-button"
-                onclick="playOneShot('PhantomMemories_MindMap_connect_fail')"
+                onclick="playOneShotPM('PhantomMemories_MindMap_connect_fail')"
               ></button>
             </div>
             <div class="media-player" id="connect-sucess">
               <button
                 class="play-stop-button"
-                onclick="playOneShot('PhantomMemories_MindMap_connect_success')"
+                onclick="playOneShotPM('PhantomMemories_MindMap_connect_success')"
                 ></button>
               <p>Réussir la connexion</p>
             </div>
@@ -184,12 +184,143 @@
 
       <section class="playground-section">
         <h3>Lofi Clicker : Composition décomposée</h3>
-        <div class="media-player">
-          <button
+        <div class="lc-music">
+          <div class="media-player" id="forest">
+            <button
             class="play-stop-button"
-            onclick="playStopToggle(this, 'LofiClicker_Music')"
+            onclick="playStopToggle(this, 'LofiClicker_Music_Forest')"
             data-clicked="false"
-          ></button>
+            ></button>
+            <p>Play / Stop<br>Musique Forêt</p>
+          </div>
+          <div class="media-player" id="forest-cello">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'Forest_Vol_Cello')"
+            data-clicked="false"
+            ></button>
+            <p>Violoncelle</p>
+          </div>
+          <div class="media-player" id="forest-piano">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'Forest_Vol_Piano')"
+            data-clicked="false"
+            ></button>
+            <p>Piano</p>
+          </div>
+          <div class="media-player" id="forest-violin">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'Forest_Vol_Violin')"
+            data-clicked="false"
+            ></button>
+            <p>Violon</p>
+          </div>
+          <div class="media-player" id="forest-woodwinds">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'Forest_Vol_Woodwinds')"
+            data-clicked="false"
+            ></button>
+            <p>Hautbois</p>
+          </div>
+          <div class="media-player" id="desert">
+            <button
+            class="play-stop-button"
+            onclick="playStopToggle(this, 'LofiClicker_Music_Desert')"
+            data-clicked="false"
+            ></button>
+            <p>Play / Stop<br>Musique Désert</p>
+          </div>
+          <div class="media-player" id="desert-banjo">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'Desert_Vol_Banjo')"
+            data-clicked="false"
+            ></button>
+            <p>Banjo</p>
+          </div>
+          <div class="media-player" id="desert-flute">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'Desert_Vol_Flute')"
+            data-clicked="false"
+            ></button>
+            <p>Flute</p>
+          </div>
+          <div class="media-player" id="desert-jewsharp">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'Desert_Vol_JewsHarp')"
+            data-clicked="false"
+            ></button>
+            <p>Guimbarde</p>
+          </div>
+          <div class="media-player" id="desert-percussions">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'Desert_Vol_Percussions')"
+            data-clicked="false"
+            ></button>
+            <p>Percussions</p>
+          </div>
+          <div class="media-player" id="desert-whistle">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'Desert_Vol_Whistle')"
+            data-clicked="false"
+            ></button>
+            <p>Sifflement</p>
+          </div>
+          <div class="media-player" id="city">
+            <button
+            class="play-stop-button"
+            onclick="playStopToggle(this, 'LofiClicker_Music_City')"
+            data-clicked="false"
+            ></button>
+            <p>Play / Stop<br>Musique Ville</p>
+          </div>
+          <div class="media-player" id="city-bass">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'City_Vol_Bass')"
+            data-clicked="false"
+            ></button>
+            <p>Basse</p>
+          </div>
+          <div class="media-player" id="city-fx">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'City_Vol_Fx')"
+            data-clicked="false"
+            ></button>
+            <p>Fx</p>
+          </div>
+          <div class="media-player" id="city-percs">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'City_Vol_Percs')"
+            data-clicked="false"
+            ></button>
+            <p>Percussions</p>
+          </div>
+          <div class="media-player" id="city-syntharp">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'City_Vol_SynthArp')"
+            data-clicked="false"
+            ></button>
+            <p>Synthé Arpèges</p>
+          </div>
+          <div class="media-player" id="city-synthchords">
+            <button
+            class="play-stop-button"
+            onclick="playStopTrackToggleLC(this, 'City_Vol_SynthChords')"
+            data-clicked="false"
+            ></button>
+            <p>Synthé Accords</p>
+          </div>
         </div>
         <p class="desc">
           <strong>Lofi Clicker</strong> étant un jeu de rythme, la musique possède
