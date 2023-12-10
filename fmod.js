@@ -263,7 +263,15 @@ function stopCardHover() {
 }
 
 function stopAllExamples(){
-  CHECK_RESULT(playgroundEventsMap.get(value).val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+  CHECK_RESULT(playgroundEventsMap.get("DarkestCanopy_Music").val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+  var eventInstance = {};
+  CHECK_RESULT(playgroundEventsMap.get("PhantomMemories_MindMap_close").val.createInstance(eventInstance));
+  CHECK_RESULT(eventInstance.val.start());
+  CHECK_RESULT(playgroundEventsMap.get("PhantomMemories_MindMap_connecting_loop").val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+  CHECK_RESULT(playgroundEventsMap.get("HideAndFlee_Amb").val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+  CHECK_RESULT(playgroundEventsMap.get("LofiClicker_Music_Forest").val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+  CHECK_RESULT(playgroundEventsMap.get("LofiClicker_Music_Desert").val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
+  CHECK_RESULT(playgroundEventsMap.get("LofiClicker_Music_City").val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
 }
 
 function playOneShotPM(name) {
