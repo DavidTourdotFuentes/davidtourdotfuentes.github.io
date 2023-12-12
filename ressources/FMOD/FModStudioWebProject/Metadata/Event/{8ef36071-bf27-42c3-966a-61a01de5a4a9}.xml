@@ -122,10 +122,37 @@
 	<object class="MixerBusFader" id="{378950ff-48aa-44a5-8d6a-4bc2a223094e}" />
 	<object class="MixerBusEffectChain" id="{252c2ee2-620c-483a-a1cf-350001dc23f1}">
 		<relationship name="effects">
+			<destination>{1fc4a26b-75d9-4fc7-a608-8b8cae288c3e}</destination>
 			<destination>{e9b66b38-176a-4e43-a35d-aab18868e848}</destination>
+			<destination>{8028e877-24b0-49be-8526-7d53e8f89c4b}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{accef200-2434-4154-a69e-5ec9adea6fd0}" />
 	<object class="MixerBusFader" id="{14620138-8f6e-450d-874c-c31aa17bffc9}" />
+	<object class="MultibandEqEffect" id="{1fc4a26b-75d9-4fc7-a608-8b8cae288c3e}">
+		<property name="frequencyA">
+			<value>2603.80005</value>
+		</property>
+		<property name="qualityA">
+			<value>0.434896529</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{e9b66b38-176a-4e43-a35d-aab18868e848}" />
+	<object class="SFXReverbEffect" id="{8028e877-24b0-49be-8526-7d53e8f89c4b}">
+		<property name="decayTime">
+			<value>950</value>
+		</property>
+		<property name="lateDelay">
+			<value>28</value>
+		</property>
+		<property name="diffusion">
+			<value>69.5</value>
+		</property>
+		<property name="lowShelfFrequency">
+			<value>510</value>
+		</property>
+		<property name="wetLevel">
+			<value>-5.5</value>
+		</property>
+	</object>
 </objects>

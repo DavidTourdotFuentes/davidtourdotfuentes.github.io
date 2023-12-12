@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{b41ad36d-3441-40d2-bb5c-864b739502eb}">
+		<property name="name">
+			<value>Desert_Banjo</value>
+		</property>
+		<relationship name="folder">
+			<destination>{28ad3f17-8a87-4047-a064-c25c0ee9095c}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{bfda1022-9e69-443e-bc05-1e4d6258afd2}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{bfda1022-9e69-443e-bc05-1e4d6258afd2}">
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>

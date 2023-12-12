@@ -8,6 +8,10 @@ const TLAnim = gsap.timeline();
 
 var isAnimating = false;
 
+function reloadPage(){
+  location.reload();
+}
+
 function reloadJS(file) {
   var script = document.createElement("script");
   script.src = "/" + file + ".js";

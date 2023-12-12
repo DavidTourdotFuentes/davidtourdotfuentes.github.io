@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{e34e239d-3635-4dfd-b80f-53682b226830}">
+		<property name="name">
+			<value>Forest_Piano</value>
+		</property>
+		<relationship name="folder">
+			<destination>{28ad3f17-8a87-4047-a064-c25c0ee9095c}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{ec50a066-8151-4ce6-a2d7-f8ffbba58eda}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{ec50a066-8151-4ce6-a2d7-f8ffbba58eda}">
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>

@@ -26,9 +26,15 @@
 
     <nav>
       <div class="nav-icon" aria-label="visit homepage" aria-current="page">
-        <div class="font-effect-neon">
           <a href="index.html">David Tourdot-Fuentes</a>
-        </div>
+      </div>
+
+      <div class="bugfix">
+        <button
+        class="bugfix-button"
+        onclick="reloadPage()"
+        >Bug ?</button>
+        <div class="bugfix-info">Cliquez pour rafraichir la page</div>
       </div>
 
       <div class="volume">
@@ -197,7 +203,7 @@
           <div class="media-player" id="forest-cello">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'Forest_Vol_Cello')"
+            onclick="playStopTrackToggleLC(this, 'Forest_Cello')"
             data-clicked="false"
             ></button>
             <p>Violoncelle</p>
@@ -205,7 +211,7 @@
           <div class="media-player" id="forest-piano">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'Forest_Vol_Piano')"
+            onclick="playStopTrackToggleLC(this, 'Forest_Piano')"
             data-clicked="false"
             ></button>
             <p>Piano</p>
@@ -213,7 +219,7 @@
           <div class="media-player" id="forest-violin">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'Forest_Vol_Violin')"
+            onclick="playStopTrackToggleLC(this, 'Forest_Violin')"
             data-clicked="false"
             ></button>
             <p>Violon</p>
@@ -221,7 +227,7 @@
           <div class="media-player" id="forest-woodwinds">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'Forest_Vol_Woodwinds')"
+            onclick="playStopTrackToggleLC(this, 'Forest_Woodwinds')"
             data-clicked="false"
             ></button>
             <p>Hautbois</p>
@@ -238,7 +244,7 @@
           <div class="media-player" id="desert-banjo">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'Desert_Vol_Banjo')"
+            onclick="playStopTrackToggleLC(this, 'Desert_Banjo')"
             data-clicked="false"
             ></button>
             <p>Banjo</p>
@@ -246,7 +252,7 @@
           <div class="media-player" id="desert-flute">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'Desert_Vol_Flute')"
+            onclick="playStopTrackToggleLC(this, 'Desert_Flute')"
             data-clicked="false"
             ></button>
             <p>Flute</p>
@@ -254,7 +260,7 @@
           <div class="media-player" id="desert-jewsharp">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'Desert_Vol_JewsHarp')"
+            onclick="playStopTrackToggleLC(this, 'Desert_JewsHarp')"
             data-clicked="false"
             ></button>
             <p>Guimbarde</p>
@@ -262,7 +268,7 @@
           <div class="media-player" id="desert-percussions">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'Desert_Vol_Percussions')"
+            onclick="playStopTrackToggleLC(this, 'Desert_Percussions')"
             data-clicked="false"
             ></button>
             <p>Percussions</p>
@@ -270,7 +276,7 @@
           <div class="media-player" id="desert-whistle">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'Desert_Vol_Whistle')"
+            onclick="playStopTrackToggleLC(this, 'Desert_Whistle')"
             data-clicked="false"
             ></button>
             <p>Sifflement</p>
@@ -287,7 +293,7 @@
           <div class="media-player" id="city-bass">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'City_Vol_Bass')"
+            onclick="playStopTrackToggleLC(this, 'City_Bass')"
             data-clicked="false"
             ></button>
             <p>Basse</p>
@@ -295,7 +301,7 @@
           <div class="media-player" id="city-fx">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'City_Vol_Fx')"
+            onclick="playStopTrackToggleLC(this, 'City_Fx')"
             data-clicked="false"
             ></button>
             <p>Fx</p>
@@ -303,7 +309,7 @@
           <div class="media-player" id="city-percs">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'City_Vol_Percs')"
+            onclick="playStopTrackToggleLC(this, 'City_Percs')"
             data-clicked="false"
             ></button>
             <p>Percussions</p>
@@ -311,7 +317,7 @@
           <div class="media-player" id="city-syntharp">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'City_Vol_SynthArp')"
+            onclick="playStopTrackToggleLC(this, 'City_SynthArp')"
             data-clicked="false"
             ></button>
             <p>Synthé Arpèges</p>
@@ -319,7 +325,7 @@
           <div class="media-player" id="city-synthchords">
             <button
             class="play-stop-button"
-            onclick="playStopTrackToggleLC(this, 'City_Vol_SynthChords')"
+            onclick="playStopTrackToggleLC(this, 'City_SynthChords')"
             data-clicked="false"
             ></button>
             <p>Synthé Accords</p>

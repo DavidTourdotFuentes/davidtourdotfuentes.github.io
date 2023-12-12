@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{c051e94b-ea47-4475-8496-d68fd02737e8}">
+		<property name="name">
+			<value>Desert_Flute</value>
+		</property>
+		<relationship name="folder">
+			<destination>{28ad3f17-8a87-4047-a064-c25c0ee9095c}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{8c5d8671-362a-4b30-b099-b4c05faed9c1}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{8c5d8671-362a-4b30-b099-b4c05faed9c1}">
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>
