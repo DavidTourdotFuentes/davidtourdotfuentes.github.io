@@ -61,7 +61,7 @@ function startExperiencePlayground(){
   .set(firstScreen, {display: "none"})
   main();
   playStartExperience();
-  setParam(0, "MusicState_param", false);
+  setParam(0, "MusicVol_param", false);
 }
 
 function toggleAnimationPM01(target, animate){
@@ -103,9 +103,9 @@ barba.init({
           console.log("Loading projects");
         }
         if(data.next.url.path == "/playground.html"){
-          setParam(0, "MusicState_param", false);
+          setParam(0, "MusicVol_param", false);
         }else{
-          setParam(1, "MusicState_param", false);
+          setParam(1, "MusicVol_param", false);
           // Stopper tous les events sons de playground
           stopAllExamples();
         }

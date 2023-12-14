@@ -285,7 +285,7 @@ function playOneShotPM(name) {
   toggleAnimationPM01('graphic-line-03', false);
 }
 
-function buttonSet(button, state) {
+function ButtonSet(button, state) {
   if(state){
     button.style.backgroundImage = "url(../../ressources/generic/Stop.png)";
     button.dataset.clicked = "true";
@@ -305,11 +305,30 @@ function playStopToggle(button, name) {
   {
     CHECK_RESULT(playgroundEventsMap.get(name).val.stop(FMOD.STUDIO_STOP_ALLOWFADEOUT));
     
-    buttonSet(button, false);
+    ButtonSet(button, false);
   } else {
     CHECK_RESULT(playgroundEventsMap.get(name).val.start());
 
-    buttonSet(button, true);
+    ButtonSet(button, true);
+  }
+}
+
+function playStopMusicToggle(button) {
+  if (button.dataset.clicked === "true") {
+
+    var result = gSystem.setParameterByName("MusicVol_param", 0.0, false);
+    CHECK_RESULT(result);
+
+    button.style.backgroundImage = "url(../../ressources/generic/Music_on.png)";
+    button.dataset.clicked = "false";
+
+  } else {
+
+    var result = gSystem.setParameterByName("MusicVol_param", 1.0, false);
+    CHECK_RESULT(result);
+
+    button.style.backgroundImage = "url(../../ressources/generic/Music_off.png)";
+    button.dataset.clicked = "true";
   }
 }
 
@@ -330,7 +349,7 @@ function playStopTogglePM(button, name) {
       toggleAnimationPM01('graphic-line-03', false);
     }
 
-    buttonSet(button, false);
+    ButtonSet(button, false);
 
   } else {
     if (name === "PhantomMemories_MindMap") {
@@ -347,7 +366,7 @@ function playStopTogglePM(button, name) {
       toggleAnimationPM01('graphic-line-03', true);
     }
 
-    buttonSet(button, true);
+    ButtonSet(button, true);
   }
 }
 
@@ -361,7 +380,7 @@ function playStopTrackToggleLC(button, paramName){
     );
     CHECK_RESULT(result);
     
-    buttonSet(button, false);
+    ButtonSet(button, false);
   } else {
     var result = gSystem.setParameterByName(
       paramName,
@@ -370,7 +389,7 @@ function playStopTrackToggleLC(button, paramName){
     );
     CHECK_RESULT(result);
 
-    buttonSet(button, true);
+    ButtonSet(button, true);
   }
 }
 

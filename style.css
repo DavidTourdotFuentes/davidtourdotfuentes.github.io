@@ -207,8 +207,8 @@ nav {
 
 .bugfix {
   display: flex;
-  position: fixed;
-  right : 50%;
+  position: relative;
+  left: 8%;
   justify-content: center;
   align-items: center;
   font-family: 'Roboto', sans-serif;
@@ -371,6 +371,21 @@ input[type="range"]::-ms-thumb {
   border: 3px solid white;
   cursor: pointer;
   margin-top: -10px;
+}
+
+.music-player {
+  display: flex;
+  position: relative;
+  right: 8%;
+  width: 40px;
+  height: 40px;
+  border: 2px solid white;
+  border-radius: 10px;
+  background-image: url("ressources/generic/Music_on.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:contain;
+  cursor: pointer;
 }
 
 h1 {
@@ -693,7 +708,7 @@ main {
 
 .card-back .back-image img {
   height: 100%;
-  width: 100%;
+  width: 80%;
   border-radius: 8px;
   object-fit: contain;
 }
@@ -766,10 +781,10 @@ main {
   display: flex;
   justify-content: center;
   position: absolute;
-  margin-top: -85%;
-  margin-left: -80%;
-  width: 12%;
-  height: 10%;
+  margin-top: -350px;
+  margin-left: -370px;
+  width: 50px;
+  height: 45px;
   background-color: transparent;
   border: solid;
   border-width: 3px;
