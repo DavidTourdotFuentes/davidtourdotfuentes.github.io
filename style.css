@@ -231,6 +231,7 @@ nav {
   font-weight: 400;
   border-radius: 5px;
   color: white;
+  background-color: rgba(0, 0, 0, 0.8);
   transition: all 0.1s ease-out 0.1s;
   pointer-events: none;
 }
