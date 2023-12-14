@@ -316,7 +316,7 @@ function playStopToggle(button, name) {
 function playStopMusicToggle(button) {
   if (button.dataset.clicked === "true") {
 
-    var result = gSystem.setParameterByName("MusicVol_param", 0.0, false);
+    var result = gSystem.setParameterByName("MusicVol_param", 1.0, false);
     CHECK_RESULT(result);
 
     button.style.backgroundImage = "url(../../ressources/generic/Music_on.png)";
@@ -324,7 +324,7 @@ function playStopMusicToggle(button) {
 
   } else {
 
-    var result = gSystem.setParameterByName("MusicVol_param", 1.0, false);
+    var result = gSystem.setParameterByName("MusicVol_param", 0.0, false);
     CHECK_RESULT(result);
 
     button.style.backgroundImage = "url(../../ressources/generic/Music_off.png)";
