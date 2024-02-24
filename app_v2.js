@@ -25,6 +25,7 @@ for(var i = 0; i < allLinks.length; i++) {
 }
 
 function startExperience(){
+  TLAnim.from(firstScreen, {display: "flex", opacity: '100%', duration: 1})
   TLAnim.to(firstScreen, {opacity: '0%', ease: "power2.in"})
   .set(firstScreen, {display: "none"})
   main();
