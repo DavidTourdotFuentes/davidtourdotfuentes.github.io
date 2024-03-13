@@ -1,0 +1,81 @@
+const firstScreen = document.querySelector(".start-experience");
+const firstScreenButton = document.querySelector(".start-experience button");
+const loaderAnim = document.querySelector(".loader");
+const fade = document.querySelector(".fade-transition");
+const body = document.querySelector("body");
+
+const TLAnim = gsap.timeline();
+
+var isAnimating = false;
+
+function reloadPage(){
+  location.reload();
+}
+
+function reloadJS(file) {
+  var script = document.createElement("script");
+  script.src = "/" + file + ".js";
+  myWindow = window.open(script.src + "?v=" + Math.random());
+  document.body.appendChild(script);
+  myWindow.close();
+ }
+
+window.addEventListener('load', () => {
+  firstScreenButton.textContent = "Visit Portfolio";
+  firstScreenButton.classList.add('loaded');
+  loaderAnim.classList.add('loaded');
+  firstScreenButton.disabled = false;
+
+  document.body.style.backgroundImage = "url('ressources/generic/background.jpg')";
+})
+
+
+var allLinks = document.querySelectorAll('a[href]');
+var cbk = function(e) {
+ if((e.currentTarget.href === window.location.href)) {
+   e.preventDefault();
+   e.stopPropagation();
+ }
+
+ if(isAnimating === true){
+  e.preventDefault();
+  e.stopPropagation();
+ }
+};
+
+for(var i = 0; i < allLinks.length; i++) {
+  allLinks[i].addEventListener('click', cbk);
+}
+
+function startExperience(){
+  TLAnim.from(firstScreen, {display: "flex", opacity: '100%', duration: 1})
+  TLAnim.to(firstScreen, {opacity: '0%', ease: "power2.in"})
+  .set(firstScreen, {display: "none"})
+  main();
+  playStartExperience();
+  scroll(0,0);
+}
+function startExperiencePlayground(){
+  TLAnim.from(firstScreen, {display: "flex", opacity: '100%', duration: 1})
+  TLAnim.to(firstScreen, {opacity: '0%', ease: "power2.in", duration: 0})
+  .set(firstScreen, {display: "none"})
+  main();
+  playStartExperience();
+  setParam(0, "MusicVol_param", false);
+}
+
+function toggleAnimationPM01(target, animate){
+  if(animate){
+    document.querySelector('.' + target).classList.add(target + '-extend');
+  }else{
+    document.querySelector('.' + target).classList.remove(target + '-extend');
+  }
+}
+
+function delay(n){
+  return new Promise((done) => {
+    setTimeout(()=> {
+      done();
+    }, n)
+  })
+}
