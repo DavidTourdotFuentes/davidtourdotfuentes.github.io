@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="”fr”">
+  <head>
+    <meta charset="utf-8" />
+    <title>David Tourdot-Fuentes | Accueil</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+  </head>
+
+  <body data-barba="wrapper">
+
+    <div class="start-experience">
+      <button onclick="startExperience()" disabled="true">Loading...</button>
+      <div class="loader" id="loader-anim">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div class="fade-transition"></div>
+
+    <nav>
+      <div class="nav-icon" aria-label="visit homepage" aria-current="page">
+          <a href="index.html">David Tourdot-Fuentes</a>
+      </div>
+
+      <div class="bugfix">
+        <button
+        class="bugfix-button"
+        onclick="reloadPage()"
+        >Bug ?</button>
+        <div class="bugfix-info">Cliquez pour rafraichir la page</div>
+      </div>
+
+      <div class="volume">
+        <button
+          class="volume-button"
+          onclick="toggleMute()"
+          id="volButton"
+        ></button>
+        <input
+          class="volume-slider"
+          type="range"
+          min="0"
+          max="100"
+          value="75"
+          id="volSlider"
+          oninput="setVolume(this.value)"
+        />
+      </div>
+
+      <button
+      class="music-player"
+      onclick="playStopMusicToggle(this)"
+      data-clicked="false"
+      ></button>
+
+      <div class="main-navlinks">
+        <div class="navlinks-container">
+          <a href="index.html" aria-current="page">Accueil</a>
+          <a href="projects.html">Projets</a>
+          <a href="playground.html">Playground</a>
+        </div>
+      </div>
+    </nav>
+
+    <main data-barba="container" data-barba-namespace="home">
+      <div class="background-filter"></div>
+
+      <div class="video-section">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/mE58VJBO5gc?si=0wKxO3sDKXDUwWov" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+
+      <hr>
+
+      <div class="profile">
+        <img src="ressources/generic/DavidTF.png" />
+        <p class="content">
+            Passionné de jeux vidéos et musicien depuis mon plus jeune âge,
+            mon objectif est de créer des experiences sonores uniques
+            pour les joueurs.
+            <br><br>Mes connaissances en intégration sonore pour le jeu vidéo
+            me permettent de créer des univers sonores interractifs complexes
+            tout en étant en accord avec la direction artistique du jeu.
+            <br><br>A travers ce site, découvrez mon univers et interragissez avec mes projets et productions !
+        </p>
+      </div>
+
+      <hr>
+
+      <div class="softwares-used-section">
+        <h2 class="title">Logiciels Utilisés</h2>
+        <a class="wwise" href="https://www.audiokinetic.com/fr/products/wwise/" target="_blank">
+          <img src="ressources/generic/logo/Wwise_Logo.png" height="65" width="auto" draggable="false"></img>
+          <p>Wwise</p>
+        </a>
+        <a class="fmod" href="https://www.fmod.com/" target="_blank">
+          <img src="ressources/generic/logo/FMod_Logo.svg" height="45" width="auto" draggable="false"></img>
+          <p>FMod Studio</p>
+        </a>
+        <a class="unity" href="https://unity.com/" target="_blank">
+          <img src="ressources/generic/logo/Unity_Logo.png" height="50" width="auto" draggable="false"></img>
+          <p>Unity Engine</p>
+        </a>
+        <a class="unreal" href="https://www.unrealengine.com/" target="_blank">
+          <img src="ressources/generic/logo/UnrealEngine_Logo.svg" height="50" width="auto" draggable="false"></img>
+          <p>Unreal Engine</p>
+        </a>
+        <a class="audition" href="https://www.adobe.com/fr/products/audition.html" target="_blank">
+          <img src="ressources/generic/logo/AdobeAudition_Logo.png" height="45" width="auto" draggable="false"></img>
+          <p>Adobe Audition</p>
+        </a>
+        <a class="bitwig" href="https://www.bitwig.com/" target="_blank">
+          <img src="ressources/generic/logo/Bitwig_Logo.svg" height="65" width="auto" draggable="false"></img>
+          <p>Bitwig Studio</p>
+        </a>
+        <a class="max" href="https://cycling74.com/products/max" target="_blank">
+          <img src="ressources/generic/logo/MaxMSP_Logo.png" height="45" width="auto" draggable="false"></img>
+          <p>Max MSP</p>
+        </a>
+        <a class="reaper" href="https://www.reaper.fm/" target="_blank">
+          <img src="ressources/generic/logo/Reaper_Logo.svg" height="65" width="auto" draggable="false"></img>
+          <p>Reaper</p>
+        </a>
+        <a class="protools" href="https://www.avid.com/fr/pro-tools" target="_blank">
+          <img class="certificate" src="ressources/generic/logo/Certificate_Icon.svg" height="40" width="auto" draggable="false"></img>
+          <img src="ressources/generic/logo/ProTools_Logo.png" height="45" width="auto" draggable="false"></img>
+          <p>ProTools</p>
+        </a>
+        <a class="dante" href="https://www.audinate.com/meet-dante/what-is-dante?lang=fr" target="_blank">
+          <img class="certificate" src="ressources/generic/logo/Certificate_Icon.svg" height="40" width="auto" draggable="false"></img>
+          <img src="ressources/generic/logo/Dante_Logo.png" height="30" width="auto" draggable="false"></img>
+          <p>Dante</p>
+        </a>
+        <a class="ableton" href="https://www.ableton.com/" target="_blank">
+          <img src="ressources/generic/logo/AbletonLive_Logo.svg" height="65" width="auto" draggable="false"></img>
+          <p>Ableton</p>
+        </a>
+      </div>
+
+      <div class="bottominfo">
+        <img class="fmod-logo" src="ressources/generic/logo/FMod_Logo.svg" draggable="false"></img>
+        <p>Website made by David Tourdot-Fuentes with FMod Integration</p>
+        <output id="display_out">Please wait... Loading...</output>
+      </div>
+    </main>
+  </body>
+  
+  <script type="text/javascript" src="fmodstudio.js"></script>
+  <script src="fmod.js"></script>
+  <script src="https://unpkg.com/@barba/core"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
+  <script src="app.js"></script>
+  <script src="projects.js"></script>
+</html>
