@@ -16,7 +16,6 @@
   margin: 0;
   padding: 0;
 }
-
 input,
 button {
   all: unset;
@@ -40,10 +39,10 @@ button {
   --neutral-color-alpha: rgba(160, 160, 160, 0.15);
 }
 
-
 .start-experience {
   display: flex;
   position: fixed;
+  top: 0;
   scale: 1;
   z-index: 2;
   width: 100vw;
@@ -131,17 +130,26 @@ div#loader-anim.loader.loaded {
 }
 
 nav {
-  display: flex;
-  position: sticky;
-  width: 100%;
-  height: 60px;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  position: fixed;
+  width: 10%;
+  height: 40%;
   z-index: 1;
-  top: 0px;
+  top: 35%;
+  left: -9%;
   align-items: center;
   background: rgb(0, 0, 0);
-  box-shadow: 0px 1px 0px white;
+  border-color: white;
+  border-style: solid;
+  border-width: 2px 2px 2px 0px;
+  border-radius: 0px 40px 40px 0px;
+  place-content: space-around center;
+  transition: all 0.2s ease-out 0.1s;
+  align-content: space-evenly;
+}
+
+nav:hover {
+  left: 0%;
 }
 
 .nav-icon {
@@ -173,6 +181,8 @@ nav {
   align-items: center;
   text-decoration: none;
   margin-right: 20px;
+  flex-direction: column;
+  gap: 15px
 }
 .navlinks-container a {
   display: inline-block;
@@ -205,16 +215,27 @@ nav {
   text-shadow: 10px 10px 40px var(--primary-color);
 }
 
+.mix-buttons {
+  display: flex;
+  position: fixed;
+  width: 120px;
+  height: 65px;
+  gap: 20px;
+  flex-direction: row;
+  padding: 10px;
+  z-index: 1;
+}
+
 .bugfix {
   display: flex;
   position: relative;
-  left: 8%;
   justify-content: center;
   align-items: center;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
   color: white;
   font-size: 0.9em;
+  font-style: italic;
   text-decoration: none;
   text-align: center;
 }
@@ -238,16 +259,14 @@ nav {
 
 .bugfix-button {
   position: relative;
-  width: 60px;
+  width: 100px;
   height: 40px;
-  border: 2px solid white;
-  border-radius: 10px;
   cursor: pointer;
 }
 
 .volume {
-  height: 90%;
-  width: 4%;
+  width: 40px;
+  height: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -259,8 +278,8 @@ nav {
 
 .volume-button {
   position: absolute;
-  width: 3.5%;
-  height: 70%;
+  width: 40px;
+  height: 40px;
   background-image: url("ressources/generic/VolumeFull.png");
   background-repeat: no-repeat;
   background-position: center;
@@ -269,7 +288,7 @@ nav {
 }
 .volume-slider {
   transform: rotate(-90deg);
-  top: 200%;
+  top: 240%;
   opacity: 0;
   pointer-events: none;
 }
@@ -377,7 +396,6 @@ input[type="range"]::-ms-thumb {
 .music-player {
   display: flex;
   position: relative;
-  right: 8%;
   width: 40px;
   height: 40px;
   border: 2px solid white;
@@ -461,15 +479,14 @@ body {
 }
 
 main {
-  padding-bottom: 5em;
+  padding-bottom: 50px;
 }
 
 .video-section {
   display: block;
   width: auto;
-  height: 315px;
+  height: 400px;
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .softwares-used-section {
@@ -480,8 +497,7 @@ main {
   grid-row-gap: 0px;
   justify-items: center;
   align-items: center;
-  margin: 40px 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  padding-bottom: 20px;
 }
 
 .softwares-used-section p {
@@ -558,6 +574,7 @@ main {
   margin-right: auto;
   justify-content: center;
   place-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .profile img {
@@ -627,16 +644,25 @@ main {
 
 /* CSS DE LA PAGE PROJECTS */
 
+.projects {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.projects .title {
+  text-align: center;
+  padding: 30px 0;
+}
+
 .card-container {
   padding: 0 4em;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   grid-gap: 30px;
 }
 
 .card-wrapper {
   position: relative;
-  min-height: 422px;
+  min-height: 327px;
   perspective: 2000px;
   perspective-origin: top;
 }
@@ -709,17 +735,17 @@ main {
 
 .card-back .back-image img {
   height: 100%;
-  width: 80%;
+  width: 102%;
   border-radius: 8px;
   object-fit: contain;
 }
 .card-back .date {
   position: absolute;
   bottom: 0.4rem;
-  left: 4.5rem;
+  left: 6%;
   writing-mode: vertical-lr;
   transform: rotate(180deg);
-  font-size: 0.7rem;
+  font-size: 70%;
   /*  font-family: "Franklin Gothic", cursive;*/
   font-family: 'Roboto', sans-serif;
   font-weight: 200;
@@ -728,7 +754,7 @@ main {
 .card-back .type {
   position: absolute;
   bottom: 0.4rem;
-  left: 2.6rem;
+  left: 17%;
   writing-mode: vertical-lr;
   transform: rotate(180deg);
   font-size: 1rem;
@@ -749,8 +775,8 @@ main {
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
   color: white;
-  font-size: 1em;
-  margin: 40px 0px 5px 0px;
+  font-size: 100%;
+  margin: 20px 0px 0px 0px;
 }
 
 .card-back-text blockquote {
@@ -758,7 +784,7 @@ main {
   font-family: 'Roboto', sans-serif;
   font-weight: 200;
   font-style: italic;
-  font-size: 0.9em;
+  font-size: 70%;
   color: white;
   text-align: center;
 }
@@ -769,7 +795,7 @@ main {
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
   color: white;
-  font-size: 0.8em;
+  font-size: 70%;
   text-decoration: none;
 }
 
@@ -782,10 +808,10 @@ main {
   display: flex;
   justify-content: center;
   position: absolute;
-  margin-top: -350px;
-  margin-left: -370px;
-  width: 50px;
-  height: 45px;
+  margin-top: -270px;
+  margin-left: -262px;
+  width: 45px;
+  height: 40px;
   background-color: transparent;
   border: solid;
   border-width: 3px;
@@ -837,11 +863,17 @@ main {
 
 
 /* CSS DE LA PAGE PLAYGROUND */
+.playground {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.playground .title {
+  text-align: center;
+  padding: 30px 0;
+}
+
 hr {
-  display: block;
-  position: relative;
   width: 75%;
-  margin: 20px auto;
+  margin: 40px auto;
 }
 
 .basic-slider {
@@ -849,7 +881,7 @@ hr {
   vertical-align: middle;
 }
 
-.playground {
+.playground-canvas {
   display: grid;
   gap: 40px;
 }
