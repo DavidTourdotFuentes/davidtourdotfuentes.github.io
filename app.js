@@ -10,6 +10,13 @@ const TLAnim = gsap.timeline();
 
 var isAnimating = false;
 
+const burgerButton = document.querySelector(".burger-menu")
+const burgerMenu = document.querySelector("nav")
+burgerButton.addEventListener('click', () => {
+  burgerButton.classList.toggle("menu-on")
+  burgerMenu.classList.toggle("active")
+})
+
 function reloadPage(){
   location.reload();
 }

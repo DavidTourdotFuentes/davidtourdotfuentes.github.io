@@ -22,26 +22,6 @@
 
   <div class="fade-transition"></div>
 
-  <nav>    
-    <div class="main-navlinks">
-      <div class="navlinks-container">
-        <a href="#home" aria-current="page">Accueil</a>
-        <a href="#machup" aria-current="page">Machup</a>
-        <a href="#projects" aria-current="page">Projets</a>
-        <a href="#softwares">Logiciels</a>
-        <a href="#playground">Playground</a>
-      </div>
-    </div>
-
-    <div class="bugfix">
-      <button
-      class="bugfix-button"
-      onclick="reloadPage()"
-      >Bug audio ?</button>
-      <div class="bugfix-info">Cliquez pour rafraichir la page</div>
-    </div>
-  </nav>
-
   <div class="mix-buttons">
     <button class="music-player"
     onclick="playStopMusicToggle(this)"
@@ -64,9 +44,33 @@
       />
     </div>
   </div>
+  
+  <div class="burger-menu">
+    <span class="line1"></span>
+    <span class="line2"></span>
+    <span class="line3"></span>
+  </div>
+  <nav>
+    <div class="main-navlinks">
+      <div class="navlinks-container">
+        <a href="#home" aria-current="page">Accueil</a>
+        <a href="#machup" aria-current="page">Machup</a>
+        <a href="#projects" aria-current="page">Projets</a>
+        <a href="#softwares">Logiciels</a>
+        <a href="#playground">Playground</a>
+      </div>
+    </div>
+
+    <div class="bugfix">
+      <button
+      class="bugfix-button"
+      onclick="reloadPage()"
+      >Bug audio ?</button>
+      <div class="bugfix-info">Cliquez pour rafraichir la page</div>
+    </div>
+  </nav>
 
   <main>
-
     <section class="profile">
       <h1>David Tourdot-Fuentes</h1>
       <img src="ressources/generic/DavidTF.png" />
@@ -754,7 +758,7 @@
               </a>
             </div>
           </div>
-        </div>
+        </div> 
         <div class="card-wrapper">
           <div class="card">
             <div class="card-front">
