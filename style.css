@@ -37,6 +37,8 @@ button {
   --marked-color-alpha: rgba(219, 161, 64, 0.75);
   --neutral-color: rgb(160, 160, 160);
   --neutral-color-alpha: rgba(160, 160, 160, 0.15);
+
+  --background-section-color: rgba(0, 0, 0, 0.5) /* New color test : rgba(22, 25, 30, 1); */
 }
 
 .start-experience {
@@ -519,7 +521,7 @@ main {
 .video-section {
   display: block;
   width: auto;
-  height: 400px;
+  height: 600px;
   text-align: center;
 }
 
@@ -608,7 +610,7 @@ main {
   margin-right: auto;
   justify-content: center;
   place-items: center;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: var(--background-section-color);
 }
 
 .profile img {
@@ -679,7 +681,7 @@ main {
 /* CSS DE LA PAGE PROJECTS */
 
 .projects {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: var(--background-section-color);
 }
 
 .projects .title {
@@ -898,7 +900,7 @@ main {
 
 /* CSS DE LA PAGE PLAYGROUND */
 .playground {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: var(--background-section-color);
 }
 .playground .title {
   text-align: center;
