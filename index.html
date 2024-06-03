@@ -3,10 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <title>David Tourdot-Fuentes | Accueil</title>
+    <link rel="icon" type="image/x-icon" href="ressources/generic/DavidTF_icon.png">
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
   </head>
 
   <div class="start-experience">
@@ -21,7 +23,6 @@
   </div>
 
   <div class="fade-transition"></div>
-  mashup
   <div class="mix-buttons">
     <button class="music-player"
     onclick="playStopMusicToggle(this)"
@@ -45,7 +46,7 @@
     </div>
   </div>
   
-  <div class="burger-menu">
+  <div class="burger-menu" href="#presentation">
     <span class="line1"></span>
     <span class="line2"></span>
     <span class="line3"></span>
@@ -54,10 +55,11 @@
     <div class="main-navlinks">
       <div class="navlinks-container">
         <a href="#home" aria-current="page">Accueil</a>
-        <a href="#mashup" aria-current="page">Mashup</a>
+        <a href="#presentation" aria-current="page">Présentation</a>
+        <a href="#mashup" aria-current="page">Mashup Vidéo</a>
         <a href="#projects" aria-current="page">Projets</a>
-        <a href="#softwares">Logiciels</a>
-        <a href="#playground">Playground</a>
+        <a href="#softwares" aria-current="page">Logiciels</a>
+        <a href="#playground" aria-current="page">Playground</a>
       </div>
     </div>
 
@@ -70,9 +72,19 @@
     </div>
   </nav>
 
+  <a class="arrow bounce" href="#presentation" aria-current="page"><i class="fa fa-angle-down fa-5x fa-inverse"></i></a>
+
   <main>
+    <section class="welcome">
+      <h1 class="title">David Tourdot-Fuentes</h1>
+      <h3 class="subtitle">Sound Designer / Compositeur</h3>
+      <h2 class="hook">Bienvenue sur mon PorteFolio !<br><br>Découvrez mes projets, mes compétences et mon univers de manière ludique en jouant avec le bac a sables FMod intégré a la page Web !</h2>
+    </section>
+
+    <br><br><br><br><br><br><br><br><br>
+
     <section class="profile">
-      <h1>David Tourdot-Fuentes</h1>
+      <h1 class="title">Présentation</h1>
       <img src="ressources/generic/DavidTF.png" />
       <p class="content">
           Passionné de jeux vidéos et musicien depuis mon plus jeune âge,
@@ -83,19 +95,26 @@
           tout en étant en accord avec la direction artistique du jeu.
           <br><br>A travers ce site, découvrez mon univers et interragissez avec mes projets et productions !
       </p>
+      <div class="links-section">
+        <a href="mailto:davidtourdotfuentes@gmail.com" target="_blank" class="link-gmail"></a>
+        <a href="https://www.linkedin.com/in/david-tourdot-fuentes-01713623a/" target="_blank" class="link-linkedin"></a>
+        <a href="https://www.instagram.com/david.tfs/" target="_blank" class="link-instagram"></a>
+        <a href="https://soundcloud.com/david-tourdot-fuentes" target="_blank" class="link-soundcloud"></a>
+        <a href="https://open.spotify.com/intl-fr/artist/7oGqWiwp6Y6WQFZveQz3o1?si=X7ioX2jcQsyzr6iaQEBvjQ" target="_blank" class="link-spotify"></a>
+      </div>
     </section>
 
     <br><br><br><br>
 
     <section class="video-section">
-      <h1>Mashup Vidéo</h1>
+      <h1 class="title">Mashup Vidéo</h1>
       <iframe width="700" height="400" src="https://www.youtube.com/embed/ZJiZnnLtzHo?si=S8QvzPvxKM3SXy6i" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </section>
 
     <br><br><br><br>
     
     <section class="projects">
-      <h2 class="title">Mes Projets</h2>
+      <h1 class="title">Mes Projets</h1>
       <div class="card-container">
         <div class="card-wrapper">
           <div class="card">
@@ -885,7 +904,7 @@
     <br><br><br><br>
 
     <section class="softwares-used-section">
-      <h2 class="title">Logiciels Utilisés</h2>
+      <h1 class="title">Logiciels Utilisés</h1>
       <a class="wwise" href="https://www.audiokinetic.com/fr/products/wwise/" target="_blank">
         <img src="ressources/generic/logo/Wwise_Logo.png" height="65" width="auto" draggable="false"></img>
         <p>Wwise</p>
@@ -937,7 +956,7 @@
     <br><br><br><br>
 
     <section class="playground">
-      <h2 class="title">Playground</h2>
+      <h1 class="title">Playground</h1>
       <div class="playground-canvas">
         <section class="playground-section">
           <h3>Darkest Canopy : Bande Son Interractive</h3>

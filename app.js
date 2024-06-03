@@ -6,6 +6,7 @@ const body = document.querySelector("body");
 const navLinks = [...document.querySelectorAll(".navlinks-container > a")]
 const sections = [...document.querySelectorAll("main > section")]
 
+
 const TLAnim = gsap.timeline();
 
 var isAnimating = false;
@@ -31,9 +32,19 @@ function addScrollSmooth(e){
   })
 }
 
+const arrow = document.querySelector(".arrow")
+arrow.addEventListener("click", addScrollSmoothSpecific)
+
+function addScrollSmoothSpecific(){
+  window.scrollTo({
+    top: sections.map(section => section.offsetTop)[1],
+    behavior: "smooth"
+  })
+}
+
 
 window.addEventListener('load', () => {
-  firstScreenButton.textContent = "Visit Portfolio";
+  firstScreenButton.textContent = "Visiter le Portfolio";
   firstScreenButton.classList.add('loaded');
   loaderAnim.classList.add('loaded');
   firstScreenButton.disabled = false;
@@ -56,3 +67,10 @@ function toggleAnimationPM01(target, animate){
     document.querySelector('.' + target).classList.remove(target + '-extend');
   }
 }
+
+document.addEventListener('scroll', function() {
+  const element = document.querySelector('.arrow');
+  let opacity = 1 - (window.scrollY / window.innerHeight * 1.5);
+  opacity = Math.max(0, Math.min(1, opacity));
+  element.style.opacity = opacity;
+});
