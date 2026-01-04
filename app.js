@@ -18,7 +18,7 @@ function updateSpheres() {
         const translateY = -scrollY * depth;
 
         // Flou inversé : loin = flou, proche = net
-        const blur = (1 - depth) * 5;
+        const blur = (1 - depth) * 6;
 
         sphere.style.transform = `translateY(${translateY}px)`;
         sphere.style.filter = `blur(${blur}px)`;
