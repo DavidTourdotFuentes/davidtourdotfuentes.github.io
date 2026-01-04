@@ -1,0 +1,61 @@
+key,en,fr,es
+header,Design - Imagin - Develop,Concevoir - Imaginer - Développer,Crear - Imaginar - Desarollar
+tagline,Creative Sound for Games & Beyond,Design sonores à l'image et jeux vidéos<br>Développement audio<br>Compositions musicales interactives
+nav_portfolio,Portfolio,Portfolio
+nav_tools,Tools,Outils
+nav_contact,Contact,Contacts
+view_work,View my work,Voir mon travail
+contact_me,Contact me,Me contacter
+portfolio,Portfolio,Portfolio
+tags_all,All projects,Tous les projets
+tags_sd,Sound Design,Design Sonore
+tags_soundtrack,Soundtracks,Bande Sons
+tags_ai,Audio Integration, Intégration Audio
+tags_at,Audio Tool,Outils Audio
+project_meot_title,Mass Entity Optimization : Audio Tool (2025),Optimisation de masse d'entité : Outil Audio (2025)
+project_meot_desc,TBD,Outil Unity C# Wwise d'optimisation des sons placés sur des masses d'entités (foules / assaims)
+project_meot_long,TBD,Cet outil C# Unity / Wwise permet d'optimiser la sonorisation d'entité en masse.<br>Le principe est simple : Utiliser Wwise pour sonoriser un groupe d'entité proche (cluster) calculé en temps réel par l'outil.<br>Le contenu du flux audio de chaque cluster est ensuite modulé en fonction du nombre d'entité dans le groupe.<br>Tout est entièrement paramétrable et dynamique afin d'être utilisé comme "toolbox" pour n'importe quel systeme demandant de sonoriser un grand nombre d'entité (foule / troupeau / banc de poissons / essaims d'abeilles / etc...)
+project_mol_title,Masters of Light : Sound Design (2024),Masters of Light : Design Sonore (2024)
+project_mol_desc,TBD,Wave Shooter en réalité mixte développé par COVEN & ALBYON et sonorisé par G4F
+project_mol_long,TBD,Masters of Light est un Wave Shooter en réalité mixte développé par Coven & Albyon dont toute la production audio a été délégué a G4F Prod. Etant arrivé récement dans l'entreprise j'ai pu donner un coup de main a Laurent Bariet sur la production audio des assets du jeu :<br>- Sonorisation d'animations d'attaques et de mouvements des ennemis<br>- Sonorisation des spells du joueurs<br>- Tests ingame avec le casque VR pour le mixage audio
+project_dc_title,Darkest Canopy : Soundtrack (2023),Darkest Canopy : Bande Son (2023)
+project_dc_desc,TBD,Une bande son épique aux influence Inca permettant d'accompagner le joueur dans ses combats éffrénés
+project_dc_long,TBD,Une bande son épique aux influence Inca permettant d'accompagner le joueur dans ses combats éffrénés
+project_lrds_title,La Route des Sommets : Soundtrack (2023),La Route des Sommets : Bande Son (2023)
+project_lrds_desc,TBD,Une bande son douce et émotionelle entre sonorités acoustiques du pays basque et nappes electroniques
+project_lrds_long,TBD,Une bande son douce et émotionelle entre sonorités acoustiques du pays basque et nappes electroniques
+project_lc_title,Lofi Clicker : Sound Desing / Integration / Soundtrack (2023),Lofi Clicker : Design Sonore / Intégration / Bande Son (2023)
+project_lc_desc,TBD,Jeu de rythme musical issu de la Winter Jam 2023
+project_lc_long,TBD,Lofi Clicker est un jeu de rythme musical créé lors de la Winter Jam 2022 sur FMod / Unity. L'audio se démarque notamment par des morceaux orginaux évolutifs créé pour évoluer au rythme du joueur (detection de tempo dans Unity basé sur les information du morceau actuel donné par FMod)
+project_pm_title,Phantom Memories : Sound Design & Soundtrack (2022),Phantom Memories : Design Sonore & Bande Son (2022)
+project_pm_desc,TBD,Jeu vidéo d'enquête narratif en huis clos créé par la classe d'animation Jeu Vidéo de 3iS Bordeaux
+project_pm_long,TBD,Phantom Memories est un jeu vidéo d'enquête narratif dans lequel j'ai pu m'occuper d'une grande partie de la production audio :<br>- Lead Sound Design (une équipe de 4)<br>- Intégrateur Sonore Wwise / Unity<br>- Compositeur d'une grande partie de l'OST finale du jeu<br>- Enregistrement des themes originaux avec une violoncelliste semi-professionelle
+project_polarnatt_title,Polarnatt : Sound Design & Soundtrack (2022),Polarnatt : Design Sonore & Bande Son (2022)
+project_polarnatt_desc,TBD,Court Métrage d'animation de fin d'études 3iS Bordeaux
+project_polarnatt_long,TBD,Polarnatt est un court métrage d'animation de la classe d'animation jeu vidéo 3ème année sur lequel j'ai pu m'occuper de toute la partie audio :<br>- Sound Design sur Reaper<br>- Mixage des enregistrement voix sur Protools<br>- Composition musicale sur Bitwig Studio
+project_hf_title,Hide And Flee : Sound Design / Integration / Soundtrack (2022),Hide And Flee : Design Sonore / Intégration / Bande Son (2022)
+project_hf_desc,TBD,Jeu de platforming puzzle créé pour la Simiji Game Jam 2022
+project_hf_long,TBD,Hide and Flee est un jeu de platforming dont j'ai pu pousser la narration audio afin d'illustrer la dualité "mignon / horrifiant"<br>- Sound Design simple et efficace<br>- Intégration Sonore FMod / Unity permettant de faire évoluer le son au fil de la narration<br>- Composition originale permettant d'y fixer l'ambiance sonore
+project_aa_title,Alpha Alpha : Soundtrack (2021),Alpha Alpha : Bande Son (2021)
+project_aa_desc,TBD,Série de 4 épisodes créé par les étudiants réalisation de 3iS Bordeaux
+project_aa_long,TBD,Alpha Alpha est une série de 4 épisodes créé par les étudiants en réalisation de 3iS Bordeaux dont j'ai pu m'occuper de la bande son de l'épisode 3 : Une composition a l'image créé sur Bitwig reflétant l'anxiétée et le stress des évènements du 3eme épisode
+project_spring_title,Spring : Soundtrack Exercise (2021),Spring : Exercice Bande Son (2021)
+project_spring_desc,TBD,Recomposition de la bande son du court métrage Blender Spring
+project_spring_long,TBD,Spring est un court métrage créé sur Blender et mis a disposition lors d'un concours de composition. Ceci est donc ma version de la bande son de ce court métrage composé sur Blender
+load_more,Load More Projects,Plus de projets
+tools,Software & Hardware,Logiciels & Matériel Audio
+software,Software,Logiciels
+wwise_desc,Interactive audio middleware with advanced implementation features,Middleware audio interactif avec fonctionnalités avancées
+fmod_desc,Audio engine and toolset for adaptive audio in games,Moteur audio et ensemble d'outils pour l'audio adaptatif dans les jeux
+ableton_desc,Digital audio workstation for synthesized sound design,Station de travail audio numérique pour le design sonore par synthèse et traitement sonores
+reaper_desc,Digital audio workstation for sound design and cinematics mixing,Station de travail audio numérique pour le design sonore et le mixage de cinématiques
+unity_desc,Game engine with audio implementation tools,Moteur de jeu avec outils d'implémentation audio
+hardware,Hardware,Matériel
+mic_desc,Studio condenser microphone for professional recording,Microphone studio à condensateur pour enregistrement professionnel
+headphones_desc,Reference headphones for accurate monitoring,Casques de référence pour un monitoring précis
+monitors_desc,Studio monitors for accurate sound reproduction,Enceintes de monitoring pour une reproduction sonore précise
+interface_desc,Audio interface with premium conversion and DSP,Interface audio avec conversion premium et DSP
+contact,Contact,Contact
+get_in_touch,Get in touch,Entrer en contact
+contact_text,For project inquiries or collaborations feel free to reach out via email.,Pour des demandes de projets ou collaborations n'hésitez pas à me contacter par email.
+copyright,© 2023 David Tourdot-Fuentes. All rights reserved.,© 2023 David Tourdot-Fuentes. Tous droits réservés.

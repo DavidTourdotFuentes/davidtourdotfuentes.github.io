@@ -1,1250 +1,469 @@
 <!DOCTYPE html>
-<html lang="”fr”">
-  <head>
-    <meta charset="utf-8" />
-    <title>David Tourdot-Fuentes | Accueil</title>
-    <link rel="icon" type="image/x-icon" href="ressources/generic/DavidTF_icon.png">
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>David Tourdot-Fuentes | Sound Designer & Composer</title>
+    <meta name="description" content="Creative sound design and music composition for games and interactive media by David Tourdot-Fuentes.">
+    <meta name="google-site-verification" content="FtPdxs8gTw28ruEBFM2EYZ0svDCm22EfNz3YgfxHe4U" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎚️</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="animations.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-  </head>
-
-  <div class="start-experience">
-    <button onclick="startExperience()" disabled="true">Loading...</button>
-    <div class="loader" id="loader-anim">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </div>
-
-  <div class="fade-transition"></div>
-  <div class="mix-buttons">
-    <button class="music-player"
-    onclick="playStopMusicToggle(this)"
-    data-clicked="false">
-    </button>
-    <div class="volume">
-      <button
-        class="volume-button"
-        onclick="toggleMute()"
-        id="volButton"
-      ></button>
-      <input
-        class="volume-slider"
-        type="range"
-        min="0"
-        max="100"
-        value="75"
-        id="volSlider"
-        oninput="setVolume(this.value)"
-      />
-    </div>
-  </div>
-  
-  <div class="burger-menu" href="#presentation">
-    <span class="line1"></span>
-    <span class="line2"></span>
-    <span class="line3"></span>
-  </div>
-  <nav>
-    <div class="main-navlinks">
-      <div class="navlinks-container">
-        <a href="#home" aria-current="page">Accueil</a>
-        <a href="#presentation" aria-current="page">Présentation</a>
-        <a href="#mashup" aria-current="page">Mashup Vidéo</a>
-        <a href="#projects" aria-current="page">Projets</a>
-        <a href="#softwares" aria-current="page">Logiciels</a>
-        <a href="#playground" aria-current="page">Playground</a>
-      </div>
-    </div>
-
-    <div class="bugfix">
-      <button
-      class="bugfix-button"
-      onclick="reloadPage()"
-      >Bug audio ?</button>
-      <div class="bugfix-info">Cliquez pour rafraichir la page</div>
-    </div>
-  </nav>
-
-  <a class="arrow bounce" href="#presentation" aria-current="page"><i class="fa fa-angle-down fa-5x fa-inverse"></i></a>
-
-  <main>
-    <section class="welcome">
-      <h1 class="title">David Tourdot-Fuentes</h1>
-      <h3 class="subtitle">Sound Designer / Compositeur</h3>
-      <h2 class="hook">Bienvenue sur mon Portfolio !<br><br>Découvrez mes projets, mes compétences et mon univers de manière ludique avec le bac a sable FMod intégré a la page Web !</h2>
-    </section>
-
-    <br><br><br><br><br><br><br><br><br>
-
-    <section class="profile">
-      <h1 class="title">Présentation</h1>
-      <img src="ressources/generic/DavidTF.png" />
-      <p class="content">
-          Passionné de jeux vidéos et musicien depuis mon plus jeune âge,
-          mon objectif est de créer des experiences sonores uniques
-          pour les joueurs.
-          <br><br>Mes connaissances en intégration sonore pour le jeu vidéo
-          me permettent de créer des univers sonores interractifs complexes
-          tout en étant en accord avec la direction artistique du jeu.
-          <br><br>A travers ce site, découvrez mon univers et interragissez avec mes projets et productions !
-      </p>
-      <div class="links-section">
-        <a href="mailto:davidtourdotfuentes@gmail.com" target="_blank" class="link-gmail"></a>
-        <a href="https://www.linkedin.com/in/david-tourdot-fuentes-01713623a/" target="_blank" class="link-linkedin"></a>
-        <a href="https://www.instagram.com/david.tfs/" target="_blank" class="link-instagram"></a>
-        <a href="https://soundcloud.com/david-tourdot-fuentes" target="_blank" class="link-soundcloud"></a>
-        <a href="https://open.spotify.com/intl-fr/artist/7oGqWiwp6Y6WQFZveQz3o1?si=X7ioX2jcQsyzr6iaQEBvjQ" target="_blank" class="link-spotify"></a>
-      </div>
-    </section>
-
-    <br><br><br><br>
-
-    <section class="video-section">
-      <h1 class="title">Mashup Vidéo</h1>
-      <iframe width="700" height="400" src="https://www.youtube.com/embed/ZJiZnnLtzHo?si=S8QvzPvxKM3SXy6i" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    </section>
-
-    <br><br><br><br>
     
-    <section class="projects">
-      <h1 class="title">Mes Projets</h1>
-      <div class="card-container">
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source
-                  src="ressources/DarkestCanopy/FrontVideo.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
-            </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/DarkestCanopy/BackPicture.png"
-                  class="DarkestCanopy"
-                  alt="Darkest Canopy project poster"
-                />
-                <p class="type">Jeu Vidéo</p>
-                <p class="date">Mai 2023<br />Avril 2023</p>
-              </div>
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  <strong>Darkest Canopy</strong> est un Jeu Vidéo de combat a
-                  la première personne dans lequel vous incarnez un archer
-                  capable de ralentir le temps.<br />A vous d'affronter les
-                  monstres du temple pour vous libérer de la malédiction
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Compositeur</li>
-                  </ul>
+</head>
+
+<body class="antialiased">
+    <!-- Custom cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <!-- Back to top button -->
+    <div class="back-to-top">
+        <svg class="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-[#0c1721]/90 backdrop-blur-sm z-50 border-b border-[#1e293b] animate-slide-down">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#home" class="text-2xl font-bold gradient-text hover:animate-pulse">David Tourdot-Fuentes</a>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#portfolio" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_portfolio">Portfolio</a>
+                    <a href="#tools" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_tools">Tools</a>
+                    <a href="#contact" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_contact">Contact</a>
+                    
+                    <div class="flex items-center space-x-2 ml-4">
+                        <button id="lang-fr" class="text-sm px-2 py-1 rounded bg-transparent text-slate-400 hover:text-white hover:scale-105 transition-transform">FR</button>
+                        <button id="lang-en" class="text-sm px-2 py-1 rounded bg-primary-700 text-white hover:scale-105 transition-transform">EN</button>
+                    </div>
                 </div>
-                <div>
-                  <h2>Points Forts :</h2>
-                  <p>
-                    Les compositions épiques et entrainantes de
-                    <strong>Darkest Canopy</strong> permettent de motiver le
-                    joueur dans ses combats et d'accompagner l'arrivée des
-                    vagues de monstres pour aider le joueur a se surpasser.
-                  </p>
-                </div>
-              </div>
-              <a
-                target="_blank"
-                class="info-btn"
-                href="https://soundcloud.com/david-tourdot-fuentes/sets/darkest-canopy"
-              >
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
+                
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-button" class="md:hidden text-slate-200 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </div>
-          </div>
         </div>
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source
-                  src="ressources/RQLFDM/FrontVideo.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
-            </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/RQLFDM/BackPicture.png"
-                  class="RQLFDM"
-                  alt="Rien que la fin du monde project poster"
-                />
-                <p class="type">Court Métrage</p>
-                <p class="date">Juillet 2023<br />Janvier 2023</p>
-              </div>
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  <strong>Rien que la fin du monde</strong> est un Court Métrage
-                  étudiant 3iS Bordeaux dans lequel j'ai pu m'occuper de tout le
-                  sound design.
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Sound Designer</li>
-                  </ul>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#0c1721] border-t border-[#1e293b] animate-slide-down">
+            <div class="px-6 py-4 space-y-4">
+                <a href="#portfolio" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_portfolio">Portfolio</a>
+                <a href="#tools" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_tools">Tools</a>
+                <a href="#contact" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_contact">Contact</a>
+                
+                <div class="flex space-x-2 pt-2">
+                    <button id="mobile-lang-en" class="text-sm px-2 py-1 rounded bg-primary-700 text-white hover:scale-105 transition-transform">EN</button>
+                    <button id="mobile-lang-fr" class="text-sm px-2 py-1 rounded bg-transparent text-slate-400 hover:text-white hover:scale-105 transition-transform">FR</button>
                 </div>
-                <div>
-                  <h2>Points Forts :</h2>
-                  <p>
-                    Le sound design de
-                    <strong>Rien que la fin du Monde</strong> réside dans une
-                    re-création sonore d'objets et d'évenèmenents a l'échelle
-                    microscopiques amplifiés.<br />Cela permet de donner une
-                    profondeur au personnage pour permettre d'aidera à faire
-                    passer les émotions a travers des plans contemplatifs.
-                  </p>
-                </div>
-              </div>
-              <a target="_blank" class="info-btn" href="https://www.google.com">
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
             </div>
-          </div>
         </div>
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source src="ressources/LRDS/FrontVideo.mp4" type="video/mp4" />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
-            </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/LRDS/BackPicture.png"
-                  class="LRDS"
-                  alt="La Route des Sommets project poster"
-                />
-                <p class="type">Court Métrage</p>
-                <p class="date">Juillet 2023<br />Janvier 2023</p>
-              </div>
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  <strong>La Route des Sommets</strong> est un Court Métrage
-                  étudiant 3iS Bordeaux dans lequel j'ai pu m'occuper de toute
-                  la composition de la bande son
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Compositeur</li>
-                  </ul>
-                </div>
-                <div>
-                  <h2>Points Forts :</h2>
-                  <p>
-                    Pour la musique de <strong>La Route des Sommets</strong>, je
-                    suis parti sur cette dualité des personnages, l'une plutot
-                    rurale et l'autre ayant envie de voyage a travers les
-                    grandes villes du monde.<br />Cette bande son est donc un
-                    subtil mélange entre sonorités acoustiques et sonorités
-                    electroniques tout en illustrant les magnifiques paysages du
-                    pays basque.
-                  </p>
-                </div>
-              </div>
-              <a
-                target="_blank"
-                class="info-btn"
-                href="https://soundcloud.com/david-tourdot-fuentes/sets/la-route-des-sommets"
-              >
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
-            </div>
-          </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="home" class="section flex items-center justify-center relative overflow-hidden">
+        <!-- Animated background elements -->
+        <div id="floating-spheres" class="fixed inset-0 pointer-events-none z-0">
+            <div class="floating-sphere animate-pulse-slow absolute w-32 h-32 rounded-full bg-primary-900/10" style="top:60vh; left:10%;" data-depth="0.2"></div>
+            <div class="floating-sphere animate-pulse-slow absolute w-44 h-44 rounded-full bg-primary-900/10" style="top:47vh; left:50%;" data-depth="0.3"></div>
+            <div class="floating-sphere animate-pulse-slow absolute w-24 h-24 rounded-full bg-primary-900/10" style="top:15vh; left:65%;" data-depth="0.3"></div>
+            <div class="floating-sphere animate-pulse-slow absolute w-50 h-50 rounded-full bg-primary-900/10" style="top:75vh; left:30%;" data-depth="0.45"></div>
+            <div class="floating-sphere animate-pulse-slow absolute w-40 h-40 rounded-full bg-primary-900/10" style="top:85vh; left:85%;" data-depth="0.75"></div>
+            <div class="floating-sphere animate-pulse-slow absolute w-16 h-16 rounded-full bg-primary-900/10" style="top:140vh; left:90%;" data-depth="0.2"></div>
+            <div class="floating-sphere animate-pulse-slow absolute w-24 h-24 rounded-full bg-primary-900/10" style="top:120vh; left:45%;" data-depth="0.7"></div>
+            <div class="floating-sphere animate-pulse-slow absolute w-40 h-40 rounded-full bg-primary-900/10" style="top:180vh; left:55%;" data-depth="0.45"></div>
+            <div class="floating-sphere animate-pulse-slow absolute w-16 h-16 rounded-full bg-primary-900/10" style="top:145vh; left:80%;" data-depth="0.6"></div>
+            <div class="floating-sphere animate-pulse-slow absolute w-30 h-30 rounded-full bg-primary-900/10" style="top:190vh; left:75%;" data-depth="0.5"></div>
+            <div class="floating-sphere animate-pulse-slow absolute w-32 h-32 rounded-full bg-primary-900/10" style="top:200vh; left:86%;" data-depth="0.7"></div>
+            <div class="floating-sphere animate-pulse-slow absolute w-40 h-40 rounded-full bg-primary-900/10" style="top:240vh; left:25%;" data-depth="0.5"></div>
         </div>
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source
-                  src="ressources/LofiClicker/FrontVideo.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
+        
+        <div class="max-w-8xl mx-auto px-6 py-12 text-center relative z-10">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-fade-in" data-i18n="header"></h1>
+            <h2 class="text-xl md:text-2xl text-slate-300 mb-8 animate-fade-in animate-delay-1" data-i18n="tagline"></h2>
+            
+            <div class="flex justify-center space-x-6 animate-slide-up">
+                <a href="#portfolio" class="px-6 py-3 bg-primary-600 hover:bg-primary-700 rounded-lg font-medium transition-colors hover:scale-105 transform" data-i18n="view_work">View My Work</a>
+                <a href="#contact" class="px-6 py-3 border border-primary-600 text-primary-400 hover:bg-primary-900/30 rounded-lg font-medium transition-colors hover:scale-105 transform" data-i18n="contact_me">Contact Me</a>
             </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/LofiClicker/BackPicture.png"
-                  class="LofiClicker"
-                  alt="Lofi Clicker project poster"
-                />
-                <p class="type">Jeu Vidéo</p>
-                <p class="date">Février 2023<br />Janvier 2023</p>
-              </div>
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  Jeu Vidéo créé en une semaine durant la Winter Jam 2022.<br />
-                  <strong>Lofi Clicker</strong> est un clicker basé sur la
-                  synchronisation rythmique avec la musique.
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Sound Designer</li>
-                    <li>Intégrateur sonores sur FMod & Unity</li>
-                    <li>Composition</li>
-                    <li>
-                      Programmation du système de synchronisation &
-                      communication entre FMod et Unity (C#)
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h2>Points Forts :</h2>
-                  <p>
-                    Créé avec le moteur audio FMod,
-                    <strong>Lofi Clicker</strong> m'a permis de créer une 
-                    alternative au sytème de detection de tempo de Wwise.
-                    L'intégration sonore de ce jeu est donc dynamique et
-                    synchronisé avec le tempo musical
-                  </p>
-                </div>
-              </div>
-              <a
-                target="_blank"
-                class="info-btn"
-                href="https://catincup.itch.io/lofi-clicker"
-              >
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
+            
+            <div class="mt-20 animate-bounce animate-infinite">
+                <a href="#portfolio" class="inline-block">
+                    <svg class="w-8 h-8 text-slate-400 hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </a>
             </div>
-          </div>
+
         </div>
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source
-                  src="ressources/PhantomMemories/FrontVideo.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
-            </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/PhantomMemories/BackPicture.png"
-                  class="PhantomMemories"
-                  alt="Phantom Memories project poster"
-                />
-                <p class="type">Jeu Vidéo</p>
-                <p class="date">Juillet 2023<br />Décembre 2022</p>
-              </div>
-  
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  Jeux Vidéo d'enquête narratif,
-                  <strong>Phantom Memories</strong> est une production 3iS
-                  Bordeaux né de la fusion entre la classe de 5ème année
-                  Animation Jeux Vidéo et de la classe de 3ème année Son Sound
-                  Design
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Lead Sound Designer</li>
-                    <li>Intégrateur Sonore Wwise & Unity</li>
-                    <li>Compositeur d'une grande partie des musiques</li>
-                  </ul>
-                </div>
-                <div>
-                  <h2>Points Forts :</h2>
-                  <p>
-                    <strong>Phantom Memories</strong> est une pure production 3iS
-                    Bordeaux a grande ambition dans laquelle chaque étape de la 
-                    production a été fait main, de l'enregistrement des sons
-                    jusqu'a l'enregistrement du thème original au violoncelle
-                  </p>
-                </div>
-              </div>
-              <a
-                target="_blank"
-                class="info-btn"
-                href="https://phantommemories.itch.io/phantom-memories"
-              >
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source
-                  src="ressources/Polarnatt/FrontVideo.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
-            </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/Polarnatt/BackPicture.png"
-                  class="Polarnatt"
-                  alt="Polarnatt project poster"
-                />
-                <p class="type">Animation</p>
-                <p class="date">Juillet 2023<br />Octobre 2022</p>
-              </div>
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  <strong>Polarnatt</strong> est un Court Métrage d'animation
-                  3iS Bordeaux de la classe d'Animation Jeu Vidéo 3ème Année.
-                  J'ai eu l'opportunité de créer l'entièreté du son du court-métrage
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Sound Designer</li>
-                    <li>Monteur & Mixeur (Sound Design, Musiques et Voix)</li>
-                    <li>Compositeur de toute la bande son</li>
-                  </ul>
-                </div>
-                <div>
-                  <h2>Synopsis :</h2>
-                  <p>
-                    Tout les 6 mois sur <strong>Polarnatt</strong>, les
-                    gardiennes s'affrontent pour désigner la future déesse : un
-                    combat opposant la gardienne du jour, et la gardienne de la
-                    nuit<br />La gagnante reçoit la pierre lui permettant de
-                    veiller sur la saison future.
-                  </p>
-                </div>
-              </div>
-              <a
-                target="_blank"
-                class="info-btn"
-                href="https://youtu.be/4Wsf-ILv3VA"
-              >
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source src="ressources/LSDE/FrontVideo.mp4" type="video/mp4" />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
-            </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/LSDE/BackPicture.png"
-                  class="LSDE"
-                  alt="Le Souvenir des Evanders project poster"
-                />
-                <p class="type">Installation</p>
-                <p class="date">Décembre 2022<br />Octobre 2022</p>
-              </div>
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  <strong>Le Souvenir des Evanders</strong> est une installation
-                  sonore immersive crée au sein de 3iS Bordeaux sur le theme du
-                  jeu vidéo Phantom Memories<br />Le systeme interractif
-                  complexe créé sur Ableton et Max4Live permet une évolution de
-                  la bande son suivant l'intéraction avec les objets du décors
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Sound Designer</li>
-                    <li>Programmeur Ableton Max4Live</li>
-                    <li>Compositeur</li>
-                  </ul>
-                </div>
-                <div>
-                  <h2>Synopsis :</h2>
-                  <p>
-                    <strong>Le Souvenir des Evanders</strong> est une immersion
-                    dans l'univers du Jeu Video Phantom Memories. Ici, les
-                    visiteurs viennent fouiller les décombres de l'ancien Manoir
-                    des Evanders.
-                  </p>
-                </div>
-              </div>
-              <a
-                target="_blank"
-                class="info-btn"
-                href="https://youtu.be/-XQ-OXfTB5g"
-              >
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source
-                  src="ressources/SondeMultimedia/FrontVideo.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
-            </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/SondeMultimedia/BackPicture.png"
-                  class="SondeMultimedia"
-                  alt="La Sonde Multimedia project poster"
-                />
-                <p class="type">Podcast Audio</p>
-                <p class="date">Décembre 2022<br />Septembre 2022</p>
-              </div>
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  Podcast Audio fictif de 12 minutes sur le métier du doublage.
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Monteur Son</li>
-                    <li>Mixeur Son</li>
-                    <li>Compositeur</li>
-                  </ul>
-                </div>
-                <div>
-                  <h2>Points Forts :</h2>
-                  <p>
-                    Pour <strong>La Sonde Multimédia</strong>, l'objectif était
-                    de créer un podcast audio en utilisant le thème du doublage
-                    français et les codes des podcasts actuels (présentateur,
-                    générique, interviews, publicité, ..)
-                  </p>
-                </div>
-              </div>
-              <a
-                target="_blank"
-                class="info-btn"
-                href="https://soundcloud.com/david-tourdot-fuentes/sonde-multimedia"
-              >
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source
-                  src="ressources/AlphaAlpha/FrontVideo.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
-            </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/AlphaAlpha/BackPicture.png"
-                  class="AlphaAlpha"
-                  alt="Alpha Alpha project poster"
-                />
-                <p class="type">Série</p>
-                <p class="date">Juillet 2022<br />Décembre 2021</p>
-              </div>
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  <strong>Alpha Alpha</strong> est une série de 4 épisodes créés
-                  dans le cadre de 3iS Bordeaux. J'ai pu m'occuper de la bande
-                  son de l'épisode 3
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Compositeur</li>
-                  </ul>
-                </div>
-                <div>
-                  <h2>Synopsis :</h2>
-                  <p>
-                    <strong>Alpha Alpha</strong> est une série de 4 episodes qui
-                    suit le récit d'une autre série créé en parralèle.
-                  </p>
-                </div>
-              </div>
-              <a
-                target="_blank"
-                class="info-btn"
-                href="https://soundcloud.com/david-tourdot-fuentes/sets/alpha-alpha-ep3-soundtrack"
-              >
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source
-                  src="ressources/WallE/FrontVideo.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
-            </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/WallE/BackPicture.png"
-                  class="WallE"
-                  alt="Wall-E ReSound Design project poster"
-                />
-                <p class="type">Animation</p>
-                <p class="date">Mai 2023<br />Mai 2023</p>
-              </div>
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  Exercice de re-création du sound design de la bande annonce de
-                  <strong>Wall-E</strong>
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Foley Artist</li>
-                    <li>Mixeur Son</li>
-                  </ul>
-                </div>
-                <div>
-                  <h2>Points Forts :</h2>
-                  <p>
-                    Dans cet exercice d'une durée de 6 heures, le but était de
-                    re-sound designer une petite vidéo de 2min a l'aide
-                    uniquement d'objets du quotidien enregistrés en session
-                    foley (outils de bricolage, bouts de plastiques, perceuse,
-                    petits objets métalliques, ...).
-                  </p>
-                </div>
-              </div>
-              <a
-                target="_blank"
-                class="info-btn"
-                href="https://youtu.be/wGjbBELupZk"
-              >
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source
-                  src="ressources/SondeMultimedia/FrontVideo.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
-            </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/SondeMultimedia/BackPicture.png"
-                  class="SurvivalShooter"
-                  alt="Survival Shooter project poster"
-                />
-                <p class="type">Animation</p>
-                <p class="date">Mai 2023<br />Mai 2023</p>
-              </div>
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  Exercice d'intégration audio, de sound design et de
-                  composition sur le mini-jeu <strong>Survival Shooter</strong>
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Sound Designer</li>
-                    <li>Intégrateur sonore sur FMod & Unity</li>
-                  </ul>
-                </div>
-                <div>
-                  <h2>Points Forts :</h2>
-                  <p>
-                    <strong>Survival Shooter</strong> m'a permis de couvrir
-                    l'ensemble de la chaîne de production audio dans le jeu
-                    vidéo, de la création du son a l'intégration dans le moteur
-                    Unity.
-                  </p>
-                </div>
-              </div>
-              <a
-                target="_blank"
-                class="info-btn"
-                href="https://drive.google.com/file/d/1eprz4hY7QwDX3lKcj7KUOEKacFWKOzGU/view?usp=drive_link"
-              >
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
-            </div>
-          </div>
-        </div> 
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source
-                  src="ressources/HideAndFlee/FrontVideo.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
-            </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/HideAndFlee/BackPicture.png"
-                  class="HideAndFlee"
-                  alt="Hide And Flee project poster"
-                />
-                <p class="type">Jeu Vidéo</p>
-                <p class="date">Février 2022<br />Janvier 2022</p>
-              </div>
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  Jeu Vidéo créé en un mois pour la Simiji Universe GameJam.
-                  <strong>Hide & Flee</strong> est un platformer basé sur les
-                  énigmes et l'introspection.<br /><strong>Hide & Flee</strong>
-                  possède une intégration sonore réaliste et immersive dont les
-                  interractions audios se basent sur l'avancement dans
-                  l'histoire et l'apparition du danger
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Sound Designer</li>
-                    <li>Intégrateur sonores sur FMod & Unity</li>
-                    <li>Composition</li>
-                  </ul>
-                </div>
-                <div>
-                  <h2>Points Forts :</h2>
-                  <p>
-                    Suite a une partie de cache-cache qui tourne mal, une petite
-                    fille va devoir affronter sa plus grande peur, et surmonter
-                    un lourd passé.
-                  </p>
-                </div>
-              </div>
-              <a
-                target="_blank"
-                class="info-btn"
-                href="https://romains.itch.io/hide-and-flee"
-              >
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="card-wrapper">
-          <div class="card">
-            <div class="card-front">
-              <video class="video" autoplay muted>
-                <source
-                  src="ressources/Cauchemar/FrontVideo.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div class="hover-msg">
-                <p>En savoir plus</p>
-              </div>
-            </div>
-            <div class="card-back">
-              <div class="back-image">
-                <img
-                  src="ressources/Cauchemar/BackPicture.png"
-                  class="Cauchemar"
-                  alt="Cauchemar project poster"
-                />
-                <p class="type">Livre Audio</p>
-                <p class="date">Janvier 2022<br />Septembre 2021</p>
-              </div>
-              <div class="card-back-text">
-                <blockquote class="quote">
-                  Création d'une fiction sonore basé sur ""
-                </blockquote>
-                <div>
-                  <h2>Postes :</h2>
-                  <ul>
-                    <li>Sound Designer</li>
-                    <li>Compositeur</li>
-                  </ul>
-                </div>
-                <div>
-                  <h2>Synopsis :</h2>
-                  <p>
-                    <strong>Cauchemar</strong> est une adaptation en fiction
-                    sonore des "Histoires Pressées" de Bernard Friot
-                  </p>
-                </div>
-              </div>
-              <a
-                target="_blank"
-                class="info-btn"
-                href="https://soundcloud.com/david-tourdot-fuentes/cauchemar"
-              >
-                <img
-                  src="ressources/generic/link_icon.svg"
-                  class="link-icon"
-                  alt="link image"
-                />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
     
-    <br><br><br><br>
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="section py-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center gradient-text animate-fade-in" data-i18n="portfolio">Portfolio</h2>
+            
+            <!-- Project filters -->
+            <div class="flex flex-wrap justify-center gap-3 mb-8 animate-fade-in">
+                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white active" data-filter="all" data-i18n="tags_all">All Projects</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white" data-filter="sound-design" data-i18n="tags_sd">Sound Design</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white" data-filter="soundtrack" data-i18n="tags_soundtrack">Soundtrack</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white" data-filter="audio-integration" data-i18n="tags_ai">Audio Integration</button>
+                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white" data-filter="audio-tool" data-i18n="tags_at">Audio Tool</button>
+            </div>
+            
+            <!-- Projects grid -->
+            <div class="project-grid">
 
-    <section class="softwares-used-section">
-      <h1 class="title">Logiciels Utilisés</h1>
-      <a class="wwise" href="https://www.audiokinetic.com/fr/products/wwise/" target="_blank">
-        <img src="ressources/generic/logo/Wwise_Logo_01.png" height="65" width="auto" draggable="false"></img>
-        <p>Wwise</p>
-      </a>
-      <a class="fmod" href="https://www.fmod.com/" target="_blank">
-        <img src="ressources/generic/logo/FMod_Logo.svg" height="45" width="auto" draggable="false"></img>
-        <p>FMod Studio</p>
-      </a>
-      <a class="unity" href="https://unity.com/" target="_blank">
-        <img src="ressources/generic/logo/Unity_Logo.png" height="50" width="auto" draggable="false"></img>
-        <p>Unity Engine</p>
-      </a>
-      <a class="unreal" href="https://www.unrealengine.com/" target="_blank">
-        <img src="ressources/generic/logo/UnrealEngine_Logo.svg" height="50" width="auto" draggable="false"></img>
-        <p>Unreal Engine</p>
-      </a>
-      <a class="audition" href="https://www.adobe.com/fr/products/audition.html" target="_blank">
-        <img src="ressources/generic/logo/AdobeAudition_Logo.png" height="45" width="auto" draggable="false"></img>
-        <p>Adobe Audition</p>
-      </a>
-      <a class="bitwig" href="https://www.bitwig.com/" target="_blank">
-        <img src="ressources/generic/logo/Bitwig_Logo.svg" height="65" width="auto" draggable="false"></img>
-        <p>Bitwig Studio</p>
-      </a>
-      <a class="max" href="https://cycling74.com/products/max" target="_blank">
-        <img src="ressources/generic/logo/MaxMSP_Logo.png" height="45" width="auto" draggable="false"></img>
-        <p>Max MSP</p>
-      </a>
-      <a class="reaper" href="https://www.reaper.fm/" target="_blank">
-        <img src="ressources/generic/logo/Reaper_Logo.svg" height="65" width="auto" draggable="false"></img>
-        <p>Reaper</p>
-      </a>
-      <a class="protools" href="https://www.avid.com/fr/pro-tools" target="_blank">
-        <img class="certificate" src="ressources/generic/logo/Certificate_Icon.svg" height="40" width="auto" draggable="false"></img>
-        <img src="ressources/generic/logo/ProTools_Logo.png" height="45" width="auto" draggable="false"></img>
-        <p>ProTools</p>
-      </a>
-      <a class="dante" href="https://www.audinate.com/meet-dante/what-is-dante?lang=fr" target="_blank">
-        <img class="certificate" src="ressources/generic/logo/Certificate_Icon.svg" height="40" width="auto" draggable="false"></img>
-        <img src="ressources/generic/logo/Dante_Logo.png" height="30" width="auto" draggable="false"></img>
-        <p>Dante</p>
-      </a>
-      <a class="ableton" href="https://www.ableton.com/" target="_blank">
-        <img src="ressources/generic/logo/AbletonLive_Logo.svg" height="65" width="auto" draggable="false"></img>
-        <p>Ableton</p>
-      </a>
+                <!-- Mass Entity Optimization Tool -->
+                <div class="project-card bg-[#1e293b]/50 rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-category="audio-tool"
+                    data-title="project_meot_title"
+                    data-i18n-desc="project_meot_desc"
+                    data-i18n-long="project_meot_long"
+                    data-icon="ressources/MEOT/art/Bg_2.png"
+                    data-bg="ressources/MEOT/art/Bg.png"
+                    data-alt="Audio Tool : Mass Entity Optimization"
+                    data-embed-type="youtube"
+                    data-iframe="https://www.youtube.com/embed/nACOWAFpqb0">
+                </div>
+
+                <!-- Masters Of Light -->
+                <div class="project-card bg-[#1e293b]/50 rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-category="sound-design"
+                    data-title="project_mol_title"
+                    data-i18n-desc="project_mol_desc"
+                    data-i18n-long="project_mol_long"
+                    data-icon="ressources/MOL/art/Logo.jpg"
+                    data-bg="ressources/MOL/art/Logo_2.jpg"
+                    data-alt="Sound Design : Masters Of Light"
+                    data-embed-type="youtube"
+                    data-iframe="https://www.youtube.com/embed/v4n8ufGG90I">
+                </div>
+
+                <!-- Darkest Canopy -->
+                <div class="project-card bg-[#1e293b]/50 rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-category="soundtrack"
+                    data-title="project_dc_title"
+                    data-i18n-desc="project_dc_desc"
+                    data-i18n-long="project_dc_long"
+                    data-icon="ressources/DarkestCanopy/art/Logo_Square.png"
+                    data-bg="ressources/DarkestCanopy/art/Background.png"
+                    data-alt="Soundtrack : Darkest Canopy"
+                    data-embed-type="soundcloud"
+                    data-iframe="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1646295394&color=%230ea5e9&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
+                </div>
+                
+                <!-- La Route des Sommets -->
+                <div class="project-card bg-[#1e293b]/50 rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-2"
+                    data-category="soundtrack"
+                    data-title="project_lrds_title"
+                    data-i18n-desc="project_lrds_desc"
+                    data-i18n-long="project_lrds_long"
+                    data-icon="ressources/LRDS/art/Screen_2.png"
+                    data-bg="ressources/LRDS/art/Screen_4.png"
+                    data-alt="Soundtrack : La Route des Sommets"
+                    data-embed-type="soundcloud"
+                    data-iframe="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1697210334&color=%230ea5e9&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=true">
+                </div>
+                
+                <!-- Lofi Clicker -->
+                <div class="project-card bg-[#1e293b]/50 rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-3"
+                    data-category="audio-integration sound-design soundtrack"
+                    data-title="project_lc_title"
+                    data-i18n-desc="project_lc_desc"
+                    data-i18n-long="project_lc_long"
+                    data-icon="ressources/LofiClicker/art/Logo.png"
+                    data-bg="ressources/LofiClicker/art/Bg_2.png"
+                    data-alt="Audio Integration : Lofi Clicker"
+                    data-embed-type="spotify"
+                    data-iframe="https://open.spotify.com/embed/album/2WLig8GusnxG5Qt9VCJw51?utm_source=generator&theme=0">
+                </div>
+                
+                <!-- Phantom Memories -->
+                <div class="project-card bg-[#1e293b]/50 rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-1"
+                    data-category="audio-integration sound-design soundtrack"
+                    data-title="project_pm_title"
+                    data-i18n-desc="project_pm_desc"
+                    data-i18n-long="project_pm_long"
+                    data-icon="ressources/PhantomMemories/art/Logo_2.png"
+                    data-bg="ressources/PhantomMemories/art/Bg_2.jpg"
+                    data-alt="Audio Integration : Phantom Memories">
+                </div>
+                
+                <!-- Polarnatt -->
+                <div class="project-card bg-[#1e293b]/50 rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-2"
+                    data-category="sound-design soundtrack"
+                    data-title="project_polarnatt_title"
+                    data-i18n-desc="project_polarnatt_desc"
+                    data-i18n-long="project_polarnatt_long"
+                    data-icon="ressources/Polarnatt/art/Logo.png"
+                    data-bg="ressources/Polarnatt/art/Bg_2.png"
+                    data-alt="Soundtrack & Design : Polarnatt"
+                    data-embed-type="youtube"
+                    data-iframe="https://www.youtube.com/embed/4Wsf-ILv3VA?si=2rMGF-0IX_XtqQEA">
+                </div>
+
+                <!-- Hide and Flee -->
+                <div class="project-card bg-[#1e293b]/50 rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-1"
+                    data-category="audio-integration sound-design soundtrack"
+                    data-title="project_hf_title"
+                    data-i18n-desc="project_hf_desc"
+                    data-i18n-long="project_hf_long"
+                    data-icon="ressources/HideAndFlee/art/Logo.png"
+                    data-bg="ressources/HideAndFlee/art/Bg_2.png"
+                    data-alt="Audio Integration : Hide And Flee"
+                    data-embed-type="spotify"
+                    data-iframe="https://open.spotify.com/embed/album/3IMaxVIqnao0gLb7jlIj11?utm_source=generator&theme=0">
+                </div>
+
+                <!-- Alpha Alpha -->
+                <div class="project-card bg-[#1e293b]/50 rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-3"
+                    data-category="soundtrack"
+                    data-title="project_aa_title"
+                    data-i18n-desc="project_aa_desc"
+                    data-i18n-long="project_aa_long"
+                    data-icon="ressources/AlphaAlpha/art/Logo.png"
+                    data-bg="ressources/AlphaAlpha/art/Screen_1.png"
+                    data-alt="Soundtrack : Alpha Alpha"
+                    data-embed-type="soundcloud"
+                    data-iframe="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1469265319&color=%230369a1&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
+                </div>
+
+                <!-- Spring -->
+                <div class="project-card bg-[#1e293b]/50 rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-3"
+                    data-category="soundtrack"
+                    data-title="project_spring_title"
+                    data-i18n-desc="project_spring_desc"
+                    data-i18n-long="project_spring_long"
+                    data-icon="ressources/Spring/art/Logo.png"
+                    data-bg="ressources/Spring/art/Bg.png"
+                    data-alt="Soundtrack : Spring Exercise"
+                    data-embed-type="youtube"
+                    data-iframe="https://www.youtube.com/embed/WB5QWPH_wgk">
+                </div>
+            </div>
+            
+            <!-- Load more button -->
+            <div class="text-center mt-12 animate-fade-in">
+                <button id="load-more" class="px-6 py-3 border border-primary-600 text-primary-400 hover:bg-primary-900/30 rounded-lg font-medium transition-colors hover:scale-105 transform" data-i18n="load_more">
+                    Load More Projects
+                </button>
+            </div>
+        </div>
     </section>
+    
+    <!-- Tools & Equipment Section -->
+    <section id="tools" class="section py-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center gradient-text animate-fade-in" data-i18n="tools">Tools & Equipment</h2>
+            
+            <!-- Software Section -->
+            <div class="mb-16">
+                <div class="flex items-center mb-8">
+                    <div class="p-3 rounded-lg bg-primary-900/30 text-primary-400 mr-4 animate-pulse-slow">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold" data-i18n="software">Software</h3>
+                </div>
+                
+                <div class="software-grid">
+                    <!-- Wwise -->
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all animate-scale-in">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
+                                <img src="/ressources/Generic/Wwise_White.svg" alt="FMOD" class="w-8 h-8">
+                            </div>
+                            <h4 class="font-medium text-lg">Wwise</h4>
+                        </div>
+                        <p class="text-slate-400 text-sm" data-i18n="wwise_desc">Interactive audio middleware with advanced implementation features.</p>
+                    </div>
+                    
+                    <!-- FMOD -->
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all animate-scale-in">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
+                                <img src="/ressources/Generic/FMOD_White.svg" alt="FMOD" class="w-10 h-10">
+                            </div>
+                            <h4 class="font-medium text-lg">FMOD</h4>
+                        </div>
+                        <p class="text-slate-400 text-sm" data-i18n="fmod_desc">Audio engine and toolset for adaptive audio in games.</p>
+                    </div>
+                    
+                    <!-- Unity -->
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all animate-scale-in">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
+                                <img src="/ressources/Generic/Unity_White.svg" alt="Unity" class="w-7 h-7">
+                            </div>
+                            <h4 class="font-medium text-lg">Unity</h4>
+                        </div>
+                        <p class="text-slate-400 text-sm" data-i18n="unity_desc">Game engine with audio implementation tools.</p>
+                    </div>
 
-    <br><br><br><br><hr><br><br><br><br>
+                    <!-- Unreal Engine -->
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all animate-scale-in">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
+                                <img src="/ressources/Generic/UE_White.svg" alt="Unreal Engine" class="w-7 h-7">
+                            </div>
+                            <h4 class="font-medium text-lg">Unreal</h4>
+                        </div>
+                        <p class="text-slate-400 text-sm" data-i18n="unreal_desc">Game engine with audio implementation tools.</p>
+                    </div>
+                    
+                    <!-- Max MSP -->
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all animate-scale-in">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
+                                <img src="/ressources/Generic/Ableton_White.svg" alt="Max MSP" class="w-7 h-7">
+                            </div>
+                            <h4 class="font-medium text-lg">Max MSP</h4>
+                        </div>
+                        <p class="text-slate-400 text-sm">Visual programming for interactive audio and installations.</p>
+                    </div>
 
-    <section class="playground">
-      <h1 class="title">Playground</h1>
-      <div class="playground-canvas">
-        <section class="playground-section">
-          <h3>Darkest Canopy : Bande Son Interractive</h3>
-          <div class="media-player">
-            <button
-              class="play-stop-button"
-              onclick="playStopToggle(this, 'DarkestCanopy_Music')"
-              data-clicked="false"
-            ></button>
-            <div class="slider-section">
-              <p>Exploration</p>
-              <input
-                class="basic-slider"
-                type="range"
-                min="0"
-                max="100"
-                value="0"
-                id="DarkestCanopy_MusicSlider"
-                oninput="setParam(this.value, 'DarkestCanopyMusic_param', false)"
-                oninput="playTickSlider()"
-              />
-              <p>Combat</p>
+                    <!-- Ableton Live -->
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all animate-scale-in">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
+                                <img src="/ressources/Generic/Ableton_White.svg" alt="Max MSP" class="w-7 h-7">
+                            </div>
+                            <h4 class="font-medium text-lg">Ableton Live</h4>
+                        </div>
+                        <p class="text-slate-400 text-sm" data-i18n="ableton_desc">Digital audio workstation for sound design</p>
+                    </div>
+                    
+                    <!-- Reaper -->
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all animate-scale-in">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
+                                <img src="/ressources/Generic/Reaper_White.svg" alt="Max MSP" class="w-7 h-7">
+                            </div>
+                            <h4 class="font-medium text-lg">Reaper</h4>
+                        </div>
+                        <p class="text-slate-400 text-sm" data-i18n="reaper_desc">Digital audio workstation for sound design and cinematics mixing</p>
+                    </div>
+                    
+                    <!-- Adobe Audition -->
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all animate-scale-in">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
+                                <img src="/ressources/Generic/AA_White.svg" alt="Max MSP" class="w-7 h-7">
+                            </div>
+                            <h4 class="font-medium text-lg">Audition</h4>
+                        </div>
+                        <p class="text-slate-400 text-sm">Audio voice cleaning and enhancement.</p>
+                    </div>
+                    
+                    <!-- Bitwig Studio -->
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all animate-scale-in">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
+                                <img src="/ressources/Generic/Bitwig_White.svg" alt="Max MSP" class="w-7 h-7">
+                            </div>
+                            <h4 class="font-medium text-lg">Bitwig Studio</h4>
+                        </div>
+                        <p class="text-slate-400 text-sm">Virtual instruments and effects for music production.</p>
+                    </div>
+                    
+                    <!-- ProTools -->
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all animate-scale-in">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
+                                <img src="/ressources/Generic/PT_White.svg" alt="Max MSP" class="w-8 h-8">
+                            </div>
+                            
+                            <h4 class="font-medium text-lg">Pro Tools</h4>
+                        </div>
+                        <p class="text-slate-400 text-sm">Industry standard DAW for audio production.</p>
+                    </div>
+                </div>
             </div>
-          </div>
-          <p class="desc">
-            Pour le Jeu Vidéo <strong>Darkest Canopy</strong>, le choix s'est
-            porté sur une transition fluide et dynamique de musique.
-            <br>Le gameplay oscille entre des phases de combat et des phases
-            d'exploration, la bande son évolue donc pour s'adapter a ces différents gameplays.
-            <br><br><i>Cliquez sur le bouton pour lancer la musique et jouez avec le curseur pour
-            la faire évoluer.</i>
-          </p>
-        </section>
-
-        <section class="playground-section">
-          <h3>Phantom Memories : Système de MindMap</h3>
-          <div class="pm-amb">
-            <div class="media-player" id="play-amb">
-              <button
-                class="play-stop-button"
-                onclick="playStopTogglePM(this, 'PhantomMemories_MindMap')"
-                data-clicked="false"
-              >
-              <div class="graphic-line-01"></div>
-              </button>
-              <p>Ouvrir / Fermer<br>la MindMap</p>
-            </div>
-            <div class="media-player" id="connect">
-              <button
-                class="play-stop-button"
-                onclick="playStopTogglePM(this, 'PhantomMemories_MindMap_connect')"
-                data-clicked="false"
-              >
-                <div class="graphic-line-02"></div>
-                <div class="graphic-line-03"></div>
-              </button>
-              <p>Démarrer / Stopper<br>la connection</p>
-            </div>
-            <div class="media-player" id="connect-fail">
-              <p>Echouer la connexion</p>
-              <button
-                class="play-stop-button"
-                onclick="playOneShotPM('PhantomMemories_MindMap_connect_fail')"
-              ></button>
-            </div>
-            <div class="media-player" id="connect-sucess">
-              <button
-                class="play-stop-button"
-                onclick="playOneShotPM('PhantomMemories_MindMap_connect_success')"
-                ></button>
-              <p>Réussir la connexion</p>
-            </div>
-          </div>
-          <p class="desc">
-            Dans le jeu Phantom Memories, découvertes soupçons et reflections du joueur
-            son repertoriés dans la "MindMap". C'est un univers fictif, représentation de la
-            conscience du personnage jouable dans lequel le joueur va passer beaucoup
-            de temps afin de poser des reflection et établir des connexions entre les différentes
-            trouvailles et discussions au sein du Manoir. Le sound design a donc été pensé
-            comme un endroit calme et posé, idéal pour réfléchir.
-            <br><br><i>Cliquez sur les boutons pour ouvrir la MindMap, démarrer une connexion, puis
-            réussir ou échouer la connexion.</i>
-          </p>
-        </section>
-
-        <section class="playground-section">
-          <h3>Hide And Flee : Transitions d'ambiances</h3>
-          <div class="media-player">
-            <button
-              class="play-stop-button"
-              onclick="playStopToggle(this, 'HideAndFlee_Amb')"
-              data-clicked="false"
-            ></button>
-            <div class="slider-section">
-              <p>Plain</p>
-              <input
-                class="basic-slider"
-                type="range"
-                min="0"
-                max="100"
-                value="0"
-                id="HideAndFlee_AmbSlider"
-                oninput="setParam(this.value, 'HideAndFleeAmbiance_param', false)"
-                oninput="playTickSlider()"
-              />
-              <p>Forest</p>
-            </div>
-          </div>
-          <p class="desc">
-            Hide and Flee est un jeu d'exploration / plateforme en 2D. Le joueur
-            traverse différentes zones dans laquelle chaque ambiance doit
-            être différente. Cette exemple est un cas possible d'interactivité de l'ambiance
-            sonore dans le jeu. Ici, l'ambiance évolue suivant la position 
-            du joueur, passant d'une clairière paisible a une forêt épaisse de façon
-            fluide
-            <br><br><i>Cliquez sur le bouton pour lancer l'ambiance et jouez avec le curseur pour
-            la faire évoluer.</i>
-          </p>
-        </section>
-
-        <section class="playground-section">
-          <h3>Lofi Clicker : Composition décomposée</h3>
-          <div class="lc-music">
-            <div class="media-player" id="forest">
-              <button
-              class="play-stop-button"
-              onclick="playStopToggle(this, 'LofiClicker_Music_Forest')"
-              data-clicked="false"
-              ></button>
-              <p>Play / Stop<br>Musique Forêt</p>
-              <div class="graphic-line-04"></div>
-            </div>
-            <div class="media-player" id="forest-cello">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'Forest_Cello')"
-              data-clicked="false"
-              ></button>
-              <p>Violoncelle</p>
-            </div>
-            <div class="media-player" id="forest-piano">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'Forest_Piano')"
-              data-clicked="false"
-              ></button>
-              <p>Piano</p>
-            </div>
-            <div class="media-player" id="forest-violin">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'Forest_Violin')"
-              data-clicked="false"
-              ></button>
-              <p>Violon</p>
-            </div>
-            <div class="media-player" id="forest-woodwinds">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'Forest_Woodwinds')"
-              data-clicked="false"
-              ></button>
-              <p>Hautbois</p>
-            </div>
-            <div class="media-player" id="desert">
-              <button
-              class="play-stop-button"
-              onclick="playStopToggle(this, 'LofiClicker_Music_Desert')"
-              data-clicked="false"
-              ></button>
-              <p>Play / Stop<br>Musique Désert</p>
-              <div class="graphic-line-04"></div>
-            </div>
-            <div class="media-player" id="desert-banjo">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'Desert_Banjo')"
-              data-clicked="false"
-              ></button>
-              <p>Banjo</p>
-            </div>
-            <div class="media-player" id="desert-flute">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'Desert_Flute')"
-              data-clicked="false"
-              ></button>
-              <p>Flute</p>
-            </div>
-            <div class="media-player" id="desert-jewsharp">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'Desert_JewsHarp')"
-              data-clicked="false"
-              ></button>
-              <p>Guimbarde</p>
-            </div>
-            <div class="media-player" id="desert-percussions">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'Desert_Percussions')"
-              data-clicked="false"
-              ></button>
-              <p>Percussions</p>
-            </div>
-            <div class="media-player" id="desert-whistle">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'Desert_Whistle')"
-              data-clicked="false"
-              ></button>
-              <p>Sifflement</p>
-            </div>
-            <div class="media-player" id="city">
-              <button
-              class="play-stop-button"
-              onclick="playStopToggle(this, 'LofiClicker_Music_City')"
-              data-clicked="false"
-              ></button>
-              <p>Play / Stop<br>Musique Ville</p>
-              <div class="graphic-line-04"></div>
-            </div>
-            <div class="media-player" id="city-bass">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'City_Bass')"
-              data-clicked="false"
-              ></button>
-              <p>Basse</p>
-            </div>
-            <div class="media-player" id="city-fx">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'City_Fx')"
-              data-clicked="false"
-              ></button>
-              <p>Fx</p>
-            </div>
-            <div class="media-player" id="city-percs">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'City_Percs')"
-              data-clicked="false"
-              ></button>
-              <p>Percussions</p>
-            </div>
-            <div class="media-player" id="city-syntharp">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'City_SynthArp')"
-              data-clicked="false"
-              ></button>
-              <p>Synthé Arpèges</p>
-            </div>
-            <div class="media-player" id="city-synthchords">
-              <button
-              class="play-stop-button"
-              onclick="playStopTrackToggleLC(this, 'City_SynthChords')"
-              data-clicked="false"
-              ></button>
-              <p>Synthé Accords</p>
-            </div>
-          </div>
-          <p class="desc">
-            <strong>Lofi Clicker</strong> étant un jeu de rythme, la musique possède
-            une place centrale dans le gameplay du jeu.
-            <br>Lors du déblocage de tel ou tel instruments, nous voulions que le joueur
-            ait la main sur les différentes pistes musicales débloqués et qu'il puisse recomposer
-            la musique a sa manière lorsqu'il possède toute les pistes.
-            <br><br><i>Cliquez sur les boutons pour lancer les différentes pistes musicales.</i>
-          </p>
-        </section>
-      </div>
+        </div>
     </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="section py-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center gradient-text animate-fade-in" data-i18n="contact">Contact</h2>
+            
+            <div class="max-w-md mx-auto bg-[#1e293b]/50 rounded-xl p-8 border border-[#334155] text-center animate-scale-in hover:shadow-lg hover:shadow-primary-900/20">
+                <div class="mb-6 animate-pulse-slow">
+                    <svg class="w-16 h-16 mx-auto text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                
+                <h3 class="text-xl font-semibold mb-2 animate-fade-in" data-i18n="get_in_touch">Get in touch</h3>
+                <p class="text-slate-400 mb-6 animate-fade-in animate-delay-1" data-i18n="contact_text">For project inquiries or collaborations, feel free to reach out via email.</p>
+                
+                <div class="bg-[#0f172a] rounded-lg p-4 inline-block animate-fade-in animate-delay-2 hover:bg-[#1e293b] transition-colors">
+                    <a target="_blank" href="mailto:davidtourdotfuentes@gmail.com" class="text-primary-400 hover:text-primary-300 font-mono" id="email">davidtourdotfuentes@gmail.com</a>
+                </div>
+                
+                <div class="mt-8 flex justify-center space-x-4 animate-fade-in animate-delay-3">
+                    <a target="_blank" href="https://open.spotify.com/intl-fr/artist/7oGqWiwp6Y6WQFZveQz3o1?si=dvMnSu3ESUufe6Vw9S0hog" class="text-slate-400 hover:text-white transition-colors hover:scale-110 transform">
+                        <i class="fab fa-spotify text-2xl"></i>
+                    </a>
+                    <a target="_blank" href="https://soundcloud.com/david-tourdot-fuentes?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" class="text-slate-400 hover:text-white transition-colors hover:scale-110 transform">
+                        <i class="fab fa-soundcloud text-2xl"></i>
+                    </a>
+                    <a target="_blank" href="https://fr.linkedin.com/in/david-tourdot-fuentes-01713623a?trk=public_post_main-feed-card-text" class="text-slate-400 hover:text-white transition-colors hover:scale-110 transform">
+                        <i class="fab fa-linkedin text-2xl"></i>
+                    </a>
+                    <a target="_blank" href="https://www.instagram.com/david.tfs/" class="text-slate-400 hover:text-white transition-colors hover:scale-110 transform">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-[#0c1721] border-t border-[#1e293b] py-8 animate-fade-in">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <p class="text-slate-400" data-i18n="copyright">© 2023 David Tourdot-Fuentes. All rights reserved.</p>
+        </div>
+    </footer>
 
-    <div class="bottominfo">
-      <img class="fmod-logo" src="ressources/generic/logo/FMod_Logo.svg" draggable="false"></img>
-      <p>Website made by David Tourdot-Fuentes with FMod Integration</p>
-      <output id="display_out">Please wait... Loading...</output>
+    <!-- Portfolio Detail Panel -->
+    <div id="portfolio-panel" class="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 hidden items-center justify-center animate-fade-in-fast">
+        <div class="relative rounded-xl max-w-5xl w-full h-[80vh] overflow-hidden animate-scale-in-fast">
+            
+            <!-- BACKGROUND IMAGE -->
+            <div id="portfolio-panel-bg" class="absolute inset-0"></div>
+
+            <!-- PANEL CONTENT -->
+            <div class="relative z-10 w-full h-full p-6 flex flex-col">
+
+            <!-- Close button -->
+            <button id="portfolio-panel-close" class="absolute top-4 right-8 text-slate-400 hover:text-white text-4xl font-bold z-20">&times;</button>
+
+            <!-- FIXED TITLE -->
+            <h3 id="portfolio-panel-title" class="text-2xl font-bold mb-4 pr-10 flex-shrink-0"></h3>
+
+            <!-- SCROLLABLE CONTENT -->
+            <div id="portfolio-panel-content" class="flex-1 min-h-0 overflow-y-auto flex flex-col space-y-6 pr-2">
+                <!-- JS -->
+            </div>
+
+            </div>
+        </div>
     </div>
 
-    <br><br>
 
-  </main>
-  
-  <script type="text/javascript" src="fmodstudio.js"></script>
-  <script src="fmod.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
-  <script src="app.js"></script>
-  <script src="projects.js"></script>
+    <script src="translations.js"></script>
+    <script src="app.js"></script>
+
+</body>
 </html>
