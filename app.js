@@ -236,7 +236,7 @@ projectCards.forEach(card => {
     card.innerHTML = `
         <img src="${card.dataset.icon}" alt="${card.dataset.alt}" class="w-full h-48 object-cover">
         <div class="project-content p-6">
-            <h3 id="panel-title" class="text-lg md:text-2xl font-bold mb-4 flex-shrink-0"></h3>
+            <h3 id="panel-title" class="text-lg md:text-1xl font-bold mb-4 flex-shrink-0" data-i18n="${card.dataset.title}"></h3>
             <p class="text-slate-400 mb-4" data-i18n="${card.dataset.i18nDesc}">Description</p>
         </div>
     `;
