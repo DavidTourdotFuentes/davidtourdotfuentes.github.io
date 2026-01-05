@@ -144,6 +144,30 @@ document.addEventListener('mouseup', () => {
     cursorFollower.classList.remove('cursor-follower-active');
 });
 
+
+// Mobile
+document.addEventListener('touchmove', (e) => {
+  const touch = e.touches[0];
+  if (!touch) return;
+
+  cursor.style.left = touch.clientX + 'px';
+  cursor.style.top = touch.clientY + 'px';
+
+  cursorFollower.style.left = touch.clientX + 'px';
+  cursorFollower.style.top = touch.clientY + 'px';
+}, { passive: true });
+
+document.addEventListener('touchstart', () => {
+  cursor.classList.add('cursor-active');
+  cursorFollower.classList.add('cursor-follower-active');
+});
+
+document.addEventListener('touchend', () => {
+  cursor.classList.remove('cursor-active');
+  cursorFollower.classList.remove('cursor-follower-active');
+});
+
+
 // Add cursor effects to interactive elements
 const interactiveElements = document.querySelectorAll('a, button, .project-card, .software-card, .tool-item, .soundcloud-embed');
 
