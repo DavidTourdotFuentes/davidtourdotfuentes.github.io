@@ -193,14 +193,12 @@ projectCards.forEach(card => {
 
         panelBg.style.backgroundImage = `
             linear-gradient(
-                to top,
-                rgba(30, 41, 59, 1) 0%,
-                rgba(30, 41, 59, 0.9) 10%,
-                rgba(30, 41, 59, 0.35) 30%,
-                rgba(30, 41, 59, 0.2) 50%,
-                rgba(30, 41, 59, 0.35) 70%,
-                rgba(30, 41, 59, 0.9) 90%,
-                rgba(30, 41, 59, 1) 100%
+                160deg, 
+                rgba(12, 23, 33, 1) 0%,
+                rgba(12, 23, 33, 0.7) 35%,
+                rgba(12, 23, 33, 0.0) 60%,
+                rgba(12, 23, 33, 0.1) 75%,
+                rgba(56, 189, 248, 0.15) 100%
             ),
             url('${card.dataset.bg}')
         `;
@@ -234,10 +232,12 @@ projectCards.forEach(card => {
     });
 
     card.innerHTML = `
-        <img src="${card.dataset.icon}" alt="${card.dataset.alt}" class="w-full h-48 object-cover">
+        <div class="relative">
+            <img src="${card.dataset.icon}" alt="${card.dataset.alt}" class="w-full h-48 object-cover block">
+        </div>
         <div class="project-content p-6">
-            <h3 id="panel-title" class="text-lg md:text-1xl font-bold mb-4 flex-shrink-0" data-i18n="${card.dataset.title}"></h3>
-            <p class="text-slate-400 mb-4" data-i18n="${card.dataset.i18nDesc}">Description</p>
+            <h3 class="text-lg md:text-xl font-bold mb-4" data-i18n="${card.dataset.title}"></h3>
+            <p class="text-slate-400 mb-4" data-i18n="${card.dataset.i18nDesc}"></p>
         </div>
     `;
 });
