@@ -123,80 +123,64 @@ backToTopButton.addEventListener('click', () => {
 // Custom cursor
 const cursor = document.querySelector('.cursor');
 const cursorFollower = document.querySelector('.cursor-follower');
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-    
-    setTimeout(() => {
-        cursorFollower.style.left = e.clientX + 'px';
-        cursorFollower.style.top = e.clientY + 'px';
-    }, 75);
-});
+if (isTouchDevice) {
+  cursor.style.display = 'none';
+  cursorFollower.style.display = 'none';
+} else {
 
-document.addEventListener('mousedown', () => {
-    cursor.classList.add('cursor-active');
-    cursorFollower.classList.add('cursor-follower-active');
-});
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        setTimeout(() => {
+            cursorFollower.style.left = e.clientX + 'px';
+            cursorFollower.style.top = e.clientY + 'px';
+        }, 75);
+    });
 
-document.addEventListener('mouseup', () => {
-    cursor.classList.remove('cursor-active');
-    cursorFollower.classList.remove('cursor-follower-active');
-});
-
-
-// Mobile
-document.addEventListener('touchmove', (e) => {
-  const touch = e.touches[0];
-  if (!touch) return;
-
-  cursor.style.left = touch.clientX + 'px';
-  cursor.style.top = touch.clientY + 'px';
-
-  cursorFollower.style.left = touch.clientX + 'px';
-  cursorFollower.style.top = touch.clientY + 'px';
-}, { passive: true });
-
-document.addEventListener('touchstart', () => {
-  cursor.classList.add('cursor-active');
-  cursorFollower.classList.add('cursor-follower-active');
-});
-
-document.addEventListener('touchend', () => {
-  cursor.classList.remove('cursor-active');
-  cursorFollower.classList.remove('cursor-follower-active');
-});
-
-
-// Add cursor effects to interactive elements
-const interactiveElements = document.querySelectorAll('a, button, .project-card, .software-card, .tool-item, .soundcloud-embed');
-
-interactiveElements.forEach(element => {
-    element.addEventListener('mouseenter', () => {
+    document.addEventListener('mousedown', () => {
         cursor.classList.add('cursor-active');
         cursorFollower.classList.add('cursor-follower-active');
     });
-    
-    element.addEventListener('mouseleave', () => {
+
+    document.addEventListener('mouseup', () => {
         cursor.classList.remove('cursor-active');
         cursorFollower.classList.remove('cursor-follower-active');
     });
-});
 
-// Hide cursor on iframe elements
-const iframes = document.querySelectorAll('iframe');
+    // Add cursor effects to interactive elements
+    const interactiveElements = document.querySelectorAll('a, button, .project-card, .software-card, .tool-item, .soundcloud-embed');
 
-iframes.forEach(iframe => {
-  iframe.addEventListener('mouseenter', () => {
-    cursor.classList.add('cursor-hide');
-    cursorFollower.classList.add('cursor-follower-hide');
-  });
+    interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            cursor.classList.add('cursor-active');
+            cursorFollower.classList.add('cursor-follower-active');
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            cursor.classList.remove('cursor-active');
+            cursorFollower.classList.remove('cursor-follower-active');
+        });
+    });
 
-  iframe.addEventListener('mouseleave', () => {
-    cursor.classList.remove('cursor-hide');
-    cursorFollower.classList.remove('cursor-follower-hide');
-  });
-});
+    // Hide cursor on iframe elements
+    const iframes = document.querySelectorAll('iframe');
+
+    iframes.forEach(iframe => {
+    iframe.addEventListener('mouseenter', () => {
+        cursor.classList.add('cursor-hide');
+        cursorFollower.classList.add('cursor-follower-hide');
+    });
+
+    iframe.addEventListener('mouseleave', () => {
+        cursor.classList.remove('cursor-hide');
+        cursorFollower.classList.remove('cursor-follower-hide');
+    });
+    });
+
+}
 
 
 // Portfolio detail panel
@@ -250,8 +234,10 @@ projectCards.forEach(card => {
             document.getElementById('portfolio-panel-title').textContent = getTranslation(card.dataset.title);
             portfolioPanelContent.innerHTML = `
                 <p class="text-slate-400 mb-6 whitespace-pre-wrap flex-1">${getTranslation(card.dataset.i18nLong)}</p>
-                <div class="iframe-container mt-4 flex-shrink-0">
-                    <iframe class="w-full" style="height:${getEmbedHeight(card.dataset.embedType)}" frameborder="0" allow="autoplay" src="${card.dataset.iframe}"></iframe>
+                <div class="iframe-wrapper w-full flex-shrink-0">
+                    <div class="relative w-full aspect-video md:aspect-[16/9]">
+                        <iframe class="absolute inset-0 w-full h-full" allow="autoplay" frameborder="0" src="${card.dataset.iframe}"></iframe>
+                    </div>
                 </div>
             `;
         }
@@ -265,7 +251,7 @@ projectCards.forEach(card => {
     card.innerHTML = `
         <img src="${card.dataset.icon}" alt="${card.dataset.alt}" class="w-full h-48 object-cover">
         <div class="project-content p-6">
-            <h3 class="text-xl font-semibold mb-2" data-i18n="${card.dataset.title}">Title</h3>
+            <h3 id="panel-title" class="text-lg md:text-2xl font-bold mb-4 flex-shrink-0"></h3>
             <p class="text-slate-400 mb-4" data-i18n="${card.dataset.i18nDesc}">Description</p>
         </div>
     `;
