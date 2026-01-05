@@ -165,21 +165,6 @@ if (isTouchDevice) {
         });
     });
 
-    // Hide cursor on iframe elements
-    const iframes = document.querySelectorAll('iframe');
-
-    iframes.forEach(iframe => {
-    iframe.addEventListener('mouseenter', () => {
-        cursor.classList.add('cursor-hide');
-        cursorFollower.classList.add('cursor-follower-hide');
-    });
-
-    iframe.addEventListener('mouseleave', () => {
-        cursor.classList.remove('cursor-hide');
-        cursorFollower.classList.remove('cursor-follower-hide');
-    });
-    });
-
 }
 
 

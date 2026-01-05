@@ -212,6 +212,12 @@ body {
     color: #0f172a;
 }
 
+.iframe-overlay {
+  pointer-events: auto;
+  background: transparent;
+}
+
+
 @media (max-width: 768px) {
     .section {
         padding-top: 100px;
