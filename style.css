@@ -245,5 +245,5 @@ body {
 }
 
 .animate-scale-out {
-    animation: scale-out 0.1s forwards;
+    animation: scale-out 0.05s forwards;
 }
