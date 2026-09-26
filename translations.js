@@ -1,19 +1,39 @@
 let currentLang = 'fr';
 const translations = {};
 
+function parseCSV(text) {
+    const rows = [];
+    let row = [], cell = '', inQuotes = false;
+
+    for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+
+        if (inQuotes) {
+            if (c === '"' && text[i + 1] === '"') { cell += '"'; i++; } // "" -> "
+            else if (c === '"') inQuotes = false;
+            else cell += c;
+        } else {
+            if (c === '"') inQuotes = true;
+            else if (c === ',') { row.push(cell); cell = ''; }
+            else if (c === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
+            else if (c !== '\r') cell += c;
+        }
+    }
+    if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
+    return rows;
+}
+
 function loadTranslations(lang = 'fr') {
     fetch('translations.csv')
         .then(response => response.text())
         .then(text => {
-            const rows = text.trim().split('\n');
-            const headers = rows[0].replace(/\r/g, '').split(','); // ['key', 'en', 'fr']
-            const langIndex = headers.indexOf(lang);
+            const rows = parseCSV(text.trim());
+            const langIndex = rows[0].indexOf(lang);
 
             for (let i = 1; i < rows.length; i++) {
-                const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); // CSV-safe split
-                const key = cols[0];
-                const value = cols[langIndex];
-                translations[key] = value;
+                const key = rows[i][0];
+                if (!key) continue;
+                translations[key] = rows[i][langIndex] ?? '';
             }
 
             applyTranslations(translations);

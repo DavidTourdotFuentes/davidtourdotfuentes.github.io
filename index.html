@@ -36,7 +36,6 @@
                     <a href="#portfolio" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_portfolio">Portfolio</a>
                     <a href="#tools" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_tools">Tools</a>
                     <a href="#contact" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_contact">Contact</a>
-                    <a href="welcome.html" target="_blank" rel="noopener noreferrer" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_doc">Doc</a>
                     
                     <div class="flex items-center space-x-2 ml-4">
                         <button id="lang-fr" class="text-sm px-2 py-1 rounded bg-transparent text-slate-400 hover:text-white hover:scale-105 transition-transform">FR</button>
@@ -123,6 +122,19 @@
             <!-- Projects grid -->
             <div class="project-grid">
 
+                <!-- Furyball -->
+                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-category="audio-integration sound-design"
+                    data-title="project_furyball_title"
+                    data-i18n-desc="project_furyball_desc"
+                    data-i18n-long="project_furyball_long"
+                    data-icon="ressources/FuryBall/art/Affiche.png"
+                    data-bg="ressources/FuryBall/art/Background_2.png"
+                    data-alt="FuryBall : Rebound"
+                    data-embed-type="youtube"
+                    data-iframe="https://www.youtube.com/embed/-gwJ_qL7aWE">
+                </div>
+
                 <!-- Mass Entity Optimization Tool -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
                     data-category="audio-tool"
@@ -133,7 +145,7 @@
                     data-bg="ressources/MEOT/art/Bg.png"
                     data-alt="Mass Entity Optimization : Audio Tool"
                     data-embed-type="youtube"
-                    data-iframe="https://www.youtube.com/embed/HXyH9aJs2qA">
+                    data-iframe="https://www.youtube.com/embed/nACOWAFpqb0">
                 </div>
 
                 <!-- Architect Life -->
@@ -304,6 +316,28 @@
                 </div>
                 
                 <div class="software-grid">
+                    <!-- Reaper -->
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
+                                <img src="/ressources/Generic/Reaper_White.svg" alt="Max MSP" class="w-7 h-7">
+                            </div>
+                            <h4 class="font-medium text-lg">Reaper</h4>
+                        </div>
+                        <p class="text-slate-400 text-sm" data-i18n="reaper_desc">Digital audio workstation for sound design and cinematics mixing</p>
+                    </div>
+
+                    <!-- Bitwig Studio -->
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
+                                <img src="/ressources/Generic/Bitwig_White.svg" alt="Max MSP" class="w-7 h-7">
+                            </div>
+                            <h4 class="font-medium text-lg">Bitwig Studio</h4>
+                        </div>
+                        <p class="text-slate-400 text-sm" data-i18n="bitwig_desc">Virtual instruments and effects for music production.</p>
+                    </div>
+
                     <!-- Wwise -->
                     <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
                         <div class="flex items-center mb-4">
@@ -356,7 +390,7 @@
                             </div>
                             <h4 class="font-medium text-lg">Max MSP</h4>
                         </div>
-                        <p class="text-slate-400 text-sm">Visual programming for interactive audio and installations.</p>
+                        <p class="text-slate-400 text-sm" data-i18n="maxmsp_desc">Visual programming for interactive audio and installations.</p>
                     </div>
 
                     <!-- Ableton Live -->
@@ -370,17 +404,6 @@
                         <p class="text-slate-400 text-sm" data-i18n="ableton_desc">Digital audio workstation for sound design</p>
                     </div>
                     
-                    <!-- Reaper -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="/ressources/Generic/Reaper_White.svg" alt="Max MSP" class="w-7 h-7">
-                            </div>
-                            <h4 class="font-medium text-lg">Reaper</h4>
-                        </div>
-                        <p class="text-slate-400 text-sm" data-i18n="reaper_desc">Digital audio workstation for sound design and cinematics mixing</p>
-                    </div>
-                    
                     <!-- Adobe Audition -->
                     <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
                         <div class="flex items-center mb-4">
@@ -389,18 +412,7 @@
                             </div>
                             <h4 class="font-medium text-lg">Audition</h4>
                         </div>
-                        <p class="text-slate-400 text-sm">Audio voice cleaning and enhancement.</p>
-                    </div>
-                    
-                    <!-- Bitwig Studio -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="/ressources/Generic/Bitwig_White.svg" alt="Max MSP" class="w-7 h-7">
-                            </div>
-                            <h4 class="font-medium text-lg">Bitwig Studio</h4>
-                        </div>
-                        <p class="text-slate-400 text-sm">Virtual instruments and effects for music production.</p>
+                        <p class="text-slate-400 text-sm" data-i18n="audition_desc">Audio voice cleaning and enhancement.</p>
                     </div>
                     
                     <!-- ProTools -->
@@ -412,7 +424,7 @@
                             
                             <h4 class="font-medium text-lg">Pro Tools</h4>
                         </div>
-                        <p class="text-slate-400 text-sm">Industry standard DAW for audio production.</p>
+                        <p class="text-slate-400 text-sm" data-i18n="protools_desc">Industry standard DAW for audio production.</p>
                     </div>
                 </div>
             </div>
@@ -474,7 +486,7 @@
             <div class="relative z-10 w-full h-full p-4 md:p-6 flex flex-col">
 
             <!-- Close button -->
-            <button id="portfolio-panel-close" class="fixed md:absolute top-3 right-4 text-3xl z-50">&times;</button>
+            <button id="portfolio-panel-close" class="fixed md:absolute top-2 right-5 text-3xl z-50">&times;</button>
 
             <!-- FIXED TITLE -->
             <h3 id="portfolio-panel-title" class="text-2xl font-bold mb-4 pr-10 flex-shrink-0"></h3>

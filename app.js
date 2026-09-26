@@ -104,7 +104,6 @@ loadMoreBtn.addEventListener('click', () => {
 
 // Back to top button
 const backToTopButton = document.querySelector('.back-to-top');
-
 window.addEventListener('scroll', () => {
     if (window.pageYOffset > 300) {
         backToTopButton.classList.add('active');
@@ -112,7 +111,6 @@ window.addEventListener('scroll', () => {
         backToTopButton.classList.remove('active');
     }
 });
-
 backToTopButton.addEventListener('click', () => {
     window.scrollTo({
         top: 0,
@@ -187,24 +185,23 @@ function getEmbedHeight(type) {
     }
 }
 
-
 projectCards.forEach(card => {
     card.addEventListener('click', () => {
 
         panelBg.style.backgroundImage = `
             linear-gradient(
                 160deg, 
-                rgba(12, 23, 33, 1) 0%,
+                rgba(12, 23, 33, 0.9) 0%,
                 rgba(12, 23, 33, 0.7) 35%,
                 rgba(12, 23, 33, 0.0) 60%,
-                rgba(12, 23, 33, 0.1) 75%,
+                rgba(12, 23, 33, 0.1) 70%,
                 rgba(56, 189, 248, 0.15) 100%
             ),
             url('${card.dataset.bg}')
         `;
         panelBg.classList.add('panel-bg');
 
-        console.log(getEmbedHeight(card.dataset.embedType));
+        lockScroll();
 
         if(!card.dataset.iframe) {
             // Injection du contenu dans le panel
@@ -244,6 +241,8 @@ projectCards.forEach(card => {
 
 // Fermeture avec animation
 function closePortfolioPanel() {
+    unlockScroll();
+
     const panelContent = portfolioPanel.querySelector('div');
 
     // Ajoute les animations de sortie
@@ -267,3 +266,18 @@ portfolioPanel.addEventListener('click', (e) => {
     if (e.target === portfolioPanel) closePortfolioPanel();
 });
 
+
+function lockScroll() {
+    // Compense la disparition de la scrollbar pour éviter que la page "saute"
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+}
+
+function unlockScroll() {
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+}
