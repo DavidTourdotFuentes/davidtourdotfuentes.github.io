@@ -1,5 +1,5 @@
 // Wrapper FMOD Studio : chargement paresseux, banks, instances et cycle de vie.
-// Signatures vérifiées sur les exemples HTML5 du SDK 2.02.13 (api/studio/examples).
+// Signatures vérifiées sur les exemples HTML5 du SDK 2.03.15 (api/studio/examples).
 
 const FMOD_DIR = 'lib/fmod/';
 const BANK_DIR = 'banks/';
@@ -88,8 +88,16 @@ class FmodEngine {
 
     /** true si le navigateur attend encore un geste pour laisser passer le son (Safari). */
     get isLocked() {
-        // mContext : contexte audio global du runtime FMOD, non documenté, donc accès facultatif.
-        return this.#ready && this.#mixing && globalThis.mContext?.state === 'suspended';
+        return this.#ready && this.#mixing && this.#context?.state === 'suspended';
+    }
+
+    get #usesWorklet() {
+        return this.#output === this.#fmod.OUTPUTTYPE_AUDIOWORKLET;
+    }
+
+    /** Contexte audio du runtime : propriété non documentée, donc accès facultatif. */
+    get #context() {
+        return this.#usesWorklet ? this.#fmod.mContext : this.#fmod.context;
     }
 
     /** À appeler dans un geste utilisateur. Réessayable après un échec. */
@@ -125,10 +133,8 @@ class FmodEngine {
      * À rappeler dans un geste tant que isLocked est vrai.
      */
     unlock() {
-        const name = this.#output === this.#fmod.OUTPUTTYPE_AUDIOWORKLET
-            ? 'OutputAudioWorklet_resumeAudio' : 'OutputWebAudio_resumeAudio';
-        globalThis[name]?.();
-        if (this.isLocked) globalThis.mContext.resume();
+        this.#fmod[this.#usesWorklet ? 'OutputAudioWorklet_resumeAudio' : 'OutputWebAudio_resumeAudio']?.();
+        if (this.isLocked) this.#context.resume();
     }
 
     async #loadRuntime(onProgress) {

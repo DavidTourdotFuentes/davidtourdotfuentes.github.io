@@ -4,8 +4,8 @@ Page statique autonome. L'interface est générée depuis `demos.json` ; rien d'
 
 ## Versions
 
-Runtime FMOD HTML5 **2.02.13**. Exporter les banks avec FMOD Studio **2.02.x** : le runtime 2.02 ne garantit pas la lecture de banks 2.03.
-Pour passer en 2.03, remplacer le runtime et réexporter toutes les banks en même temps.
+Runtime FMOD HTML5 **2.03.15**. Exporter les banks avec FMOD Studio **2.03.x** : le runtime refuse les banks d'une version plus récente que lui.
+Pour changer de version majeure, remplacer le runtime, réexporter toutes les banks et revérifier `unlock()` dans `js/fmod-engine.js`.
 
 ## Exporter les banks
 
