@@ -9,7 +9,7 @@ Pour changer de version majeure, remplacer le runtime, réexporter toutes les ba
 
 ## Exporter les banks
 
-1. Dans FMOD Studio, *Edit > Preferences > Build* : choisir `audio-demos/banks` comme dossier de sortie. FMOD y crée un sous-dossier par plateforme (`Desktop/`).
+1. Dans FMOD Studio, *Edit > Preferences > Build* : choisir `audio-demos/banks` comme dossier de sortie. Les banks doivent se trouver directement dans ce dossier.
 2. Encodage de la plateforme : **Vorbis**. Garder les musiques en streaming.
 3. Créer une bank par démo, y assigner ses events, et ne laisser dans `Master` que ce qui est commun.
 4. *File > Build*. `Master.bank` et `Master.strings.bank` sont toujours nécessaires.
@@ -18,7 +18,7 @@ Viser moins de 3 Mo par bank : elle est téléchargée en entier au lancement.
 
 ## Ajouter une démo
 
-1. Exporter la bank dans `banks/Desktop/`.
+1. Exporter la bank dans `banks/`.
 2. Ajouter une entrée dans `demos.json`. Les chemins de banks sont relatifs à `banks/`.
 
 ```json
@@ -26,7 +26,7 @@ Viser moins de 3 Mo par bank : elle est téléchargée en entier au lancement.
   "id": "footsteps",
   "title": "Pas adaptatifs",
   "description": "Changement de surface et de vitesse en temps réel.",
-  "banks": ["Desktop/footsteps.bank"],
+  "banks": ["footsteps.bank"],
   "events": [
     {
       "path": "event:/Player/Footsteps",

@@ -7,3 +7,6 @@ lib/fmod/doc/
 FModStudioWebProject/.cache/
 FModStudioWebProject/.unsaved/
 FModStudioWebProject/.user/
+
+# Généré par FMOD Studio, inutile à la page
+banks/GUIDs.txt

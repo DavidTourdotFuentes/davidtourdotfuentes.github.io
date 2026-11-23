@@ -1,11 +1,11 @@
 {
-  "sharedBanks": ["Desktop/Master.bank", "Desktop/Master.strings.bank"],
+  "sharedBanks": ["Master.bank", "Master.strings.bank"],
   "demos": [
     {
       "id": "darkest-canopy",
       "title": "Darkest Canopy : musique adaptative",
       "description": "La musique évolue entre exploration et combat. Lancez-la, puis déplacez le curseur pour passer de l'une à l'autre.",
-      "banks": ["Desktop/DarkestCanopy.bank"],
+      "banks": ["DarkestCanopy.bank"],
       "events": [
         {
           "path": "event:/DarkestCanopy/Music",
