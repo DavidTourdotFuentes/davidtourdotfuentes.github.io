@@ -1,0 +1,168 @@
+/* Tokens repris du site (style.css + palette "primary" d'animations.js). */
+:root {
+    --bg: #0c1721;
+    --surface: #1e293b;
+    --surface-deep: #0f172a;
+    --border: #334155;
+    --text: #f8fafc;
+    --text-muted: #cbd5e1;
+    --accent: #38bdf8;
+    --accent-soft: #7dd3fc;
+    --accent-strong: #0369a1;
+    --accent-hover: #075985;
+    --danger: #fca5a5;
+    --warning: #fcd34d;
+    --success: #86efac;
+    --control-border: #64748b;
+    --radius: 0.75rem;
+    --tap: 44px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.6;
+}
+
+main { flex: 1; padding-block: 3rem 4rem; }
+main:focus { outline: none; }
+h1, h2, p { margin: 0; }
+button, input { font: inherit; }
+a { color: var(--accent-soft); }
+
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.wrap { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: 1.5rem; }
+
+.skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -5rem;
+    z-index: 2;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border-radius: 0.5rem;
+}
+.skip-link:focus { top: 1rem; }
+
+/* En-tête et pied */
+.site-header { border-bottom: 1px solid var(--surface); }
+.site-header__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0 1.5rem;
+    padding-block: 0.5rem;
+}
+.brand, .back { display: inline-flex; align-items: center; min-height: var(--tap); text-decoration: none; }
+.brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.back { gap: 0.5rem; color: #e2e8f0; }
+.back:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+.site-footer { border-top: 1px solid var(--surface); padding-block: 2rem; color: #94a3b8; font-size: 0.875rem; text-align: center; }
+
+/* Intro */
+.intro { max-width: 42rem; margin-bottom: 2rem; }
+.intro h1 { font-size: clamp(2.25rem, 6vw, 3rem); line-height: 1.15; margin-bottom: 1rem; }
+.intro p { color: var(--text-muted); font-size: 1.125rem; }
+
+/* Boutons */
+.btn {
+    min-height: var(--tap);
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--control-border);
+    border-radius: 0.5rem;
+    background: transparent;
+    color: var(--text);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.btn:hover:not(:disabled) { background: rgba(56, 189, 248, 0.15); border-color: var(--accent); }
+.btn:disabled { color: #94a3b8; border-color: var(--border); cursor: not-allowed; }
+.btn--primary { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }
+.btn--primary:hover:not(:disabled) { background: var(--accent-hover); }
+.btn--primary:disabled { background: transparent; }
+.btn[aria-pressed="true"],
+.btn[aria-pressed="true"]:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); color: var(--surface-deep); }
+.btn[data-state="missing"] { background: transparent; border: 1px dashed var(--warning); color: var(--warning); }
+
+/* Barre de contrôle */
+.transport {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-bottom: 2rem;
+    padding: 1.25rem;
+    background: var(--surface-deep);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+.transport__power, .transport__master { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; }
+.transport__progress { flex: 1 1 100%; order: 1; width: 100%; height: 6px; accent-color: var(--accent); }
+.transport output { min-width: 3.5rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.status { display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); }
+.status__dot { flex: none; width: 0.75rem; height: 0.75rem; border-radius: 50%; background: #94a3b8; }
+.status[data-state="loading"] .status__dot { background: var(--accent); animation: blink 1s ease-in-out infinite alternate; }
+.status[data-state="ready"] .status__dot { background: var(--success); }
+.status[data-state="error"] { color: var(--danger); }
+.status[data-state="error"] .status__dot { background: var(--danger); }
+@keyframes blink { to { opacity: 0.3; } }
+
+.notice {
+    margin-bottom: 2rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--danger);
+    border-radius: var(--radius);
+    color: var(--danger);
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+/* Cartes */
+.demos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 28rem), 1fr)); gap: 2rem; align-items: start; }
+.demo { padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+.demo h2 { font-size: 1.25rem; line-height: 1.3; margin-bottom: 0.5rem; }
+.demo > p { color: var(--text-muted); }
+.event { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+.event > .btn { min-width: 10rem; }
+.param { margin: 1.25rem 0 0; padding: 0; border: 0; min-width: 0; }
+.param legend, .param label { padding: 0; font-weight: 600; }
+.param__head { display: flex; justify-content: space-between; gap: 1rem; }
+.param output { color: var(--accent-soft); font-variant-numeric: tabular-nums; }
+
+input[type="range"] { min-height: var(--tap); margin: 0; accent-color: var(--accent); cursor: pointer; }
+input[type="range"]:disabled { cursor: not-allowed; opacity: 0.5; }
+.param input[type="range"] { display: block; width: 100%; }
+.transport input[type="range"] { width: 10rem; max-width: 100%; }
+
+.segments { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+.segments .btn { flex: 1 1 auto; }
+
+@media (max-width: 40rem) {
+    .transport__power, .transport__master { width: 100%; column-gap: 0.5rem; }
+    .transport__power .btn, .transport__master .btn, .event > .btn { width: 100%; }
+    .transport input[type="range"] { flex: 1; width: auto; min-width: 4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+}

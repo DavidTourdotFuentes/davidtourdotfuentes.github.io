@@ -1,0 +1,22 @@
+{
+  "sharedBanks": ["Master.bank", "Master.strings.bank"],
+  "demos": [
+    {
+      "id": "footsteps",
+      "title": "Pas adaptatifs",
+      "description": "Exemple de démo : changement de surface et de vitesse en temps réel.",
+      "banks": ["footsteps.bank"],
+      "events": [
+        {
+          "path": "event:/Player/Footsteps",
+          "label": "Marcher",
+          "mode": "loop",
+          "parameters": [
+            { "name": "Surface", "type": "labeled", "labels": ["Herbe", "Pierre", "Bois"] },
+            { "name": "Speed", "type": "continuous", "min": 0, "max": 1, "step": 0.01, "default": 0.5 }
+          ]
+        }
+      ]
+    }
+  ]
+}
