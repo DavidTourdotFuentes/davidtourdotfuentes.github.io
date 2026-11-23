@@ -37,23 +37,23 @@ function loadTranslations(lang = 'fr') {
             }
 
             applyTranslations(translations);
+            document.dispatchEvent(new Event('translationschange'));
         })
         .catch(err => console.error('Erreur de chargement des traductions :', err));
 }
 
 function applyTranslations(translations) {
     for (const key in translations) {
-        const el = document.querySelector(`[data-i18n="${key}"]`);
-        if (!el) continue;
-
         const text = translations[key];
 
-        // Si le texte contient <br>, <strong>, <em>, etc., on injecte en HTML
-        if (/<\/?[a-z][\s\S]*>/i.test(text)) {
-            el.innerHTML = text;
-        } else {
-            el.textContent = text;
-        }
+        document.querySelectorAll(`[data-i18n="${key}"]`).forEach(el => {
+            // Si le texte contient <br>, <strong>, <em>, etc., on injecte en HTML
+            if (/<\/?[a-z][\s\S]*>/i.test(text)) {
+                el.innerHTML = text;
+            } else {
+                el.textContent = text;
+            }
+        });
     }
 }
 

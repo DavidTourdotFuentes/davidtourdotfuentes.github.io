@@ -58,7 +58,6 @@ project_aa_long,Alpha Alpha is a 4-episode series created by the directing stude
 project_spring_title,Spring : Soundtrack Exercise (2021),Spring : Exercice Bande Son (2021)
 project_spring_desc,Recomposition of the soundtrack for the short film Blender Spring,Recomposition de la bande son du court métrage Blender Spring
 project_spring_long,Spring is a short film created on Blender and made available during a composition competition. This is therefore my version of the soundtrack of this short film composed on Blender.,Spring est un court métrage créé sur Blender et mis a disposition lors d'un concours de composition. Ceci est donc ma version de la bande son de ce court métrage composé sur Blender.
-load_more,Load More Projects,Plus de projets
 tools,Software & Hardware,Logiciels & Matériel Audio
 software,Software,Logiciels
 reaper_desc,Digital audio workstation for sound design and cinematics mixing<br>Main working tool that I use every day for Sound Design,Station de travail audio numérique pour le design sonore et le mixage de cinématiques<br>Outil de travail principal que j'utilise au quotidien pour du Sound Design
@@ -75,3 +74,34 @@ contact,Contact,Contact
 get_in_touch,Get in touch,Entrer en contact
 contact_text,For project inquiries or collaborations feel free to reach out via email.,Pour des demandes de projets ou collaborations n'hésitez pas à me contacter par email.
 copyright,© 2023 David Tourdot-Fuentes. All rights reserved.,© 2023 David Tourdot-Fuentes. Tous droits réservés.
+cards_welcome_title,Welcome! Here is your first booster,Bienvenue ! Voici votre premier booster
+cards_welcome_text,This portfolio is a card collection: open boosters to discover my projects and my tools.,Ce portfolio est une collection de cartes : ouvrez des boosters pour découvrir mes projets et mes outils.
+cards_pack_title,New booster,Nouveau booster
+cards_pack_text,Only cards you have not discovered yet.,Uniquement des cartes que vous n'avez pas encore découvertes.
+cards_open_hint,"Swipe across the pack to tear it open, or click on it","Glissez sur le paquet pour le déchirer, ou cliquez dessus"
+cards_flip_hint,Click on the card to flip it,Cliquez sur la carte pour la retourner
+cards_next_hint,Click again for the next card,Cliquez encore pour la carte suivante
+cards_end_hint,Click again to see your booster,Cliquez encore pour voir votre booster
+cards_summary_title,Your booster,Votre booster
+cards_summary_hint,These cards have been added to your collection,Ces cartes ont rejoint votre collection
+cards_face_down,Face-down card,Carte face cachée
+cards_skip,Reveal everything,Tout retourner
+cards_later,Later,Plus tard
+cards_open_booster,Open a booster,Ouvrir un booster
+cards_again,Open another booster,Ouvrir un autre booster
+cards_see_collection,See my collection,Voir ma collection
+cards_reveal_all,See the whole portfolio,Voir tout le portfolio
+cards_reset,Start over,Recommencer
+cards_reset_confirm,Hide all the cards again and start over?,Cacher à nouveau toutes les cartes et recommencer ?
+cards_collection,Collection,Collection
+cards_complete,Collection complete!,Collection complète !
+cards_hidden,Undiscovered card,Carte non découverte
+cards_new,New,Nouveau
+type_project,Project,Projet
+type_software,Software,Logiciel
+type_hardware,Hardware,Matériel
+rarity_common,Common,Commune
+rarity_rare,Rare,Rare
+rarity_ultra,Ultra rare,Ultra rare
+rarity_legendary,Legendary,Légendaire
+cards_close,Close,Fermer
