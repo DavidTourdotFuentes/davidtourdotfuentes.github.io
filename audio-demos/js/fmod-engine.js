@@ -8,7 +8,7 @@ const DSP_BUFFER_COUNT = 2;
 const MAX_CHANNELS = 256;
 const IDLE_DELAY_MS = 500; // Laisse finir les dernières traînes avant de suspendre le mixeur.
 
-/** code : "missing-fmod", "missing-bank", "fmod" ou "released". */
+/** code : "missing-fmod", "missing-bank", "bank-version", "fmod" ou "released". */
 export class EngineError extends Error {
     constructor(code, message, options) {
         super(message, options);
@@ -369,7 +369,8 @@ class FmodEngine {
         if (result === this.#fmod.OK) return;
         const detail = this.#fmod.ErrorString(result);
         console.error(`[FMOD] ${action} : erreur ${result}, ${detail}`);
-        throw new EngineError('fmod', `${action} a échoué (code ${result}).`, { cause: detail });
+        const code = result === this.#fmod.ERR_VERSION ? 'bank-version' : 'fmod';
+        throw new EngineError(code, `${action} a échoué (code ${result}).`, { cause: detail });
     }
 }
 

@@ -95,6 +95,7 @@ function describe(error) {
     if (!(error instanceof EngineError)) return 'Erreur audio inattendue';
     if (error.code === 'missing-fmod') return 'Fichiers FMOD manquants';
     if (error.code === 'missing-bank') return 'Bank manquante';
+    if (error.code === 'bank-version') return 'Bank incompatible avec la version du moteur FMOD';
     return `Erreur FMOD : ${error.message}`;
 }
 

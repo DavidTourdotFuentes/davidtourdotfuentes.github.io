@@ -5,7 +5,7 @@
       "id": "darkest-canopy",
       "title": "Darkest Canopy : musique adaptative",
       "description": "La musique évolue entre exploration et combat. Lancez-la, puis déplacez le curseur pour passer de l'une à l'autre.",
-      "banks": [],
+      "banks": ["Desktop/DarkestCanopy.bank"],
       "events": [
         {
           "path": "event:/DarkestCanopy/Music",
@@ -24,45 +24,6 @@
             }
           ]
         }
-      ]
-    },
-    {
-      "id": "portfolio-music",
-      "title": "Musique à structure variable",
-      "description": "Plusieurs parties s'enchaînent avec des transitions aléatoires : l'ordre change à chaque écoute.",
-      "banks": [],
-      "events": [
-        {
-          "path": "event:/Music/Music",
-          "label": "Musique",
-          "mode": "loop",
-          "parameters": [
-            {
-              "name": "MusicState_param",
-              "label": "Présence de la musique",
-              "type": "continuous",
-              "global": true,
-              "min": 0,
-              "max": 1,
-              "step": 0.01,
-              "default": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "ui-sounds",
-      "title": "Sons d'interface",
-      "description": "Les sons créés pour la navigation et les cartes de projets.",
-      "banks": [],
-      "events": [
-        { "path": "event:/Generic/ClickButton", "label": "Clic", "mode": "oneshot" },
-        { "path": "event:/Generic/HoverLink", "label": "Survol d'un lien", "mode": "oneshot" },
-        { "path": "event:/Generic/StartExperience", "label": "Démarrage", "mode": "oneshot" },
-        { "path": "event:/ProjectsPage/SwapToFront", "label": "Carte vers l'avant", "mode": "oneshot" },
-        { "path": "event:/ProjectsPage/SwapToBack", "label": "Carte vers l'arrière", "mode": "oneshot" },
-        { "path": "event:/ProjectsPage/CardHover", "label": "Survol d'une carte", "mode": "loop" }
       ]
     }
   ]
