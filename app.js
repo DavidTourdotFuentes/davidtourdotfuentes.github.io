@@ -59,8 +59,10 @@ const projectCards = document.querySelectorAll('.project-card');
 filterButtons.forEach(button => {
     button.addEventListener('click', () => {
         // Update active button
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
+        filterButtons.forEach(btn => {
+            btn.classList.toggle('active', btn === button);
+            btn.setAttribute('aria-pressed', btn === button);
+        });
         
         const filter = button.dataset.filter;
 
@@ -207,13 +209,15 @@ projectCards.forEach(card => {
             // Injection du contenu dans le panel
             document.getElementById('portfolio-panel-title').textContent = getTranslation(card.dataset.title);
             portfolioPanelContent.innerHTML = `
-                <p class="text-slate-400 mb-6 whitespace-pre-wrap flex-1">${getTranslation(card.dataset.i18nLong)}</p>
+                <p class="panel-text">${getTranslation(card.dataset.i18nLong)}</p>
             `;
         } else {
             // Injection du contenu dans le panel
             document.getElementById('portfolio-panel-title').textContent = getTranslation(card.dataset.title);
             portfolioPanelContent.innerHTML = `
-                <p class="text-slate-400 mb-6 whitespace-pre-wrap flex-1">${getTranslation(card.dataset.i18nLong)}</p>
+                <div class="flex-1">
+                    <p class="panel-text">${getTranslation(card.dataset.i18nLong)}</p>
+                </div>
                 <div class="iframe-wrapper w-full flex-shrink-0">
                     <div class="relative w-full aspect-video md:aspect-[16/9]">
                         <iframe class="absolute inset-0 w-full h-full" allow="autoplay" frameborder="0" src="${card.dataset.iframe}"></iframe>

@@ -161,6 +161,17 @@ body {
     overflow: hidden;
 }
 
+/* Fond propre au texte : lisible quelle que soit l'image derrière */
+.panel-text {
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    background-color: rgba(12, 23, 33, 0.65);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    color: #e2e8f0;
+    white-space: pre-wrap;
+}
+
 /* Software grid */
 .software-grid {
     display: grid;
@@ -204,14 +215,112 @@ body {
     background-color: rgba(56, 189, 248, 0.4);
 }
 
-/* Filter buttons */
-.filter-btn {
-    transition: all 0.3s ease;
+/* Sélecteur segmenté : une seule gélule pour plusieurs choix (langue, filtres) */
+.segmented {
+    position: relative;
+    display: inline-flex;
+    padding: 4px;
+    border: 1px solid #334155;
+    border-radius: 999px;
+    background-color: #1e293b;
 }
 
-.filter-btn.active {
+.segmented__btn {
+    position: relative;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    color: #cbd5e1;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.segmented__btn:not(.active):hover {
+    color: #ffffff;
+    background-color: rgba(56, 189, 248, 0.15);
+}
+
+.segmented__btn:focus-visible {
+    outline: 2px solid #7dd3fc;
+    outline-offset: 2px;
+}
+
+.segmented__btn.active {
     background-color: #38bdf8;
     color: #0f172a;
+}
+
+/* Langue : le curseur glisse d'un choix à l'autre */
+.segmented--lang {
+    padding: 2px;
+}
+
+.segmented--lang .segmented__btn {
+    width: 2.5rem;
+    padding: 0.125rem 0;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    background-color: transparent;
+}
+
+.segmented--lang::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 2px;
+    width: 2.5rem;
+    border-radius: 999px;
+    background-color: #38bdf8;
+    transition: transform 0.25s ease;
+}
+
+.segmented--lang[data-lang="en"]::before {
+    transform: translateX(100%);
+}
+
+/* Filtres : segments droits et jointifs, seuls les bords extérieurs sont arrondis par le cadre */
+.segmented--filters {
+    padding: 0;
+    overflow: hidden;
+}
+
+.segmented--filters .segmented__btn {
+    padding: 0.625rem 1.125rem;
+    border-radius: 0;
+}
+
+.segmented--filters .segmented__btn + .segmented__btn {
+    border-left: 1px solid #334155;
+}
+
+.segmented--filters .segmented__btn:focus-visible {
+    outline-offset: -3px;
+}
+
+@media (max-width: 768px) {
+    /* Grille dans le même cadre : tous les filtres restent visibles */
+    .segmented--filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-radius: 1.5rem;
+    }
+
+    .segmented--filters .segmented__btn:first-child {
+        grid-column: 1 / -1;
+    }
+
+    .segmented--filters .segmented__btn {
+        padding-inline: 0.5rem;
+    }
+
+    .segmented--filters .segmented__btn + .segmented__btn {
+        border-top: 1px solid #334155;
+    }
+
+    .segmented--filters .segmented__btn:nth-child(even) {
+        border-left: 0;
+    }
 }
 
 .iframe-overlay {

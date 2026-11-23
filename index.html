@@ -79,15 +79,15 @@
             <div class="flex justify-between items-center">
                 <a href="#home" class="text-2xl font-bold gradient-text hover:animate-pulse">David Tourdot-Fuentes</a>
                 
-                <div class="hidden md:flex space-x-8">
+                <div class="hidden md:flex items-center space-x-8">
                     <a href="#portfolio" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_portfolio">Portfolio</a>
                     <a href="#tools" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_tools">Tools</a>
                     <a href="audio-demos/" class="nav-link whitespace-nowrap text-slate-200 hover:text-white" data-i18n="nav_audio_demos">Démos audio</a>
                     <a href="#contact" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_contact">Contact</a>
                     
-                    <div class="flex items-center space-x-2 ml-4">
-                        <button id="lang-fr" class="text-sm px-2 py-1 rounded bg-transparent text-slate-400 hover:text-white hover:scale-105 transition-transform">FR</button>
-                        <button id="lang-en" class="text-sm px-2 py-1 rounded bg-primary-700 text-white hover:scale-105 transition-transform">EN</button>
+                    <div class="segmented segmented--lang" role="group" aria-label="Langue / Language">
+                        <button type="button" class="segmented__btn" data-set-lang="fr">FR</button>
+                        <button type="button" class="segmented__btn" data-set-lang="en">EN</button>
                     </div>
                 </div>
                 
@@ -108,9 +108,9 @@
                 <a href="audio-demos/" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_audio_demos">Démos audio</a>
                 <a href="#contact" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_contact">Contact</a>
                 
-                <div class="flex space-x-2 pt-2">
-                    <button id="mobile-lang-en" class="text-sm px-2 py-1 rounded bg-primary-700 text-white hover:scale-105 transition-transform">EN</button>
-                    <button id="mobile-lang-fr" class="text-sm px-2 py-1 rounded bg-transparent text-slate-400 hover:text-white hover:scale-105 transition-transform">FR</button>
+                <div class="segmented segmented--lang" role="group" aria-label="Langue / Language">
+                    <button type="button" class="segmented__btn" data-set-lang="fr">FR</button>
+                    <button type="button" class="segmented__btn" data-set-lang="en">EN</button>
                 </div>
             </div>
         </div>
@@ -160,16 +160,31 @@
             <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center gradient-text animate-fade-in" data-i18n="portfolio">Portfolio</h2>
             
             <!-- Project filters -->
-            <div class="flex flex-wrap justify-center gap-3 mb-8 animate-fade-in">
-                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white active" data-filter="all" data-i18n="tags_all">All Projects</button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white" data-filter="sound-design" data-i18n="tags_sd">Sound Design</button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white" data-filter="soundtrack" data-i18n="tags_soundtrack">Soundtrack</button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white" data-filter="audio-integration" data-i18n="tags_ai">Audio Integration</button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white" data-filter="audio-tool" data-i18n="tags_at">Audio Tool</button>
+            <div class="text-center mb-8 animate-fade-in">
+                <div class="segmented segmented--filters">
+                    <button type="button" class="segmented__btn filter-btn active" aria-pressed="true" data-filter="all" data-i18n="tags_all">All Projects</button>
+                    <button type="button" class="segmented__btn filter-btn" aria-pressed="false" data-filter="sound-design" data-i18n="tags_sd">Sound Design</button>
+                    <button type="button" class="segmented__btn filter-btn" aria-pressed="false" data-filter="soundtrack" data-i18n="tags_soundtrack">Soundtrack</button>
+                    <button type="button" class="segmented__btn filter-btn" aria-pressed="false" data-filter="audio-integration" data-i18n="tags_ai">Audio Integration</button>
+                    <button type="button" class="segmented__btn filter-btn" aria-pressed="false" data-filter="audio-tool" data-i18n="tags_at">Audio Tool</button>
+                </div>
             </div>
             
             <!-- Projects grid -->
             <div class="project-grid">
+
+                <!-- Mallow -->
+                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-category="sound-design"
+                    data-title="project_mallow_title"
+                    data-i18n-desc="project_mallow_desc"
+                    data-i18n-long="project_mallow_long"
+                    data-icon="ressources/Mallow/art/Banner.png"
+                    data-bg="ressources/Mallow/art/Background.jpeg"
+                    data-alt="Mallow : Sound Design"
+                    data-embed-type="youtube"
+                    data-iframe="">
+                </div>
 
                 <!-- Furyball -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
@@ -179,9 +194,22 @@
                     data-i18n-long="project_furyball_long"
                     data-icon="ressources/FuryBall/art/Affiche.png"
                     data-bg="ressources/FuryBall/art/Background_2.png"
-                    data-alt="FuryBall : Rebound"
+                    data-alt="FuryBall : Sound Design"
                     data-embed-type="youtube"
                     data-iframe="https://www.youtube.com/embed/-gwJ_qL7aWE">
+                </div>
+
+                <!-- Mechanicus II -->
+                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-category="sound-design"
+                    data-title="project_mechanicus_title"
+                    data-i18n-desc="project_mechanicus_desc"
+                    data-i18n-long="project_mechanicus_long"
+                    data-icon="ressources/Mechanicus/art/Background.jpg"
+                    data-bg="ressources/Mechanicus/art/Background.jpg"
+                    data-alt="Mechanicus II : Sound Design"
+                    data-embed-type="youtube"
+                    data-iframe="https://www.youtube.com/embed/ekWDGK76-tA">
                 </div>
 
                 <!-- Mass Entity Optimization Tool -->
