@@ -1,6 +1,6 @@
 # Fichiers du SDK FMOD
 
-Copier ici, depuis le SDK **FMOD Engine HTML5** (dossier `api/studio/lib/wasm/`) :
+Copier ici, depuis le SDK **FMOD Engine HTML5** (dossier `api/studio/lib/upstream/wasm/`) :
 
 - `fmodstudio.js`
 - `fmodstudio.wasm`

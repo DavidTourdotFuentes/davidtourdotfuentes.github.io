@@ -1,0 +1,9 @@
+# SDK FMOD complet : seuls fmodstudio.js et fmodstudio.wasm sont publiés.
+lib/fmod/api/
+lib/fmod/bin/
+lib/fmod/doc/
+
+# Caches de FMOD Studio
+FModStudioWebProject/.cache/
+FModStudioWebProject/.unsaved/
+FModStudioWebProject/.user/
