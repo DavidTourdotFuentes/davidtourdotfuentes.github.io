@@ -1,7 +1,7 @@
 // Point d'entrée : lit le manifeste, le valide et construit l'UI.
 import { EngineError, engine } from './fmod-engine.js';
 import {
-    perFrame, renderDemos, setEventPlaying, setEventState, setProgress, setStatus, showPageError,
+    initialValue, perFrame, renderDemos, setEventPlaying, setEventState, setStatus, showPageError,
 } from './ui.js';
 import { watchCards, watchPage } from './visibility.js';
 
@@ -13,7 +13,22 @@ function validateParameter(p, at, errors) {
     if (p?.label !== undefined && !isText(p.label)) errors.push(`${at}.label : texte attendu`);
     if (p?.global !== undefined && typeof p.global !== 'boolean') errors.push(`${at}.global : true ou false attendu`);
 
-    if (p?.type === 'labeled') {
+    if (p?.reversed !== undefined && typeof p.reversed !== 'boolean') errors.push(`${at}.reversed : true ou false attendu`);
+    if (p?.ends !== undefined && !(isTextList(p.ends) && p.ends.length === 2)) errors.push(`${at}.ends : deux textes attendus`);
+
+    if (p?.type === 'stepped') {
+        if (!isTextList(p.labels) || p.labels.length < 2) errors.push(`${at}.labels : au moins deux textes attendus`);
+        else if (!Number.isInteger(p.min)) errors.push(`${at}.min : entier attendu`);
+        else if (p.default !== undefined && !(Number.isInteger(p.default) && p.default >= p.min && p.default < p.min + p.labels.length)) {
+            errors.push(`${at}.default : valeur d'un cran attendue`);
+        }
+    } else if (p?.type === 'toggle') {
+        if (!(isTextList(p.labels) && p.labels.length === 2)) errors.push(`${at}.labels : deux textes attendus`);
+        if (!(Array.isArray(p.values) && p.values.length === 2 && p.values.every(Number.isFinite) && p.values[0] !== p.values[1])) {
+            errors.push(`${at}.values : deux nombres différents attendus`);
+        }
+        if (p.default !== undefined && p.default !== 0 && p.default !== 1) errors.push(`${at}.default : 0 ou 1 attendu`);
+    } else if (p?.type === 'labeled') {
         if (!isTextList(p.labels)) {
             errors.push(`${at}.labels : liste de textes non vide attendue`);
         } else if (p.default !== undefined && !(Number.isInteger(p.default) && p.default >= 0 && p.default < p.labels.length)) {
@@ -27,7 +42,7 @@ function validateParameter(p, at, errors) {
         }
         if (p.step !== undefined && !(Number.isFinite(p.step) && p.step > 0)) errors.push(`${at}.step : nombre positif attendu`);
     } else {
-        errors.push(`${at}.type : "continuous" ou "labeled" attendu`);
+        errors.push(`${at}.type : "continuous", "stepped", "toggle" ou "labeled" attendu`);
     }
 }
 
@@ -58,6 +73,12 @@ function validateManifest(manifest) {
             if (!isText(event?.path)) errors.push(`${atEvent}.path : texte attendu`);
             if (!isText(event?.label)) errors.push(`${atEvent}.label : texte attendu`);
             if (!['oneshot', 'loop'].includes(event?.mode)) errors.push(`${atEvent}.mode : "oneshot" ou "loop" attendu`);
+            if (event?.spatial !== undefined) {
+                const { distance, listener } = event.spatial ?? {};
+                const isPair = (v) => Array.isArray(v) && v.length === 2 && v.every(Number.isFinite);
+                if (!isPair(distance) || distance[0] < 0 || distance[0] >= distance[1]) errors.push(`${atEvent}.spatial.distance : [min, max] attendu, avec min < max`);
+                if (!isPair(listener)) errors.push(`${atEvent}.spatial.listener : [x, z] attendu`);
+            }
             if (event?.parameters === undefined) return;
             if (!Array.isArray(event.parameters)) errors.push(`${atEvent}.parameters : liste attendue`);
             else event.parameters.forEach((p, i) => validateParameter(p, `${atEvent}.parameters[${i}]`, errors));
@@ -83,13 +104,15 @@ async function loadManifest() {
 }
 
 const $ = (id) => document.getElementById(id);
-const activate = $('activate');
-const stopAll = $('stop-all');
 const volume = $('master-volume');
 
 const slots = new Map(); // event du manifeste → { button, demo, handle }
-const values = new Map(); // paramètre du manifeste → valeur courante
+const values = new Map(); // paramètre du manifeste → valeur choisie
+const displays = new Map(); // paramètre du manifeste → fonction qui ajoute sa valeur temps réel à sa courbe
+const maps = new Map(); // event 3D du manifeste → vue de dessus
+const listeners = new Map(); // event 3D du manifeste → position { x, z } du listener
 let manifest = null;
+let lastRequest = 0; // numéro du dernier lancement demandé, pour que le plus récent l'emporte
 
 function describe(error) {
     if (!(error instanceof EngineError)) return 'Erreur audio inattendue';
@@ -113,58 +136,66 @@ function attempt(action) {
     }
 }
 
-function setControlsEnabled(enabled) {
-    volume.disabled = !enabled;
-    stopAll.disabled = !enabled;
-}
-
 let lockTimer = 0;
 function showReady() {
     setStatus('ready', 'Audio prêt');
     // Le contexte audio met un instant à redémarrer : on ne conclut au blocage qu'après ce délai.
     clearTimeout(lockTimer);
     lockTimer = setTimeout(() => {
-        if (engine.isLocked) setStatus('ready', 'Touchez la page pour activer le son');
+        if (engine.isLocked) setStatus('locked', 'Touchez la page pour activer le son');
     }, 500);
 }
 
 function showInactive() {
     clearTimeout(lockTimer);
-    activate.disabled = false;
-    activate.textContent = "Activer l'audio";
-    setControlsEnabled(false);
     setStatus('idle', 'Audio inactif');
 }
 
 /** Démarre le moteur au premier geste ; sans effet s'il est déjà prêt. */
 async function ensureEngine() {
     if (engine.isReady) return;
-    activate.disabled = true;
-    setProgress(0);
     setStatus('loading', 'Chargement du moteur audio…');
-    try {
-        await engine.init({ sharedBanks: manifest.sharedBanks, onProgress: setProgress });
-    } catch (error) {
-        activate.disabled = false;
-        throw error;
-    }
-    activate.textContent = 'Audio activé';
-    setControlsEnabled(true);
+    await engine.init({ sharedBanks: manifest.sharedBanks });
     showReady();
 }
 
-function applyParam(slot, param, value) {
-    if (param.global) engine.setGlobalParam(param.name, value);
-    else if (slot?.handle) engine.setParam(slot.handle, param.name, value);
+function applyParam(slot, param, value, options) {
+    if (param.global) engine.setGlobalParam(param.name, value, options);
+    else if (slot?.handle) engine.setParam(slot.handle, param.name, value, options);
+}
+
+/** Transmet aux courbes et aux cartes les valeurs temps réel des seuls events en cours de lecture. */
+function showLiveValues() {
+    for (const [event, slot] of slots) {
+        const { handle } = slot;
+        if (!handle) continue;
+        if (event.spatial && !slot.hasRange) {
+            const range = engine.getDistanceRange(handle);
+            if (range) {
+                slot.hasRange = true;
+                maps.get(event).setRange(range);
+            }
+        }
+        for (const param of event.parameters ?? []) {
+            const show = displays.get(param);
+            if (show) show(param.global ? engine.getGlobalParam(param.name) : engine.getParam(handle, param.name));
+        }
+    }
 }
 
 async function start(slot, event) {
+    const request = ++lastRequest;
     setEventState(slot.button, 'loading');
     await ensureEngine();
+    setStatus('loading', 'Chargement de la démo…');
     await engine.loadBanks(slot.demo.banks);
     setEventState(slot.button, 'idle');
+    if (request !== lastRequest) return; // un autre event a été demandé pendant le chargement
 
+    stopEverything(); // un seul event à la fois
+    if (event.spatial) engine.setListener(listeners.get(event));
     const handle = engine.play(event.path, {
+        position: event.spatial && { x: 0, z: 0 },
         onStopped: () => {
             if (slot.handle !== handle) return;
             slot.handle = null;
@@ -172,8 +203,11 @@ async function start(slot, event) {
         },
     });
     slot.handle = handle;
+    slot.hasRange = false; // relu à chaque lancement
+    maps.get(event)?.pulse();
     if (event.mode === 'loop') setEventPlaying(slot.button, true);
-    for (const param of event.parameters ?? []) applyParam(slot, param, values.get(param));
+    // Au départ, l'event prend directement la valeur choisie ; le seek ne joue que sur les changements suivants.
+    for (const param of event.parameters ?? []) applyParam(slot, param, values.get(param), { immediate: true });
     showReady();
 }
 
@@ -191,6 +225,11 @@ function stopLoops(demo) {
     }
 }
 
+function stopEverything() {
+    stopLoops();
+    engine.stopAll({ fade: true });
+}
+
 async function onTrigger(button, demo, event) {
     const slot = slots.get(event) ?? { button, demo, handle: null };
     slots.set(event, slot);
@@ -200,6 +239,7 @@ async function onTrigger(button, demo, event) {
         if (event.mode === 'loop' && slot.handle) stop(slot);
         else await start(slot, event);
     } catch (error) {
+        attempt(() => stop(slot)); // Un paramètre refusé ne doit pas laisser l'event jouer.
         const states = { 'missing-bank': 'missing', 'missing-fmod': 'idle', released: 'idle' };
         setEventState(button, states[error.code] ?? 'error');
         if (error.code !== 'released') reportError(error);
@@ -211,12 +251,10 @@ function onParam(event, param, value) {
     attempt(() => applyParam(slots.get(event), param, value));
 }
 
-activate.addEventListener('click', () => ensureEngine().catch(reportError));
-
-stopAll.addEventListener('click', () => attempt(() => {
-    stopLoops();
-    engine.stopAll({ fade: true });
-}));
+function onListener(event, position) {
+    listeners.set(event, position);
+    attempt(() => engine.setListener(position));
+}
 
 const sendVolume = perFrame((value) => attempt(() => engine.setMasterVolume(value)));
 volume.addEventListener('input', () => {
@@ -231,27 +269,27 @@ document.addEventListener('click', () => {
     showReady();
 });
 
+engine.onUpdate = showLiveValues;
 engine.onFailure = (error) => {
     showInactive();
     reportError(error);
 };
 
 async function main() {
-    activate.disabled = true;
     if (typeof WebAssembly !== 'object') {
         showPageError('Votre navigateur ne prend pas en charge WebAssembly, nécessaire au moteur audio.');
         return;
     }
     manifest = await loadManifest();
-    activate.disabled = false;
 
     for (const event of manifest.demos.flatMap((demo) => demo.events)) {
+        if (event.spatial) listeners.set(event, { x: event.spatial.listener[0], z: event.spatial.listener[1] });
         for (const param of event.parameters ?? []) {
-            values.set(param, param.default ?? (param.type === 'labeled' ? 0 : param.min));
+            values.set(param, initialValue(param));
         }
     }
 
-    const cards = renderDemos($('demos'), manifest.demos, { onTrigger, onParam });
+    const cards = renderDemos($('demos'), manifest.demos, { onTrigger, onParam, onListener, displays, maps });
     watchCards(cards.keys(), (card) => attempt(() => stopLoops(cards.get(card))));
     watchPage(engine, { onError: reportError, onReleased: showInactive });
 }

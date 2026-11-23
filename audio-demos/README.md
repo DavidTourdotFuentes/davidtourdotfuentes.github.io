@@ -47,9 +47,26 @@ Viser moins de 3 Mo par bank : elle est téléchargée en entier au lancement.
 | `mode` | `"oneshot"` (déclenche) ou `"loop"` (bascule marche/arrêt) |
 | `parameters[].name` | Nom exact du paramètre dans FMOD Studio |
 | `parameters[].label` | Texte affiché, facultatif (le nom par défaut) |
-| `parameters[].type` | `"continuous"` (curseur) ou `"labeled"` (valeur = index du label) |
+| `parameters[].type` | Type de contrôle, voir ci-dessous |
 | `parameters[].global` | `true` pour un paramètre global du projet |
 | `parameters[].default` | Valeur de départ, facultative |
+
+Event 3D : ajouter `"spatial": { "distance": [min, max], "listener": [x, z] }` à l'event pour afficher la vue de dessus.
+`distance` n'est que l'affichage avant le premier lancement ; les vraies distances (celles du spatializer en « Override Range », sinon celles de l'event) sont lues à chaque lancement.
+`listener` est la position de départ (x vers la droite, z vers le haut de la carte).
+
+Types de contrôle :
+
+| `type` | Contrôle | Champs propres |
+|---|---|---|
+| `"continuous"` | Curseur | `min`, `max`, `step` ; `reversed: true` met le maximum à gauche ; `ends` : deux textes aux extrémités |
+| `"stepped"` | Curseur à crans nommés | `labels` ; `min` : valeur du premier cran, puis +1 par cran |
+| `"toggle"` | Interrupteur | `labels` et `values` : deux textes et leurs deux valeurs ; `default` : `0` ou `1` |
+| `"labeled"` | Boutons | `labels` (valeur = index du label) |
+
+Sauf pour `"labeled"`, une courbe montre la valeur temps réel du paramètre (seek compris). Elle défile pendant la lecture de l'event et se fige à l'arrêt. Pour `"stepped"`, un repère marque chaque cran atteint.
+Lancer un event arrête celui en cours : un seul joue à la fois.
+Au lancement, l'event prend directement la valeur choisie ; le seek s'applique aux changements suivants.
 
 Un manifeste mal formé affiche la liste des erreurs sur la page.
 

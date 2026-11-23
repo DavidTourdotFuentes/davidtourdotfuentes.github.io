@@ -19,31 +19,25 @@
     <header class="site-header">
         <div class="wrap site-header__inner">
             <a class="brand" href="../index.html">David Tourdot-Fuentes</a>
-            <a class="back" href="../index.html"><span aria-hidden="true">←</span> Portfolio</a>
+            <div class="site-header__tools">
+                <div class="volume">
+                    <label for="master-volume">Volume<span class="volume__more"> général</span></label>
+                    <input id="master-volume" type="range" min="0" max="1" step="0.01" value="1" autocomplete="off">
+                    <output id="master-volume-value" for="master-volume">100 %</output>
+                </div>
+                <a class="back" href="../index.html"><span aria-hidden="true">←</span> Portfolio</a>
+            </div>
         </div>
     </header>
 
     <main id="contenu" class="wrap" tabindex="-1">
         <section class="intro" aria-labelledby="titre">
-            <h1 id="titre">Démos audio</h1>
+            <div class="intro__title">
+                <span id="status-dot" class="dot" data-state="idle" aria-hidden="true"></span>
+                <h1 id="titre">Démos audio</h1>
+            </div>
             <p>Des intégrations FMOD Studio à manipuler directement ici : déclenchez les events, faites varier les paramètres et écoutez le résultat.</p>
-        </section>
-
-        <section class="transport" aria-label="Contrôles audio">
-            <div class="transport__power">
-                <button id="activate" class="btn btn--primary" type="button">Activer l'audio</button>
-                <p id="status" class="status" role="status" aria-live="polite" data-state="idle">
-                    <span class="status__dot" aria-hidden="true"></span>
-                    <span id="status-text">Audio inactif</span>
-                </p>
-            </div>
-            <progress id="progress" class="transport__progress" max="1" value="0" aria-label="Chargement du moteur audio" hidden></progress>
-            <div class="transport__master">
-                <label for="master-volume">Volume général</label>
-                <input id="master-volume" type="range" min="0" max="1" step="0.01" value="1" disabled>
-                <output id="master-volume-value" for="master-volume">100 %</output>
-                <button id="stop-all" class="btn" type="button" disabled>Tout arrêter</button>
-            </div>
+            <p id="status" class="status" role="status" aria-live="polite" data-state="idle">Audio inactif</p>
         </section>
 
         <p id="page-error" class="notice" role="alert" hidden></p>

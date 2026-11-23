@@ -29,38 +29,24 @@ function loadScript(src) {
     });
 }
 
-/** Télécharge un fichier en signalant la part reçue (0 à 1) quand la taille est connue. */
-async function download(url, missingCode, onProgress) {
-    let response;
+async function download(url, missingCode) {
     try {
-        response = await fetch(url);
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return new Uint8Array(await response.arrayBuffer());
     } catch (cause) {
-        throw new EngineError(missingCode, `${url} n'a pas pu être téléchargé.`, { cause });
+        throw new EngineError(missingCode, `${url} n'a pas pu être téléchargé (${cause.message}).`, { cause });
     }
-    if (!response.ok) throw new EngineError(missingCode, `${url} est introuvable (HTTP ${response.status}).`);
+}
 
-    const total = Number(response.headers.get('Content-Length'));
-    if (!total || !response.body) return new Uint8Array(await response.arrayBuffer());
-
-    const chunks = [];
-    let received = 0;
-    const reader = response.body.getReader();
-    for (;;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(value);
-        received += value.length;
-        // Content-Length compte les octets compressés : on borne à 1.
-        onProgress?.(Math.min(received / total, 1));
-    }
-
-    const bytes = new Uint8Array(received);
-    let offset = 0;
-    for (const chunk of chunks) {
-        bytes.set(chunk, offset);
-        offset += chunk.length;
-    }
-    return bytes;
+/** Attributs 3D à plat : x à droite, z vers l'avant, orientation fixe. */
+function attributes3D({ x, z }) {
+    return {
+        position: { x, y: 0, z },
+        velocity: { x: 0, y: 0, z: 0 },
+        forward: { x: 0, y: 0, z: 1 },
+        up: { x: 0, y: 1, z: 0 },
+    };
 }
 
 class FmodEngine {
@@ -82,6 +68,9 @@ class FmodEngine {
     /** Appelé si la boucle de mise à jour échoue ; le moteur est alors déjà libéré. */
     onFailure = null;
 
+    /** Appelé après chaque mise à jour tant qu'au moins une instance joue. */
+    onUpdate = null;
+
     get isReady() {
         return this.#ready;
     }
@@ -101,24 +90,19 @@ class FmodEngine {
     }
 
     /** À appeler dans un geste utilisateur. Réessayable après un échec. */
-    init({ sharedBanks = [], onProgress } = {}) {
+    init({ sharedBanks = [] } = {}) {
         this.#sharedBanks = sharedBanks;
-        this.#initPromise ??= this.#init(onProgress).catch((error) => {
+        this.#initPromise ??= this.#init().catch((error) => {
             this.#initPromise = null;
             throw error;
         });
         return this.#initPromise;
     }
 
-    async #init(onProgress) {
-        const steps = 1 + this.#sharedBanks.length;
-        const report = (step, part) => onProgress?.((step + part) / steps);
-
-        if (!this.#fmod) this.#fmod = await this.#loadRuntime((part) => report(0, part));
+    async #init() {
+        if (!this.#fmod) this.#fmod = await this.#loadRuntime();
         if (!this.#studio) this.#createSystem();
-        for (const [i, name] of this.#sharedBanks.entries()) {
-            await this.#loadBank(name, (part) => report(1 + i, part));
-        }
+        for (const name of this.#sharedBanks) await this.#loadBank(name);
 
         this.#ready = true;
         this.#applyMasterVolume();
@@ -137,9 +121,9 @@ class FmodEngine {
         if (this.isLocked) this.#context.resume();
     }
 
-    async #loadRuntime(onProgress) {
+    async #loadRuntime() {
         if (!globalThis.FMODModule) await loadScript(`${FMOD_DIR}fmodstudio.js`);
-        const wasmBinary = await download(`${FMOD_DIR}fmodstudio.wasm`, 'missing-fmod', onProgress);
+        const wasmBinary = await download(`${FMOD_DIR}fmodstudio.wasm`, 'missing-fmod');
 
         return new Promise((resolve, reject) => {
             const fmod = {
@@ -193,12 +177,12 @@ class FmodEngine {
         this.#flush();
     }
 
-    #loadBank(name, onProgress) {
+    #loadBank(name) {
         const known = this.#banks.get(name);
         if (known) return known.promise;
 
         const entry = { promise: null, bank: null };
-        entry.promise = this.#fetchBank(name, entry, onProgress).catch((error) => {
+        entry.promise = this.#fetchBank(name, entry).catch((error) => {
             if (this.#banks.get(name) === entry) this.#banks.delete(name);
             throw error;
         });
@@ -206,9 +190,9 @@ class FmodEngine {
         return entry.promise;
     }
 
-    async #fetchBank(name, entry, onProgress) {
+    async #fetchBank(name, entry) {
         const url = BANK_DIR + name.split('/').map(encodeURIComponent).join('/');
-        const bytes = await download(url, 'missing-bank', onProgress);
+        const bytes = await download(url, 'missing-bank');
         if (!this.#studio || this.#banks.get(name) !== entry) {
             throw new EngineError('released', `Chargement de ${name} abandonné.`);
         }
@@ -222,13 +206,12 @@ class FmodEngine {
     }
 
     /** Démarre un event. onStopped est appelé une fois, quand l'instance est vraiment finie. */
-    play(eventPath, { onStopped } = {}) {
-        if (!this.#ready) throw new EngineError('released', "Le moteur audio n'est pas prêt.");
+    play(eventPath, { onStopped, position } = {}) {
         const out = {};
-        this.#check(this.#studio.getEvent(eventPath, out), `getEvent ${eventPath}`);
-        this.#check(out.val.createInstance(out), `createInstance ${eventPath}`);
+        this.#check(this.#getEvent(eventPath).createInstance(out), `createInstance ${eventPath}`);
         const handle = { instance: out.val, path: eventPath, onStopped };
         try {
+            if (position) this.#check(handle.instance.set3DAttributes(attributes3D(position)), `set3DAttributes ${eventPath}`);
             this.#check(handle.instance.start(), `start ${eventPath}`);
         } catch (error) {
             handle.instance.release();
@@ -238,6 +221,54 @@ class FmodEngine {
         this.#startMixer();
         this.#startLoop();
         return handle;
+    }
+
+    #getEvent(eventPath) {
+        if (!this.#ready) throw new EngineError('released', "Le moteur audio n'est pas prêt.");
+        const out = {};
+        this.#check(this.#studio.getEvent(eventPath, out), `getEvent ${eventPath}`);
+        return out.val;
+    }
+
+    /**
+     * Distances [min, max] d'atténuation appliquées à une instance, ou null si elle n'est pas encore prête.
+     * Le spatializer peut remplacer celles de l'event (« Override Range ») : il est donc lu en premier.
+     */
+    getDistanceRange({ instance, path }) {
+        const FMOD = this.#fmod;
+        const group = {};
+        if (instance.getChannelGroup(group) !== FMOD.OK) return null;
+
+        const count = {};
+        this.#check(group.val.getNumDSPs(count), `getNumDSPs ${path}`);
+        for (let i = 0; i < count.val; i++) {
+            const dsp = {};
+            const type = {};
+            this.#check(group.val.getDSP(i, dsp), `getDSP ${path}`);
+            this.#check(dsp.val.getType(type), `getType ${path}`);
+            if (type.val !== FMOD.DSP_TYPE_PAN) continue;
+            const override = {};
+            this.#check(dsp.val.getParameterBool(FMOD.DSP_PAN_OVERRIDE_RANGE, override, null), 'DSP_PAN_OVERRIDE_RANGE');
+            if (override.val) {
+                return [FMOD.DSP_PAN_3D_MIN_DISTANCE, FMOD.DSP_PAN_3D_MAX_DISTANCE].map((index) => {
+                    const value = {};
+                    this.#check(dsp.val.getParameterFloat(index, value, null), `DSP_PAN ${index}`);
+                    return value.val;
+                });
+            }
+        }
+
+        const min = {};
+        const max = {};
+        this.#check(instance.getMinMaxDistance(min, max), `getMinMaxDistance ${path}`);
+        return [min.val, max.val];
+    }
+
+    /** Position { x, z } de l'auditeur. Sans effet tant que le moteur n'est pas prêt. */
+    setListener(position) {
+        if (!this.#ready) return;
+        this.#check(this.#studio.setListenerAttributes(0, attributes3D(position), null), 'setListenerAttributes');
+        this.#flush();
     }
 
     stop(handle, { fade = true } = {}) {
@@ -250,15 +281,32 @@ class FmodEngine {
         for (const handle of this.#handles) this.stop(handle, options);
     }
 
-    setParam(handle, name, value) {
+    /** immediate : ignore la vitesse de seek définie dans FMOD Studio. */
+    setParam(handle, name, value, { immediate = false } = {}) {
         if (!this.#handles.has(handle)) return;
-        this.#check(handle.instance.setParameterByName(name, value, false), `setParameterByName ${name}`);
+        this.#check(handle.instance.setParameterByName(name, value, immediate), `setParameterByName ${name}`);
     }
 
-    setGlobalParam(name, value) {
+    setGlobalParam(name, value, { immediate = false } = {}) {
         if (!this.#ready) return;
-        this.#check(this.#studio.setParameterByName(name, value, false), `setParameterByName ${name} (global)`);
+        this.#check(this.#studio.setParameterByName(name, value, immediate), `setParameterByName ${name} (global)`);
         this.#flush();
+    }
+
+    /** Valeur temps réel d'un paramètre, seek et modulations compris. */
+    getParam(handle, name) {
+        return this.#readParam(handle.instance, name);
+    }
+
+    getGlobalParam(name) {
+        return this.#readParam(this.#studio, name);
+    }
+
+    #readParam(source, name) {
+        const value = {};
+        const finalValue = {};
+        this.#check(source.getParameterByName(name, value, finalValue), `getParameterByName ${name}`);
+        return finalValue.val;
     }
 
     /** Volume linéaire de 0 à 1 sur le bus master. */
@@ -364,6 +412,7 @@ class FmodEngine {
             handle.instance.release();
             handle.onStopped?.();
         }
+        if (this.#handles.size) this.onUpdate?.();
     }
 
     /** Transmet les commandes en attente quand la boucle de mise à jour est arrêtée. */
