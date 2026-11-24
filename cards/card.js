@@ -20,6 +20,18 @@ export function setText(node, key) {
     node.textContent = getTranslation(key);
 }
 
+/** Montant en pièces. */
+export function coins(amount, prefix = '') {
+    return el('span', 'coins', {}, `${prefix}${amount}`, text('span', 'sr-only', 'coins_name'));
+}
+
+/** Bouton traduit, avec un montant optionnel. */
+export function actionButton(key, className, onClick, ...extra) {
+    const node = el('button', className, { type: 'button' }, text('span', '', key), ...extra);
+    node.addEventListener('click', onClick);
+    return node;
+}
+
 const BARS = [30, 55, 80, 45, 100, 65, 90, 40, 70, 50, 25];
 
 /** Forme d'onde : le motif du booster et du dos des cartes. */

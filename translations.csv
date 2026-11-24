@@ -77,7 +77,7 @@ copyright,© 2023 David Tourdot-Fuentes. All rights reserved.,© 2023 David Tour
 cards_welcome_title,Welcome! Here is your first booster,Bienvenue ! Voici votre premier booster
 cards_welcome_text,This portfolio is a card collection: open boosters to discover my projects and my tools.,Ce portfolio est une collection de cartes : ouvrez des boosters pour découvrir mes projets et mes outils.
 cards_pack_title,New booster,Nouveau booster
-cards_pack_text,Only cards you have not discovered yet.,Uniquement des cartes que vous n'avez pas encore découvertes.
+cards_pack_text,Duplicates can be sold or traded.,Les doubles se revendent ou s'échangent.
 cards_open_hint,"Swipe across the pack to tear it open, or click on it","Glissez sur le paquet pour le déchirer, ou cliquez dessus"
 cards_flip_hint,Click on the card to flip it,Cliquez sur la carte pour la retourner
 cards_next_hint,Click again for the next card,Cliquez encore pour la carte suivante
@@ -92,7 +92,7 @@ cards_again,Open another booster,Ouvrir un autre booster
 cards_see_collection,See my collection,Voir ma collection
 cards_reveal_all,See the whole portfolio,Voir tout le portfolio
 cards_reset,Start over,Recommencer
-cards_reset_confirm,Hide all the cards again and start over?,Cacher à nouveau toutes les cartes et recommencer ?
+cards_reset_confirm,Erase all your cards and coins and start over?,"Effacer toutes vos cartes et vos pièces, et recommencer ?"
 cards_collection,Collection,Collection
 cards_complete,Collection complete!,Collection complète !
 cards_hidden,Undiscovered card,Carte non découverte
@@ -105,3 +105,64 @@ rarity_rare,Rare,Rare
 rarity_ultra,Ultra rare,Ultra rare
 rarity_legendary,Legendary,Légendaire
 cards_close,Close,Fermer
+cards_double,Duplicate,Double
+coins_name, coins, pièces
+booster_free,Free,Gratuit
+booster_cost,Price:,Prix :
+booster_next,Free in,Gratuit dans
+detail_copies,Copies owned:,Exemplaires :
+sell_one,Sell a duplicate,Vendre un double
+sell_all,Sell all duplicates,Vendre tous les doubles
+sell_spares,Sell my duplicates,Vendre mes doubles
+sell_booster,Sell the duplicates,Vendre les doubles
+sell_done,Sold,Vendu
+trade_open,Trade,Échanger
+trade_title,Trade with a friend,Échanger avec un ami
+trade_intro,"Trade live: each of you puts down a card, then you both confirm.","Échangez en direct : chacun pose une carte, puis vous validez tous les deux."
+trade_name,Your nickname,Votre pseudo
+trade_invite,Invite a friend,Inviter un ami
+trade_invite_text,"Share a link, or have them scan a QR code.","Partagez un lien, ou faites scanner un QR code."
+trade_invite_button,Create a room,Créer un salon
+trade_join_title,Join a friend,Rejoindre un ami
+trade_join_text,"Open the link they sent, or type the code shown on their screen.","Ouvrez le lien reçu, ou tapez le code affiché sur son écran."
+trade_join,Join,Rejoindre
+trade_code,Room code,Code du salon
+trade_preparing,Preparing the room…,Préparation du salon…
+trade_joining,Joining your friend…,Connexion à votre ami…
+trade_waiting,Waiting for your friend…,En attente de votre ami…
+trade_share_text,Send the invitation and keep this window open.,Envoyez l'invitation et gardez cette fenêtre ouverte.
+trade_share,Share the invitation,Partager l'invitation
+trade_share_message,Let's trade cards!,On échange des cartes ?
+trade_copy,Copy the invitation link,Copier le lien d'invitation
+trade_copied,Link copied,Lien copié
+trade_cancel,Cancel,Annuler
+trade_you,You,Vous
+trade_partner,Your friend,Votre ami
+trade_slot_mine,Choose your card,Choisissez votre carte
+trade_slot_theirs,Their card,Sa carte
+trade_my_cards,My cards,Mes cartes
+trade_their_cards,Cards of,Cartes de
+trade_requested,Requested,Demandée
+trade_no_card,You have no card to trade.,Vous n'avez aucune carte à échanger.
+trade_their_empty,No card to trade.,Aucune carte à échanger.
+trade_ready,Confirm the trade,Valider l'échange
+trade_unready,Take back,Annuler ma validation
+trade_leave,Leave the room,Quitter le salon
+trade_status_pick,Choose the card you give. Click one of their cards to ask for it.,Choisissez la carte que vous donnez. Cliquez sur une des siennes pour la demander.
+trade_status_wait_card,Your friend is choosing a card…,Votre ami choisit sa carte…
+trade_status_confirm,Happy with it? Confirm the trade.,Cela vous convient ? Validez l'échange.
+trade_status_their_ready,"Your friend has confirmed, it is up to you!","Votre ami a validé, à vous !"
+trade_status_wait_ready,Waiting for your friend to confirm…,En attente de la validation de votre ami…
+trade_status_going,Trading…,Échange en cours…
+trade_last_copy,This is your only copy: the card will become undiscovered again.,C'est votre seul exemplaire : la carte redeviendra non découverte.
+trade_aborted,"The trade changed at the last moment, confirm again.","L'échange a changé au dernier moment, validez à nouveau."
+trade_success,Trade complete!,Échange réussi !
+trade_again,Trade again,Échanger encore
+room_error_network,The connection failed. Check your network and try again.,La connexion a échoué. Vérifiez votre réseau et réessayez.
+room_error_missing,This room does not exist or is closed.,Ce salon n'existe pas ou est fermé.
+room_error_timeout,"Your friend cannot be reached. Try again, or switch network.","Impossible de joindre votre ami. Réessayez, ou changez de réseau."
+room_error_browser,This browser does not support live trading.,Ce navigateur ne permet pas les échanges en direct.
+room_error_full,Someone has already joined this room.,Quelqu'un a déjà rejoint ce salon.
+room_error_left,Your friend has left.,Votre ami est parti.
+room_error_game,Your friend is playing another game.,Votre ami joue à un autre jeu.
+room_error_self,You cannot trade with yourself.,Vous ne pouvez pas échanger avec vous-même.

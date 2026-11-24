@@ -1,6 +1,4 @@
-// Cartes découvertes (gardées dans le navigateur du visiteur) et tirage des boosters.
-
-const STORAGE_KEY = 'portfolio-cards';
+// Tirage des boosters.
 
 function pickOne(list, random) {
     return list[Math.floor(random() * list.length)];
@@ -15,10 +13,10 @@ function pickWeighted(cards, random) {
 }
 
 /**
- * Tire un booster sans doublon parmi pool (cartes non découvertes). Une carte : { id, isProject, rarity } ;
+ * Tire un booster parmi pool, sans deux fois la même carte dans un booster. Une carte : { id, isProject, rarity } ;
  * rarity.level augmente avec la rareté. Les plus rares sont à la fin, pour garder le suspense.
  */
-export function drawBooster(pool, { size, guaranteed }, random = Math.random) {
+export function drawBooster(pool, { size, guaranteed, mixTypes }, random = Math.random) {
     const left = [...pool];
     const picks = [];
     const take = (candidates) => {
@@ -36,61 +34,11 @@ export function drawBooster(pool, { size, guaranteed }, random = Math.random) {
     }
 
     // Un booster mélange projets et logiciels tant qu'il reste des deux : la carte la moins rare cède sa place.
-    const others = left.filter((card) => card.isProject !== picks[0]?.isProject);
+    const others = mixTypes ? left.filter((card) => card.isProject !== picks[0]?.isProject) : [];
     if (picks.length > 1 && others.length && picks.every((card) => card.isProject === picks[0].isProject)) {
         picks.sort((a, b) => a.rarity.level - b.rarity.level);
         picks.shift();
         take(others);
     }
     return picks.sort((a, b) => a.rarity.level - b.rarity.level);
-}
-
-export class Collection {
-    #discovered = new Set();
-
-    constructor(cards) {
-        this.cards = cards;
-        this.isFirstVisit = true;
-        try {
-            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-            if (Array.isArray(saved)) {
-                this.isFirstVisit = false;
-                const ids = new Set(saved);
-                for (const card of cards) if (ids.has(card.id)) this.#discovered.add(card);
-            }
-        } catch {
-            // Stockage bloqué ou illisible : la collection ne dure que le temps de la visite.
-        }
-    }
-
-    has(card) {
-        return this.#discovered.has(card);
-    }
-
-    get hidden() {
-        return this.cards.filter((card) => !this.has(card));
-    }
-
-    get count() {
-        return this.#discovered.size;
-    }
-
-    add(cards) {
-        for (const card of cards) this.#discovered.add(card);
-        this.save();
-    }
-
-    reset() {
-        this.#discovered.clear();
-        this.save();
-    }
-
-    save() {
-        this.isFirstVisit = false;
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify([...this.#discovered].map((card) => card.id)));
-        } catch {
-            // Même cas que dans le constructeur.
-        }
-    }
 }

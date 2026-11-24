@@ -1,5 +1,5 @@
 // Détail d'une carte de la collection : elle sort de sa case et se pose à gauche, ses informations s'affichent à droite.
-import { createCard, el, reducedMotion, text } from './card.js';
+import { actionButton, coins, createCard, el, reducedMotion, text } from './card.js';
 import { createModal } from './modal.js';
 
 const FLIGHT = 650; // durée du trajet, en millisecondes
@@ -11,7 +11,9 @@ const landed = (flight, duration) => Promise.race([
     new Promise((resolve) => { setTimeout(resolve, duration + 150); }),
 ]);
 
-export function createDetail({ cards, describe }) {
+export function createDetail({ player, describe, onChange, onTrade }) {
+    const { cards } = player;
+    const owned = el('div', 'detail__owned');
     const background = el('div', 'detail__bg');
     const closeButton = el('button', 'detail__close', { type: 'button', textContent: '×' });
     const slot = el('div', 'detail__card');
@@ -45,7 +47,8 @@ export function createDetail({ cards, describe }) {
             el('p', 'detail__meta', {}, text('span', 'detail__rarity', `rarity_${card.rarity.id}`), text('span', '', `type_${card.type}`)),
             title);
         if (content.subtitle) info.append(el('p', 'detail__subtitle', { textContent: content.subtitle }));
-        info.append(description);
+        info.append(description, owned);
+        showOwned(card);
         info.scrollTop = 0;
 
         overlay.scrollTop = 0;
@@ -53,6 +56,26 @@ export function createDetail({ cards, describe }) {
         background.style.backgroundImage = content.background ? `url("${content.background}")` : '';
         closeButton.setAttribute('aria-label', getTranslation('cards_close'));
         return content;
+    }
+
+    /** Exemplaires possédés, et ce qu'on peut en faire. */
+    function showOwned(card) {
+        const spare = player.spare(card);
+        owned.replaceChildren(el('p', 'detail__count', {}, text('span', '', 'detail_copies'), ` ${player.count(card)}`));
+        const sell = (key, amount) => actionButton(key, 'booster__btn booster__btn--coins', () => {
+            player.sell(card, amount);
+            onChange();
+            showOwned(card);
+            (owned.querySelector('button') ?? closeButton).focus({ preventScroll: true });
+        }, ' ', coins(amount * player.sellPrice(card), '+'));
+        if (spare > 0) owned.append(sell('sell_one', 1));
+        if (spare > 1) owned.append(sell('sell_all', spare));
+        if (player.canTrade(card)) {
+            owned.append(actionButton('trade_open', 'booster__btn', async () => {
+                await close();
+                onTrade(card);
+            }));
+        }
     }
 
     /** Le lecteur n'est chargé qu'une fois la carte posée, pour ne pas saccader le trajet. */
