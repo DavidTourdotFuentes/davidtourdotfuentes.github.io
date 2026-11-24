@@ -37,23 +37,23 @@ function loadTranslations(lang = 'fr') {
             }
 
             applyTranslations(translations);
-            document.dispatchEvent(new Event('translationschange'));
         })
         .catch(err => console.error('Erreur de chargement des traductions :', err));
 }
 
 function applyTranslations(translations) {
     for (const key in translations) {
+        const el = document.querySelector(`[data-i18n="${key}"]`);
+        if (!el) continue;
+
         const text = translations[key];
 
-        document.querySelectorAll(`[data-i18n="${key}"]`).forEach(el => {
-            // Si le texte contient <br>, <strong>, <em>, etc., on injecte en HTML
-            if (/<\/?[a-z][\s\S]*>/i.test(text)) {
-                el.innerHTML = text;
-            } else {
-                el.textContent = text;
-            }
-        });
+        // Si le texte contient <br>, <strong>, <em>, etc., on injecte en HTML
+        if (/<\/?[a-z][\s\S]*>/i.test(text)) {
+            el.innerHTML = text;
+        } else {
+            el.textContent = text;
+        }
     }
 }
 
@@ -63,14 +63,26 @@ function getTranslation(key) {
 }
 
 function setLanguage(lang) {    
-    document.querySelectorAll('.segmented--lang').forEach(group => {
-        group.dataset.lang = lang; // place le curseur du switch
-        group.querySelectorAll('[data-set-lang]').forEach(button => {
-            const active = button.dataset.setLang === lang;
-            button.classList.toggle('active', active);
-            button.setAttribute('aria-pressed', active);
-        });
-    });
+    // Update active language button
+    document.getElementById('lang-en').classList.toggle('bg-primary-700', lang === 'en');
+    document.getElementById('lang-en').classList.toggle('bg-transparent', lang !== 'en');
+    document.getElementById('lang-en').classList.toggle('text-white', lang === 'en');
+    document.getElementById('lang-en').classList.toggle('text-slate-400', lang !== 'en');
+    
+    document.getElementById('lang-fr').classList.toggle('bg-primary-700', lang === 'fr');
+    document.getElementById('lang-fr').classList.toggle('bg-transparent', lang !== 'fr');
+    document.getElementById('lang-fr').classList.toggle('text-white', lang === 'fr');
+    document.getElementById('lang-fr').classList.toggle('text-slate-400', lang !== 'fr');
+    
+    document.getElementById('mobile-lang-en').classList.toggle('bg-primary-700', lang === 'en');
+    document.getElementById('mobile-lang-en').classList.toggle('bg-transparent', lang !== 'en');
+    document.getElementById('mobile-lang-en').classList.toggle('text-white', lang === 'en');
+    document.getElementById('mobile-lang-en').classList.toggle('text-slate-400', lang !== 'en');
+    
+    document.getElementById('mobile-lang-fr').classList.toggle('bg-primary-700', lang === 'fr');
+    document.getElementById('mobile-lang-fr').classList.toggle('bg-transparent', lang !== 'fr');
+    document.getElementById('mobile-lang-fr').classList.toggle('text-white', lang === 'fr');
+    document.getElementById('mobile-lang-fr').classList.toggle('text-slate-400', lang !== 'fr');
 
     loadTranslations(lang);
 }
@@ -79,6 +91,7 @@ function setLanguage(lang) {
 setLanguage(currentLang);
 
 // Add event listeners for language buttons
-document.querySelectorAll('[data-set-lang]').forEach(button => {
-    button.addEventListener('click', () => setLanguage(button.dataset.setLang));
-});
+document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+document.getElementById('lang-fr').addEventListener('click', () => setLanguage('fr'));
+document.getElementById('mobile-lang-en').addEventListener('click', () => setLanguage('en'));
+document.getElementById('mobile-lang-fr').addEventListener('click', () => setLanguage('fr'));
