@@ -3,6 +3,7 @@ header,Design - Imagin - Develop,Concevoir - Imaginer - Développer,Crear - Imag
 tagline,Creative Sound for Games & Beyond,Design sonores à l'image et jeux vidéos<br>Développement audio<br>Compositions musicales interactives
 nav_portfolio,Portfolio,Portfolio
 nav_tools,Tools,Outils
+nav_audio_demos,Audio demos,Démos audio
 nav_contact,Contact,Contacts
 view_work,View my work,Voir mon travail
 contact_me,Contact me,Me contacter
@@ -12,9 +13,15 @@ tags_sd,Sound Design,Design Sonore
 tags_soundtrack,Soundtracks,Bande Sons
 tags_ai,Audio Integration, Intégration Audio
 tags_at,Audio Tool,Outils Audio
+project_mallow_title,Mallow : Sound Design (2026),Mallow : Design Sonore (2026)
+project_mallow_desc,Interactive audio gaming speaker for children from 4 to 10 years old (AI based),Enceinte de jeux audio interactive destinés aux enfants de 4 à 10 ans (basé sur l'IA)
+project_mallow_long,"Mallow is an interactive audio speaker that the child talks about to become a history actor and play mini-games. AI is used as a game master to guide the child while letting him choose the different outcomes of the story. I was in charge of the sound design of a large part of the figurines (Oli and the Golden Tree, Baby Dragon, Miraculous, Knights Quiz, Charlie's mini games and others in preparation). I was thus able to define the artistic direction of his figurines as well as the integration of sounds into their homemade audio engine","Mallow est une enceinte audio interactive dont l'enfant parle pour devenir acteur d'histoire et jouer a des minijeux. L'IA est utilisé comme maitre du jeu pour guider l'enfant tout en lui laissant choisir les différentes issues de l'histoire. J'ai été en charge du sound design d'une grande partie des figurines (Oli et l'arbre d'or, Bébé Dragon, Miraculous, Quiz des Chevaliers, Mini jeux de charlie et d'autres en préparation). J'ai ainsi pu défini la direction artistique de ses figurines ainsi que l'intégration des sons dans leur moteur audio fait maison"
 project_furyball_title,Furyball : Sound Design (2026),Furyball : Design Sonore (2026)
 project_furyball_desc,Furyball: Rogue Revenge : a fast-paced action roguelite developed by Rebound,Furyball : Rogue Revenge : un roguelite d’action rapide développé par Rebound
 project_furyball_long,"Furyball is a fast-paced action roguelite where your only weapon is a deadly bouncy ball.<br>Take control of the chaos, pulverize your enemies and survive in sports-inspired arenas, pinball machines and grindhouse cinema.<br>On this project, I was commissioned with Laurent Bariet (G4F) to create and integrate all the sounds of the game, from the interface to the different attacks by Azami and his enemies, the ambiances and the integration of the music composed by Toxic Avenger","Furyball est un roguelite d’action au rythme effréné où ta seule arme est une balle rebondissante mortelle.<br>Prends le contrôle du chaos, pulvérise tes ennemis et survis dans des arènes inspirées du sport, du flipper et du cinéma grindhouse.<br>Sur ce projet j'ai été missioné avec Laurent Bariet (G4F) pour créer et intégrer l'intégralité des sons du jeu, de l'interface aux différentes attaques d'Azami, des ennemis en passant par les ambiances et l'intégration de la musique composée par Toxic Avenger"
+project_mechanicus_title,Mechanicus II : Sound Design (2026),Mechanicus II : Design Sonore (2026)
+project_mechanicus_desc,"Warhammer 40K: Mechanicus II is the sequel to the tactical game Mechanicus, developed by Bulwark Studios and published by Kasedo Games","Warhammer 40K : Mechanicus II est la suite du jeu de tactique Mechanicus, développée par Bulwark Studios et éditée par Kasedo Games."
+project_mechanicus_long,"Warhammer 40K: Mechanicus II is the sequel to the tactical game Mechanicus, developed by Bulwark Studios and published by Kasedo Games. I was lucky enough to be able to sound a large part of the ingame cinematics, whose artistic direction was previously defined by Guillaume David","Warhammer 40K : Mechanicus II est la suite du jeu de tactique Mechanicus, développée par Bulwark Studios et éditée par Kasedo Games. J'ai eu la chance de pouvoir sonoriser une grande partie des cinématiques ingame dont la direction artistique a été défini aupréalable par Guillaume David"
 project_meot_title,Mass Entity Optimization : Audio Tool (2025),Optimisation de masse d'entité : Outil Audio (2025)
 project_meot_desc,Unity C# Wwise tool for optimizing sounds placed on clusters of entities (crowds / swarms),Outil Unity C# Wwise d'optimisation des sons placés sur des masses d'entités (foules / assaims)
 project_meot_long,"This C# Unity/ Wwise tool allows to optimize the entity sound in bulk.<br>The principle is simple: Use Wwise to sonorize a entity cluster calculated in real time by the tool.<br>The audio stream content of each cluster is then modulated based on the number of entities in the group.<br>Everything is fully configurable and dynamic in order to be used as a """toolbox""" for any system requiring the sound of a large number of entities (crowd, herd, fish school, bee swarms, etc...)","Cet outil C# Unity / Wwise permet d'optimiser la sonorisation d'entité en masse.<br>Le principe est simple : Utiliser Wwise pour sonoriser un groupe d'entité proche (cluster) calculé en temps réel par l'outil.<br>Le contenu du flux audio de chaque cluster est ensuite modulé en fonction du nombre d'entité dans le groupe.<br>Tout est entièrement paramétrable et dynamique afin d'être utilisé comme """toolbox""" pour n'importe quel systeme demandant de sonoriser un grand nombre d'entité (foule, troupeau, banc de poissons, essaims d'abeilles, etc...)"
@@ -51,7 +58,6 @@ project_aa_long,Alpha Alpha is a 4-episode series created by the directing stude
 project_spring_title,Spring : Soundtrack Exercise (2021),Spring : Exercice Bande Son (2021)
 project_spring_desc,Recomposition of the soundtrack for the short film Blender Spring,Recomposition de la bande son du court métrage Blender Spring
 project_spring_long,Spring is a short film created on Blender and made available during a composition competition. This is therefore my version of the soundtrack of this short film composed on Blender.,Spring est un court métrage créé sur Blender et mis a disposition lors d'un concours de composition. Ceci est donc ma version de la bande son de ce court métrage composé sur Blender.
-load_more,Load More Projects,Plus de projets
 tools,Software & Hardware,Logiciels & Matériel Audio
 software,Software,Logiciels
 reaper_desc,Digital audio workstation for sound design and cinematics mixing<br>Main working tool that I use every day for Sound Design,Station de travail audio numérique pour le design sonore et le mixage de cinématiques<br>Outil de travail principal que j'utilise au quotidien pour du Sound Design
@@ -68,3 +74,95 @@ contact,Contact,Contact
 get_in_touch,Get in touch,Entrer en contact
 contact_text,For project inquiries or collaborations feel free to reach out via email.,Pour des demandes de projets ou collaborations n'hésitez pas à me contacter par email.
 copyright,© 2023 David Tourdot-Fuentes. All rights reserved.,© 2023 David Tourdot-Fuentes. Tous droits réservés.
+cards_welcome_title,Welcome! Here is your first booster,Bienvenue ! Voici votre premier booster
+cards_welcome_text,This portfolio is a card collection: open boosters to discover my projects and my tools.,Ce portfolio est une collection de cartes : ouvrez des boosters pour découvrir mes projets et mes outils.
+cards_pack_title,New booster,Nouveau booster
+cards_pack_text,Duplicates can be sold or traded.,Les doubles se revendent ou s'échangent.
+cards_open_hint,"Swipe across the pack to tear it open, or click on it","Glissez sur le paquet pour le déchirer, ou cliquez dessus"
+cards_flip_hint,Click on the card to flip it,Cliquez sur la carte pour la retourner
+cards_next_hint,Click again for the next card,Cliquez encore pour la carte suivante
+cards_end_hint,Click again to see your booster,Cliquez encore pour voir votre booster
+cards_summary_title,Your booster,Votre booster
+cards_summary_hint,These cards have been added to your collection,Ces cartes ont rejoint votre collection
+cards_face_down,Face-down card,Carte face cachée
+cards_skip,Reveal everything,Tout retourner
+cards_later,Later,Plus tard
+cards_open_booster,Open a booster,Ouvrir un booster
+cards_again,Open another booster,Ouvrir un autre booster
+cards_see_collection,See my collection,Voir ma collection
+cards_reveal_all,See the whole portfolio,Voir tout le portfolio
+cards_reset,Start over,Recommencer
+cards_reset_confirm,Erase all your cards and coins and start over?,"Effacer toutes vos cartes et vos pièces, et recommencer ?"
+cards_collection,Collection,Collection
+cards_complete,Collection complete!,Collection complète !
+cards_hidden,Undiscovered card,Carte non découverte
+cards_new,New,Nouveau
+type_project,Project,Projet
+type_software,Software,Logiciel
+type_hardware,Hardware,Matériel
+rarity_common,Common,Commune
+rarity_rare,Rare,Rare
+rarity_ultra,Ultra rare,Ultra rare
+rarity_legendary,Legendary,Légendaire
+cards_close,Close,Fermer
+cards_double,Duplicate,Double
+coins_name, coins, pièces
+booster_free,Free,Gratuit
+booster_cost,Price:,Prix :
+booster_next,Free in,Gratuit dans
+detail_copies,Copies owned:,Exemplaires :
+sell_one,Sell a duplicate,Vendre un double
+sell_all,Sell all duplicates,Vendre tous les doubles
+sell_spares,Sell my duplicates,Vendre mes doubles
+sell_booster,Sell the duplicates,Vendre les doubles
+sell_done,Sold,Vendu
+trade_open,Trade,Échanger
+trade_title,Trade with a friend,Échanger avec un ami
+trade_intro,"Trade live: each of you puts down a card, then you both confirm.","Échangez en direct : chacun pose une carte, puis vous validez tous les deux."
+trade_name,Your nickname,Votre pseudo
+trade_invite,Invite a friend,Inviter un ami
+trade_invite_text,"Share a link, or have them scan a QR code.","Partagez un lien, ou faites scanner un QR code."
+trade_invite_button,Create a room,Créer un salon
+trade_join_title,Join a friend,Rejoindre un ami
+trade_join_text,"Open the link they sent, or type the code shown on their screen.","Ouvrez le lien reçu, ou tapez le code affiché sur son écran."
+trade_join,Join,Rejoindre
+trade_code,Room code,Code du salon
+trade_preparing,Preparing the room…,Préparation du salon…
+trade_joining,Joining your friend…,Connexion à votre ami…
+trade_waiting,Waiting for your friend…,En attente de votre ami…
+trade_share_text,Send the invitation and keep this window open.,Envoyez l'invitation et gardez cette fenêtre ouverte.
+trade_share,Share the invitation,Partager l'invitation
+trade_share_message,Let's trade cards!,On échange des cartes ?
+trade_copy,Copy the invitation link,Copier le lien d'invitation
+trade_copied,Link copied,Lien copié
+trade_cancel,Cancel,Annuler
+trade_you,You,Vous
+trade_partner,Your friend,Votre ami
+trade_slot_mine,Choose your card,Choisissez votre carte
+trade_slot_theirs,Their card,Sa carte
+trade_my_cards,My cards,Mes cartes
+trade_their_cards,Cards of,Cartes de
+trade_requested,Requested,Demandée
+trade_no_card,You have no card to trade.,Vous n'avez aucune carte à échanger.
+trade_their_empty,No card to trade.,Aucune carte à échanger.
+trade_ready,Confirm the trade,Valider l'échange
+trade_unready,Take back,Annuler ma validation
+trade_leave,Leave the room,Quitter le salon
+trade_status_pick,Choose the card you give. Click one of their cards to ask for it.,Choisissez la carte que vous donnez. Cliquez sur une des siennes pour la demander.
+trade_status_wait_card,Your friend is choosing a card…,Votre ami choisit sa carte…
+trade_status_confirm,Happy with it? Confirm the trade.,Cela vous convient ? Validez l'échange.
+trade_status_their_ready,"Your friend has confirmed, it is up to you!","Votre ami a validé, à vous !"
+trade_status_wait_ready,Waiting for your friend to confirm…,En attente de la validation de votre ami…
+trade_status_going,Trading…,Échange en cours…
+trade_last_copy,This is your only copy: the card will become undiscovered again.,C'est votre seul exemplaire : la carte redeviendra non découverte.
+trade_aborted,"The trade changed at the last moment, confirm again.","L'échange a changé au dernier moment, validez à nouveau."
+trade_success,Trade complete!,Échange réussi !
+trade_again,Trade again,Échanger encore
+room_error_network,The connection failed. Check your network and try again.,La connexion a échoué. Vérifiez votre réseau et réessayez.
+room_error_missing,This room does not exist or is closed.,Ce salon n'existe pas ou est fermé.
+room_error_timeout,"Your friend cannot be reached. Try again, or switch network.","Impossible de joindre votre ami. Réessayez, ou changez de réseau."
+room_error_browser,This browser does not support live trading.,Ce navigateur ne permet pas les échanges en direct.
+room_error_full,Someone has already joined this room.,Quelqu'un a déjà rejoint ce salon.
+room_error_left,Your friend has left.,Votre ami est parti.
+room_error_game,Your friend is playing another game.,Votre ami joue à un autre jeu.
+room_error_self,You cannot trade with yourself.,Vous ne pouvez pas échanger avec vous-même.

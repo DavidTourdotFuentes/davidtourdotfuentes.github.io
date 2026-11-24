@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Démos audio | David Tourdot-Fuentes</title>
+    <meta name="description" content="Démos d'intégration audio FMOD Studio jouables dans le navigateur : events, paramètres en temps réel et musique adaptative.">
+    <meta name="theme-color" content="#0c1721">
+    <link rel="icon" type="image/jpeg" href="../ressources/Generic/David_Tourdot_Fuentes_1.jpg">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Police non bloquante : la page s'affiche d'abord avec la police système. -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/demos.css">
+    <script type="module" src="js/main.js"></script>
+</head>
+<body>
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+    <header class="site-header">
+        <div class="wrap site-header__inner">
+            <a class="brand" href="../index.html">David Tourdot-Fuentes</a>
+            <div class="site-header__tools">
+                <div class="volume">
+                    <label for="master-volume">Volume<span class="volume__more"> général</span></label>
+                    <input id="master-volume" type="range" min="0" max="1" step="0.01" value="1" autocomplete="off">
+                    <output id="master-volume-value" for="master-volume">100 %</output>
+                </div>
+                <a class="back" href="../index.html"><span aria-hidden="true">←</span> Portfolio</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="contenu" class="wrap" tabindex="-1">
+        <section class="intro" aria-labelledby="titre">
+            <div class="intro__title">
+                <span id="status-dot" class="dot" data-state="idle" aria-hidden="true"></span>
+                <h1 id="titre">Démos audio</h1>
+            </div>
+            <p>Des intégrations FMOD Studio à manipuler directement ici : déclenchez les events, faites varier les paramètres et écoutez le résultat.</p>
+            <p id="status" class="status" role="status" aria-live="polite" data-state="idle">Audio inactif</p>
+        </section>
+
+        <p id="page-error" class="notice" role="alert" hidden></p>
+        <noscript><p class="notice">JavaScript est nécessaire pour utiliser les démos.</p></noscript>
+
+        <section id="demos" class="demos" aria-label="Liste des démos"></section>
+    </main>
+
+    <footer class="site-footer">
+        <p class="wrap">Réalisé avec FMOD Studio par Firelight Technologies Pty Ltd.</p>
+    </footer>
+</body>
+</html>

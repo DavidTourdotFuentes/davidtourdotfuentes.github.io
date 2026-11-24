@@ -27,6 +27,7 @@
     <link rel="canonical" href="https://davidtourdotfuentes.github.io/">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="cards/cards.css" />
     
     <script type="application/ld+json">
     {
@@ -79,14 +80,15 @@
             <div class="flex justify-between items-center">
                 <a href="#home" class="text-2xl font-bold gradient-text hover:animate-pulse">David Tourdot-Fuentes</a>
                 
-                <div class="hidden md:flex space-x-8">
+                <div class="hidden md:flex items-center space-x-8">
                     <a href="#portfolio" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_portfolio">Portfolio</a>
                     <a href="#tools" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_tools">Tools</a>
+                    <a href="audio-demos/" class="nav-link whitespace-nowrap text-slate-200 hover:text-white" data-i18n="nav_audio_demos">Démos audio</a>
                     <a href="#contact" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_contact">Contact</a>
                     
-                    <div class="flex items-center space-x-2 ml-4">
-                        <button id="lang-fr" class="text-sm px-2 py-1 rounded bg-transparent text-slate-400 hover:text-white hover:scale-105 transition-transform">FR</button>
-                        <button id="lang-en" class="text-sm px-2 py-1 rounded bg-primary-700 text-white hover:scale-105 transition-transform">EN</button>
+                    <div class="segmented segmented--lang" role="group" aria-label="Langue / Language">
+                        <button type="button" class="segmented__btn" data-set-lang="fr">FR</button>
+                        <button type="button" class="segmented__btn" data-set-lang="en">EN</button>
                     </div>
                 </div>
                 
@@ -104,11 +106,12 @@
             <div class="px-6 py-4 space-y-4">
                 <a href="#portfolio" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_portfolio">Portfolio</a>
                 <a href="#tools" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_tools">Tools</a>
+                <a href="audio-demos/" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_audio_demos">Démos audio</a>
                 <a href="#contact" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_contact">Contact</a>
                 
-                <div class="flex space-x-2 pt-2">
-                    <button id="mobile-lang-en" class="text-sm px-2 py-1 rounded bg-primary-700 text-white hover:scale-105 transition-transform">EN</button>
-                    <button id="mobile-lang-fr" class="text-sm px-2 py-1 rounded bg-transparent text-slate-400 hover:text-white hover:scale-105 transition-transform">FR</button>
+                <div class="segmented segmented--lang" role="group" aria-label="Langue / Language">
+                    <button type="button" class="segmented__btn" data-set-lang="fr">FR</button>
+                    <button type="button" class="segmented__btn" data-set-lang="en">EN</button>
                 </div>
             </div>
         </div>
@@ -157,33 +160,68 @@
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center gradient-text animate-fade-in" data-i18n="portfolio">Portfolio</h2>
             
+            <!-- Collection : remplie par cards/main.js -->
+            <div id="collection" class="collection"></div>
+
             <!-- Project filters -->
-            <div class="flex flex-wrap justify-center gap-3 mb-8 animate-fade-in">
-                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white active" data-filter="all" data-i18n="tags_all">All Projects</button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white" data-filter="sound-design" data-i18n="tags_sd">Sound Design</button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white" data-filter="soundtrack" data-i18n="tags_soundtrack">Soundtrack</button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white" data-filter="audio-integration" data-i18n="tags_ai">Audio Integration</button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-[#1e293b] text-slate-300 hover:bg-primary-600 hover:text-white" data-filter="audio-tool" data-i18n="tags_at">Audio Tool</button>
+            <div class="text-center mb-8 animate-fade-in">
+                <div class="segmented segmented--filters">
+                    <button type="button" class="segmented__btn filter-btn active" aria-pressed="true" data-filter="all" data-i18n="tags_all">All Projects</button>
+                    <button type="button" class="segmented__btn filter-btn" aria-pressed="false" data-filter="sound-design" data-i18n="tags_sd">Sound Design</button>
+                    <button type="button" class="segmented__btn filter-btn" aria-pressed="false" data-filter="soundtrack" data-i18n="tags_soundtrack">Soundtrack</button>
+                    <button type="button" class="segmented__btn filter-btn" aria-pressed="false" data-filter="audio-integration" data-i18n="tags_ai">Audio Integration</button>
+                    <button type="button" class="segmented__btn filter-btn" aria-pressed="false" data-filter="audio-tool" data-i18n="tags_at">Audio Tool</button>
+                </div>
             </div>
             
             <!-- Projects grid -->
             <div class="project-grid">
 
+                <!-- Mallow -->
+                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-card="mallow"
+                    data-category="sound-design"
+                    data-title="project_mallow_title"
+                    data-i18n-desc="project_mallow_desc"
+                    data-i18n-long="project_mallow_long"
+                    data-icon="ressources/Mallow/art/Banner.png"
+                    data-bg="ressources/Mallow/art/Background.jpeg"
+                    data-alt="Mallow : Sound Design"
+                    data-embed-type="youtube"
+                    data-iframe="">
+                </div>
+
                 <!-- Furyball -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-card="furyball"
                     data-category="audio-integration sound-design"
                     data-title="project_furyball_title"
                     data-i18n-desc="project_furyball_desc"
                     data-i18n-long="project_furyball_long"
                     data-icon="ressources/FuryBall/art/Affiche.png"
                     data-bg="ressources/FuryBall/art/Background_2.png"
-                    data-alt="FuryBall : Rebound"
+                    data-alt="FuryBall : Sound Design"
                     data-embed-type="youtube"
                     data-iframe="https://www.youtube.com/embed/-gwJ_qL7aWE">
                 </div>
 
+                <!-- Mechanicus II -->
+                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-card="mechanicus"
+                    data-category="sound-design"
+                    data-title="project_mechanicus_title"
+                    data-i18n-desc="project_mechanicus_desc"
+                    data-i18n-long="project_mechanicus_long"
+                    data-icon="ressources/Mechanicus/art/Background.jpg"
+                    data-bg="ressources/Mechanicus/art/Background.jpg"
+                    data-alt="Mechanicus II : Sound Design"
+                    data-embed-type="youtube"
+                    data-iframe="https://www.youtube.com/embed/ekWDGK76-tA">
+                </div>
+
                 <!-- Mass Entity Optimization Tool -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-card="meot"
                     data-category="audio-tool"
                     data-title="project_meot_title"
                     data-i18n-desc="project_meot_desc"
@@ -197,6 +235,7 @@
 
                 <!-- Architect Life -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-card="al"
                     data-category="sound-design"
                     data-title="project_al_title"
                     data-i18n-desc="project_al_desc"
@@ -210,6 +249,7 @@
 
                 <!-- Masters Of Light -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-card="mol"
                     data-category="sound-design"
                     data-title="project_mol_title"
                     data-i18n-desc="project_mol_desc"
@@ -223,6 +263,7 @@
 
                 <!-- Darkest Canopy -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-card="dc"
                     data-category="soundtrack"
                     data-title="project_dc_title"
                     data-i18n-desc="project_dc_desc"
@@ -236,6 +277,7 @@
                 
                 <!-- La Route des Sommets -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-2"
+                    data-card="lrds"
                     data-category="soundtrack"
                     data-title="project_lrds_title"
                     data-i18n-desc="project_lrds_desc"
@@ -249,6 +291,7 @@
                 
                 <!-- Lofi Clicker -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-3"
+                    data-card="lc"
                     data-category="audio-integration sound-design soundtrack"
                     data-title="project_lc_title"
                     data-i18n-desc="project_lc_desc"
@@ -262,6 +305,7 @@
                 
                 <!-- The Roaming -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                    data-card="tr"
                     data-category="video-game"
                     data-title="project_tr_title"
                     data-i18n-desc="project_tr_desc"
@@ -275,6 +319,7 @@
                 
                 <!-- Phantom Memories -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-1"
+                    data-card="pm"
                     data-category="audio-integration sound-design soundtrack"
                     data-title="project_pm_title"
                     data-i18n-desc="project_pm_desc"
@@ -286,6 +331,7 @@
                 
                 <!-- Polarnatt -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-2"
+                    data-card="polarnatt"
                     data-category="sound-design soundtrack"
                     data-title="project_polarnatt_title"
                     data-i18n-desc="project_polarnatt_desc"
@@ -299,6 +345,7 @@
 
                 <!-- Hide and Flee -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-1"
+                    data-card="hf"
                     data-category="audio-integration sound-design soundtrack"
                     data-title="project_hf_title"
                     data-i18n-desc="project_hf_desc"
@@ -312,6 +359,7 @@
 
                 <!-- Alpha Alpha -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-3"
+                    data-card="aa"
                     data-category="soundtrack"
                     data-title="project_aa_title"
                     data-i18n-desc="project_aa_desc"
@@ -325,6 +373,7 @@
 
                 <!-- Spring -->
                 <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-3"
+                    data-card="spring"
                     data-category="soundtrack"
                     data-title="project_spring_title"
                     data-i18n-desc="project_spring_desc"
@@ -335,13 +384,6 @@
                     data-embed-type="youtube"
                     data-iframe="https://www.youtube.com/embed/WB5QWPH_wgk">
                 </div>
-            </div>
-            
-            <!-- Load more button -->
-            <div class="text-center mt-12 animate-fade-in">
-                <button id="load-more" class="px-6 py-3 border border-primary-600 text-primary-400 hover:bg-primary-900/30 rounded-lg font-medium transition-colors hover:scale-105 transform" data-i18n="load_more">
-                    Load More Projects
-                </button>
             </div>
         </div>
     </section>
@@ -364,10 +406,10 @@
                 
                 <div class="software-grid">
                     <!-- Reaper -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="reaper">
                         <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="/ressources/Generic/Reaper_White.svg" alt="Max MSP" class="w-7 h-7">
+                                <img src="ressources/Generic/Reaper_White.svg" alt="Max MSP" class="w-7 h-7">
                             </div>
                             <h4 class="font-medium text-lg">Reaper</h4>
                         </div>
@@ -375,10 +417,10 @@
                     </div>
 
                     <!-- Bitwig Studio -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="bitwig">
                         <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="/ressources/Generic/Bitwig_White.svg" alt="Max MSP" class="w-7 h-7">
+                                <img src="ressources/Generic/Bitwig_White.svg" alt="Max MSP" class="w-7 h-7">
                             </div>
                             <h4 class="font-medium text-lg">Bitwig Studio</h4>
                         </div>
@@ -386,10 +428,10 @@
                     </div>
 
                     <!-- Wwise -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="wwise">
                         <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="/ressources/Generic/Wwise_White.svg" alt="FMOD" class="w-8 h-8">
+                                <img src="ressources/Generic/Wwise_White.svg" alt="FMOD" class="w-8 h-8">
                             </div>
                             <h4 class="font-medium text-lg">Wwise</h4>
                         </div>
@@ -397,10 +439,10 @@
                     </div>
                     
                     <!-- FMOD -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="fmod">
                         <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="/ressources/Generic/FMOD_White.svg" alt="FMOD" class="w-10 h-10">
+                                <img src="ressources/Generic/FMOD_White.svg" alt="FMOD" class="w-10 h-10">
                             </div>
                             <h4 class="font-medium text-lg">FMOD</h4>
                         </div>
@@ -408,10 +450,10 @@
                     </div>
                     
                     <!-- Unity -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="unity">
                         <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="/ressources/Generic/Unity_White.svg" alt="Unity" class="w-7 h-7">
+                                <img src="ressources/Generic/Unity_White.svg" alt="Unity" class="w-7 h-7">
                             </div>
                             <h4 class="font-medium text-lg">Unity</h4>
                         </div>
@@ -419,10 +461,10 @@
                     </div>
 
                     <!-- Unreal Engine -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="unreal">
                         <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="/ressources/Generic/UE_White.svg" alt="Unreal Engine" class="w-7 h-7">
+                                <img src="ressources/Generic/UE_White.svg" alt="Unreal Engine" class="w-7 h-7">
                             </div>
                             <h4 class="font-medium text-lg">Unreal</h4>
                         </div>
@@ -430,10 +472,10 @@
                     </div>
                     
                     <!-- Max MSP -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="maxmsp">
                         <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="/ressources/Generic/Ableton_White.svg" alt="Max MSP" class="w-7 h-7">
+                                <img src="ressources/Generic/Ableton_White.svg" alt="Max MSP" class="w-7 h-7">
                             </div>
                             <h4 class="font-medium text-lg">Max MSP</h4>
                         </div>
@@ -441,10 +483,10 @@
                     </div>
 
                     <!-- Ableton Live -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="ableton">
                         <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="/ressources/Generic/Ableton_White.svg" alt="Max MSP" class="w-7 h-7">
+                                <img src="ressources/Generic/Ableton_White.svg" alt="Max MSP" class="w-7 h-7">
                             </div>
                             <h4 class="font-medium text-lg">Ableton Live</h4>
                         </div>
@@ -452,10 +494,10 @@
                     </div>
                     
                     <!-- Adobe Audition -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="audition">
                         <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="/ressources/Generic/AA_White.svg" alt="Max MSP" class="w-7 h-7">
+                                <img src="ressources/Generic/AA_White.svg" alt="Max MSP" class="w-7 h-7">
                             </div>
                             <h4 class="font-medium text-lg">Audition</h4>
                         </div>
@@ -463,10 +505,10 @@
                     </div>
                     
                     <!-- ProTools -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up">
+                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="protools">
                         <div class="flex items-center mb-4">
                             <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="/ressources/Generic/PT_White.svg" alt="Max MSP" class="w-8 h-8">
+                                <img src="ressources/Generic/PT_White.svg" alt="Max MSP" class="w-8 h-8">
                             </div>
                             
                             <h4 class="font-medium text-lg">Pro Tools</h4>
@@ -522,33 +564,9 @@
         </div>
     </footer>
 
-    <!-- Portfolio Detail Panel -->
-    <div id="portfolio-panel" class="fixed inset-0 bg-black/20 z-50 hidden items-center justify-center animate-fade-in-fast">
-        <div class="relative rounded-none md:rounded-xl max-w-full md:max-w-5xl w-full h-full md:h-[80vh] overflow-hidden animate-scale-in-fast">
-            
-            <!-- BACKGROUND IMAGE -->
-            <div id="portfolio-panel-bg" class="absolute inset-0"></div>
-
-            <!-- PANEL CONTENT -->
-            <div class="relative z-10 w-full h-full p-4 md:p-6 flex flex-col">
-
-            <!-- Close button -->
-            <button id="portfolio-panel-close" class="fixed md:absolute top-2 right-5 text-3xl z-50">&times;</button>
-
-            <!-- FIXED TITLE -->
-            <h3 id="portfolio-panel-title" class="text-2xl font-bold mb-4 pr-10 flex-shrink-0"></h3>
-
-            <!-- SCROLLABLE CONTENT -->
-            <div id="portfolio-panel-content" class="flex-1 min-h-0 overflow-y-auto flex flex-col space-y-6 pr-2">
-                <!-- JS -->
-            </div>
-
-            </div>
-        </div>
-    </div>
-
     <script src="translations.js"></script>
     <script src="app.js"></script>
+    <script type="module" src="cards/main.js"></script>
 
 </body>
 </html>

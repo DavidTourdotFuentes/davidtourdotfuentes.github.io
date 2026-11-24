@@ -59,8 +59,10 @@ const projectCards = document.querySelectorAll('.project-card');
 filterButtons.forEach(button => {
     button.addEventListener('click', () => {
         // Update active button
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
+        filterButtons.forEach(btn => {
+            btn.classList.toggle('active', btn === button);
+            btn.setAttribute('aria-pressed', btn === button);
+        });
         
         const filter = button.dataset.filter;
 
@@ -73,33 +75,6 @@ filterButtons.forEach(button => {
             }
         });
     });
-});
-
-// Load more projects
-const loadMoreBtn = document.getElementById('load-more');
-let visibleProjects = 6;
-
-// Initially hide projects beyond the first 6
-projectCards.forEach((card, index) => {
-    if (index >= 6) {
-        card.style.display = 'none';
-    }
-});
-
-loadMoreBtn.addEventListener('click', () => {
-    visibleProjects += 6;
-    
-    // Show next batch of projects
-    projectCards.forEach((card, index) => {
-        if (index < visibleProjects) {
-            card.style.display = 'block';
-        }
-    });
-    
-    // Hide button if all projects are visible
-    if (visibleProjects >= projectCards.length) {
-        loadMoreBtn.style.display = 'none';
-    }
 });
 
 // Back to top button
@@ -164,107 +139,6 @@ if (isTouchDevice) {
     });
 
 }
-
-
-// Portfolio detail panel
-const portfolioPanel = document.getElementById('portfolio-panel');
-const portfolioPanelContent = document.getElementById('portfolio-panel-content');
-const portfolioPanelClose = document.getElementById('portfolio-panel-close');
-const panelBg = document.getElementById('portfolio-panel-bg');
-
-function getEmbedHeight(type) {
-    switch (type) {
-        case 'soundcloud':
-            return '300px';
-        case 'spotify':
-            return '380px';
-        case 'youtube':
-            return '450px';
-        default:
-            return '300px';
-    }
-}
-
-projectCards.forEach(card => {
-    card.addEventListener('click', () => {
-
-        panelBg.style.backgroundImage = `
-            linear-gradient(
-                160deg, 
-                rgba(12, 23, 33, 0.9) 0%,
-                rgba(12, 23, 33, 0.7) 35%,
-                rgba(12, 23, 33, 0.0) 60%,
-                rgba(12, 23, 33, 0.1) 70%,
-                rgba(56, 189, 248, 0.15) 100%
-            ),
-            url('${card.dataset.bg}')
-        `;
-        panelBg.classList.add('panel-bg');
-
-        lockScroll();
-
-        if(!card.dataset.iframe) {
-            // Injection du contenu dans le panel
-            document.getElementById('portfolio-panel-title').textContent = getTranslation(card.dataset.title);
-            portfolioPanelContent.innerHTML = `
-                <p class="text-slate-400 mb-6 whitespace-pre-wrap flex-1">${getTranslation(card.dataset.i18nLong)}</p>
-            `;
-        } else {
-            // Injection du contenu dans le panel
-            document.getElementById('portfolio-panel-title').textContent = getTranslation(card.dataset.title);
-            portfolioPanelContent.innerHTML = `
-                <p class="text-slate-400 mb-6 whitespace-pre-wrap flex-1">${getTranslation(card.dataset.i18nLong)}</p>
-                <div class="iframe-wrapper w-full flex-shrink-0">
-                    <div class="relative w-full aspect-video md:aspect-[16/9]">
-                        <iframe class="absolute inset-0 w-full h-full" allow="autoplay" frameborder="0" src="${card.dataset.iframe}"></iframe>
-                    </div>
-                </div>
-            `;
-        }
-
-
-        // Affichage avec animation
-        portfolioPanel.classList.remove('hidden');
-        portfolioPanel.classList.add('flex');
-    });
-
-    card.innerHTML = `
-        <div class="relative">
-            <img src="${card.dataset.icon}" alt="${card.dataset.alt}" class="w-full h-48 object-cover block">
-        </div>
-        <div class="project-content p-6">
-            <h3 class="text-lg md:text-xl font-bold mb-4" data-i18n="${card.dataset.title}"></h3>
-            <p class="text-slate-400 mb-4" data-i18n="${card.dataset.i18nDesc}"></p>
-        </div>
-    `;
-});
-
-// Fermeture avec animation
-function closePortfolioPanel() {
-    unlockScroll();
-
-    const panelContent = portfolioPanel.querySelector('div');
-
-    // Ajoute les animations de sortie
-    panelContent.classList.add('animate-scale-out');
-    portfolioPanel.classList.add('animate-fade-out');
-
-    // Après la durée de l'animation, cache l'élément et reset
-    setTimeout(() => {
-        portfolioPanel.classList.add('hidden');
-        portfolioPanel.classList.remove('flex', 'animate-fade-out');
-        panelContent.classList.remove('animate-scale-out');
-        portfolioPanelContent.innerHTML = '';
-    }, 300);
-}
-
-// Fermer via la croix
-portfolioPanelClose.addEventListener('click', closePortfolioPanel);
-
-// Fermer en cliquant en dehors
-portfolioPanel.addEventListener('click', (e) => {
-    if (e.target === portfolioPanel) closePortfolioPanel();
-});
 
 
 function lockScroll() {
