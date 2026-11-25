@@ -38,7 +38,7 @@ function light({ effect }) {
     return node;
 }
 
-/** Recto d'une carte. info : { name, role, year, html, image, crop, zoom }. */
+/** Recto d'une carte. info, renvoyé par describe() dans main.js : { name, role, year, html, image, crop, zoom }. */
 function front(card, info, number, total) {
     const art = el('span', `tcard__art${card.isProject ? '' : ' tcard__art--logo'}`, {}, el('img', '', { src: info.image, alt: '' }));
     if (info.crop) art.style.setProperty('--crop', info.crop);
@@ -97,7 +97,8 @@ function followPointer(node) {
         node.style.setProperty('--tilt-y', `${(x - 0.5) * 18}deg`);
     });
     node.addEventListener('pointerleave', () => {
-        for (const name of ['--mx', '--my', '--tilt-x', '--tilt-y']) node.style.removeProperty(name);
+        // --mx et --my restent : le reflet s'éteint là où il est, au lieu de sauter ailleurs.
+        for (const name of ['--tilt-x', '--tilt-y']) node.style.removeProperty(name);
     });
 }
 

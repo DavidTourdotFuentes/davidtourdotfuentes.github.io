@@ -1,4 +1,4 @@
-// Réglages du jeu de cartes : c'est le seul fichier à modifier pour changer les raretés.
+// Réglages du jeu de cartes : raretés, boosters et filtres. Les cartes elles-mêmes sont dans data.js.
 
 /**
  * Raretés, de la plus courante à la plus rare.
@@ -26,34 +26,10 @@ export const BOOSTER = {
     allowRevealAll: true, // affiche « Voir tout le portfolio », pour les visiteurs pressés
 };
 
-/** Rareté de chaque carte. La clé est l'attribut data-card dans index.html ; une carte absente d'ici est commune. */
-export const CARDS = {
-    // Projets
-    mechanicus: 'legendary',
-    furyball: 'legendary',
-    mallow: 'legendary',
-    mol: 'ultra',
-    meot: 'ultra',
-    al: 'rare',
-    dc: 'rare',
-    hf: 'rare',
-    polarnatt: 'rare',
-    lrds: 'rare',
-    lc: 'ultra',
-    tr: 'common',
-    pm: 'rare',
-    aa: 'common',
-    spring: 'rare',
-
-    // Logiciels
-    wwise: 'rare',
-    reaper: 'ultra',
-    fmod: 'rare',
-    unity: 'rare',
-    bitwig: 'ultra',
-    unreal: 'rare',
-    maxmsp: 'common',
-    ableton: 'common',
-    audition: 'common',
-    protools: 'common',
+/** Filtres du portfolio, dans l'ordre : la valeur à mettre dans les tags d'une carte, et sa clé dans translations.csv. */
+export const TAGS = {
+    'sound-design': 'tags_sd',
+    soundtrack: 'tags_soundtrack',
+    'audio-integration': 'tags_ai',
+    'audio-tool': 'tags_at',
 };

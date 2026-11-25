@@ -1,63 +1,48 @@
 // Relie les cartes au site : les grilles ne montrent que les cartes découvertes.
-// Fonctions de app.js et translations.js utilisées ici : getTranslation, applyTranslations, lockScroll, unlockScroll.
+// Fonctions de app.js et translations.js utilisées ici : getTranslation, applyTranslations, currentLang, lockScroll, unlockScroll.
 import { createBooster } from './booster.js';
 import { createCard, el, text } from './card.js';
-import { createCueList } from './cuelist.js';
 import { createDetail } from './detail.js';
 import { createDial } from './dial.js';
+import { createTimeline } from './timeline.js';
+import { checkCards, playerOf, textOf, toHtml } from './content.js';
+import { CARDS } from './data.js';
 import { createKnob, createMeter, needleAngle } from './meter.js';
 import { Collection, drawBooster } from './collection.js';
-import { BOOSTER, CARDS, RARITIES } from './config.js';
+import { BOOSTER, RARITIES, TAGS } from './config.js';
 
 const rarities = RARITIES.map((rarity, level) => ({ ...rarity, level }));
 const findRarity = (id) => rarities.find((rarity) => rarity.id === id);
 
-function readCard(node) {
-    const id = node.dataset.card;
-    const rarity = findRarity(CARDS[id] ?? rarities[0].id);
-    if (!rarity) console.warn(`cards/config.js : rareté « ${CARDS[id]} » inconnue pour la carte « ${id} »`);
-    const isProject = node.matches('.project-card');
-    return {
-        id,
-        node,
-        isProject,
-        type: node.dataset.cardType ?? (isProject ? 'project' : 'software'), // data-card-type="hardware" pour du matériel
-        rarity: rarity ?? rarities[0],
-        isShown: null,
-        tool: isProject ? null : {
-            name: node.querySelector('h4').textContent,
-            textKey: node.querySelector('[data-i18n]').dataset.i18n,
-            image: node.querySelector('img').getAttribute('src'),
-        },
-    };
+/** Crée la case d'une carte dans sa grille, dans l'ordre de data.js. */
+function readCard(data) {
+    const isProject = data.type === 'project';
+    const node = el('div', isProject ? 'project-card' : 'software-card');
+    node.dataset.card = data.id;
+    document.getElementById(isProject ? 'projects' : 'softwares').append(node);
+    return { id: data.id, data, node, isProject, type: data.type, rarity: findRarity(data.rarity) ?? rarities[0], isShown: null };
 }
 
-const cards = [...document.querySelectorAll('[data-card]')].map(readCard);
+for (const problem of checkCards(CARDS, { rarities: RARITIES, tags: TAGS })) console.warn(`cards/data.js, ${problem}`);
+const cards = CARDS.map(readCard);
 const collection = new Collection(cards);
 const newCards = new Set(); // découvertes pendant cette visite
 
 /** Contenu d'une carte, dans la langue courante. */
-function describe(card) {
-    if (card.isProject) {
-        const { title, i18nDesc, i18nLong, icon, art, crop, zoom, embedType, iframe } = card.node.dataset;
-        const [name, ...rest] = getTranslation(title).split(' : ');
-        const subtitle = rest.join(' : ');
-        const [, role = subtitle, year = ''] = subtitle.match(/^(.*?)\s*\((\d{4})\)$/) ?? [];
-        return {
-            name,
-            role,
-            year,
-            html: getTranslation(i18nDesc),
-            longHtml: getTranslation(i18nLong),
-            image: art ?? icon, // data-art : image réduite et cadrée pour la carte
-            crop,
-            zoom,
-            embed: { type: embedType, src: iframe },
-        };
-    }
-    const { name, textKey, image } = card.tool;
-    const html = getTranslation(textKey);
-    return { name, role: '', year: '', html, longHtml: html, image, embed: {} };
+function describe({ data }) {
+    const get = (value) => textOf(value, currentLang);
+    const short = get(data.short);
+    return {
+        name: get(data.name),
+        role: get(data.role),
+        year: data.year ? String(data.year) : '',
+        html: toHtml(short),
+        longHtml: toHtml(get(data.long) || short),
+        image: data.image,
+        crop: data.crop === undefined ? '' : `${data.crop}%`,
+        zoom: data.zoom,
+        embed: playerOf(data.player),
+    };
 }
 
 // --- Grilles ---
@@ -94,7 +79,7 @@ function showCard(card) {
 }
 
 const detail = createDetail({ cards, describe });
-const cueList = createCueList(document.getElementById('cuelist'), { cards, describe, onOpen: detail.open });
+const timeline = createTimeline(document.getElementById('timeline-years'), { cards, describe, onOpen: detail.open });
 const dial = createDial(document.getElementById('dial'), {
     cards,
     describe,
@@ -110,6 +95,20 @@ for (const card of cards) {
         event.preventDefault(); // Espace ferait défiler la page
         open();
     });
+}
+
+// --- Filtres des projets ---
+
+const filters = document.getElementById('filters');
+for (const [tag, key] of [['', 'tags_all'], ...Object.entries(TAGS)]) {
+    const button = text('button', 'filter-btn', key);
+    button.type = 'button';
+    button.setAttribute('aria-pressed', String(!tag));
+    button.addEventListener('click', () => {
+        for (const other of filters.children) other.setAttribute('aria-pressed', String(other === button));
+        for (const { isProject, node, data } of cards) if (isProject) node.hidden = Boolean(tag) && !data.tags?.includes(tag);
+    });
+    filters.append(button);
 }
 
 // --- Barre de collection ---
@@ -160,7 +159,7 @@ tuck.observe(document.querySelector('.contact__email'));
 function update() {
     cards.forEach(showCard);
     const isComplete = collection.count === cards.length;
-    cueList.render();
+    timeline.render();
     dial.update();
     const found = collection.count;
     meter.style.setProperty('--needle', `${needleAngle(found / cards.length)}deg`);

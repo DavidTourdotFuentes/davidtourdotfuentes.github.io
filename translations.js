@@ -36,6 +36,7 @@ function loadTranslations(lang = 'fr') {
                 translations[key] = rows[i][langIndex] ?? '';
             }
 
+            currentLang = lang;
             applyTranslations(translations);
             document.dispatchEvent(new Event('translationschange'));
         })

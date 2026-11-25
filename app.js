@@ -69,18 +69,32 @@ const visible = new IntersectionObserver((entries) => {
 }, { rootMargin: '-45% 0px -50%' });
 for (const link of navLinks) visible.observe(document.querySelector(link.hash));
 
-// --- Filtres des projets ---
+// --- Le nom passe du titre à la bannière quand le titre sort de l'écran ---
 
-const filterButtons = [...document.querySelectorAll('.filter-btn')];
-const projectCards = [...document.querySelectorAll('.project-card')];
+const header = document.querySelector('.top');
+const headerName = document.querySelector('.top__name');
+const pageTitle = document.querySelector('.dial__title');
+const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-for (const button of filterButtons) {
-    button.addEventListener('click', () => {
-        for (const other of filterButtons) other.setAttribute('aria-pressed', other === button);
-        const { filter } = button.dataset;
-        for (const card of projectCards) card.hidden = filter !== 'all' && !card.dataset.category.split(' ').includes(filter);
-    });
+function moveName() {
+    const box = pageTitle.getBoundingClientRect();
+    const range = box.height * 0.6; // le passage se fait pendant que la fin du titre disparaît
+    const hidden = (header.offsetHeight + range - box.bottom) / range;
+    const progress = Math.min(Math.max(calm.matches ? Math.floor(hidden) : hidden, 0), 1);
+    headerName.style.setProperty('--name', progress.toFixed(3));
+    headerName.inert = progress < 0.5; // invisible : ni clic, ni tabulation, ni lecture
 }
+window.addEventListener('scroll', moveName, { passive: true });
+window.addEventListener('resize', moveName);
+document.fonts.addEventListener('loadingdone', moveName);
+moveName();
+
+// --- Flèche vers le bas : elle s'efface au premier défilement (sur téléphone, où elle flotte) ---
+
+const scrollCue = document.querySelector('.scrollcue');
+const hideCue = () => scrollCue.classList.toggle('is-away', window.scrollY > 40);
+window.addEventListener('scroll', hideCue, { passive: true });
+hideCue();
 
 // --- Défilement bloqué sous les fenêtres (cards/modal.js) ---
 

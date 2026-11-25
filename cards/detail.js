@@ -1,11 +1,11 @@
 // Détail d'une carte de la collection : elle sort de sa case et se pose à gauche, ses informations s'affichent à droite.
 import { createCard, el, reducedMotion, text } from './card.js';
-import { createKnob, createWave } from './meter.js';
+import { createKnob } from './meter.js';
 import { createModal } from './modal.js';
+import { createPlayer } from './player.js';
 
 const FLIGHT = 650; // durée du trajet, en millisecondes
 const RETURN = 450;
-const SOURCES = { youtube: 'YouTube', spotify: 'Spotify', soundcloud: 'SoundCloud', vimeo: 'Vimeo' };
 
 /** Fin d'un trajet. Une animation est gelée dans un onglet caché : on n'attend jamais beaucoup plus que sa durée. */
 const landed = (flight, duration) => Promise.race([
@@ -56,7 +56,7 @@ export function createDetail({ cards, describe }) {
         description.innerHTML = content.longHtml;
 
         info.replaceChildren(el('p', 'detail__rarity', {}, createKnob(card.rarity), text('span', '', `rarity_${card.rarity.id}`)),
-            title, ticket(card, content), ...player(content), description);
+            title, ticket(card, content), ...(content.embed.src ? [createPlayer(content)] : []), description);
         info.scrollTop = 0;
 
         overlay.scrollTop = 0;
@@ -64,26 +64,6 @@ export function createDetail({ cards, describe }) {
         overlay.dataset.rarity = card.rarity.id;
         closeButton.setAttribute('aria-label', getTranslation('cards_close'));
         return content;
-    }
-
-    /** Façade du lecteur : il n'est chargé qu'au clic, rien ne joue sans geste. */
-    function player({ name, embed }) {
-        if (!embed.src) return [];
-        const box = el('div', 'player');
-        const facade = el('button', 'player__facade', { type: 'button' },
-            el('span', 'player__play'),
-            el('span', 'player__track', {},
-                createWave(name),
-                el('span', 'player__title', {}, text('span', '', 'player_listen'), ` ${name}`),
-                el('span', 'player__source', {}, text('span', '', 'player_open'), ` ${SOURCES[embed.type] ?? embed.type}`)));
-        facade.addEventListener('click', () => {
-            const frame = el('iframe', `detail__embed detail__embed--${embed.type}`, { src: embed.src, title: name });
-            frame.allow = 'autoplay; encrypted-media; fullscreen';
-            box.replaceChildren(frame);
-            frame.focus();
-        });
-        box.append(facade);
-        return [box];
     }
 
     /** from : élément d'où sort la carte, sa case dans la grille par défaut. */
@@ -120,7 +100,7 @@ export function createDetail({ cards, describe }) {
     async function close() {
         if (!current || isClosing) return;
         isClosing = true;
-        info.querySelector('iframe')?.remove(); // coupe le son
+        for (const frame of info.querySelectorAll('iframe')) frame.remove(); // coupe le son
         overlay.classList.add('is-closing', 'is-moving');
         if (!reducedMotion()) {
             const from = getComputedStyle(node).transform;
