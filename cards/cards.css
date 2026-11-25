@@ -1,0 +1,444 @@
+/* Cartes, cadran, booster, fiche et timeline. Couleurs et polices : style.css. */
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* La rareté est un niveau : largeur des lettres, couleur sur la page (--level), couleur sur les objets (--led). */
+[data-rarity="common"] { --wdth: 72; --level: var(--commune); --led: var(--led-commune); }
+[data-rarity="rare"] { --wdth: 90; --level: var(--rare); --led: var(--led-rare); }
+[data-rarity="ultra"] { --wdth: 108; --level: var(--ultra); --led: var(--led-ultra); }
+[data-rarity="legendary"] { --wdth: 128; --level: var(--crete); --led: var(--led-crete); }
+
+/* Potard : le seul signe de rareté */
+.knob { flex: none; width: 1.375rem; height: 1.375rem; color: var(--level); }
+.knob path { stroke: var(--cadran); }
+
+/* Un titre composé en Wavefont devient une forme d'onde */
+.wave { display: block; overflow: hidden; font: 400 1em/1 var(--font-onde); white-space: nowrap; user-select: none; }
+
+/* Cadran de VU-mètre (dos de carte, booster, progression) */
+.meter { overflow: hidden; }
+.meter__needle { transform-box: view-box; transform-origin: 50px 62px; transform: rotate(var(--needle, -46deg)); }
+
+/* ---------- Carte ---------- */
+
+.tcard { position: relative; display: block; width: var(--card); aspect-ratio: 5 / 7; border-radius: 0.875rem; container-type: inline-size; perspective: 60rem; text-align: left; color: var(--sur-bakelite); }
+.tcard__inner { position: absolute; inset: 0; border-radius: 5.6cqw; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1.1); transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); box-shadow: var(--ombre-carte); }
+.tcard:hover .tcard__inner { transition-duration: 0.15s; }
+.tcard.is-flipped .tcard__inner { transform: rotateX(var(--tilt-x, 0deg)) rotateY(calc(180deg + var(--tilt-y, 0deg))); }
+.tcard--deck.is-flipped .tcard__inner, .tcard--deck.is-flipped:hover .tcard__inner { transition-duration: 0.4s; }
+.tcard__face { position: absolute; inset: 0; overflow: hidden; border-radius: 5.6cqw; background: var(--bakelite); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+
+/* Dos : un VU-mètre au repos */
+.tcard__back { display: grid; align-content: space-between; padding: 6cqw; color: var(--sur-jaune); }
+.tcard__back::before { content: ""; position: absolute; inset: 6cqw; border-radius: 3.4cqw; background: var(--jaune); }
+.tcard__back > * { position: relative; }
+.tcard__vu { padding: 8cqw 6cqw 0; font: 850 34cqw/0.8 var(--font-display); font-variation-settings: "wdth" 118; letter-spacing: -0.02em; }
+
+/* Recto */
+.tcard__front { display: grid; grid-template: 57% minmax(0, 1fr) / minmax(0, 1fr); padding: 3cqw; transform: rotateY(180deg); }
+.tcard__front > .knob { position: absolute; z-index: 3; left: 3cqw; top: 3cqw; width: 17cqw; height: 17cqw; padding: 2.4cqw; border-radius: 3cqw 0 8.5cqw 0; background: var(--bakelite); color: var(--led); }
+.tcard__front > .knob path { stroke: var(--bakelite); }
+.tcard__art { position: relative; overflow: hidden; border-radius: 3cqw; background: var(--bakelite-creux); }
+.tcard__art img { width: 100%; height: 100%; object-fit: cover; object-position: var(--crop, 50%) 50%; transform: scale(var(--zoom, 1)); transform-origin: var(--crop, 50%) 100%; }
+.tcard__art--logo { display: grid; place-items: center; }
+.tcard__art--logo img { position: relative; width: 38%; height: 46%; margin-bottom: 14cqw; object-fit: contain; }
+.tcard__art--logo .wave { position: absolute; inset: auto 0 0; padding: 0 3cqw; color: var(--led); font-size: 20cqw; line-height: 0.9; }
+.tcard__body { position: relative; z-index: 2; display: flex; flex-direction: column; min-height: 0; gap: 1.6cqw; padding: 3.4cqw 2.4cqw 1.4cqw; }
+.tcard__name { font: 850 8.6cqw/0.96 var(--font-display); font-variation-settings: "wdth" var(--wdth); letter-spacing: -0.01em; text-wrap: balance; }
+.tcard__type { font-size: 5cqw; font-weight: 600; line-height: 1.2; color: var(--sur-bakelite-douce); }
+.tcard__text { display: -webkit-box; min-height: 0; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; font-size: 4.9cqw; line-height: 1.32; }
+.tcard__footer { display: flex; align-items: end; justify-content: space-between; gap: 4cqw; margin-top: auto; font-size: 4.8cqw; font-weight: 650; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.tcard__rarity { color: var(--led); }
+
+/* ---------- Lumière : elle monte avec la rareté, et s'arrête au bas de l'image ---------- */
+
+.light { position: absolute; z-index: 1; inset: 0; overflow: hidden; border-radius: 5.6cqw; pointer-events: none; }
+[data-rarity="common"] .light { display: none; }
+.light__sheen { position: absolute; inset: 3cqw 3cqw 43.6%; overflow: hidden; border-radius: 3cqw; }
+/* Deux bandes qui se fondent l'une dans l'autre : ::before au repos, ::after sous la souris. Aucune ne change de place d'un coup. */
+.light__sheen::before, .light__sheen::after { content: ""; position: absolute; top: -30%; bottom: -30%; left: 78%; width: 70cqw; translate: -50% 0; rotate: 18deg; background: var(--sheen); transition: opacity 0.4s; }
+.light__sheen::after { left: var(--mx, 50%); opacity: 0; }
+[data-rarity="rare"] { --sheen: linear-gradient(90deg, transparent, #ffffff14 42%, #ffffff24 50%, #ffffff14 58%, transparent); }
+[data-rarity="ultra"] { --sheen: linear-gradient(90deg, transparent, #f190b41f 30%, #ffffff30 50%, #58bcc426 70%, transparent); --edge: #ffd3e4; --sweep: 7s; }
+[data-rarity="legendary"] { --sheen: linear-gradient(90deg, transparent, #ffb84d38 24%, #fff0c27a 46%, #ffffff94 50%, #fff0c27a 54%, #ff8a5a38 78%, transparent); --edge: #ffe9a8; --sweep: 5s; }
+/* Le bord s'éclaire près du pointeur, et le reflet balaie l'image */
+:is([data-rarity="ultra"], [data-rarity="legendary"]) .light::after { content: ""; position: absolute; inset: 0; padding: 1.1cqw; border-radius: 5.6cqw; background: radial-gradient(circle at var(--mx, 22%) var(--my, 4%), #fff, var(--edge) 22%, transparent 68%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+:is([data-rarity="ultra"], [data-rarity="legendary"]) .light__sheen::before { animation: sweep var(--sweep) ease-in-out infinite; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .tcard:hover .light__sheen::before { opacity: 0; }
+    .tcard:hover .light__sheen::after { opacity: 1; }
+}
+/* Éclats et halo du Légendaire. De dos, rien ne trahit la carte. */
+.tcard[data-rarity="legendary"].is-flipped .tcard__inner { box-shadow: 0 0 5cqw 0.6cqw var(--halo), 0 0 14cqw 2cqw color-mix(in srgb, var(--halo) 55%, transparent), var(--ombre-carte); }
+.sparks { position: absolute; inset: 0; filter: drop-shadow(0 0 1.4cqw #ffcf6b) drop-shadow(0 0 0.6cqw #fff); }
+.spark { position: absolute; width: var(--size); height: var(--size); translate: -50% -50%; background: #fffbe6; clip-path: var(--star); animation: twinkle 3.2s var(--delay) ease-in-out infinite; }
+.sparks, .particle { --star: polygon(50% 0, 56% 44%, 100% 50%, 56% 56%, 50% 100%, 44% 56%, 0 50%, 44% 44%); }
+
+/* Légendaire : l'image prend toute la largeur, le nom est une plaque rouge */
+[data-rarity="legendary"] .tcard__front { grid-template-rows: 51% minmax(0, 1fr); }
+[data-rarity="legendary"] .tcard__front > .knob { left: 0; top: 0; width: 19cqw; height: 19cqw; padding: 3.4cqw; border-radius: 0 0 9cqw 0; }
+[data-rarity="legendary"] .tcard__art:not(.tcard__art--logo) { position: absolute; inset: 0 0 42%; border-radius: 0; }
+[data-rarity="legendary"] .light__sheen { inset: 0 0 42%; border-radius: 0; }
+[data-rarity="legendary"] .tcard__front::after { content: ""; position: absolute; inset: 58% 0 0; background: var(--bakelite); }
+[data-rarity="legendary"] .tcard__body { grid-area: 2 / 1; justify-content: flex-end; }
+[data-rarity="legendary"] .tcard__name { align-self: start; margin-bottom: auto; padding: 1.8cqw 2.6cqw; border-radius: 1.6cqw; background: var(--led-crete); color: #15110e; font-size: 8.2cqw; }
+[data-rarity="legendary"] .tcard__footer { margin-top: 1cqw; }
+
+/* Petite carte : le nom et la rareté suffisent */
+@container (max-width: 11rem) {
+    .tcard__front > .knob { width: 21cqw; height: 21cqw; }
+    .tcard__text { display: none; }
+    .tcard__name { font-size: 10.6cqw; }
+    [data-rarity="legendary"] .tcard__name { font-size: 9cqw; }
+    .tcard__type, .tcard__footer { font-size: 7.4cqw; }
+}
+
+/* ---------- Cadran : la main de cartes est la graduation ---------- */
+
+.dial { position: relative; overflow: hidden; container-type: inline-size; }
+.dial__scene { --w: min(100cqw, 92rem, max(44rem, (100svh - var(--top) - 4rem) * 1.86)); position: relative; left: 50%; width: var(--w); height: calc(var(--w) * 0.535); translate: -50% 0; touch-action: pan-y; user-select: none; }
+.dial__pivot { position: absolute; left: 50%; top: calc(var(--w) * 0.565); width: 0; height: 0; transform: rotate(var(--turn, 0deg)); transition: transform var(--vu) cubic-bezier(0.3, 1.2, 0.5, 1); }
+.dial__scale { position: absolute; left: calc(var(--w) * -0.5); top: calc(var(--w) * -0.565); width: var(--w); max-width: none; height: calc(var(--w) * 0.565); overflow: visible; pointer-events: none; }
+.dial__scale text { font: 750 1.5px var(--font-texte); fill: var(--encre); text-anchor: middle; }
+.dial__scale text.is-red { fill: var(--crete); }
+.dial__hand { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+.dial__card { --card: calc(var(--w) * 0.128); position: absolute; left: calc(var(--card) / -2); top: 0; width: var(--card); height: calc(var(--card) * 1.4); transform-origin: 50% 0; transform: rotate(calc(var(--a) + 8deg)) translateY(calc(var(--w) * -0.44)); transition: transform var(--vu) cubic-bezier(0.3, 1.35, 0.5, 1); }
+.dial__card.is-raised { z-index: 50; transform: rotate(calc(var(--a) * 0.92 + 12.5deg)) translateY(calc(var(--w) * -0.488)) rotate(calc(var(--a) * -0.65 - 4deg)) scale(1.3); }
+.dial__card .tcard { pointer-events: none; }
+.dial__card:focus-visible { outline: 0; }
+.dial__card:focus-visible .tcard__inner { outline: 4px solid var(--anneau); outline-offset: 2px; }
+/* Main fermée : une tranche d'image et le potard, dans le même cadre pour toutes. Le texte arrive quand la carte se lève. Pas de reflet dans l'éventail. */
+.dial__card .light__sheen, .dial__card:not(.is-raised) :is(.tcard__body, .sparks), .dial__card:not(.is-raised) .tcard:not([data-rarity="legendary"]) .light, .dial__card:not(.is-raised) .tcard .tcard__front::after { display: none; }
+.dial__card:not(.is-raised) .tcard .tcard__front { grid-template-rows: minmax(0, 1fr); }
+.dial__card:not(.is-raised) .tcard[data-rarity] .tcard__art { position: relative; inset: auto; border-radius: 3cqw; }
+.dial__card:not(.is-raised) .tcard[data-rarity] .tcard__front > .knob { left: 3cqw; top: 3cqw; width: 21cqw; height: 21cqw; padding: 2.4cqw; border-radius: 3cqw 0 8.5cqw 0; }
+/* Les Légendaires gardent leur liseré doré et un halo plus discret */
+.dial__card:not(.is-raised) .tcard[data-rarity="legendary"] .light::after { padding: 1.6cqw; background: linear-gradient(160deg, #fff, var(--edge) 30%, #d99a2b 100%); }
+.dial__card:not(.is-raised) .tcard[data-rarity="legendary"].is-flipped .tcard__inner { box-shadow: 0 0 5cqw 0.5cqw var(--halo), var(--ombre-carte); }
+.dial__needle { position: absolute; left: -2px; bottom: 0; width: 4px; height: calc(var(--w) * 0.452); border-radius: 2px; background: var(--aiguille); clip-path: inset(0 0 calc(var(--w) * 0.2)); transform-origin: 50% 100%; transform: rotate(var(--needle, -48deg)); transition: transform var(--vu) cubic-bezier(0.3, 1.5, 0.5, 1); pointer-events: none; }
+.dial__plate { position: absolute; z-index: 60; left: 50%; top: calc(var(--w) * 0.565); display: grid; align-content: end; justify-items: center; gap: calc(var(--w) * 0.007); width: calc(var(--w) * 0.47); height: calc(var(--w) * 0.235); padding: 0 calc(var(--w) * 0.035) calc(var(--w) * 0.042); translate: -50% -100%; clip-path: inset(0 0 calc(var(--w) * 0.03)); border-radius: calc(var(--w) * 0.235) calc(var(--w) * 0.235) 0 0; background: var(--bakelite); color: var(--sur-bakelite); text-align: center; }
+.dial__level { font-size: clamp(0.8125rem, calc(var(--w) * 0.0125), 1rem); font-weight: 700; line-height: 1; color: var(--led, var(--sur-bakelite-douce)); }
+.dial__name { font: 850 clamp(1.25rem, calc(var(--w) * 0.026), 2.125rem)/0.95 var(--font-display); font-variation-settings: "wdth" var(--wdth, 100); text-wrap: balance; }
+.dial__role { font-size: clamp(0.8125rem, calc(var(--w) * 0.0135), 1.0625rem); font-weight: 600; line-height: 1.25; color: var(--sur-bakelite-douce); text-wrap: balance; }
+.dial__controls { display: flex; align-items: center; justify-content: center; gap: clamp(0.5rem, calc(var(--w) * 0.016), 1.5rem); margin-top: 0.25rem; }
+.dial__controls .btn { min-height: 2.75rem; }
+.dial__arrow { display: grid; flex: none; place-items: center; width: clamp(3.25rem, calc(var(--w) * 0.055), 4.5rem); aspect-ratio: 1; border-radius: 50%; color: var(--sur-bakelite); box-shadow: inset 0 0 0 3px var(--sur-bakelite); transition: background-color 0.12s, color 0.12s; }
+.dial__arrow svg { width: 46%; }
+.dial__arrow:hover { background: var(--sur-bakelite); color: #1f1a17; }
+.dial__arrow:active { translate: 0 1px; }
+.dial__arrow:focus-visible { outline-color: var(--led-rare); }
+.dial__head, .dial__side { position: absolute; z-index: 2; top: clamp(1rem, 2.4cqw, 2rem); display: grid; gap: 0.75rem; }
+.dial__head { left: var(--gutter); max-width: 25cqw; }
+.dial__side { right: var(--gutter); max-width: 22cqw; text-align: right; }
+.dial__title { font: 850 clamp(1.5rem, 3.5cqw, 3.5rem)/0.9 var(--font-display); font-variation-settings: "wdth" 100; letter-spacing: -0.01em; }
+.dial__motto { font-weight: 600; line-height: 1.3; color: var(--encre-douce); }
+.dial__tagline { font-size: clamp(0.9375rem, 1.45cqw, 1.25rem); font-weight: 550; line-height: 1.35; }
+.dial__links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.25rem 1.25rem; }
+@container (max-width: 56rem) {
+    /* L'aiguille reste au zénith, on fait tourner la main sous elle */
+    .dial__scene { --w: min(205cqw, 60rem); margin-top: -1.5rem; }
+    .dial__card.is-raised { transform: rotate(calc(var(--a) + 6deg)) translateY(calc(var(--w) * -0.478)) rotate(-6deg) scale(1.3); }
+    .dial__plate { width: calc(var(--w) * 0.44); padding-bottom: calc(var(--w) * 0.045); }
+    .dial__controls .btn { padding-inline: 0.875rem; }
+    .dial__head, .dial__side { position: relative; inset: auto; max-width: none; padding: 1.25rem 1rem 0; text-align: left; }
+    .dial__side { padding-top: 0.5rem; }
+    .dial__title { font-size: min(10cqw, 3rem); }
+    .dial__links { justify-content: flex-start; }
+}
+
+/* Invite à descendre, au bas du premier écran. Le premier chevron suit le second, comme un niveau qui descend. */
+.scrollcue { position: relative; z-index: 2; display: grid; place-items: center; width: 4rem; height: 4rem; margin-inline: auto; }
+.scrollcue svg { width: 2.5rem; overflow: visible; fill: none; stroke: var(--encre); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; animation: cue-drop 1.6s ease-in-out infinite; }
+.scrollcue path { animation: cue-light 1.6s ease-in-out infinite; }
+.scrollcue path + path { animation-delay: 0.2s; }
+.scrollcue:hover svg { stroke: var(--aiguille); }
+
+/* ---------- Booster ---------- */
+
+.pack { --tear: 0; --cut: 12%; position: relative; display: block; width: calc(var(--card) * 0.9); aspect-ratio: 5 / 7.4; container-type: inline-size; touch-action: pan-y; user-select: none; filter: drop-shadow(0 0.75rem 0.75rem #1b161059); }
+.pack__half { position: absolute; inset: 0; pointer-events: none; }
+.pack__half--top { z-index: 1; clip-path: inset(0 0 calc(100% - var(--cut)) 0); transform-origin: 100% 12%; transform: rotate(calc(var(--tear) * 7deg)) translateY(calc(var(--tear) * -0.4rem)); }
+.pack__half--bottom { clip-path: inset(var(--cut) 0 0 0); }
+.pack:not(.is-tearing) .pack__half--top { transition: transform 0.2s; }
+.pack__art { position: absolute; inset: 0; display: flex; flex-direction: column; background: var(--bakelite); color: var(--sur-bakelite); text-align: left; }
+.pack__band { flex: none; height: var(--cut); background: repeating-linear-gradient(90deg, var(--led-crete) 0 2.4cqw, var(--bakelite) 2.4cqw 4.8cqw); }
+.pack__meter { margin: 6cqw 6cqw 0; overflow: hidden; border-radius: 3cqw; background: var(--jaune); color: var(--sur-jaune); }
+.pack__meter .meter__needle { --needle: calc(-46deg + var(--tear) * 80deg); transition: transform 80ms linear; }
+.pack:not(.is-tearing, .is-open) .meter__needle { transition: transform var(--crete-retour) ease-out; } /* on relâche : l'aiguille redescend */
+.pack__foot { display: grid; gap: 2cqw; margin-top: auto; padding: 0 7cqw 7cqw; }
+.pack__foot .wave { color: var(--led-crete); font-size: 24cqw; line-height: 0.8; }
+.pack__label { font: 850 17cqw/0.86 var(--font-display); font-variation-settings: "wdth" 78; letter-spacing: -0.02em; }
+.pack__count { font-size: 6.6cqw; font-weight: 650; line-height: 1.2; }
+.pack.is-open { pointer-events: none; }
+.pack.is-open .pack__half--top { animation: pack-top 0.6s ease-in forwards; }
+.pack.is-open .pack__half--bottom { animation: pack-bottom 0.55s 0.25s ease-in forwards; }
+
+/* Le paquet qui dépasse du bas de l'écran */
+.floating-booster { position: fixed; right: var(--gutter); bottom: var(--nav); z-index: 65; display: grid; align-content: start; width: 8rem; height: 5rem; padding: 1.4rem 0.75rem 0; background: repeating-linear-gradient(90deg, var(--led-crete) 0 4px, transparent 4px 8px) top / 100% 0.75rem no-repeat, var(--bakelite); color: var(--sur-bakelite); font: 650 0.9375rem/1.15 var(--font-display); font-variation-settings: "wdth" 84; rotate: 3deg; transform-origin: 50% 100%; box-shadow: var(--ombre-carte); transition: translate 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.3), rotate 0.25s; translate: 0 0.9rem; }
+.floating-booster.is-tucked { translate: 0 110%; visibility: hidden; transition: translate 0.25s, visibility 0s 0.25s; }
+.floating-booster:hover, .floating-booster:focus-visible { translate: 0 0; rotate: 0deg; }
+
+/* ---------- Fenêtre d'ouverture ---------- */
+
+.booster { position: fixed; inset: 0; z-index: 1000; overflow-x: hidden; overflow-y: auto; background: var(--fond); outline: none; animation: fade 0.25s ease-out; }
+/* La couleur de la carte révélée gagne toute la fenêtre */
+.booster__ink { position: fixed; inset: 0; background: color-mix(in srgb, var(--rarity) var(--aplat), var(--fond)); clip-path: circle(0 at 50% 45%); }
+.booster.is-inked:not([data-effect="none"]) .booster__ink { clip-path: circle(125% at 50% 45%); transition: clip-path 0.65s cubic-bezier(0.3, 0, 0.2, 1); }
+.booster__scene { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; min-height: 100%; overflow: clip; padding: 1.5rem 1rem; text-align: center; }
+.booster__title { font: 850 clamp(1.75rem, 5vw, 3.25rem)/0.95 var(--font-display); font-variation-settings: "wdth" 108; letter-spacing: -0.01em; text-wrap: balance; }
+.booster__intro { max-width: 34rem; font-size: 1.125rem; line-height: 1.4; text-wrap: balance; }
+.booster__hint { min-height: 1.5em; }
+:is(.booster__hint, .booster__actions) { position: relative; z-index: 1; } /* devant les rayons */
+.booster__live { position: absolute; top: 0; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.booster__counter { position: absolute; top: 100%; margin-top: 0.9rem; font: 650 1rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.booster__stage { --card: min(19rem, 74vw, 42vh); position: relative; display: grid; place-items: center; margin: 1.25rem 0; }
+.booster[data-phase="deck"] .booster__stage { margin-bottom: 3rem; }
+.booster[data-phase="deck"] :is(.booster__title, .booster__intro), .booster[data-phase="summary"] .booster__intro { display: none; }
+.booster[data-phase="summary"] .booster__stage { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; max-width: 80rem; }
+.booster__actions, .collection__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; }
+.booster__actions { justify-content: center; }
+.booster__link { min-height: 2.75rem; font-weight: 650; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.booster__link:hover { text-decoration-thickness: 4px; }
+.booster::after { content: ""; position: fixed; inset: 0; background: var(--halo); opacity: 0; pointer-events: none; }
+.booster.is-flashing::after { animation: flash 0.7s ease-out; }
+
+/* Carte à retourner : l'aiguille du dos monte au niveau de la carte */
+.tcard--deck { animation: card-in 0.15s ease-out; }
+.tcard--deck.is-charging { animation: card-shake var(--charge) ease-in; }
+.tcard--deck.is-charging .meter__needle { animation: needle-rise var(--charge) ease-in both; }
+.tcard--deck[data-effect="legend"].is-flipped { animation: legend-pop 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.2); }
+.tcard--leaving { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.pile { position: absolute; inset: 0; pointer-events: none; }
+.pile__card { position: absolute; inset: 0; border-radius: 1rem; background: var(--bakelite); box-shadow: var(--ombre-carte); transform: translateY(calc(var(--depth) * 0.45rem)) scale(calc(1 - var(--depth) * 0.02)); z-index: calc(var(--depth) * -1); }
+
+/* Animation passée d'un clic */
+.tcard.tcard--deck.is-instant.is-instant, .tcard.tcard--deck.is-instant.is-instant .tcard__inner { animation: none; transition: none; }
+
+/* Résultat */
+.tcard--summary { width: min(13.5rem, 42vw); animation: card-in 0.4s ease-out both; animation-delay: calc(var(--i) * 80ms); }
+
+/* Cliquables : elles ouvrent leur fiche */
+.tcard--summary { transition: translate 0.2s; }
+.tcard--summary:hover { translate: 0 -0.4rem; }
+
+/* ---------- Effets d'apparition ---------- */
+
+.fx { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.fx > * { position: absolute; border-radius: 50%; opacity: 0; }
+.fx__rays { width: 340vmax; aspect-ratio: 1; background: repeating-conic-gradient(var(--halo) 0deg 9deg, transparent 9deg 24deg); }
+.fx__ring { width: 120%; aspect-ratio: 1; border: 0.5rem solid var(--rarity); }
+.fx[data-effect="glow"].is-active .fx__ring { animation: ring 0.7s ease-out; }
+.fx[data-effect="burst"].is-active .fx__ring { animation: ring 0.8s ease-out 2; }
+.fx[data-effect="legend"].is-active .fx__ring { animation: ring 0.9s ease-out 2; }
+.fx[data-effect="legend"].is-active .fx__rays { animation: rays-in 0.5s 0.25s ease-out forwards, spin 40s linear infinite; }
+.particle { position: absolute; top: 50%; left: 50%; pointer-events: none; z-index: 5; }
+.particle--star { clip-path: var(--star); }
+
+/* ---------- Collection ---------- */
+
+.collection { display: grid; gap: 1.25rem; margin-bottom: 2rem; }
+.collection__main { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2.5rem; }
+.gauge { display: inline-flex; align-items: center; gap: 1rem; }
+.gauge .meter { flex: none; width: 8.25rem; border: 2px solid var(--encre); border-radius: var(--r-commande); background: var(--cadran); }
+.gauge .meter__needle { transition: transform var(--vu) cubic-bezier(0.3, 1.5, 0.5, 1); }
+.gauge__text { display: grid; gap: 2px; line-height: 1.2; }
+.gauge__count { font: 800 1.25rem/1.1 var(--font-display); font-variation-settings: "wdth" 92; font-variant-numeric: tabular-nums; }
+.gauge__total { font-size: 0.9375rem; color: var(--encre-douce); }
+.collection__chips { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; font-variant-numeric: tabular-nums; }
+.collection__chip { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 650; color: var(--level); }
+.collection__chip .knob path { stroke: var(--fond); }
+
+.project-grid, .software-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(14rem, 42%), 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
+.project-card, .software-card { --card: 100%; position: relative; aspect-ratio: 5 / 7; cursor: pointer; border-radius: 0.875rem; }
+.is-undiscovered { cursor: default; }
+[data-card]:not(.is-undiscovered):hover { z-index: 2; }
+[data-card] .tcard { transition: transform 0.25s; }
+[data-card]:not(.is-undiscovered):hover .tcard { transform: translateY(-0.4rem); }
+
+.hidden-card { display: grid; place-content: center; justify-items: center; gap: 0.375rem; height: 100%; padding: 0.75rem; border: 2px dashed var(--trait); border-radius: 0.875rem; color: var(--encre-douce); font-size: 0.9375rem; font-weight: 600; line-height: 1.3; text-align: center; }
+.hidden-card__mark { color: var(--encre); font: 850 2.25rem/1 var(--font-display); font-variation-settings: "wdth" 72; }
+.hidden-card__text { line-height: 1.3; }
+
+.new-tag { position: absolute; top: -0.5rem; left: 0.75rem; z-index: 3; display: none; padding: 0.25rem 0.6rem; border-radius: 4px; background: var(--encre); color: var(--sur-encre); font: 700 0.8125rem/1.1 var(--font-display); pointer-events: none; }
+.is-new .new-tag { display: block; }
+/* Sur une carte retournée : côtés inversés, et juste devant le recto */
+.tcard__inner > .new-tag { left: 0.75rem; right: auto; transform: translateZ(-1px) rotateY(180deg); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+
+/* Case vide pendant que sa carte est sortie */
+.is-out { box-shadow: inset 0 0 0 2px var(--trait); }
+.is-out > * { visibility: hidden; }
+
+/* ---------- Timeline : les années sur une règle, les projets en clips ---------- */
+
+.timeline { --axis: 12rem; position: relative; }
+/* La règle : un trait, des graduations, et la tête de lecture qui descend avec la page */
+.timeline__rail { position: absolute; inset: 0 auto 0 var(--axis); width: 1.5rem; background: linear-gradient(var(--trait) 0 0) 0 0 / 3px 100% no-repeat, repeating-linear-gradient(var(--trait) 0 2px, transparent 2px 1.25rem) 0 0 / 0.75rem 100% no-repeat; }
+.timeline__played { position: absolute; left: 0; top: 0; width: 3px; height: var(--played, 0); background: var(--aiguille); }
+.timeline__head { position: absolute; left: 1.5px; top: var(--played, 0); width: 1.25rem; height: 1.25rem; translate: -50% -50%; border-radius: 50%; background: var(--aiguille); box-shadow: 0 0 0 4px var(--fond); }
+.timeline__years { display: grid; gap: clamp(2.5rem, 6vw, 4.5rem); }
+.timeline__year { position: relative; display: grid; grid-template-columns: calc(var(--axis) - 1.5rem) minmax(0, 1fr); gap: 1rem 4rem; align-items: start; }
+.timeline__label { position: sticky; top: calc(var(--top) + 1.5rem); text-align: right; font: 850 clamp(2.75rem, 5vw, 4.25rem)/0.8 var(--font-display); font-variation-settings: "wdth" 74; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--trait); transition: color var(--vu); }
+.is-played > .timeline__label { color: var(--encre); }
+.timeline__clips { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr)); gap: 1rem; }
+.timeline__clips > li { display: grid; }
+
+.clip { display: grid; align-content: start; gap: 0.375rem; overflow: hidden; padding: 0 1rem 1rem; border-radius: var(--r-commande); background: var(--bakelite); color: var(--sur-bakelite); line-height: 1.3; }
+.clip__wave { display: block; margin: 0 -1rem 0.5rem; padding: 0.5rem 0 0.375rem; overflow: hidden; background: var(--bakelite-creux); color: var(--led); }
+.clip__wave .wave { width: max-content; overflow: visible; font-size: 3rem; line-height: 0.8; white-space: pre; }
+.clip__head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.clip__head .knob { color: var(--led); }
+.clip__head .knob path { stroke: var(--bakelite); }
+.clip__name { font: 800 1.375rem/1 var(--font-display); font-variation-settings: "wdth" var(--wdth); text-wrap: balance; }
+.clip__role { font-size: 0.9375rem; font-weight: 600; color: var(--sur-bakelite-douce); }
+.clip__text { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; font-size: 0.9375rem; }
+.clip:hover, .clip:focus-visible { box-shadow: inset 0 0 0 3px var(--led); }
+/* Survolé, le clip se lit : son onde défile */
+.clip:is(:hover, :focus-visible) .wave { animation: wave-run 14s linear infinite; }
+
+@media (max-width: 54rem) {
+    .timeline { --axis: 0.5rem; }
+    .timeline__year { grid-template-columns: minmax(0, 1fr); padding-left: 2.75rem; }
+    .timeline__label { position: static; text-align: left; }
+}
+
+/* ---------- Lecteur : il ne charge qu'au clic ---------- */
+
+.player { overflow: hidden; border-radius: var(--r-commande); background: var(--bakelite); color: var(--sur-bakelite); }
+.player__facade { display: grid; grid-template-columns: 4rem minmax(0, 1fr); align-items: center; gap: 1.25rem; width: 100%; padding: 1.25rem; }
+.player__facade:focus-visible { outline-color: var(--led-rare); outline-offset: -4px; }
+.player__play { display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%; background: var(--sur-bakelite); transition: background-color 0.12s; }
+.player__play::before { content: ""; margin-left: 5px; border-left: 20px solid #1f1a17; border-block: 12px solid transparent; }
+.player__facade:hover .player__play { background: var(--led-crete); }
+.player__track { display: grid; gap: 0.375rem; min-width: 0; }
+.player__track .wave { font-size: 2.75rem; color: var(--led); }
+.player__title { font: 750 1.125rem/1.1 var(--font-display); font-variation-settings: "wdth" 92; }
+.player__source { font-size: 0.9375rem; line-height: 1.3; color: var(--sur-bakelite-douce); }
+
+/* ---------- Platine : le châssis commun à tous les lecteurs ---------- */
+
+.deck { display: grid; grid-template-columns: minmax(0, 1fr); background: var(--bakelite); color: var(--sur-bakelite); container-type: inline-size; }
+.deck :focus-visible { outline-color: var(--led-rare); outline-offset: 2px; }
+.deck__screen { position: relative; background: #000; }
+.deck__screen:is(.deck__screen--youtube, .deck__screen--vimeo) { margin: 0.75rem 0.75rem 0; overflow: hidden; border-radius: 4px; aspect-ratio: 16 / 9; }
+.deck__screen--spotify { margin: 0.75rem 0.75rem 0; background: none; }
+.deck__screen--soundcloud { background: none; }
+.deck__screen--soundcloud.has-frame { margin: 0.75rem 0.75rem 0; }
+.deck__frame { display: block; width: 100%; height: 100%; border: 0; color-scheme: light; } /* sinon le navigateur peint des coins blancs */
+.deck__frame--spotify { height: 22rem; border-radius: 12px; }
+.deck__frame--soundcloud { height: 18.75rem; }
+.deck__hidden { position: absolute; width: 1px; height: 1px; border: 0; opacity: 0; pointer-events: none; }
+.deck__status { padding: 1.25rem; font-weight: 600; color: var(--sur-bakelite-douce); }
+
+/* Défilement : une règle graduée, l'aiguille en tête de lecture */
+.deck__scrub { position: relative; padding: 0.75rem 1rem 0; }
+.deck__wave { --unplayed: #6d6152; display: block; width: 100%; height: 4.5rem; margin-bottom: 0.5rem; color: var(--led); }
+.deck__seek, .deck__gain { --value: 0; appearance: none; -webkit-appearance: none; display: block; width: 100%; height: 2.75rem; margin: 0; background: none; cursor: pointer; }
+.deck__seek::-webkit-slider-runnable-track { height: 1.75rem; border-bottom: 4px solid transparent; background: linear-gradient(var(--led) 0 0) 0 100% / calc(var(--value) * 100%) 4px no-repeat border-box, linear-gradient(#6d6152 0 0) 0 100% / 100% 4px no-repeat border-box, repeating-linear-gradient(90deg, #6d6152 0 2px, transparent 2px 2%) 0 100% / 100% 0.625rem no-repeat padding-box; }
+.deck__seek::-moz-range-track { height: 1.75rem; border-bottom: 4px solid transparent; background: linear-gradient(var(--led) 0 0) 0 100% / calc(var(--value) * 100%) 4px no-repeat border-box, linear-gradient(#6d6152 0 0) 0 100% / 100% 4px no-repeat border-box, repeating-linear-gradient(90deg, #6d6152 0 2px, transparent 2px 2%) 0 100% / 100% 0.625rem no-repeat padding-box; }
+.deck__seek::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 5px; height: 1.75rem; border: 0; border-radius: 2px; background: var(--led-crete); }
+.deck__seek::-moz-range-thumb { width: 5px; height: 1.75rem; border: 0; border-radius: 2px; background: var(--led-crete); }
+
+.deck__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; padding: 0.5rem 1rem 1rem; }
+.deck__button { display: grid; flex: none; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 50%; color: var(--sur-bakelite); transition: background-color 0.12s, color 0.12s; }
+.deck__button:hover { background: #453a31; }
+.deck__button:disabled { color: #6d6152; background: none; cursor: default; }
+.deck__button--main { width: 3.5rem; height: 3.5rem; background: var(--sur-bakelite); color: #1f1a17; }
+.deck__button--main:hover { background: var(--led-crete); }
+.deck__icon { width: 1.5rem; height: 1.5rem; }
+.deck__button--main .deck__icon { width: 2rem; height: 2rem; }
+.deck__info { display: grid; flex: 1 1 10rem; gap: 0.125rem; min-width: 0; line-height: 1.2; }
+.deck__title { font: 750 1.125rem/1.15 var(--font-display); font-variation-settings: "wdth" 92; overflow-wrap: anywhere; }
+.deck__time { font-size: 0.9375rem; font-variant-numeric: tabular-nums; color: var(--sur-bakelite-douce); }
+.deck__volume { display: flex; align-items: center; gap: 0.5rem; }
+.deck__gain { width: 6rem; }
+.deck__gain::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(var(--sur-bakelite) 0 0) 0 0 / calc(var(--value) * 100%) 100% no-repeat #6d6152; }
+.deck__gain::-moz-range-track { height: 4px; border-radius: 2px; background: linear-gradient(var(--sur-bakelite) 0 0) 0 0 / calc(var(--value) * 100%) 100% no-repeat #6d6152; }
+.deck__gain::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 1.125rem; height: 1.125rem; margin-top: calc(2px - 0.5625rem); border: 0; border-radius: 50%; background: var(--sur-bakelite); }
+.deck__gain::-moz-range-thumb { width: 1.125rem; height: 1.125rem; border: 0; border-radius: 50%; background: var(--sur-bakelite); }
+
+.deck__tracks { max-height: 16rem; overflow-y: auto; border-top: 1px solid #453a31; scrollbar-width: thin; scrollbar-color: #6d6152 transparent; }
+.deck__track { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr); gap: 0.5rem; width: 100%; min-height: 2.75rem; align-items: center; padding: 0.375rem 1rem; line-height: 1.25; }
+.deck__track:hover { background: #453a31; }
+.deck__track:focus-visible { outline-offset: -3px; }
+.deck__track[aria-current] { color: var(--led); font-weight: 700; }
+.deck__trackno { font-variant-numeric: tabular-nums; color: var(--sur-bakelite-douce); }
+.deck__track[aria-current] .deck__trackno { color: inherit; }
+.deck__foot { display: flex; justify-content: flex-end; padding: 0.5rem 1rem 0.75rem; }
+.deck__foot:not(:has(.deck__link:not([hidden]))) { display: none; }
+.deck__link { margin-left: auto; font-size: 0.9375rem; font-weight: 600; color: var(--sur-bakelite-douce); text-underline-offset: 3px; }
+.deck__link:hover { color: var(--sur-bakelite); }
+@container (max-width: 30rem) {
+    .deck__volume { order: 1; flex: 1 1 100%; }
+    .deck__gain { flex: 1; width: auto; }
+}
+.deck:fullscreen { grid-template-rows: minmax(0, 1fr) auto auto; background: #000; }
+.deck:fullscreen .deck__screen { margin: 0; border-radius: 0; aspect-ratio: auto; }
+.deck:fullscreen :is(.deck__foot, .deck__tracks) { display: none; }
+
+/* ---------- Fiche : la carte à gauche, la lecture à droite ---------- */
+
+.detail { --card: min(22rem, 30vw, calc((100vh - 6rem) * 5 / 7)); position: fixed; inset: 0; z-index: 1100; overflow-x: hidden; overflow-y: auto; outline: none; }
+.detail.is-moving { overflow: hidden; }
+.detail__bg { position: fixed; inset: 0; background: var(--fond); animation: fade 0.3s ease-out; transition: opacity 0.3s; }
+.detail__layout { position: relative; display: grid; grid-template-columns: auto minmax(0, 52rem); gap: clamp(1.5rem, 4vw, 4rem); align-items: center; justify-content: center; min-height: 100%; padding: 2rem clamp(4rem, 5vw, 5rem) 2rem var(--gutter); }
+.detail__card { width: var(--card); aspect-ratio: 5 / 7; }
+.tcard--detail { z-index: 1; }
+.detail__info { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; max-height: calc(100vh - 4rem); padding: clamp(1.25rem, 3vw, 3rem); overflow-y: auto; border-radius: var(--r-commande); background: var(--cadran); scrollbar-width: thin; scrollbar-color: var(--trait) transparent; animation: info-in 0.4s 0.2s ease-out both; transition: opacity 0.2s; }
+.detail__rarity { display: flex; align-items: center; gap: 0.75rem; font-weight: 700; line-height: 1; color: var(--level); }
+.detail__title { margin-top: -0.5rem; font: 850 clamp(2rem, 4.2vw, 3.25rem)/0.94 var(--font-display); font-variation-settings: "wdth" var(--wdth); letter-spacing: -0.01em; text-wrap: balance; overflow-wrap: anywhere; }
+.ticket { display: grid; grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); gap: 0.75rem 1.25rem; padding-block: 1rem; border-block: 1px solid var(--trait); line-height: 1.3; }
+.ticket dt { font-size: 0.9375rem; color: var(--encre-douce); }
+.ticket dd { font-weight: 650; }
+.detail__text { max-width: 65ch; white-space: pre-wrap; }
+.detail__close { position: fixed; top: 0.75rem; right: 0.75rem; z-index: 2; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: var(--r-commande); background: var(--encre); color: var(--sur-encre); font-size: 1.75rem; line-height: 1; }
+.detail__close:hover { background: var(--cadran); color: var(--encre); box-shadow: inset 0 0 0 2px var(--encre); }
+.detail.is-closing :is(.detail__bg, .detail__info, .detail__close) { opacity: 0; animation: none; }
+
+@media (max-width: 54rem) {
+    .detail { --card: min(15.5rem, 62vw); }
+    .detail__layout { grid-template-columns: minmax(0, 1fr); align-content: start; padding: 2.5rem 1rem 3rem; }
+    .detail__card { justify-self: center; }
+    .detail__info { max-height: none; overflow: visible; }
+    /* Sur téléphone, l'ouverture dépasse l'écran : la flèche flotte dans un coin jusqu'au premier défilement */
+    .scrollcue { position: fixed; z-index: 64; right: 0.75rem; bottom: calc(var(--nav) + env(safe-area-inset-bottom, 0px) + 0.75rem); width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--cadran); box-shadow: inset 0 0 0 2px var(--encre), var(--ombre-carte); transition: opacity 0.25s, visibility 0.25s; }
+    .scrollcue svg { width: 1.75rem; }
+    .scrollcue.is-away { opacity: 0; visibility: hidden; }
+    .floating-booster { bottom: calc(var(--nav) + env(safe-area-inset-bottom, 0px)); width: 7rem; height: 4.5rem; }
+}
+
+/* ---------- Animations ---------- */
+
+@keyframes fade { from { opacity: 0; } }
+@keyframes wave-run { to { transform: translateX(-50%); } }
+@keyframes cue-drop { 0%, 100% { transform: translateY(-0.2rem); } 50% { transform: translateY(0.35rem); } }
+@keyframes cue-light { 0%, 100% { opacity: 0.55; } 45% { opacity: 1; } }
+@keyframes info-in { from { transform: translateY(1rem); opacity: 0; } }
+@keyframes sweep { 0%, 46% { transform: translateX(0); } 64% { transform: translateX(150cqw); } 64.01% { transform: translateX(-150cqw); } 88%, 100% { transform: translateX(0); } }
+@keyframes twinkle { 0%, 100% { transform: scale(0.25); opacity: 0.2; } 45% { transform: scale(1) rotate(20deg); opacity: 1; } 70% { transform: scale(0.5) rotate(30deg); opacity: 0.55; } }
+@keyframes needle-rise {
+    0% { transform: rotate(-46deg); }
+    30% { transform: rotate(-20deg); }
+    42% { transform: rotate(-34deg); }
+    70% { transform: rotate(calc(var(--target) * 0.8 - 6deg)); }
+    80% { transform: rotate(calc(var(--target) * 0.6)); }
+    100% { transform: rotate(var(--target)); }
+}
+@keyframes pack-top { to { transform: translate(50%, -120%) rotate(38deg); opacity: 0; } }
+@keyframes pack-bottom { 35% { transform: translateY(-3%) scale(1.03); } to { transform: translateY(45%) scale(0.94); opacity: 0; } }
+@keyframes card-in { from { transform: translateY(1.5rem) scale(0.92); opacity: 0; } }
+@keyframes card-shake {
+    0%, 100% { transform: none; }
+    35% { transform: rotate(0.5deg); }
+    65% { transform: rotate(-0.9deg) scale(1.02); }
+    92% { transform: rotate(1.3deg) scale(1.04); }
+}
+@keyframes legend-pop { 0% { transform: scale(1.06); } 35% { transform: scale(1.14); } 100% { transform: none; } }
+@keyframes ring { 0% { transform: scale(0.4); opacity: 1; } 100% { transform: scale(2.4); opacity: 0; } }
+@keyframes rays-in { from { opacity: 0; } to { opacity: 0.35; } }
+@keyframes spin { to { rotate: 360deg; } }
+@keyframes flash { 0% { opacity: 0.7; } 100% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+    .booster.is-inked .booster__ink { transition: none; }
+    .fx { display: none; }
+}

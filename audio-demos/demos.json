@@ -1,0 +1,92 @@
+{
+  "sharedBanks": ["Master.bank", "Master.strings.bank"],
+  "demos": [
+    {
+      "id": "darkest-canopy",
+      "title": "Darkest Canopy : musique adaptative",
+      "description": "La musique évolue entre exploration et combat. Lancez-la, puis basculez l'interrupteur pour passer de l'une à l'autre.",
+      "banks": ["DarkestCanopy.bank"],
+      "events": [
+        {
+          "path": "event:/DarkestCanopy/Music",
+          "label": "Musique",
+          "mode": "loop",
+          "parameters": [
+            {
+              "name": "ExplorationOrFight_param",
+              "label": "État du jeu",
+              "type": "toggle",
+              "global": true,
+              "labels": ["Exploration", "Combat"],
+              "values": [0, 100]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hide-and-flee-monster",
+      "title": "Hide And Flee : proximité du monstre",
+      "description": "L'ambiance se tend à mesure que le monstre approche. Lancez-la, puis rapprochez-le.",
+      "banks": ["HideAndFlee.bank"],
+      "events": [
+        {
+          "path": "event:/HideAndFlee/Monster Proximity",
+          "label": "Ambiance",
+          "mode": "loop",
+          "parameters": [
+            {
+              "name": "EyesDistance_param",
+              "label": "Distance du monstre",
+              "type": "continuous",
+              "global": true,
+              "min": 0,
+              "max": 100,
+              "step": 1,
+              "default": 100,
+              "reversed": true,
+              "ends": ["Loin", "Proche"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hide-and-flee-music",
+      "title": "Hide And Flee : musique et progression",
+      "description": "La musique suit la progression dans le jeu. Lancez-la, puis changez d'étape : la valeur du paramètre évolue en douceur jusqu'au cran choisi.",
+      "banks": ["HideAndFlee.bank"],
+      "events": [
+        {
+          "path": "event:/HideAndFlee/Music",
+          "label": "Musique",
+          "mode": "loop",
+          "parameters": [
+            {
+              "name": "LevelStage_param",
+              "label": "Progression dans le jeu",
+              "type": "stepped",
+              "global": true,
+              "min": 1,
+              "labels": ["The House", "Hide And Seek Minigame", "Dark Forest Discover", "Dark Forest Theme", "Credits"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "explosion",
+      "title": "Explosion : spatialisation 3D",
+      "description": "Cliquez sur le point central pour déclencher l'explosion, puis déplacez le listener pour entendre l'atténuation et la direction changer.",
+      "banks": ["Explosion.bank"],
+      "events": [
+        {
+          "path": "event:/Explosion/Explode",
+          "label": "Exploser",
+          "mode": "oneshot",
+          "spatial": { "distance": [10, 100], "listener": [30, -40] }
+        }
+      ]
+    }
+  ]
+}
