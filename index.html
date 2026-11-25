@@ -22,10 +22,11 @@
     <meta name="twitter:description" content="Portfolio de David Tourdot-Fuentes  : Compositeur, sound designer et développeur pour le jeu vidéo, l'animation mais aussi le cinéma. A découvrir.">
     <meta name="twitter:image" content="https://davidtourdotfuentes.github.io/ressources/Generic/David_Tourdot_Fuentes_1.jpg">
     <meta name="twitter:image:alt" content="David Tourdot-Fuentes">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="animations.js"></script>
     <link rel="canonical" href="https://davidtourdotfuentes.github.io/">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="theme-color" content="#f3c34b">
+    <script src="theme.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Atkinson+Hyperlegible+Next:wght@400..800&family=Wavefont:wght,ROND@4..1000,0..100&display=swap">
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="cards/cards.css" />
     
@@ -62,124 +63,61 @@
     </script>
 </head>
 
-<body class="antialiased">
-    <!-- Custom cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-    
-    <!-- Back to top button -->
-    <div class="back-to-top z-10">
-        <svg class="w-6 h-6 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-        </svg>
-    </div>
-    
-    <!-- Navigation -->
-    <nav class="fixed w-full bg-[#0c1721]/90 backdrop-blur-sm z-50 border-b border-[#1e293b] animate-slide-down">
-        <div class="max-w-6xl mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <a href="#home" class="text-2xl font-bold gradient-text hover:animate-pulse">David Tourdot-Fuentes</a>
-                
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#portfolio" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_portfolio">Portfolio</a>
-                    <a href="#tools" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_tools">Tools</a>
-                    <a href="audio-demos/" class="nav-link whitespace-nowrap text-slate-200 hover:text-white" data-i18n="nav_audio_demos">Démos audio</a>
-                    <a href="#contact" class="nav-link text-slate-200 hover:text-white" data-i18n="nav_contact">Contact</a>
-                    
-                    <div class="segmented segmented--lang" role="group" aria-label="Langue / Language">
-                        <button type="button" class="segmented__btn" data-set-lang="fr">FR</button>
-                        <button type="button" class="segmented__btn" data-set-lang="en">EN</button>
-                    </div>
-                </div>
-                
-                <!-- Mobile menu button -->
-                <button id="mobile-menu-button" class="md:hidden text-slate-200 hover:text-white transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
+<body>
+    <header class="top">
+        <a class="top__name" href="#home">David Tourdot-Fuentes</a>
+        <nav class="nav">
+            <a class="nav__link" href="#portfolio" data-i18n="nav_portfolio">Portfolio</a>
+            <a class="nav__link" href="#tools" data-i18n="nav_tools">Outils</a>
+            <a class="nav__link" href="audio-demos/" data-i18n="nav_audio_demos">Démos audio</a>
+            <a class="nav__link" href="#contact" data-i18n="nav_contact">Contact</a>
+        </nav>
+        <div class="theme" role="group" aria-label="Thème / Theme">
+            <button type="button" data-set-theme="light">Light</button>
+            <button type="button" data-set-theme="dark">Dark</button>
         </div>
-        
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-[#0c1721] border-t border-[#1e293b] animate-slide-down">
-            <div class="px-6 py-4 space-y-4">
-                <a href="#portfolio" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_portfolio">Portfolio</a>
-                <a href="#tools" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_tools">Tools</a>
-                <a href="audio-demos/" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_audio_demos">Démos audio</a>
-                <a href="#contact" class="block nav-link text-slate-200 hover:text-white" data-i18n="nav_contact">Contact</a>
-                
-                <div class="segmented segmented--lang" role="group" aria-label="Langue / Language">
-                    <button type="button" class="segmented__btn" data-set-lang="fr">FR</button>
-                    <button type="button" class="segmented__btn" data-set-lang="en">EN</button>
-                </div>
-            </div>
+        <div class="segmented--lang lang" role="group" aria-label="Langue / Language">
+            <button type="button" data-set-lang="fr">FR</button>
+            <button type="button" data-set-lang="en">EN</button>
         </div>
-    </nav>
-    
-    <!-- Hero Section -->
-    <section id="home" class="section flex items-center justify-center relative overflow-hidden">
-        <!-- Animated background elements -->
-        <div id="floating-spheres" class="fixed inset-0 pointer-events-none z-0">
-            <div class="floating-sphere animate-pulse-slow absolute w-32 h-32 rounded-full bg-primary-900/15" style="top:60vh; left:10%;" data-depth="0.2"></div>
-            <div class="floating-sphere animate-pulse-slow absolute w-44 h-44 rounded-full bg-primary-900/15" style="top:47vh; left:50%;" data-depth="0.3"></div>
-            <div class="floating-sphere animate-pulse-slow absolute w-24 h-24 rounded-full bg-primary-900/15" style="top:15vh; left:65%;" data-depth="0.3"></div>
-            <div class="floating-sphere animate-pulse-slow absolute w-50 h-50 rounded-full bg-primary-900/15" style="top:75vh; left:30%;" data-depth="0.45"></div>
-            <div class="floating-sphere animate-pulse-slow absolute w-40 h-40 rounded-full bg-primary-900/15" style="top:85vh; left:85%;" data-depth="0.75"></div>
-            <div class="floating-sphere animate-pulse-slow absolute w-16 h-16 rounded-full bg-primary-900/15" style="top:140vh; left:90%;" data-depth="0.2"></div>
-            <div class="floating-sphere animate-pulse-slow absolute w-24 h-24 rounded-full bg-primary-900/15" style="top:120vh; left:45%;" data-depth="0.7"></div>
-            <div class="floating-sphere animate-pulse-slow absolute w-40 h-40 rounded-full bg-primary-900/15" style="top:180vh; left:55%;" data-depth="0.45"></div>
-            <div class="floating-sphere animate-pulse-slow absolute w-16 h-16 rounded-full bg-primary-900/15" style="top:145vh; left:80%;" data-depth="0.6"></div>
-            <div class="floating-sphere animate-pulse-slow absolute w-30 h-30 rounded-full bg-primary-900/15" style="top:190vh; left:75%;" data-depth="0.5"></div>
-            <div class="floating-sphere animate-pulse-slow absolute w-32 h-32 rounded-full bg-primary-900/15" style="top:200vh; left:86%;" data-depth="0.7"></div>
-            <div class="floating-sphere animate-pulse-slow absolute w-40 h-40 rounded-full bg-primary-900/15" style="top:240vh; left:25%;" data-depth="0.5"></div>
-        </div>
-        
-        <div class="max-w-8xl mx-auto px-6 py-12 text-center relative z-10">
-            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-fade-in" data-i18n="header"></h1>
-            <h2 class="text-xl md:text-2xl text-slate-300 mb-8 animate-fade-in animate-delay-1" data-i18n="tagline"></h2>
-            
-            <div class="flex justify-center space-x-6 animate-slide-up">
-                <a href="#portfolio" class="px-6 py-3 bg-primary-600 hover:bg-primary-700 rounded-lg font-medium transition-colors hover:scale-105 transform" data-i18n="view_work">View My Work</a>
-                <a href="#contact" class="px-6 py-3 border border-primary-600 text-primary-400 hover:bg-primary-900/30 rounded-lg font-medium transition-colors hover:scale-105 transform" data-i18n="contact_me">Contact Me</a>
-            </div>
-            
-            <div class="mt-20 animate-bounce animate-infinite">
-                <a href="#portfolio" class="inline-block">
-                    <svg class="w-8 h-8 text-slate-400 hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                    </svg>
-                </a>
-            </div>
+    </header>
 
-        </div>
-    </section>
-    
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="section py-20">
-        <div class="max-w-6xl mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center gradient-text animate-fade-in" data-i18n="portfolio">Portfolio</h2>
-            
+    <main>
+        <section id="home" class="dial">
+            <div class="dial__head">
+                <h1 class="dial__title">David Tourdot-Fuentes</h1>
+                <p class="dial__motto" data-i18n="header"></p>
+            </div>
+            <div class="dial__side">
+                <p class="dial__tagline" data-i18n="tagline"></p>
+                <p class="dial__links">
+                    <a class="underink" href="#list" data-i18n="dial_list"></a>
+                    <a class="underink" href="#contact" data-i18n="contact_me">Me contacter</a>
+                </p>
+            </div>
+            <!-- Rempli par cards/dial.js : la main de cartes est la graduation du VU-mètre -->
+            <div id="dial" class="dial__scene"></div>
+        </section>
+
+        <section id="portfolio" class="sheet">
+            <h2 class="title" data-i18n="portfolio">Portfolio</h2>
+
             <!-- Collection : remplie par cards/main.js -->
             <div id="collection" class="collection"></div>
 
-            <!-- Project filters -->
-            <div class="text-center mb-8 animate-fade-in">
-                <div class="segmented segmented--filters">
-                    <button type="button" class="segmented__btn filter-btn active" aria-pressed="true" data-filter="all" data-i18n="tags_all">All Projects</button>
-                    <button type="button" class="segmented__btn filter-btn" aria-pressed="false" data-filter="sound-design" data-i18n="tags_sd">Sound Design</button>
-                    <button type="button" class="segmented__btn filter-btn" aria-pressed="false" data-filter="soundtrack" data-i18n="tags_soundtrack">Soundtrack</button>
-                    <button type="button" class="segmented__btn filter-btn" aria-pressed="false" data-filter="audio-integration" data-i18n="tags_ai">Audio Integration</button>
-                    <button type="button" class="segmented__btn filter-btn" aria-pressed="false" data-filter="audio-tool" data-i18n="tags_at">Audio Tool</button>
-                </div>
+            <div class="filters" role="group">
+                <button type="button" class="filter-btn" aria-pressed="true" data-filter="all" data-i18n="tags_all"></button>
+                <button type="button" class="filter-btn" aria-pressed="false" data-filter="sound-design" data-i18n="tags_sd"></button>
+                <button type="button" class="filter-btn" aria-pressed="false" data-filter="soundtrack" data-i18n="tags_soundtrack"></button>
+                <button type="button" class="filter-btn" aria-pressed="false" data-filter="audio-integration" data-i18n="tags_ai"></button>
+                <button type="button" class="filter-btn" aria-pressed="false" data-filter="audio-tool" data-i18n="tags_at"></button>
             </div>
-            
-            <!-- Projects grid -->
-            <div class="project-grid">
 
+            <div class="project-grid">
                 <!-- Mallow -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                <div class="project-card"
                     data-card="mallow"
+                    data-art="ressources/Cards/mallow.jpg" data-crop="56%"
                     data-category="sound-design"
                     data-title="project_mallow_title"
                     data-i18n-desc="project_mallow_desc"
@@ -188,12 +126,11 @@
                     data-bg="ressources/Mallow/art/Background.jpeg"
                     data-alt="Mallow : Sound Design"
                     data-embed-type="youtube"
-                    data-iframe="">
-                </div>
-
+                    data-iframe=""></div>
                 <!-- Furyball -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                <div class="project-card"
                     data-card="furyball"
+                    data-art="ressources/Cards/furyball.jpg" data-crop="74%" data-zoom="1.4"
                     data-category="audio-integration sound-design"
                     data-title="project_furyball_title"
                     data-i18n-desc="project_furyball_desc"
@@ -202,12 +139,11 @@
                     data-bg="ressources/FuryBall/art/Background_2.png"
                     data-alt="FuryBall : Sound Design"
                     data-embed-type="youtube"
-                    data-iframe="https://www.youtube.com/embed/-gwJ_qL7aWE">
-                </div>
-
+                    data-iframe="https://www.youtube.com/embed/-gwJ_qL7aWE"></div>
                 <!-- Mechanicus II -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                <div class="project-card"
                     data-card="mechanicus"
+                    data-art="ressources/Cards/mechanicus.jpg" data-crop="44%"
                     data-category="sound-design"
                     data-title="project_mechanicus_title"
                     data-i18n-desc="project_mechanicus_desc"
@@ -216,12 +152,11 @@
                     data-bg="ressources/Mechanicus/art/Background.jpg"
                     data-alt="Mechanicus II : Sound Design"
                     data-embed-type="youtube"
-                    data-iframe="https://www.youtube.com/embed/ekWDGK76-tA">
-                </div>
-
+                    data-iframe="https://www.youtube.com/embed/ekWDGK76-tA"></div>
                 <!-- Mass Entity Optimization Tool -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                <div class="project-card"
                     data-card="meot"
+                    data-art="ressources/Cards/meot.jpg" data-crop="30%"
                     data-category="audio-tool"
                     data-title="project_meot_title"
                     data-i18n-desc="project_meot_desc"
@@ -230,12 +165,11 @@
                     data-bg="ressources/MEOT/art/Bg.png"
                     data-alt="Mass Entity Optimization : Audio Tool"
                     data-embed-type="youtube"
-                    data-iframe="https://www.youtube.com/embed/nACOWAFpqb0">
-                </div>
-
+                    data-iframe="https://www.youtube.com/embed/nACOWAFpqb0"></div>
                 <!-- Architect Life -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                <div class="project-card"
                     data-card="al"
+                    data-art="ressources/Cards/al.jpg" data-crop="25%"
                     data-category="sound-design"
                     data-title="project_al_title"
                     data-i18n-desc="project_al_desc"
@@ -244,12 +178,11 @@
                     data-bg="ressources/AL/art/Bg.png"
                     data-alt="Architect Life : Sound Design"
                     data-embed-type="youtube"
-                    data-iframe="https://www.youtube.com/embed/HXyH9aJs2qA">
-                </div>
-
+                    data-iframe="https://www.youtube.com/embed/HXyH9aJs2qA"></div>
                 <!-- Masters Of Light -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                <div class="project-card"
                     data-card="mol"
+                    data-art="ressources/Cards/mol.jpg" data-crop="50%"
                     data-category="sound-design"
                     data-title="project_mol_title"
                     data-i18n-desc="project_mol_desc"
@@ -258,12 +191,11 @@
                     data-bg="ressources/MOL/art/Logo_2.jpg"
                     data-alt="Masters Of Light: Sound Design"
                     data-embed-type="youtube"
-                    data-iframe="https://www.youtube.com/embed/v4n8ufGG90I">
-                </div>
-
+                    data-iframe="https://www.youtube.com/embed/v4n8ufGG90I"></div>
                 <!-- Darkest Canopy -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                <div class="project-card"
                     data-card="dc"
+                    data-art="ressources/Cards/dc.jpg" data-crop="50%"
                     data-category="soundtrack"
                     data-title="project_dc_title"
                     data-i18n-desc="project_dc_desc"
@@ -272,12 +204,11 @@
                     data-bg="ressources/DarkestCanopy/art/Background.png"
                     data-alt="Darkest Canopy : Soundtrack"
                     data-embed-type="soundcloud"
-                    data-iframe="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1646295394&color=%230ea5e9&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
-                </div>
-                
+                    data-iframe="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1646295394&color=%230ea5e9&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></div>
                 <!-- La Route des Sommets -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-2"
+                <div class="project-card"
                     data-card="lrds"
+                    data-art="ressources/Cards/lrds.jpg" data-crop="58%"
                     data-category="soundtrack"
                     data-title="project_lrds_title"
                     data-i18n-desc="project_lrds_desc"
@@ -286,12 +217,11 @@
                     data-bg="ressources/LRDS/art/Screen_4.png"
                     data-alt="La Route des Sommets : Soundtrack"
                     data-embed-type="soundcloud"
-                    data-iframe="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1697210334&color=%230ea5e9&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=true">
-                </div>
-                
+                    data-iframe="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1697210334&color=%230ea5e9&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=true"></div>
                 <!-- Lofi Clicker -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-3"
+                <div class="project-card"
                     data-card="lc"
+                    data-art="ressources/Cards/lc.jpg" data-crop="50%"
                     data-category="audio-integration sound-design soundtrack"
                     data-title="project_lc_title"
                     data-i18n-desc="project_lc_desc"
@@ -300,12 +230,11 @@
                     data-bg="ressources/LofiClicker/art/Bg_2.png"
                     data-alt="Lofi Clicker : Audio Integration"
                     data-embed-type="spotify"
-                    data-iframe="https://open.spotify.com/embed/album/2WLig8GusnxG5Qt9VCJw51?utm_source=generator&theme=0">
-                </div>
-                
+                    data-iframe="https://open.spotify.com/embed/album/2WLig8GusnxG5Qt9VCJw51?utm_source=generator&theme=0"></div>
                 <!-- The Roaming -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in"
+                <div class="project-card"
                     data-card="tr"
+                    data-art="ressources/Cards/tr.jpg" data-crop="50%"
                     data-category="video-game"
                     data-title="project_tr_title"
                     data-i18n-desc="project_tr_desc"
@@ -314,24 +243,22 @@
                     data-bg="ressources/TR/art/Bg.gif"
                     data-alt="The Roaming : Sound Design"
                     data-embed-type="youtube"
-                    data-iframe="https://player.vimeo.com/video/652819674?h=7de0b67f2d">
-                </div>
-                
+                    data-iframe="https://player.vimeo.com/video/652819674?h=7de0b67f2d"></div>
                 <!-- Phantom Memories -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-1"
+                <div class="project-card"
                     data-card="pm"
+                    data-art="ressources/Cards/pm.jpg" data-crop="50%"
                     data-category="audio-integration sound-design soundtrack"
                     data-title="project_pm_title"
                     data-i18n-desc="project_pm_desc"
                     data-i18n-long="project_pm_long"
                     data-icon="ressources/PhantomMemories/art/Logo_2.png"
                     data-bg="ressources/PhantomMemories/art/Bg_2.jpg"
-                    data-alt="Phantom Memories : Audio Integration">
-                </div>
-                
+                    data-alt="Phantom Memories : Audio Integration"></div>
                 <!-- Polarnatt -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-2"
+                <div class="project-card"
                     data-card="polarnatt"
+                    data-art="ressources/Cards/polarnatt.jpg" data-crop="45%"
                     data-category="sound-design soundtrack"
                     data-title="project_polarnatt_title"
                     data-i18n-desc="project_polarnatt_desc"
@@ -340,12 +267,11 @@
                     data-bg="ressources/Polarnatt/art/Bg_2.png"
                     data-alt="Polarnatt : Soundtrack & Design"
                     data-embed-type="youtube"
-                    data-iframe="https://www.youtube.com/embed/4Wsf-ILv3VA?si=2rMGF-0IX_XtqQEA">
-                </div>
-
+                    data-iframe="https://www.youtube.com/embed/4Wsf-ILv3VA?si=2rMGF-0IX_XtqQEA"></div>
                 <!-- Hide and Flee -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-1"
+                <div class="project-card"
                     data-card="hf"
+                    data-art="ressources/Cards/hf.jpg" data-crop="60%" data-zoom="1.1"
                     data-category="audio-integration sound-design soundtrack"
                     data-title="project_hf_title"
                     data-i18n-desc="project_hf_desc"
@@ -354,12 +280,11 @@
                     data-bg="ressources/HideAndFlee/art/Bg_2.png"
                     data-alt="Hide And Flee : Audio Integration & Sound Design & Soundtrack"
                     data-embed-type="spotify"
-                    data-iframe="https://open.spotify.com/embed/album/3IMaxVIqnao0gLb7jlIj11?utm_source=generator&theme=0">
-                </div>
-
+                    data-iframe="https://open.spotify.com/embed/album/3IMaxVIqnao0gLb7jlIj11?utm_source=generator&theme=0"></div>
                 <!-- Alpha Alpha -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-3"
+                <div class="project-card"
                     data-card="aa"
+                    data-art="ressources/Cards/aa.jpg" data-crop="30%"
                     data-category="soundtrack"
                     data-title="project_aa_title"
                     data-i18n-desc="project_aa_desc"
@@ -368,12 +293,11 @@
                     data-bg="ressources/AlphaAlpha/art/Screen_1.png"
                     data-alt="Alpha Alpha : Soundtrack"
                     data-embed-type="soundcloud"
-                    data-iframe="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1469265319&color=%230369a1&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
-                </div>
-
+                    data-iframe="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1469265319&color=%230369a1&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></div>
                 <!-- Spring -->
-                <div class="project-card bg-[#1e293b] rounded-xl overflow-hidden border border-[#334155] hover:border-primary-600 animate-scale-in animate-delay-3"
+                <div class="project-card"
                     data-card="spring"
+                    data-art="ressources/Cards/spring.jpg" data-crop="62%"
                     data-category="soundtrack"
                     data-title="project_spring_title"
                     data-i18n-desc="project_spring_desc"
@@ -382,191 +306,89 @@
                     data-bg="ressources/Spring/art/Bg.png"
                     data-alt="Spring Exercise : Soundtrack"
                     data-embed-type="youtube"
-                    data-iframe="https://www.youtube.com/embed/WB5QWPH_wgk">
+                    data-iframe="https://www.youtube.com/embed/WB5QWPH_wgk"></div>
+            </div>
+        </section>
+
+        <section id="tools" class="sheet">
+            <h2 class="title" data-i18n="tools">Outils</h2>
+            <div class="software-grid">
+                <div class="software-card" data-card="reaper">
+                    <img src="ressources/Generic/Reaper_White.svg" alt="">
+                    <h4>Reaper</h4>
+                    <p data-i18n="reaper_desc"></p>
+                </div>
+                <div class="software-card" data-card="bitwig">
+                    <img src="ressources/Generic/Bitwig_White.svg" alt="">
+                    <h4>Bitwig Studio</h4>
+                    <p data-i18n="bitwig_desc"></p>
+                </div>
+                <div class="software-card" data-card="wwise">
+                    <img src="ressources/Generic/Wwise_White.svg" alt="">
+                    <h4>Wwise</h4>
+                    <p data-i18n="wwise_desc"></p>
+                </div>
+                <div class="software-card" data-card="fmod">
+                    <img src="ressources/Generic/FMOD_White.svg" alt="">
+                    <h4>FMOD</h4>
+                    <p data-i18n="fmod_desc"></p>
+                </div>
+                <div class="software-card" data-card="unity">
+                    <img src="ressources/Generic/Unity_White.svg" alt="">
+                    <h4>Unity</h4>
+                    <p data-i18n="unity_desc"></p>
+                </div>
+                <div class="software-card" data-card="unreal">
+                    <img src="ressources/Generic/UE_White.svg" alt="">
+                    <h4>Unreal</h4>
+                    <p data-i18n="unreal_desc"></p>
+                </div>
+                <div class="software-card" data-card="maxmsp">
+                    <img src="ressources/Generic/Ableton_White.svg" alt="">
+                    <h4>Max MSP</h4>
+                    <p data-i18n="maxmsp_desc"></p>
+                </div>
+                <div class="software-card" data-card="ableton">
+                    <img src="ressources/Generic/Ableton_White.svg" alt="">
+                    <h4>Ableton Live</h4>
+                    <p data-i18n="ableton_desc"></p>
+                </div>
+                <div class="software-card" data-card="audition">
+                    <img src="ressources/Generic/AA_White.svg" alt="">
+                    <h4>Audition</h4>
+                    <p data-i18n="audition_desc"></p>
+                </div>
+                <div class="software-card" data-card="protools">
+                    <img src="ressources/Generic/PT_White.svg" alt="">
+                    <h4>Pro Tools</h4>
+                    <p data-i18n="protools_desc"></p>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Tools & Equipment Section -->
-    <section id="tools" class="section py-20">
-        <div class="max-w-6xl mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center gradient-text animate-fade-in" data-i18n="tools">Tools & Equipment</h2>
-            
-            <!-- Software Section -->
-            <div class="mb-16">
-                <div class="flex items-center mb-8">
-                    <div class="p-3 rounded-lg bg-primary-900/30 text-primary-400 mr-4 animate-pulse-slow">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold" data-i18n="software">Software</h3>
-                </div>
-                
-                <div class="software-grid">
-                    <!-- Reaper -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="reaper">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="ressources/Generic/Reaper_White.svg" alt="Max MSP" class="w-7 h-7">
-                            </div>
-                            <h4 class="font-medium text-lg">Reaper</h4>
-                        </div>
-                        <p class="text-slate-400 text-sm" data-i18n="reaper_desc">Digital audio workstation for sound design and cinematics mixing</p>
-                    </div>
+        </section>
 
-                    <!-- Bitwig Studio -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="bitwig">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="ressources/Generic/Bitwig_White.svg" alt="Max MSP" class="w-7 h-7">
-                            </div>
-                            <h4 class="font-medium text-lg">Bitwig Studio</h4>
-                        </div>
-                        <p class="text-slate-400 text-sm" data-i18n="bitwig_desc">Virtual instruments and effects for music production.</p>
-                    </div>
+        <section id="list" class="sheet">
+            <h2 class="title" data-i18n="list_title"></h2>
+            <p class="sheet__intro" data-i18n="list_text"></p>
+            <!-- La conduite, remplie par cards/cuelist.js : toute la collection, toujours lisible -->
+            <ol id="cuelist" class="cuelist"></ol>
+        </section>
 
-                    <!-- Wwise -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="wwise">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="ressources/Generic/Wwise_White.svg" alt="FMOD" class="w-8 h-8">
-                            </div>
-                            <h4 class="font-medium text-lg">Wwise</h4>
-                        </div>
-                        <p class="text-slate-400 text-sm" data-i18n="wwise_desc">Interactive audio middleware with advanced implementation features.</p>
-                    </div>
-                    
-                    <!-- FMOD -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="fmod">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="ressources/Generic/FMOD_White.svg" alt="FMOD" class="w-10 h-10">
-                            </div>
-                            <h4 class="font-medium text-lg">FMOD</h4>
-                        </div>
-                        <p class="text-slate-400 text-sm" data-i18n="fmod_desc">Audio engine and toolset for adaptive audio in games.</p>
-                    </div>
-                    
-                    <!-- Unity -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="unity">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="ressources/Generic/Unity_White.svg" alt="Unity" class="w-7 h-7">
-                            </div>
-                            <h4 class="font-medium text-lg">Unity</h4>
-                        </div>
-                        <p class="text-slate-400 text-sm" data-i18n="unity_desc">Game engine with audio implementation tools.</p>
-                    </div>
-
-                    <!-- Unreal Engine -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="unreal">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="ressources/Generic/UE_White.svg" alt="Unreal Engine" class="w-7 h-7">
-                            </div>
-                            <h4 class="font-medium text-lg">Unreal</h4>
-                        </div>
-                        <p class="text-slate-400 text-sm" data-i18n="unreal_desc">Game engine with audio implementation tools.</p>
-                    </div>
-                    
-                    <!-- Max MSP -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="maxmsp">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="ressources/Generic/Ableton_White.svg" alt="Max MSP" class="w-7 h-7">
-                            </div>
-                            <h4 class="font-medium text-lg">Max MSP</h4>
-                        </div>
-                        <p class="text-slate-400 text-sm" data-i18n="maxmsp_desc">Visual programming for interactive audio and installations.</p>
-                    </div>
-
-                    <!-- Ableton Live -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="ableton">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="ressources/Generic/Ableton_White.svg" alt="Max MSP" class="w-7 h-7">
-                            </div>
-                            <h4 class="font-medium text-lg">Ableton Live</h4>
-                        </div>
-                        <p class="text-slate-400 text-sm" data-i18n="ableton_desc">Digital audio workstation for sound design</p>
-                    </div>
-                    
-                    <!-- Adobe Audition -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="audition">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="ressources/Generic/AA_White.svg" alt="Max MSP" class="w-7 h-7">
-                            </div>
-                            <h4 class="font-medium text-lg">Audition</h4>
-                        </div>
-                        <p class="text-slate-400 text-sm" data-i18n="audition_desc">Audio voice cleaning and enhancement.</p>
-                    </div>
-                    
-                    <!-- ProTools -->
-                    <div class="software-card bg-[#1e293b]/50 rounded-xl p-6 border border-[#334155] hover:border-primary-600 transition-all slide-up" data-card="protools">
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 rounded-md bg-primary-900/30 flex items-center justify-center mr-4">
-                                <img src="ressources/Generic/PT_White.svg" alt="Max MSP" class="w-8 h-8">
-                            </div>
-                            
-                            <h4 class="font-medium text-lg">Pro Tools</h4>
-                        </div>
-                        <p class="text-slate-400 text-sm" data-i18n="protools_desc">Industry standard DAW for audio production.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Contact Section -->
-    <section id="contact" class="section py-20">
-        <div class="max-w-6xl mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center gradient-text animate-fade-in" data-i18n="contact">Contact</h2>
-            
-            <div class="max-w-md mx-auto bg-[#1e293b]/50 rounded-xl p-8 border border-[#334155] text-center animate-scale-in hover:shadow-lg hover:shadow-primary-900/20">
-                <div class="mb-6 animate-pulse-slow">
-                    <svg class="w-16 h-16 mx-auto text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                    </svg>
-                </div>
-                
-                <h3 class="text-xl font-semibold mb-2 animate-fade-in" data-i18n="get_in_touch">Get in touch</h3>
-                <p class="text-slate-400 mb-6 animate-fade-in animate-delay-1" data-i18n="contact_text">For project inquiries or collaborations, feel free to reach out via email.</p>
-                
-                <div class="bg-[#0f172a] rounded-lg p-4 inline-block animate-fade-in animate-delay-2 hover:bg-[#1e293b] transition-colors">
-                    <a target="_blank" href="mailto:davidtourdotfuentes@gmail.com" class="text-primary-400 hover:text-primary-300 font-mono" id="email">davidtourdotfuentes@gmail.com</a>
-                </div>
-                
-                <div class="mt-8 flex justify-center space-x-4 animate-fade-in animate-delay-3">
-                    <a target="_blank" href="https://open.spotify.com/intl-fr/artist/7oGqWiwp6Y6WQFZveQz3o1?si=dvMnSu3ESUufe6Vw9S0hog" class="text-slate-400 hover:text-white transition-colors hover:scale-110 transform">
-                        <i class="fab fa-spotify text-2xl"></i>
-                    </a>
-                    <a target="_blank" href="https://soundcloud.com/david-tourdot-fuentes?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" class="text-slate-400 hover:text-white transition-colors hover:scale-110 transform">
-                        <i class="fab fa-soundcloud text-2xl"></i>
-                    </a>
-                    <a target="_blank" href="https://fr.linkedin.com/in/david-tourdot-fuentes-01713623a?trk=public_post_main-feed-card-text" class="text-slate-400 hover:text-white transition-colors hover:scale-110 transform">
-                        <i class="fab fa-linkedin text-2xl"></i>
-                    </a>
-                    <a target="_blank" href="https://www.instagram.com/david.tfs/" class="text-slate-400 hover:text-white transition-colors hover:scale-110 transform">
-                        <i class="fab fa-instagram text-2xl"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Footer -->
-    <footer class="bg-[#0c1721] border-t border-[#1e293b] py-8 animate-fade-in">
-        <div class="max-w-6xl mx-auto px-6 text-center">
-            <p class="text-slate-400" data-i18n="copyright">© 2023 David Tourdot-Fuentes. All rights reserved.</p>
-        </div>
-    </footer>
+        <section id="contact" class="sheet contact">
+            <h2 class="title" data-i18n="get_in_touch">Entrer en contact</h2>
+            <p class="contact__text" data-i18n="contact_text"></p>
+            <a class="contact__email stretch stretch--line" href="mailto:davidtourdotfuentes@gmail.com" data-stretch-text="davidtourdotfuentes@gmail.com"></a>
+            <ul class="contact__links">
+                <li><a class="underink" target="_blank" rel="noopener" href="https://fr.linkedin.com/in/david-tourdot-fuentes-01713623a?trk=public_post_main-feed-card-text">LinkedIn</a></li>
+                <li><a class="underink" target="_blank" rel="noopener" href="https://soundcloud.com/david-tourdot-fuentes?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing">SoundCloud</a></li>
+                <li><a class="underink" target="_blank" rel="noopener" href="https://open.spotify.com/intl-fr/artist/7oGqWiwp6Y6WQFZveQz3o1?si=dvMnSu3ESUufe6Vw9S0hog">Spotify</a></li>
+                <li><a class="underink" target="_blank" rel="noopener" href="https://www.instagram.com/david.tfs/">Instagram</a></li>
+            </ul>
+            <p class="contact__copyright" data-i18n="copyright"></p>
+        </section>
+    </main>
 
     <script src="translations.js"></script>
     <script src="app.js"></script>
     <script type="module" src="cards/main.js"></script>
-
 </body>
 </html>

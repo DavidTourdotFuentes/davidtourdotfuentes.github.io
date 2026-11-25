@@ -3,6 +3,7 @@
 export function createModal(overlay, onEscape) {
     let background = [];
     let previousFocus = null;
+    let wasInert = false; // ouverte par-dessus une autre fenêtre, qui l'avait désactivée avec le reste de la page
 
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
@@ -16,8 +17,9 @@ export function createModal(overlay, onEscape) {
     return {
         open() {
             previousFocus = document.activeElement;
-            // Le curseur du site reste visible par-dessus.
-            background = [...document.body.children].filter((node) => node !== overlay && !node.inert && !node.matches('script, .cursor, .cursor-follower'));
+            wasInert = overlay.inert;
+            overlay.inert = false;
+            background = [...document.body.children].filter((node) => node !== overlay && !node.inert && !node.matches('script'));
             for (const node of background) node.inert = true;
             lockScroll();
             overlay.hidden = false;
@@ -25,6 +27,7 @@ export function createModal(overlay, onEscape) {
         close() {
             overlay.hidden = true;
             for (const node of background) node.inert = false;
+            overlay.inert = wasInert;
             unlockScroll();
             previousFocus?.focus?.({ preventScroll: true });
         },

@@ -1,9 +1,11 @@
 // Détail d'une carte de la collection : elle sort de sa case et se pose à gauche, ses informations s'affichent à droite.
 import { createCard, el, reducedMotion, text } from './card.js';
+import { createKnob, createWave } from './meter.js';
 import { createModal } from './modal.js';
 
 const FLIGHT = 650; // durée du trajet, en millisecondes
 const RETURN = 450;
+const SOURCES = { youtube: 'YouTube', spotify: 'Spotify', soundcloud: 'SoundCloud', vimeo: 'Vimeo' };
 
 /** Fin d'un trajet. Une animation est gelée dans un onglet caché : on n'attend jamais beaucoup plus que sa durée. */
 const landed = (flight, duration) => Promise.race([
@@ -22,16 +24,28 @@ export function createDetail({ cards, describe }) {
     const modal = createModal(overlay, close);
 
     let current = null; // carte affichée
+    let origin = null; // case d'où elle sort, et où elle retourne
     let node = null; // sa version agrandie
     let isClosing = false;
 
     /** Transformation qui ramène la grande carte sur la case de la collection. */
     function toTile() {
-        const tile = current.node.getBoundingClientRect();
+        const tile = origin.getBoundingClientRect();
         const big = slot.getBoundingClientRect(); // la case de gauche a la taille de la carte et n'est jamais transformée
         const x = tile.left + tile.width / 2 - (big.left + big.width / 2);
         const y = tile.top + tile.height / 2 - (big.top + big.height / 2);
         return `translate(${x}px, ${y}px) scale(${tile.width / big.width})`;
+    }
+
+    /** Ce qu'on lit d'un coup d'œil. */
+    function ticket(card, content) {
+        const { role, year } = content;
+        const row = (key, ...value) => [el('div', '', {}, text('dt', '', key), el('dd', '', {}, ...value))];
+        return el('dl', 'ticket', {},
+            ...row('ticket_type', text('span', '', `type_${card.type}`)),
+            ...(role ? row('ticket_role', role) : []),
+            ...(year ? row('ticket_year', year) : []),
+            ...row('ticket_number', `${cards.indexOf(card) + 1} / ${cards.length}`));
     }
 
     function fill(card) {
@@ -41,38 +55,49 @@ export function createDetail({ cards, describe }) {
         const description = el('div', 'detail__text');
         description.innerHTML = content.longHtml;
 
-        info.replaceChildren(
-            el('p', 'detail__meta', {}, text('span', 'detail__rarity', `rarity_${card.rarity.id}`), text('span', '', `type_${card.type}`)),
-            title);
-        if (content.subtitle) info.append(el('p', 'detail__subtitle', { textContent: content.subtitle }));
-        info.append(description);
+        info.replaceChildren(el('p', 'detail__rarity', {}, createKnob(card.rarity), text('span', '', `rarity_${card.rarity.id}`)),
+            title, ticket(card, content), ...player(content), description);
         info.scrollTop = 0;
 
         overlay.scrollTop = 0;
         overlay.style.setProperty('--rarity', card.rarity.color);
-        background.style.backgroundImage = content.background ? `url("${content.background}")` : '';
+        overlay.dataset.rarity = card.rarity.id;
         closeButton.setAttribute('aria-label', getTranslation('cards_close'));
         return content;
     }
 
-    /** Le lecteur n'est chargé qu'une fois la carte posée, pour ne pas saccader le trajet. */
-    function addEmbed({ name, embed }) {
-        if (!embed.src) return;
-        const frame = el('iframe', `detail__embed detail__embed--${embed.type}`, { src: embed.src, title: name });
-        frame.allow = 'autoplay; encrypted-media; fullscreen';
-        info.append(frame);
+    /** Façade du lecteur : il n'est chargé qu'au clic, rien ne joue sans geste. */
+    function player({ name, embed }) {
+        if (!embed.src) return [];
+        const box = el('div', 'player');
+        const facade = el('button', 'player__facade', { type: 'button' },
+            el('span', 'player__play'),
+            el('span', 'player__track', {},
+                createWave(name),
+                el('span', 'player__title', {}, text('span', '', 'player_listen'), ` ${name}`),
+                el('span', 'player__source', {}, text('span', '', 'player_open'), ` ${SOURCES[embed.type] ?? embed.type}`)));
+        facade.addEventListener('click', () => {
+            const frame = el('iframe', `detail__embed detail__embed--${embed.type}`, { src: embed.src, title: name });
+            frame.allow = 'autoplay; encrypted-media; fullscreen';
+            box.replaceChildren(frame);
+            frame.focus();
+        });
+        box.append(facade);
+        return [box];
     }
 
-    async function open(card) {
+    /** from : élément d'où sort la carte, sa case dans la grille par défaut. */
+    async function open(card, from = card.node) {
         if (current) return;
         current = card;
+        origin = from;
         const content = fill(card);
         node = createCard('div', card, content, cards.indexOf(card) + 1, cards.length);
         node.classList.add('is-flipped', 'tcard--detail');
         slot.replaceChildren(node);
         modal.open();
         closeButton.focus({ preventScroll: true });
-        card.node.classList.add('is-out'); // sa case reste vide
+        origin.classList.add('is-out'); // sa case reste vide
         overlay.classList.remove('is-closing');
 
         if (!reducedMotion()) {
@@ -90,7 +115,6 @@ export function createDetail({ cards, describe }) {
             if (current !== card || isClosing) return;
             overlay.classList.remove('is-moving');
         }
-        addEmbed(content);
     }
 
     async function close() {
@@ -107,12 +131,12 @@ export function createDetail({ cards, describe }) {
             );
             await landed(flight, RETURN);
         }
-        current.node.classList.remove('is-out');
+        origin.classList.remove('is-out');
         overlay.classList.remove('is-moving');
         modal.close();
         slot.replaceChildren();
         info.replaceChildren();
-        current = node = null;
+        current = origin = node = null;
         isClosing = false;
     }
 

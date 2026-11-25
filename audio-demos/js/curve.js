@@ -68,7 +68,7 @@ export function createCurve({ min, max, initial, label, steps = [], stepLabels =
             ctx.fill();
         };
 
-        ctx.font = `400 ${TEXT_SIZE}px Inter, system-ui, sans-serif`;
+        ctx.font = `400 ${TEXT_SIZE}px "Atkinson Hyperlegible Next", system-ui, sans-serif`;
         const write = (text, tx, ty, align, baseline, fill, alpha = 1) => {
             ctx.textAlign = align;
             ctx.textBaseline = baseline;

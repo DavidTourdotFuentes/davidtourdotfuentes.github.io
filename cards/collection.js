@@ -6,17 +6,25 @@ function pickOne(list, random) {
     return list[Math.floor(random() * list.length)];
 }
 
-/** Choisit d'abord une rareté selon son poids, parmi celles encore présentes, puis une carte de cette rareté. */
+/** Chaque carte a une chance égale au poids de sa rareté. */
 function pickWeighted(cards, random) {
-    const rarities = [...new Set(cards.map((card) => card.rarity))];
-    let roll = random() * rarities.reduce((sum, rarity) => sum + rarity.weight, 0);
-    const rarity = rarities.find((candidate) => (roll -= candidate.weight) < 0) ?? rarities[rarities.length - 1];
-    return pickOne(cards.filter((card) => card.rarity === rarity), random);
+    let roll = random() * cards.reduce((sum, card) => sum + card.rarity.weight, 0);
+    return cards.find((card) => (roll -= card.rarity.weight) < 0) ?? cards[cards.length - 1];
+}
+
+/** Mélange de Fisher-Yates. */
+function shuffle(list, random) {
+    const shuffled = [...list];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
 }
 
 /**
  * Tire un booster sans doublon parmi pool (cartes non découvertes). Une carte : { id, isProject, rarity } ;
- * rarity.level augmente avec la rareté. Les plus rares sont à la fin, pour garder le suspense.
+ * rarity.level augmente avec la rareté. L'ordre est mélangé : la plus rare peut sortir à n'importe quel moment.
  */
 export function drawBooster(pool, { size, guaranteed }, random = Math.random) {
     const left = [...pool];
@@ -35,14 +43,16 @@ export function drawBooster(pool, { size, guaranteed }, random = Math.random) {
         take(best.length ? best : left);
     }
 
-    // Un booster mélange projets et logiciels tant qu'il reste des deux : la carte la moins rare cède sa place.
+    // Un booster mélange projets et logiciels tant qu'il reste des deux : une carte au hasard cède sa place,
+    // sauf si c'est la seule à tenir la garantie.
     const others = left.filter((card) => card.isProject !== picks[0]?.isProject);
     if (picks.length > 1 && others.length && picks.every((card) => card.isProject === picks[0].isProject)) {
-        picks.sort((a, b) => a.rarity.level - b.rarity.level);
-        picks.shift();
+        const holders = guaranteed ? picks.filter((card) => card.rarity.level >= guaranteed.level) : [];
+        const removable = picks.filter((card) => holders.length !== 1 || card !== holders[0]);
+        picks.splice(picks.indexOf(pickOne(removable, random)), 1);
         take(others);
     }
-    return picks.sort((a, b) => a.rarity.level - b.rarity.level);
+    return shuffle(picks, random);
 }
 
 export class Collection {

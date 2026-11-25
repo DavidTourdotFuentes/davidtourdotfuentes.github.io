@@ -1,8 +1,11 @@
 // Relie les cartes au site : les grilles ne montrent que les cartes découvertes.
 // Fonctions de app.js et translations.js utilisées ici : getTranslation, applyTranslations, lockScroll, unlockScroll.
 import { createBooster } from './booster.js';
-import { createCard, el, text, waveform } from './card.js';
+import { createCard, el, text } from './card.js';
+import { createCueList } from './cuelist.js';
 import { createDetail } from './detail.js';
+import { createDial } from './dial.js';
+import { createKnob, createMeter, needleAngle } from './meter.js';
 import { Collection, drawBooster } from './collection.js';
 import { BOOSTER, CARDS, RARITIES } from './config.js';
 
@@ -36,29 +39,33 @@ const newCards = new Set(); // découvertes pendant cette visite
 /** Contenu d'une carte, dans la langue courante. */
 function describe(card) {
     if (card.isProject) {
-        const { title, i18nDesc, i18nLong, icon, bg, embedType, iframe } = card.node.dataset;
+        const { title, i18nDesc, i18nLong, icon, art, crop, zoom, embedType, iframe } = card.node.dataset;
         const [name, ...rest] = getTranslation(title).split(' : ');
+        const subtitle = rest.join(' : ');
+        const [, role = subtitle, year = ''] = subtitle.match(/^(.*?)\s*\((\d{4})\)$/) ?? [];
         return {
             name,
-            subtitle: rest.join(' : '),
+            role,
+            year,
             html: getTranslation(i18nDesc),
             longHtml: getTranslation(i18nLong),
-            image: icon,
-            background: bg,
+            image: art ?? icon, // data-art : image réduite et cadrée pour la carte
+            crop,
+            zoom,
             embed: { type: embedType, src: iframe },
         };
     }
     const { name, textKey, image } = card.tool;
     const html = getTranslation(textKey);
-    return { name, subtitle: '', html, longHtml: html, image, background: '', embed: {} };
+    return { name, role: '', year: '', html, longHtml: html, image, embed: {} };
 }
 
 // --- Grilles ---
 
+/** Place d'une carte pas encore vue. */
 function placeholder() {
     return el('div', 'hidden-card', {},
-        waveform(),
-        el('span', 'hidden-card__mark', { textContent: '?' }),
+        el('span', 'hidden-card__mark', { textContent: '−∞' }),
         text('p', 'hidden-card__text', 'cards_hidden'));
 }
 
@@ -82,10 +89,19 @@ function showCard(card) {
     }
     const face = createCard('div', card, describe(card), cards.indexOf(card) + 1, cards.length);
     face.classList.add('is-flipped');
-    node.replaceChildren(face, text('span', 'new-tag', 'cards_new'));
+    face.firstChild.append(text('span', 'new-tag', 'cards_new')); // fixée à la carte, pour s'incliner avec elle
+    node.replaceChildren(face);
 }
 
 const detail = createDetail({ cards, describe });
+const cueList = createCueList(document.getElementById('cuelist'), { cards, describe, onOpen: detail.open });
+const dial = createDial(document.getElementById('dial'), {
+    cards,
+    describe,
+    has: (card) => collection.has(card),
+    onOpen: detail.open,
+    onBooster: () => booster.open(),
+});
 for (const card of cards) {
     const open = () => { if (collection.has(card)) detail.open(card); };
     card.node.addEventListener('click', open);
@@ -99,10 +115,14 @@ for (const card of cards) {
 // --- Barre de collection ---
 
 const bar = document.getElementById('collection');
-const count = el('strong', 'collection__count');
-const progress = el('progress', 'collection__progress', { max: cards.length });
+// Progression : une graduation par carte, les plus rares dans le rouge.
+const legendaries = cards.filter((card) => card.rarity === rarities.at(-1)).length;
+const meter = createMeter({ ticks: cards.length + 1, red: cards.length - legendaries, labels: [], crete: 'var(--crete)', needle: 'var(--aiguille)' });
+const count = el('strong', 'gauge__count');
+const totalText = el('span', 'gauge__total', {}, text('span', '', 'meter_of'), ` ${cards.length} `, text('span', '', 'meter_cards'));
+const gauge = el('div', 'gauge', {}, meter, el('div', 'gauge__text', {}, count, totalText));
 const chips = el('div', 'collection__chips');
-const openButton = text('button', 'booster__btn booster__btn--main', 'cards_open_booster');
+const openButton = text('button', 'btn', 'cards_open_booster');
 openButton.type = 'button';
 openButton.addEventListener('click', () => booster.open());
 
@@ -121,24 +141,36 @@ const resetLink = link('cards_reset', () => {
     booster.open();
 });
 
-const floating = el('button', 'floating-booster', { type: 'button' }, waveform(), text('span', '', 'cards_open_booster'));
+const floating = el('button', 'floating-booster', { type: 'button' }, text('span', '', 'cards_open_booster'));
 floating.addEventListener('click', () => booster.open());
 
-const label = el('p', 'collection__label', {}, text('span', '', 'cards_collection'), ' ', count);
-bar.append(el('div', 'collection__main', {}, label, progress, chips), el('div', 'collection__actions', {}, openButton, revealLink, resetLink));
+bar.append(el('div', 'collection__main', {}, gauge, chips), el('div', 'collection__actions', {}, openButton, revealLink, resetLink));
 document.body.append(floating);
+
+// Inutile près du cadran et du bouton, et il gênerait la page contact.
+const inView = new Set();
+const tuck = new IntersectionObserver((entries) => {
+    for (const { target, isIntersecting } of entries) inView[isIntersecting ? 'add' : 'delete'](target);
+    floating.classList.toggle('is-tucked', inView.size > 0);
+});
+tuck.observe(openButton);
+tuck.observe(document.getElementById('dial'));
+tuck.observe(document.querySelector('.contact__email'));
 
 function update() {
     cards.forEach(showCard);
     const isComplete = collection.count === cards.length;
-    count.textContent = `${collection.count} / ${cards.length}`;
-    progress.value = collection.count;
-    progress.setAttribute('aria-label', label.textContent);
+    cueList.render();
+    dial.update();
+    const found = collection.count;
+    meter.style.setProperty('--needle', `${needleAngle(found / cards.length)}deg`);
+    const isWord = found === 0 || isComplete;
+    count.replaceChildren(isWord ? '' : `${found} `, text('span', '', found === 0 ? 'meter_none' : isComplete ? 'meter_all' : found === 1 ? 'meter_one' : 'meter_many'));
     chips.replaceChildren(...rarities.map((rarity) => {
         const all = cards.filter((card) => card.rarity === rarity);
-        const found = all.filter((card) => collection.has(card)).length;
-        const chip = el('span', 'collection__chip', {}, text('span', '', `rarity_${rarity.id}`), ` ${found}/${all.length}`);
-        chip.style.setProperty('--rarity', rarity.color);
+        const shown = all.filter((card) => collection.has(card)).length;
+        const chip = el('span', 'collection__chip', {}, createKnob(rarity), text('span', '', `rarity_${rarity.id}`), ` ${shown}/${all.length}`);
+        chip.dataset.rarity = rarity.id;
         return chip;
     }));
     openButton.hidden = floating.hidden = isComplete;
@@ -149,6 +181,7 @@ function update() {
 
 function revealAll() {
     collection.add(cards);
+    dial.aimAt(cards.find((card) => card.rarity === rarities.at(-1)));
     update();
 }
 
@@ -163,13 +196,15 @@ const booster = createBooster({
         const drawn = drawBooster(collection.hidden, { size: BOOSTER.size, guaranteed: findRarity(BOOSTER.guaranteed) });
         for (const card of drawn) newCards.add(card);
         collection.add(drawn);
+        dial.aimAt(drawn.reduce((best, card) => (card.rarity.level > best.rarity.level ? card : best))); // la plus rare du booster
         return drawn;
     },
+    onOpen: detail.open,
     onRevealAll: BOOSTER.allowRevealAll ? revealAll : null,
     onClose(opened) {
         collection.save(); // le booster de bienvenue n'est proposé qu'une fois
         update();
-        if (opened) document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
+        if (opened) document.getElementById('collection').scrollIntoView({ behavior: 'smooth' });
     },
 });
 

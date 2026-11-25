@@ -1,15 +1,18 @@
 // Ouverture d'un booster : on déchire le paquet, on retourne les cartes une à une, puis on voit le résultat.
-import { burst, createCard, el, reducedMotion, setText, text, waveform } from './card.js';
+import { burst, createCard, el, reducedMotion, setText, text } from './card.js';
+import { createMeter, createWave } from './meter.js';
 import { createModal } from './modal.js';
 
+const FLIP = 220; // en millisecondes : passé ce temps, la carte est lisible et un clic passe à la suivante
+const LEAVE = 180; // sortie de la carte vue
 const CLICK_THRESHOLD = 6; // en pixels : en dessous, c'est un clic et non un geste de déchirure
 const wait = (ms) => new Promise((resolve) => { setTimeout(resolve, ms); });
 
 /**
  * draw() renvoie les cartes du booster (déjà ajoutées à la collection), describe(card) leur contenu,
- * remaining() le nombre de cartes encore cachées. onClose est appelé à la fermeture, avec le nombre de cartes ouvertes.
+ * remaining() le nombre de cartes encore cachées. onOpen(card, origin) ouvre la fiche d'une carte du résultat. onClose est appelé à la fermeture, avec le nombre de cartes ouvertes.
  */
-export function createBooster({ cards, size, draw, describe, remaining, onRevealAll, onClose }) {
+export function createBooster({ cards, size, draw, describe, remaining, onRevealAll, onOpen, onClose }) {
     const title = text('h2', 'booster__title', 'cards_welcome_title');
     title.id = 'booster-title';
     const intro = text('p', 'booster__intro', 'cards_welcome_text');
@@ -18,7 +21,7 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
     const live = el('p', 'booster__live');
     live.setAttribute('aria-live', 'polite');
     const actions = el('div', 'booster__actions');
-    const overlay = el('div', 'booster', {}, el('div', 'booster__scene', {}, title, intro, stage, hint, actions), live);
+    const overlay = el('div', 'booster', {}, el('div', 'booster__ink'), el('div', 'booster__scene', {}, title, intro, stage, hint, actions), live);
     overlay.setAttribute('aria-labelledby', 'booster-title');
     const modal = createModal(overlay, close);
 
@@ -34,7 +37,7 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
 
     function setPhase(phase) {
         overlay.dataset.phase = phase;
-        overlay.classList.remove('is-flashing');
+        overlay.classList.remove('is-flashing', 'is-inked');
         overlay.scrollTop = 0;
     }
 
@@ -49,11 +52,13 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
 
         const half = (part) => el('span', `pack__half pack__half--${part}`, {},
             el('span', 'pack__art', {},
-                el('span', 'pack__brand', { textContent: 'David Tourdot-Fuentes' }),
-                waveform(),
-                el('span', 'pack__label', { textContent: 'SOUND CARDS' }),
-                el('span', 'pack__count', { textContent: `× ${Math.min(size, remaining())}` })));
-        const pack = el('button', 'pack', { type: 'button' }, half('bottom'), half('top'), el('span', 'pack__cut'));
+                el('span', 'pack__band'),
+                el('span', 'pack__meter', {}, createMeter()),
+                el('span', 'pack__foot', {},
+                    createWave('booster', 3),
+                    el('span', 'pack__label', { textContent: 'Booster' }),
+                    el('span', 'pack__count', {}, `${Math.min(size, remaining())} `, text('span', '', 'pack_count')))));
+        const pack = el('button', 'pack', { type: 'button' }, half('bottom'), half('top'));
         pack.setAttribute('aria-label', getTranslation('cards_open_booster'));
         bindTear(pack, () => openPack(pack));
         stage.replaceChildren(pack);
@@ -113,7 +118,7 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
         for (const card of drawn) new Image().src = describe(card).image;
         actions.replaceChildren();
         pack.classList.add('is-open');
-        burst(stage, { color: '#7dd3fc', particles: 24 });
+        burst(stage, { particles: 24 });
         await wait(reducedMotion() ? 0 : 750);
         if (current === session) showDeck(drawn);
     }
@@ -130,7 +135,9 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
         const current = ++session;
         const card = drawn[index];
         const { rarity } = card;
-        overlay.classList.remove('is-flashing');
+        overlay.classList.remove('is-flashing', 'is-inked');
+        overlay.dataset.effect = rarity.effect;
+        overlay.style.setProperty('--rarity', rarity.color);
         setText(hint, 'cards_flip_hint');
 
         const node = createCard('button', card, describe(card), cards.indexOf(card) + 1, cards.length);
@@ -150,37 +157,67 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
         stage.replaceChildren(fx, pile, node, el('p', 'booster__counter', { textContent: `${index + 1} / ${drawn.length}` }));
 
         let state = 'down';
-        node.addEventListener('click', async () => {
-            if (state === 'up') {
-                state = 'left';
-                node.classList.add('is-leaving');
-                await wait(reducedMotion() ? 0 : 250);
-                if (current !== session) return;
-                if (index + 1 < drawn.length) showDeckCard(drawn, index + 1);
-                else showSummary(drawn);
-                return;
-            }
-            if (state !== 'down') return;
-            state = 'charging';
+        let skip = () => {}; // abrège l'attente en cours
+        const skippable = (ms) => Promise.race([wait(ms), new Promise((resolve) => { skip = resolve; })]);
+
+        async function flip() {
+            state = 'revealing';
             if (!reducedMotion() && rarity.charge) {
                 node.classList.add('is-charging');
                 node.style.setProperty('--charge', `${rarity.charge}ms`);
-                await wait(rarity.charge);
+                await skippable(rarity.charge);
                 if (current !== session) return;
                 node.classList.remove('is-charging');
             }
+            node.getBoundingClientRect(); // une carte tout juste posée doit être dessinée de dos pour que le retournement s'anime
             node.classList.add('is-flipped');
             fx.classList.add('is-active');
-            if (rarity.effect === 'legend') overlay.classList.add('is-flashing');
+            overlay.classList.add('is-inked'); // la couleur de la carte gagne toute la fenêtre
+            if (rarity.effect === 'legend' && !node.classList.contains('is-instant')) overlay.classList.add('is-flashing');
             burst(stage, rarity);
             const { name } = describe(card);
             const announced = `${name}, ${getTranslation(`rarity_${rarity.id}`)}`;
             live.textContent = announced;
             node.setAttribute('aria-label', announced);
             setText(hint, index + 1 < drawn.length ? 'cards_next_hint' : 'cards_end_hint');
-            state = 'up';
+            if (!reducedMotion() && !node.classList.contains('is-instant')) await skippable(FLIP);
+            if (current === session) state = 'up';
+        }
+
+        node.addEventListener('click', () => {
+            if (state === 'down') {
+                flip();
+            } else if (state === 'revealing') {
+                // Clic pendant l'animation : la carte s'affiche aussitôt.
+                node.classList.add('is-instant');
+                overlay.classList.remove('is-flashing');
+                skip();
+            } else if (state === 'up') {
+                state = 'left';
+                if (index + 1 < drawn.length) {
+                    showDeckCard(drawn, index + 1);
+                    flyOut(node);
+                } else showSummary(drawn);
+            }
         });
         node.focus({ preventScroll: true });
+    }
+
+    /** La carte vue s'envole par-dessus la suivante, déjà en place : rien n'attend la fin de ce mouvement. */
+    function flyOut(node) {
+        if (reducedMotion()) return;
+        node.classList.replace('tcard--deck', 'tcard--leaving');
+        node.inert = true;
+        stage.append(node);
+        node.animate(
+            [
+                { transform: 'none', opacity: 1 },
+                { opacity: 1, offset: 0.5 },
+                { transform: 'translateX(120%) rotate(16deg)', opacity: 0 },
+            ],
+            { duration: LEAVE, easing: 'ease-in', fill: 'forwards' },
+        );
+        setTimeout(() => node.remove(), LEAVE);
     }
 
     // --- 3. Le résultat ---
@@ -191,15 +228,16 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
         setText(title, remaining() ? 'cards_summary_title' : 'cards_complete');
         setText(hint, 'cards_summary_hint');
         stage.replaceChildren(...drawn.map((card, i) => {
-            const node = createCard('div', card, describe(card), cards.indexOf(card) + 1, cards.length);
+            const node = createCard('button', card, describe(card), cards.indexOf(card) + 1, cards.length);
             node.classList.add('is-flipped', 'tcard--summary');
+            node.addEventListener('click', () => onOpen(card, node)); // elle se repose au même endroit
             node.style.setProperty('--i', i);
             return node;
         }));
 
-        const collection = button('cards_see_collection', 'booster__btn booster__btn--main', close);
+        const collection = button('cards_see_collection', 'btn', close);
         actions.replaceChildren(collection);
-        if (remaining()) actions.append(button('cards_again', 'booster__btn', () => showPack(false)));
+        if (remaining()) actions.append(button('cards_again', 'btn btn--line', () => showPack(false)));
         collection.focus({ preventScroll: true });
     }
 

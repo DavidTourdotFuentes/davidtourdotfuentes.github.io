@@ -18,21 +18,21 @@ project_mallow_desc,Interactive audio gaming speaker for children from 4 to 10 y
 project_mallow_long,"Mallow is an interactive audio speaker that the child talks about to become a history actor and play mini-games. AI is used as a game master to guide the child while letting him choose the different outcomes of the story. I was in charge of the sound design of a large part of the figurines (Oli and the Golden Tree, Baby Dragon, Miraculous, Knights Quiz, Charlie's mini games and others in preparation). I was thus able to define the artistic direction of his figurines as well as the integration of sounds into their homemade audio engine","Mallow est une enceinte audio interactive dont l'enfant parle pour devenir acteur d'histoire et jouer a des minijeux. L'IA est utilisé comme maitre du jeu pour guider l'enfant tout en lui laissant choisir les différentes issues de l'histoire. J'ai été en charge du sound design d'une grande partie des figurines (Oli et l'arbre d'or, Bébé Dragon, Miraculous, Quiz des Chevaliers, Mini jeux de charlie et d'autres en préparation). J'ai ainsi pu défini la direction artistique de ses figurines ainsi que l'intégration des sons dans leur moteur audio fait maison"
 project_furyball_title,Furyball : Sound Design (2026),Furyball : Design Sonore (2026)
 project_furyball_desc,Furyball: Rogue Revenge : a fast-paced action roguelite developed by Rebound,Furyball : Rogue Revenge : un roguelite d’action rapide développé par Rebound
-project_furyball_long,"Furyball is a fast-paced action roguelite where your only weapon is a deadly bouncy ball.<br>Take control of the chaos, pulverize your enemies and survive in sports-inspired arenas, pinball machines and grindhouse cinema.<br>On this project, I was commissioned with Laurent Bariet (G4F) to create and integrate all the sounds of the game, from the interface to the different attacks by Azami and his enemies, the ambiances and the integration of the music composed by Toxic Avenger","Furyball est un roguelite d’action au rythme effréné où ta seule arme est une balle rebondissante mortelle.<br>Prends le contrôle du chaos, pulvérise tes ennemis et survis dans des arènes inspirées du sport, du flipper et du cinéma grindhouse.<br>Sur ce projet j'ai été missioné avec Laurent Bariet (G4F) pour créer et intégrer l'intégralité des sons du jeu, de l'interface aux différentes attaques d'Azami, des ennemis en passant par les ambiances et l'intégration de la musique composée par Toxic Avenger"
+project_furyball_long,"Furyball is a fast-paced action roguelite where your only weapon is a deadly bouncy ball.<br>Take control of the chaos, pulverize your enemies and survive in sports-inspired arenas, pinball machines and grindhouse cinema.<br>On this project, I was commissioned with Laurent Bariet (G4F) to create and integrate all the sounds of the game, from the interface to the different attacks by Azami and his enemies, the ambiances and the integration of the music composed by Toxic Avenger","Furyball est un roguelite d’action au rythme effréné où ta seule arme est une balle rebondissante mortelle.<br>Prends le contrôle du chaos, pulvérise tes ennemis et survis dans des arènes inspirées du sport, du flipper et du cinéma grindhouse.<br>Sur ce projet j'ai été missionné avec Laurent Bariet (G4F) pour créer et intégrer l'intégralité des sons du jeu, de l'interface aux différentes attaques d'Azami, des ennemis en passant par les ambiances et l'intégration de la musique composée par Toxic Avenger"
 project_mechanicus_title,Mechanicus II : Sound Design (2026),Mechanicus II : Design Sonore (2026)
 project_mechanicus_desc,"Warhammer 40K: Mechanicus II is the sequel to the tactical game Mechanicus, developed by Bulwark Studios and published by Kasedo Games","Warhammer 40K : Mechanicus II est la suite du jeu de tactique Mechanicus, développée par Bulwark Studios et éditée par Kasedo Games."
 project_mechanicus_long,"Warhammer 40K: Mechanicus II is the sequel to the tactical game Mechanicus, developed by Bulwark Studios and published by Kasedo Games. I was lucky enough to be able to sound a large part of the ingame cinematics, whose artistic direction was previously defined by Guillaume David","Warhammer 40K : Mechanicus II est la suite du jeu de tactique Mechanicus, développée par Bulwark Studios et éditée par Kasedo Games. J'ai eu la chance de pouvoir sonoriser une grande partie des cinématiques ingame dont la direction artistique a été défini aupréalable par Guillaume David"
 project_meot_title,Mass Entity Optimization : Audio Tool (2025),Optimisation de masse d'entité : Outil Audio (2025)
-project_meot_desc,Unity C# Wwise tool for optimizing sounds placed on clusters of entities (crowds / swarms),Outil Unity C# Wwise d'optimisation des sons placés sur des masses d'entités (foules / assaims)
+project_meot_desc,Unity C# Wwise tool for optimizing sounds placed on clusters of entities (crowds / swarms),Outil Unity C# Wwise d'optimisation des sons placés sur des masses d'entités (foules / essaims)
 project_meot_long,"This C# Unity/ Wwise tool allows to optimize the entity sound in bulk.<br>The principle is simple: Use Wwise to sonorize a entity cluster calculated in real time by the tool.<br>The audio stream content of each cluster is then modulated based on the number of entities in the group.<br>Everything is fully configurable and dynamic in order to be used as a """toolbox""" for any system requiring the sound of a large number of entities (crowd, herd, fish school, bee swarms, etc...)","Cet outil C# Unity / Wwise permet d'optimiser la sonorisation d'entité en masse.<br>Le principe est simple : Utiliser Wwise pour sonoriser un groupe d'entité proche (cluster) calculé en temps réel par l'outil.<br>Le contenu du flux audio de chaque cluster est ensuite modulé en fonction du nombre d'entité dans le groupe.<br>Tout est entièrement paramétrable et dynamique afin d'être utilisé comme """toolbox""" pour n'importe quel systeme demandant de sonoriser un grand nombre d'entité (foule, troupeau, banc de poissons, essaims d'abeilles, etc...)"
 project_al_title,Architect Life : Sound Design (2024),Architect Life : Design Sonore (2024),
-project_al_desc,Architect game simulator developed by Shine Research and published by Nacon,Jeu Vidéo de simulation d'architecture développé par Shine Researcg et édité par Nacon
-project_al_long,Architect Life is an architecture simulation game that allows you to move from modeling 3D plans based on client criteria to making decisions on the construction site. On this project G4F was commissioned to create all the audio assets of the interface game with the different materials paints and furniture installed during modeling.,Architect Life est un jeu de simulation d'architecture permettant de passer de la modélisation des plans 3D basé sur les critères du client au décisions sur le chantier. Sur ce projet G4F a été missioné pour créer tous les assets audios du jeu de l'interface aux différents materiaux peintures et meubles posés lors de la modélisation.
+project_al_desc,Architect game simulator developed by Shine Research and published by Nacon,Jeu Vidéo de simulation d'architecture développé par Shine Research et édité par Nacon
+project_al_long,Architect Life is an architecture simulation game that allows you to move from modeling 3D plans based on client criteria to making decisions on the construction site. On this project G4F was commissioned to create all the audio assets of the interface game with the different materials paints and furniture installed during modeling.,Architect Life est un jeu de simulation d'architecture permettant de passer de la modélisation des plans 3D basé sur les critères du client au décisions sur le chantier. Sur ce projet G4F a été missionné pour créer tous les assets audios du jeu de l'interface aux différents materiaux peintures et meubles posés lors de la modélisation.
 project_mol_title,Masters of Light : Sound Design (2024),Masters of Light : Design Sonore (2024)
 project_mol_desc,Wave Shooter in mixed reality developed by COVEN & ALBYON and voiced by G4F,Wave Shooter en réalité mixte développé par COVEN & ALBYON et sonorisé par G4F
 project_mol_long,Masters of Light is a mixed reality Wave Shooter developed by Coven & Albyon whose entire audio production has been delegated to G4F Prod. Having recently arrived at the company I was able to give a hand to Laurent Bariet on the audio production of the game assets:<br>- Attacks animations and enemy movements sound design<br>- Player spells sound design<br>- In-game tests with the VR headset for audio mixing,Masters of Light est un Wave Shooter en réalité mixte développé par Coven & Albyon dont toute la production audio a été délégué a G4F Prod. Etant arrivé récement dans l'entreprise j'ai pu donner un coup de main a Laurent Bariet sur la production audio des assets du jeu :<br>- Sonorisation d'animations d'attaques et de mouvements des ennemis<br>- Sonorisation des spells du joueurs<br>- Tests ingame avec le casque VR pour le mixage audio
 project_dc_title,Darkest Canopy : Soundtrack (2023),Darkest Canopy : Bande Son (2023)
-project_dc_desc,An epic soundtrack with Inca influences,Une bande son épique aux influence Inca
+project_dc_desc,An epic soundtrack with Inca influences,Une bande son épique aux influences incas
 project_dc_long,Darkest Canopy is a student video game in which I was able to give a hand on the musical composition:<br>- Original theme of the game<br>- Exploration theme<br>- Combat theme<br>The exploration and combat musics have exactly the same duration and loop to transition between one and the other at any time during the game.,Darkest Canopy est un jeu vidéo étudiant dans lequel j'ai pu donner un coup de main sur la composition musicale :<br>- Theme orignial du jeu<br>- Theme d'exploration<br>- Theme de combat<br>Les compositions des musiques d'explorations et de combats ont exactement la meme durée et bouclent pour mettre de transitionner entre l'une et l'autre a n'importe quel moment du jeu.
 project_lrds_title,La Route des Sommets : Soundtrack (2023),La Route des Sommets : Bande Son (2023)
 project_lrds_desc,A soft and melancholic soundtrack between acoustic sounds of the Basque country and electronic pads,Une bande son douce et mélancolique entre sonorités acoustiques du pays basque et nappes electroniques
@@ -41,7 +41,7 @@ project_lc_title,Lofi Clicker : Sound Design / Integration / Soundtrack (2023),L
 project_lc_desc,Musical rhythm game from the Winter Jam 2023,Jeu de rythme musical issu de la Winter Jam 2023
 project_lc_long,Lofi Clicker is a musical rhythm game created during the Winter Jam 2022 on FMod / Unity. The audio is notably distinguished by evolutionary orginal pieces created to evolve according to the player's rhythm (tempo detection in Unity based on the information of the current piece given by FMod).,Lofi Clicker est un jeu de rythme musical créé lors de la Winter Jam 2022 sur FMod / Unity. L'audio se démarque notamment par des morceaux orginaux évolutifs créé pour évoluer au rythme du joueur (detection de tempo dans Unity basé sur les information du morceau actuel donné par FMod).
 project_tr_title,The Roaming : Sound Design (2022),The Roaming : Design Sonore (2022)
-project_tr_desc,Immersive theater in mixed reality,Théatre immersif en réalité mixte
+project_tr_desc,Immersive theater in mixed reality,Théâtre immersif en réalité mixte
 project_tr_long,THE ROAMING is a tale presented as an immersive and interactive theater piece in which I was able to lend a hand during the creation of sound during my internship at G4F :<br>- Sound reinforcement of environments in Quad format<br>- Post production of foleys recordings over animations<br>- Integration of in-game sounds via Wwise and Unity (placing audio events on the timeline),THE ROAMING est un conte présenté sous la forme d'une piece de théatre immersive et interractive dans lequel j'ai pu donner un coup de main lors de la création du son pendant mon stage a G4F :<br>- Sonorisations des environnements en format Quad<br>- Participation et dépilage des enregistrements des foleys sur les animations<br>- Intégration des sons en jeu via Wwise et Unity (pose des évènements audio sur la timeline)
 project_pm_title,Phantom Memories : Sound Design & Soundtrack (2022),Phantom Memories : Design Sonore & Bande Son (2022)
 project_pm_desc,Narrative investigation video game in a closed context created by the 3iS Bordeaux Video Game animation class,Jeu vidéo d'enquête narratif en huis clos créé par la classe d'animation Jeu Vidéo de 3iS Bordeaux
@@ -83,7 +83,7 @@ cards_flip_hint,Click on the card to flip it,Cliquez sur la carte pour la retour
 cards_next_hint,Click again for the next card,Cliquez encore pour la carte suivante
 cards_end_hint,Click again to see your booster,Cliquez encore pour voir votre booster
 cards_summary_title,Your booster,Votre booster
-cards_summary_hint,These cards have been added to your collection,Ces cartes ont rejoint votre collection
+cards_summary_hint,These cards have been added to your collection. Click a card to see its details.,Ces cartes ont rejoint votre collection. Cliquez sur une carte pour ouvrir sa fiche.
 cards_face_down,Face-down card,Carte face cachée
 cards_skip,Reveal everything,Tout retourner
 cards_later,Later,Plus tard
@@ -95,7 +95,7 @@ cards_reset,Start over,Recommencer
 cards_reset_confirm,Hide all the cards again and start over?,Cacher à nouveau toutes les cartes et recommencer ?
 cards_collection,Collection,Collection
 cards_complete,Collection complete!,Collection complète !
-cards_hidden,Undiscovered card,Carte non découverte
+cards_hidden,Not seen yet,Pas encore vue
 cards_new,New,Nouveau
 type_project,Project,Projet
 type_software,Software,Logiciel
@@ -105,3 +105,23 @@ rarity_rare,Rare,Rare
 rarity_ultra,Ultra rare,Ultra rare
 rarity_legendary,Legendary,Légendaire
 cards_close,Close,Fermer
+ticket_role,Role,Rôle
+ticket_year,Year,Année
+ticket_number,Card,Carte
+ticket_type,Type,Type
+dial_list,See everything as a list,Tout voir en liste
+dial_hand,Hand of cards,Main de cartes
+dial_open,Open the card,Ouvrir la fiche
+dial_previous,Previous card,Carte précédente
+dial_next,Next card,Carte suivante
+list_title,Cue sheet,Conduite
+list_text,"The whole collection as a list, no booster needed.","Toute la collection en liste, sans booster à ouvrir."
+meter_none,Zero seen,Zéro vu
+meter_one,seen,vue
+meter_many,seen,vues
+meter_all,All seen,Tout vu
+meter_of,of,sur
+meter_cards,cards,cartes
+player_listen,Listen to,Écouter
+player_open,Opens the player:,Ouvre le lecteur
+pack_count,cards,cartes

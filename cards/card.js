@@ -1,4 +1,5 @@
 // Aspect d'une carte à collectionner, et effets d'apparition selon sa rareté.
+import { createKnob, createMeter, createWave } from './meter.js';
 
 export const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -20,50 +21,66 @@ export function setText(node, key) {
     node.textContent = getTranslation(key);
 }
 
-const BARS = [30, 55, 80, 45, 100, 65, 90, 40, 70, 50, 25];
+/** Éclats du Légendaire : x et y en % de la carte, taille en cqw, retard en secondes. */
+const SPARKS = [[86, 8, 11, 0], [30, 6, 6, 1.1], [94, 30, 7, 0.5], [60, 15, 5, 1.9], [13, 33, 8, 1.5], [78, 42, 5, 2.4], [44, 37, 6, 0.8], [92, 52, 9, 2], [66, 28, 4, 2.8]];
 
-/** Forme d'onde : le motif du booster et du dos des cartes. */
-export function waveform() {
-    const wave = el('span', 'wave');
-    wave.setAttribute('aria-hidden', 'true');
-    for (const height of BARS) {
-        const bar = el('span', 'wave__bar');
-        bar.style.height = `${height}%`;
-        wave.append(bar);
+/** Lumière de la carte : un reflet, et des éclats sur la plus rare. Le reste est dans cards.css. */
+function light({ effect }) {
+    const node = el('span', 'light', {}, el('span', 'light__sheen'));
+    node.setAttribute('aria-hidden', 'true');
+    if (effect === 'legend') {
+        node.append(el('span', 'sparks', {}, ...SPARKS.map(([x, y, size, delay]) => {
+            const spark = el('span', 'spark');
+            spark.style.cssText = `left:${x}%;top:${y}%;--size:${size}cqw;--delay:-${delay}s`;
+            return spark;
+        })));
     }
-    return wave;
+    return node;
 }
 
-/** Recto d'une carte. info : { name, subtitle, html, image }. */
+/** Recto d'une carte. info : { name, role, year, html, image, crop, zoom }. */
 function front(card, info, number, total) {
     const art = el('span', `tcard__art${card.isProject ? '' : ' tcard__art--logo'}`, {}, el('img', '', { src: info.image, alt: '' }));
+    if (info.crop) art.style.setProperty('--crop', info.crop);
+    if (info.zoom) art.style.setProperty('--zoom', info.zoom);
+    if (!card.isProject) art.append(createWave(info.name, 6));
     const description = el('span', 'tcard__text');
     description.innerHTML = info.html; // textes de translations.csv, qui contiennent des <br>
 
-    const type = el('span', 'tcard__type', {}, text('span', '', `type_${card.type}`));
-    if (info.subtitle) type.append(` · ${info.subtitle}`);
+    const type = el('span', 'tcard__type');
+    if (info.role) type.textContent = [info.role, info.year].filter(Boolean).join(', ');
+    else setText(type, `type_${card.type}`);
 
     return el('span', 'tcard__face tcard__front', {},
-        el('span', 'tcard__name', { textContent: info.name }),
         art,
-        type,
-        description,
-        el('span', 'tcard__footer', {},
-            text('span', 'tcard__rarity', `rarity_${card.rarity.id}`),
-            el('span', '', { textContent: `${number}/${total}` })),
-        el('span', 'tcard__holo'));
+        createKnob(card.rarity),
+        el('span', 'tcard__body', {},
+            el('span', 'tcard__name', { textContent: info.name }),
+            type,
+            description,
+            el('span', 'tcard__footer', {},
+                text('span', 'tcard__rarity', `rarity_${card.rarity.id}`),
+                el('span', '', { textContent: `${number}/${total}` }))),
+        light(card.rarity));
+}
+
+/** Dos : un VU-mètre, dont l'aiguille monte au niveau de la carte avant le retournement. */
+function back() {
+    const node = el('span', 'tcard__face tcard__back', {}, el('span', 'tcard__vu', { textContent: 'VU' }), createMeter());
+    node.setAttribute('aria-hidden', 'true');
+    return node;
 }
 
 /** tag vaut 'button' pour une carte à retourner, 'div' pour une carte déjà visible. */
-export function createCard(tag, card, info, number, total) {
-    const inner = el('span', 'tcard__inner', {},
-        el('span', 'tcard__face tcard__back', {}, waveform()),
-        front(card, info, number, total));
+export function createCard(tag, card, info, number, total, { tilts = true } = {}) {
+    const inner = el('span', 'tcard__inner', {}, back(), front(card, info, number, total));
     const node = el(tag, 'tcard', {}, inner);
     if (tag === 'button') node.type = 'button';
     node.dataset.effect = card.rarity.effect;
+    node.dataset.rarity = card.rarity.id;
     node.style.setProperty('--rarity', card.rarity.color);
-    followPointer(node);
+    node.style.setProperty('--target', `${card.rarity.needle}deg`);
+    if (tilts) followPointer(node);
     return node;
 }
 
@@ -84,22 +101,27 @@ function followPointer(node) {
     });
 }
 
-/** Particules qui partent du centre de la scène. */
-export function burst(stage, { color, particles }) {
+const CONFETTI = ['#58bcc4', '#f190b4', '#f3c34b', '#ff5a3a'];
+
+/** Confettis qui partent du centre de la scène, de la couleur de la carte ou des quatre ; des étoiles pour la plus rare. */
+export function burst(stage, { color, particles, effect = 'burst' }) {
     if (reducedMotion()) return;
     for (let i = 0; i < particles; i++) {
-        const particle = el('span', 'particle');
+        const isStar = effect === 'legend';
+        const particle = el('span', `particle${isStar ? ' particle--star' : ''}`);
         const angle = Math.random() * Math.PI * 2;
         const distance = 140 + Math.random() * 260;
-        const size = 3 + Math.random() * 6;
-        particle.style.cssText = `width:${size}px;height:${size}px;background:${Math.random() < 0.25 ? '#ffffff' : color}`;
+        const size = (isStar ? 12 : 6) + Math.random() * (isStar ? 18 : 9);
+        const ink = isStar ? (i % 3 ? '#fffbe6' : '#ffcf6b') : effect === 'glow' ? color : CONFETTI[i % CONFETTI.length];
+        particle.style.cssText = `width:${size}px;height:${isStar ? size : size * (0.4 + Math.random() * 0.6)}px;background:${ink}`;
         stage.append(particle);
         const x = Math.cos(angle) * distance;
         const y = Math.sin(angle) * distance;
         particle.animate(
             [
-                { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
-                { transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y + 60}px)) scale(0)`, opacity: 0 },
+                { transform: 'translate(-50%, -50%) rotate(0deg)', opacity: 1 },
+                { transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y + 60}px)) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.75 },
+                { transform: `translate(calc(-50% + ${x * 1.05}px), calc(-50% + ${y + 130}px)) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 },
             ],
             { duration: 900 + Math.random() * 900, easing: 'cubic-bezier(0.1, 0.7, 0.3, 1)', fill: 'forwards' },
         ).finished.finally(() => particle.remove());
