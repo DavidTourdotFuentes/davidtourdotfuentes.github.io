@@ -64,8 +64,7 @@ function getTranslation(key) {
 }
 
 function setLanguage(lang) {    
-    document.querySelectorAll('.segmented--lang').forEach(group => {
-        group.dataset.lang = lang; // place le curseur du switch
+    document.querySelectorAll('.lang').forEach(group => {
         group.querySelectorAll('[data-set-lang]').forEach(button => {
             const active = button.dataset.setLang === lang;
             button.classList.toggle('active', active);

@@ -1,30 +1,34 @@
 // Relie les cartes au site : les grilles ne montrent que les cartes découvertes.
 // Fonctions de app.js et translations.js utilisées ici : getTranslation, applyTranslations, currentLang, lockScroll, unlockScroll.
 import { createBooster } from './booster.js';
-import { createCard, el, text } from './card.js';
+import { createCard, createReveal, el, iconButton, text } from './card.js';
 import { createDetail } from './detail.js';
 import { createDial } from './dial.js';
 import { createTimeline } from './timeline.js';
-import { checkCards, playerOf, textOf, toHtml } from './content.js';
+import { checkCards, checkEvents, dateText, playerOf, textOf, toHtml } from './content.js';
 import { CARDS } from './data.js';
+import { EVENTS } from './events.js';
 import { createKnob, createMeter, needleAngle } from './meter.js';
 import { Collection, drawBooster } from './collection.js';
-import { BOOSTER, RARITIES, TAGS } from './config.js';
+import { BOOSTER, RARITIES, TAGS, TYPES } from './config.js';
 
 const rarities = RARITIES.map((rarity, level) => ({ ...rarity, level }));
 const findRarity = (id) => rarities.find((rarity) => rarity.id === id);
 
-/** Crée la case d'une carte dans sa grille, dans l'ordre de data.js. */
+const grids = [...document.querySelectorAll('[data-types]')];
+
+/** Crée la case d'une carte dans la grille de son type, dans l'ordre de data.js. */
 function readCard(data) {
     const isProject = data.type === 'project';
-    const node = el('div', isProject ? 'project-card' : 'software-card');
+    const node = el('div', 'grid-card');
     node.dataset.card = data.id;
-    document.getElementById(isProject ? 'projects' : 'softwares').append(node);
-    return { id: data.id, data, node, isProject, type: data.type, rarity: findRarity(data.rarity) ?? rarities[0], isShown: null };
+    grids.find((grid) => grid.dataset.types.split(' ').includes(data.type)).append(node);
+    return { id: data.id, data, node, isProject, type: data.type, art: TYPES[data.type].art, rarity: findRarity(data.rarity) ?? rarities[0], isShown: null };
 }
 
-for (const problem of checkCards(CARDS, { rarities: RARITIES, tags: TAGS })) console.warn(`cards/data.js, ${problem}`);
-const cards = CARDS.map(readCard);
+for (const problem of checkCards(CARDS, { rarities: RARITIES, tags: TAGS, types: TYPES })) console.warn(`cards/data.js, ${problem}`);
+for (const problem of checkEvents(EVENTS)) console.warn(`cards/events.js, ${problem}`);
+const cards = CARDS.filter(({ type }) => type in TYPES).map(readCard); // une carte de type inconnu est signalée, pas affichée
 const collection = new Collection(cards);
 const newCards = new Set(); // découvertes pendant cette visite
 
@@ -50,7 +54,6 @@ function describe({ data }) {
 /** Place d'une carte pas encore vue. */
 function placeholder() {
     return el('div', 'hidden-card', {},
-        el('span', 'hidden-card__mark', { textContent: '−∞' }),
         text('p', 'hidden-card__text', 'cards_hidden'));
 }
 
@@ -79,7 +82,13 @@ function showCard(card) {
 }
 
 const detail = createDetail({ cards, describe });
-const timeline = createTimeline(document.getElementById('timeline-years'), { cards, describe, onOpen: detail.open });
+const timeline = createTimeline(document.getElementById('timeline-years'), {
+    cards: cards.filter(({ type }) => TYPES[type].timeline), // les formations y sont déjà en évènements
+    events: EVENTS,
+    describe,
+    describeEvent: ({ title }, day) => ({ title: textOf(title, currentLang), date: dateText(day, currentLang) }),
+    onOpen: detail.open,
+});
 const dial = createDial(document.getElementById('dial'), {
     cards,
     describe,
@@ -131,19 +140,20 @@ function link(key, onClick) {
     node.addEventListener('click', onClick);
     return node;
 }
-const revealLink = link('cards_reveal_all', revealAll);
-const resetLink = link('cards_reset', () => {
-    if (!window.confirm(getTranslation('cards_reset_confirm'))) return;
-    newCards.clear();
-    collection.reset();
-    update();
-    booster.open();
-});
+const revealButton = iconButton('cards_reveal_all', 'reveal', 'btn btn--line', revealAll);
+const resetButton = iconButton('cards_reset', 'reset', 'btn btn--line', resetAll);
+const resetLink = link('cards_reset', resetAll);
+
+// Sous le nom, à l'accueil : tout révéler, puis descendre aux projets.
+const reveal = document.getElementById('reveal');
+const revealInvite = createReveal(revealAll);
+const workLink = el('a', 'btn', { href: '#portfolio' }, text('span', '', 'view_work'));
+reveal.append(...revealInvite, workLink);
 
 const floating = el('button', 'floating-booster', { type: 'button' }, text('span', '', 'cards_open_booster'));
 floating.addEventListener('click', () => booster.open());
 
-bar.append(el('div', 'collection__main', {}, gauge, chips), el('div', 'collection__actions', {}, openButton, revealLink, resetLink));
+bar.append(el('div', 'collection__main', {}, gauge, chips), el('div', 'collection__actions', {}, openButton, revealButton, resetButton, resetLink));
 document.body.append(floating);
 
 // Inutile près du cadran et du bouton, et il gênerait la page contact.
@@ -173,9 +183,19 @@ function update() {
         return chip;
     }));
     openButton.hidden = floating.hidden = isComplete;
-    revealLink.hidden = isComplete || !BOOSTER.allowRevealAll;
-    resetLink.hidden = collection.count === 0;
+    const canReveal = !isComplete && BOOSTER.allowRevealAll;
+    for (const node of [...revealInvite, revealButton]) node.hidden = !canReveal;
+    workLink.hidden = canReveal;
+    resetButton.hidden = !isComplete;
+    resetLink.hidden = collection.count === 0 || isComplete; // en cours de collection, plus discret
     applyTranslations(translations);
+}
+
+function resetAll() {
+    newCards.clear();
+    collection.reset();
+    update();
+    booster.open();
 }
 
 function revealAll() {

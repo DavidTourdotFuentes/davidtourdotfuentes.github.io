@@ -69,10 +69,11 @@ const visible = new IntersectionObserver((entries) => {
 }, { rootMargin: '-45% 0px -50%' });
 for (const link of navLinks) visible.observe(document.querySelector(link.hash));
 
-// --- Le nom passe du titre à la bannière quand le titre sort de l'écran ---
+// --- Le nom passe du titre à la bannière quand le titre sort de l'écran ; les réseaux lui font place ---
 
 const header = document.querySelector('.top');
 const headerName = document.querySelector('.top__name');
+const socials = document.querySelector('.socials');
 const pageTitle = document.querySelector('.dial__title');
 const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -81,7 +82,8 @@ function moveName() {
     const range = box.height * 0.6; // le passage se fait pendant que la fin du titre disparaît
     const hidden = (header.offsetHeight + range - box.bottom) / range;
     const progress = Math.min(Math.max(calm.matches ? Math.floor(hidden) : hidden, 0), 1);
-    headerName.style.setProperty('--name', progress.toFixed(3));
+    header.style.setProperty('--name', progress.toFixed(3));
+    header.style.setProperty('--name-room', `${socials.offsetLeft - headerName.offsetLeft - (parseFloat(getComputedStyle(socials).marginLeft) || 0)}px`);
     headerName.inert = progress < 0.5; // invisible : ni clic, ni tabulation, ni lecture
 }
 window.addEventListener('scroll', moveName, { passive: true });

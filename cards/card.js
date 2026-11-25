@@ -1,5 +1,5 @@
 // Aspect d'une carte à collectionner, et effets d'apparition selon sa rareté.
-import { createKnob, createMeter, createWave } from './meter.js';
+import { createKnob, createMeter, createWave, svg } from './meter.js';
 
 export const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -21,6 +21,23 @@ export function setText(node, key) {
     node.textContent = getTranslation(key);
 }
 
+const ICONS = {
+    reveal: '<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/>',
+    reset: '<path d="M4 12a8 8 0 108-8c-2.6 0-4.8 1.2-6.6 3.2M5 2.8v4.8h4.8"/>',
+};
+
+/** Bouton avec une icône d'ICONS. */
+export function iconButton(key, icon, className, onClick) {
+    const node = el('button', className, { type: 'button' }, svg('icon', '0 0 24 24', ICONS[icon]), text('span', '', key));
+    node.addEventListener('click', onClick);
+    return node;
+}
+
+/** « Pressé ? Tout révéler » : la même invite à l'accueil et sur le paquet. */
+export function createReveal(onClick) {
+    return [text('span', 'reveal__hint', 'reveal_hint'), iconButton('cards_reveal_all', 'reveal', 'btn', onClick)];
+}
+
 /** Éclats du Légendaire : x et y en % de la carte, taille en cqw, retard en secondes. */
 const SPARKS = [[86, 8, 11, 0], [30, 6, 6, 1.1], [94, 30, 7, 0.5], [60, 15, 5, 1.9], [13, 33, 8, 1.5], [78, 42, 5, 2.4], [44, 37, 6, 0.8], [92, 52, 9, 2], [66, 28, 4, 2.8]];
 
@@ -38,18 +55,21 @@ function light({ effect }) {
     return node;
 }
 
+/** « Design Sonore, 2026 ». Sans rôle, le type de la carte. */
+export function typeLine({ type }, { role, year }) {
+    return [role || text('span', '', `type_${type}`), ...(year ? [`, ${year}`] : [])];
+}
+
 /** Recto d'une carte. info, renvoyé par describe() dans main.js : { name, role, year, html, image, crop, zoom }. */
 function front(card, info, number, total) {
-    const art = el('span', `tcard__art${card.isProject ? '' : ' tcard__art--logo'}`, {}, el('img', '', { src: info.image, alt: '' }));
+    const art = el('span', `tcard__art${card.art === 'logo' ? ' tcard__art--logo' : ''}`, {}, el('img', '', { src: info.image, alt: '' }));
     if (info.crop) art.style.setProperty('--crop', info.crop);
     if (info.zoom) art.style.setProperty('--zoom', info.zoom);
-    if (!card.isProject) art.append(createWave(info.name, 6));
+    if (card.art === 'logo') art.append(createWave(info.name, 6));
     const description = el('span', 'tcard__text');
     description.innerHTML = info.html; // textes de translations.csv, qui contiennent des <br>
 
-    const type = el('span', 'tcard__type');
-    if (info.role) type.textContent = [info.role, info.year].filter(Boolean).join(', ');
-    else setText(type, `type_${card.type}`);
+    const type = el('span', 'tcard__type', {}, ...typeLine(card, info));
 
     return el('span', 'tcard__face tcard__front', {},
         art,
@@ -66,7 +86,7 @@ function front(card, info, number, total) {
 
 /** Dos : un VU-mètre, dont l'aiguille monte au niveau de la carte avant le retournement. */
 function back() {
-    const node = el('span', 'tcard__face tcard__back', {}, el('span', 'tcard__vu', { textContent: 'VU' }), createMeter());
+    const node = el('span', 'tcard__face tcard__back', {}, el('span', 'tcard__vu', { textContent: 'dB' }), createMeter());
     node.setAttribute('aria-hidden', 'true');
     return node;
 }
@@ -92,13 +112,14 @@ function followPointer(node) {
         const x = (event.clientX - box.left) / box.width;
         const y = (event.clientY - box.top) / box.height;
         node.style.setProperty('--mx', `${x * 100}%`);
-        node.style.setProperty('--my', `${y * 100}%`);
+        node.style.setProperty('--edge-x', `${x * 100}%`);
+        node.style.setProperty('--edge-y', `${y * 100}%`);
         node.style.setProperty('--tilt-x', `${(0.5 - y) * 18}deg`);
         node.style.setProperty('--tilt-y', `${(x - 0.5) * 18}deg`);
     });
     node.addEventListener('pointerleave', () => {
-        // --mx et --my restent : le reflet s'éteint là où il est, au lieu de sauter ailleurs.
-        for (const name of ['--tilt-x', '--tilt-y']) node.style.removeProperty(name);
+        // --mx reste : le reflet s'éteint là où il est, au lieu de sauter ailleurs. La lumière du bord, elle, glisse à sa place.
+        for (const name of ['--tilt-x', '--tilt-y', '--edge-x', '--edge-y']) node.style.removeProperty(name);
     });
 }
 

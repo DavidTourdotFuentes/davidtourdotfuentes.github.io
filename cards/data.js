@@ -7,8 +7,8 @@
 //
 //     {
 //         id: 'mon-projet',                // unique, en minuscules. Ne plus le changer ensuite : il est enregistré chez les visiteurs.
-//         type: 'project',                 // 'project', 'software' ou 'hardware'
-//         rarity: 'rare',                  // 'common', 'rare', 'ultra' ou 'legendary' (réglages : config.js)
+//         type: 'project',                 // 'project', 'skill', 'software', 'hardware' ou 'education-training' (liste : TYPES dans config.js)
+//         rarity: 'rare',                  // 'common', 'rare', 'epic' ou 'legendary' (réglages : config.js)
 //         tags: ['sound-design'],          // filtres du portfolio, projets seulement (liste : TAGS dans config.js)
 //         name: 'Mon projet',              // ou { fr: 'Mon projet', en: 'My project' }
 //         role: { fr: 'Design Sonore', en: 'Sound Design' },
@@ -33,7 +33,9 @@
 //         player: 'https://youtu.be/...',  // YouTube, Vimeo, Spotify ou SoundCloud. Un lien normal suffit
 //     },
 //
-// Facultatifs : tags, role, long (sinon short), crop, zoom, player. year place le projet dans la timeline.
+// Facultatifs : tags, role, long (sinon short), crop, zoom, player.
+// year place un projet dans la timeline : il y est obligatoire. Une formation s'y montre par un évènement (events.js).
+// Le type choisit la section du site et l'aspect de la carte. Les affiches skill-*.svg et education.svg font 500 x 400.
 // Textes : fr est obligatoire ; sans en, le site anglais affiche le français.
 // Un texte avec une apostrophe s'écrit entre accents graves (AltGr + 7) : `L'outil`.
 
@@ -109,14 +111,14 @@ export const CARDS = [
     {
         id: 'meot',
         type: 'project',
-        rarity: 'ultra',
+        rarity: 'epic',
         tags: ['audio-tool'],
-        name: { fr: `Optimisation de masse d'entité`, en: 'Mass Entity Optimization' },
+        name: { fr: `Génération audio procédurale`, en: 'Procedural audio generation' },
         role: { fr: 'Outil Audio', en: 'Audio Tool' },
         year: 2025,
         short: {
-            fr: `Outil Unity C# Wwise d'optimisation des sons placés sur des masses d'entités (foules / essaims)`,
-            en: 'Unity C# Wwise tool for optimizing sounds placed on clusters of entities (crowds / swarms)',
+            fr: `Outil Unity C# Wwise de génération de masses d'entités (foules / essaims)`,
+            en: `Unity C# Wwise tool for generating clusters of entities's (crowds / swarms)`,
         },
         long: {
             fr: `
@@ -157,7 +159,7 @@ export const CARDS = [
     {
         id: 'mol',
         type: 'project',
-        rarity: 'ultra',
+        rarity: 'epic',
         tags: ['sound-design'],
         name: 'Masters of Light',
         role: { fr: 'Design Sonore', en: 'Sound Design' },
@@ -184,7 +186,7 @@ export const CARDS = [
     {
         id: 'dc',
         type: 'project',
-        rarity: 'rare',
+        rarity: 'epic',
         tags: ['soundtrack'],
         name: 'Darkest Canopy',
         role: { fr: 'Bande Son', en: 'Soundtrack' },
@@ -237,7 +239,7 @@ export const CARDS = [
     {
         id: 'lc',
         type: 'project',
-        rarity: 'ultra',
+        rarity: 'epic',
         tags: ['audio-integration', 'sound-design', 'soundtrack'],
         name: 'Lofi Clicker',
         role: { fr: 'Design Sonore / Intégration / Bande Son', en: 'Sound Design / Integration / Soundtrack' },
@@ -406,12 +408,143 @@ export const CARDS = [
         player: 'https://www.youtube.com/embed/WB5QWPH_wgk',
     },
 
+    // ---------- Compétences ----------
+
+    {
+        id: 'skill-sound-design',
+        type: 'skill',
+        rarity: 'common',
+        name: 'Sound design',
+        short: {
+            fr: `Créer les sons de jeux, de cinématiques et des ambiances`,
+            en: `Creating the sounds of games, cinematics and ambiants`,
+        },
+        long: {
+            fr: `
+                Créer les sons de jeux, de cinématiques et d'objets interactifs, de la direction artistique à l'intégration.
+                Outil principal : Reaper`,
+            en: `
+                Creating the sounds of games, cinematics and interactive objects, from art direction to integration.
+                Main tool: Reaper`,
+        },
+        image: 'ressources/Cards/skill-sound-design.svg',
+    },
+    {
+        id: 'skill-composition',
+        type: 'skill',
+        rarity: 'legendary',
+        name: { fr: 'Composition musicale', en: 'Music composition' },
+        short: {
+            fr: `Musiques originales, interactives pour le jeu ou écrites à l'image`,
+            en: `Original music, interactive for games or written to picture`,
+        },
+        long: {
+            fr: `
+                Musiques originales, interactives pour le jeu ou écrites à l'image.
+                Outil principal : Bitwig Studio`,
+            en: `
+                Original music, interactive for games or written to picture.
+                Main tool: Bitwig Studio`,
+        },
+        image: 'ressources/Cards/skill-composition.svg',
+    },
+    {
+        id: 'skill-integration',
+        type: 'skill',
+        rarity: 'epic',
+        name: { fr: 'Intégration audio', en: 'Audio integration' },
+        short: {
+            fr: `Faire vivre les sons, la musique et les ambiances dans le moteur du jeu`,
+            en: `Bringing sounds music and ambient to life in the game engine`,
+        },
+        long: {
+            fr: `
+                Faire vivre les sons et la musique dans le moteur du jeu.
+                - Middlewares : Wwise et FMOD
+                - Moteurs : Unity et Unreal`,
+            en: `
+                Bringing sounds and music to life in the game engine.
+                - Middleware: Wwise and FMOD
+                - Engines: Unity and Unreal`,
+        },
+        image: 'ressources/Cards/skill-integration.svg',
+    },
+    {
+        id: 'skill-programming',
+        type: 'skill',
+        rarity: 'rare',
+        name: { fr: 'Programmation', en: 'Programming' },
+        short: {
+            fr: `Développer des outils et systèmes audio sur mesure mais aussi des logiciel / algorithmes pour automatiser les longue tâches`,
+            en: `Develop custom-made tools and audio systems as well as software/algorithms to automate long tasks`,
+        },
+        long: {
+            fr: `Développer des outils et systèmes audio sur mesure mais aussi des logiciel / algorithmes pour automatiser les longue tâches
+                - C#
+                - Python
+                - Javascript
+                - Godot Scripts`,
+            en: `Develop custom-made tools and audio systems as well as software/algorithms to automate long tasks
+                - C#
+                - Python
+                - Javascript
+                - Godot Scripts`,
+        },
+        image: 'ressources/Cards/skill-programming.svg',
+    },
+    {
+        id: 'skill-mixing',
+        type: 'skill',
+        rarity: 'rare',
+        name: { fr: 'Mixage', en: 'Mixing' },
+        short: {
+            fr: `Mixage de cinématiques, de voix et de sound design, tests en jeu jusqu'au casque VR`,
+            en: `Mixing cinematics, voices and sound design, with in-game tests up to VR headsets`,
+        },
+        long: {
+            fr: `
+                Mixage de cinématiques, de voix et de sound design.
+                - Cinématiques sur Reaper où Pro Tools
+                - Voix sur Pro Tools, nettoyage sur Audition
+                - Environnements de mixage en quad`,
+            en: `
+                Mixing cinematics, voices and sound design.
+                - Cinematics in Reaper or Pro Tools
+                - Voices in Pro Tools, cleaning in Audition
+                - Quad environments mixing`,
+        },
+        image: 'ressources/Cards/skill-mixing.svg',
+    },
+    {
+        id: 'skill-recording',
+        type: 'skill',
+        rarity: 'common',
+        name: { fr: 'Prise de son', en: 'Recording' },
+        short: {
+            fr: `Enregistrement de voix et bruitages`,
+            en: `Recording voices and foley`,
+        },
+        long: {
+            fr: `
+                Enregistrement de voix et bruitages.
+                - Voix sur ProTools où Reaper à G4F
+                - Bruitages : participation a l'enregistrement, dépilage et nettoyange à G4F.
+                - Enregistrement de violoncelle pour les thèmes de Phantom Memories`,
+            en: `
+                Recording voices and foley.
+                - Voices in Pro Tools or Reaper at G4F
+                - Foley: sessions, editing and cleaning at G4F
+                - Cello recoding for the themes of Phantom Memories`,
+        },
+        image: 'ressources/Cards/skill-recording.svg',
+    },
+
     // ---------- Logiciels et matériel ----------
 
     {
         id: 'reaper',
         type: 'software',
-        rarity: 'ultra',
+        rarity: 'epic',
         name: 'Reaper',
         short: {
             fr: `
@@ -426,7 +559,7 @@ export const CARDS = [
     {
         id: 'bitwig',
         type: 'software',
-        rarity: 'ultra',
+        rarity: 'epic',
         name: 'Bitwig Studio',
         short: {
             fr: `
@@ -557,5 +690,70 @@ export const CARDS = [
                 I sometimes use it when recording voices or professional mixes at G4F`,
         },
         image: 'ressources/Generic/PT_White.svg',
+    },
+
+    // ---------- Formations ----------
+
+    {
+        id: '3is',
+        type: 'education-training',
+        rarity: 'rare',
+        name: '3iS Bordeaux',
+        year: 2020,
+        short: {
+            fr: `École où j'ai été formé, à partir de septembre 2020 jusqu'a juillet 2024`,
+            en: 'The school where I trained, from September 2020 to July 2024',
+        },
+        long: {
+            fr: `
+                École où j'ai été formé, à partir de septembre 2020 jusqu'a juillet 2024.
+                Quatre projets de cette collection y sont nés :
+                - Alpha Alpha (2021)
+                - Polarnatt (2022)
+                - Phantom Memories (2022)
+                - La Route des Sommets (2023)`,
+            en: `
+                The school where I trained, from September 2020 to July 2024.
+                Four projects of this collection were born there:
+                - Alpha Alpha (2021)
+                - Polarnatt (2022)
+                - Phantom Memories (2022)
+                - La Route des Sommets (2023)`,
+        },
+        image: 'ressources/Cards/3iS.png',
+    },
+    {
+        id: 'g4f',
+        type: 'education-training',
+        rarity: 'legendary',
+        name: 'G4F Prod',
+        year: 2023,
+        short: {
+            fr: 'Studio français basé a Angoulème spécialisé dans la production sonore interractive. Je suis actuellement Sound Designer en CDI',
+            en: 'French studio based in Angoulème specializing in interactive sound production. I am currently a Sound Designer on a permanent contract.',
+        },
+        long: {
+            fr: `
+                G4F Prod réalise la production audio de jeux vidéo et d'expériences immersives. J'y ai commencé en stage et j'y travaille aujourd'hui en CDI :
+                
+                Mon travail va de la création des sons à leur intégration en jeu : design sonore, bruitages, voix, mixage et tests en jeu.
+
+                Quatre projets de cette collection y sont nés :
+                - Furyball
+                - Architect Life
+                - Masters of Light
+                - The Roaming`,
+            en: `
+                G4F Prod handles audio production for video games and immersive experiences. I started there as an intern and now work there on a permanent contract:
+                
+                My work ranges from creating sounds to integrating them in game: sound design, foley, voices, mixing and in-game tests.
+
+                Four projects of this collection were born there:
+                - Furyball
+                - Architect Life
+                - Masters of Light
+                - The Roaming`,
+        },
+        image: 'ressources/Cards/g4f.jpg',
     },
 ];

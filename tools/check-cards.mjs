@@ -1,12 +1,13 @@
-// Vérifie cards/data.js : `node tools/check-cards.mjs`. Signale aussi les images absentes, trop lourdes ou inutilisées.
+// Vérifie cards/data.js et cards/events.js : `node tools/check-cards.mjs`. Signale aussi les images absentes, trop lourdes ou inutilisées.
 import { existsSync, readdirSync, statSync } from 'node:fs';
-import { checkCards } from '../cards/content.js';
+import { checkCards, checkEvents } from '../cards/content.js';
 import { CARDS } from '../cards/data.js';
-import { RARITIES, TAGS } from '../cards/config.js';
+import { EVENTS } from '../cards/events.js';
+import { RARITIES, TAGS, TYPES } from '../cards/config.js';
 
 const MAX_KB = 300; // toutes les images de l'éventail chargent à l'ouverture du site
 const root = new URL('../', import.meta.url);
-const problems = checkCards(CARDS, { rarities: RARITIES, tags: TAGS });
+const problems = [...checkCards(CARDS, { rarities: RARITIES, tags: TAGS, types: TYPES }), ...checkEvents(EVENTS)];
 const notes = [];
 
 /** GitHub Pages distingue majuscules et minuscules, Windows non : on compare le nom exact. */
@@ -33,5 +34,5 @@ for (const file of readdirSync(new URL('ressources/Cards/', root))) {
 
 for (const problem of problems) console.log(`ERREUR  ${problem}`);
 for (const note of notes) console.log(`Note    ${note}`);
-console.log(`${CARDS.length} cartes, ${problems.length} erreur(s), ${notes.length} note(s).`);
+console.log(`${CARDS.length} cartes, ${EVENTS.length} évènements, ${problems.length} erreur(s), ${notes.length} note(s).`);
 process.exitCode = problems.length ? 1 : 0;

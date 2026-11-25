@@ -1,10 +1,17 @@
 // L'ouverture du site : une main de cartes en éventail sert de graduation à un VU-mètre, l'aiguille désigne une carte.
-import { createCard, el, setText, text } from './card.js';
+import { createCard, el, setText, text, typeLine } from './card.js';
 import { arc, point, svg, tick } from './meter.js';
 
-const HALF = 48; // demi-ouverture de l'éventail, en degrés
-const WEIGHTS = { legendary: 1.9, ultra: 1.2 }; // largeur d'une carte sur la graduation (1 par défaut)
-const STRIP = 3.7; // largeur visible d'une carte dans l'éventail, en degrés
+// Géométrie, en part de la largeur du cadran. cards.css la reçoit en variables : --radius, --center, --size et --dome.
+const RADIUS = 0.86; // rayon de la graduation : plus il est grand, plus la courbe est douce
+const CENTER = 1.005; // distance du haut du cadran au centre du cercle
+const SIZE = 0.122; // largeur d'une carte
+const DOME = 0.655; // rayon de la plaque, concentrique à la main
+const HALF = 32; // demi-ouverture de l'éventail, en degrés
+const FULL = SIZE / RADIUS * 180 / Math.PI; // ouverture d'une carte entière, en degrés
+const LIFT = 5.6; // écart entre l'aiguille et le milieu de la carte levée, en degrés
+const LIFT_MAX = 26.5; // au-delà, la carte levée sortirait de l'écran : elle passe à gauche de l'aiguille
+const WEIGHTS = { legendary: 1.9, epic: 1.2 }; // largeur d'une carte sur la graduation (1 par défaut)
 const NARROW = 896; // en pixels : en dessous, l'aiguille reste au zénith et la main tourne
 const DRAG_STEP = 22; // en pixels, pour passer d'une carte à la suivante au doigt
 const CLICK_THRESHOLD = 6;
@@ -16,27 +23,30 @@ const CLICK_THRESHOLD = 6;
 export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
     const hand = [...cards].sort((a, b) => a.rarity.level - b.rarity.level);
     const weights = hand.map((card) => WEIGHTS[card.rarity.id] ?? 1);
-    const total = weights.reduce((sum, weight) => sum + weight, 0);
+    // La dernière carte n'est recouverte par aucune autre : elle prend toute sa largeur, les autres se partagent le reste.
+    const unit = (2 * HALF - FULL) / weights.slice(0, -1).reduce((sum, weight) => sum + weight, 0);
     /** Angle du bord gauche de la carte d'index i. */
-    const edge = (i) => -HALF + 2 * HALF * weights.slice(0, i).reduce((sum, weight) => sum + weight, 0) / total;
-    const angles = hand.map((card, i) => (edge(i) + edge(i + 1)) / 2);
+    const edge = (i) => -HALF + unit * weights.slice(0, i).reduce((sum, weight) => sum + weight, 0);
+    const angles = hand.map((card, i) => edge(i) + unit * weights[i] / 2); // milieu de la tranche visible : l'aiguille la vise
     const start = (id) => {
         const i = hand.findIndex((card) => card.rarity.id === id);
         return i < 0 ? HALF : edge(i);
     };
 
     function drawScale() {
+        const r = RADIUS * 100;
+        const cy = CENTER * 100;
         const red = start('legendary');
         const color = (angle) => (angle >= red ? 'var(--crete)' : 'var(--encre)');
-        let html = `<path d="${arc(50, 56.5, 45, -HALF, red)}" fill="none" style="stroke:var(--encre)" stroke-width=".3"/>`;
-        html += `<path d="${arc(50, 56.5, 45.35, red, HALF)}" fill="none" style="stroke:var(--crete)" stroke-width="1"/>`;
-        for (const angle of angles) html += `<path d="${tick(50, 56.5, 45, 46.2, angle)}" style="stroke:${color(angle)}" stroke-width=".2"/>`;
-        for (const [label, angle] of [['−20', -HALF], ['−7', start('rare')], ['−3', start('ultra')], ['0', red], ['+3', HALF]]) {
-            const [x, y] = point(50, 56.5, 48.2, angle);
-            html += `<path d="${tick(50, 56.5, 44.6, 47, angle)}" style="stroke:${color(angle)}" stroke-width=".4"/>`;
+        let html = `<path d="${arc(50, cy, r, -HALF, red)}" fill="none" style="stroke:var(--encre)" stroke-width=".3"/>`;
+        html += `<path d="${arc(50, cy, r + 0.35, red, HALF)}" fill="none" style="stroke:var(--crete)" stroke-width="1"/>`;
+        for (const angle of angles) html += `<path d="${tick(50, cy, r, r + 1.1, angle)}" style="stroke:${color(angle)}" stroke-width=".2"/>`;
+        for (const [label, angle] of [['−20', -HALF], ['−7', start('rare')], ['−3', start('epic')], ['0', red], ['+3', HALF]]) {
+            const [x, y] = point(50, cy, r + 2.7, angle);
+            html += `<path d="${tick(50, cy, r - 0.4, r + 1.8, angle)}" style="stroke:${color(angle)}" stroke-width=".4"/>`;
             html += `<text class="${angle >= red ? 'is-red' : ''}" transform="translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${angle.toFixed(1)})">${label}</text>`;
         }
-        return svg('dial__scale', '0 0 100 56.5', html);
+        return svg('dial__scale', `0 0 100 ${cy}`, html);
     }
 
     let current = -1;
@@ -47,10 +57,13 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
 
     const slots = hand.map((card, i) => {
         const slot = el('button', 'dial__card', { type: 'button', tabIndex: -1 });
-        slot.style.setProperty('--a', `${angles[i].toFixed(2)}deg`);
+        slot.style.setProperty('--a', `${(edge(i) + FULL / 2).toFixed(2)}deg`);
+        const isRight = angles[i] + LIFT > LIFT_MAX;
+        slot.style.setProperty('--up', `${(angles[i] + (isRight ? -LIFT : LIFT)).toFixed(2)}deg`);
         slot.addEventListener('focus', () => aim(i));
         slot.addEventListener('click', (event) => {
             if (dragged && event.detail) return; // fin d'un glisser
+            if (event.detail && !pressed.touch && !isNarrow()) return; // à la souris, voir le clic du cadran
             aim(i);
             // Au doigt, le premier appui vise et le second ouvre.
             if (!event.detail || !pressed.touch || pressed.index === i) act();
@@ -59,6 +72,7 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
     });
     const handNode = el('div', 'dial__hand', {}, ...slots);
     handNode.setAttribute('role', 'group');
+    handNode.addEventListener('mousedown', (event) => event.preventDefault()); // appuyer ne donne pas le focus, qui viserait la voisine
     const needle = el('div', 'dial__needle');
     const pivot = el('div', 'dial__pivot', {}, drawScale(), handNode, needle);
     const level = el('p', 'dial__level');
@@ -76,7 +90,8 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
     }
     const previous = arrow(-1, 'M15 4 7 12l8 8');
     const next = arrow(1, 'M9 4l8 8-8 8');
-    const plate = el('div', 'dial__plate', {}, level, name, role, el('div', 'dial__controls', {}, previous, button, next));
+    const plate = el('div', 'dial__plate', {}, previous, el('div', 'dial__info', {}, level, name, role, button), next);
+    scene.style.cssText = `--radius:${RADIUS};--center:${CENTER};--size:${SIZE};--dome:${DOME};--half:${HALF}deg`;
     scene.append(pivot, plate);
 
     function act() {
@@ -95,14 +110,13 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
         const content = describe(card);
         if (isShown) plate.dataset.rarity = card.rarity.id;
         else delete plate.dataset.rarity;
-        for (const node of [level, name, role]) delete node.dataset.i18n;
+        for (const node of [level, name]) delete node.dataset.i18n;
         if (isShown) {
             setText(level, `rarity_${card.rarity.id}`);
             name.textContent = content.name;
-            if (content.role) role.textContent = [content.role, content.year].filter(Boolean).join(', ');
-            else setText(role, `type_${card.type}`);
+            role.replaceChildren(...typeLine(card, content));
         } else {
-            level.textContent = '−∞ VU';
+            level.textContent = '−∞ dB';
             setText(name, 'cards_hidden');
             role.textContent = `${cards.indexOf(card) + 1} / ${cards.length}`;
         }
@@ -123,6 +137,23 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
 
     const closest = (angle) => angles.reduce((best, value, i) => (Math.abs(value - angle) < Math.abs(angles[best] - angle) ? i : best), 0);
 
+    /** Angle du pointeur s'il est sur la main, sinon null. */
+    function angleAt(event) {
+        if (plate.contains(event.target)) return null;
+        const box = scene.getBoundingClientRect();
+        const x = event.clientX - (box.left + box.width / 2);
+        const y = box.top + box.width * CENTER - event.clientY;
+        const radius = Math.hypot(x, y) / box.width;
+        return radius > DOME && radius < RADIUS + 0.06 ? Math.atan2(x, y) * 180 / Math.PI : null;
+    }
+
+    // À la souris, on ouvre la carte visée : levée, elle a quitté le pointeur, qui est sur sa voisine ou dans le vide.
+    scene.addEventListener('click', (event) => {
+        if (!event.detail || pressed.touch || isNarrow()) return;
+        const angle = angleAt(event);
+        if (slots[current].contains(event.target) || (angle !== null && Math.abs(angle) <= HALF + 1)) act();
+    });
+
     scene.addEventListener('pointermove', (event) => {
         if (isNarrow()) {
             if (!drag) return;
@@ -131,12 +162,8 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
             if (dragged) aim(Math.min(Math.max(drag.index - Math.round(distance / DRAG_STEP), 0), hand.length - 1));
             return;
         }
-        if (event.pointerType === 'touch' || plate.contains(event.target)) return;
-        const box = scene.getBoundingClientRect();
-        const x = event.clientX - (box.left + box.width / 2);
-        const y = box.top + box.width * 0.565 - event.clientY;
-        const radius = Math.hypot(x, y) / box.width;
-        if (radius > 0.24 && radius < 0.53) aim(closest(Math.atan2(x, y) * 180 / Math.PI - STRIP / 2));
+        const angle = event.pointerType === 'touch' ? null : angleAt(event);
+        if (angle !== null) aim(closest(angle));
     });
     scene.addEventListener('pointerdown', (event) => {
         dragged = false;
@@ -169,7 +196,7 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
             face.classList.toggle('is-flipped', isShown);
             slots[i].replaceChildren(face);
             slots[i].setAttribute('aria-label', isShown
-                ? [content.name, content.role, content.year, getTranslation(`rarity_${card.rarity.id}`)].filter(Boolean).join(', ')
+                ? [content.name, content.role || getTranslation(`type_${card.type}`), content.year, getTranslation(`rarity_${card.rarity.id}`)].filter(Boolean).join(', ')
                 : `${getTranslation('cards_hidden')}, ${cards.indexOf(card) + 1} / ${cards.length}`);
         });
         if (current >= 0) {

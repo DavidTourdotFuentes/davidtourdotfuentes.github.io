@@ -2,7 +2,9 @@ key,en,fr,es
 header,Design - Imagin - Develop,Concevoir - Imaginer - Développer,Crear - Imaginar - Desarollar
 tagline,Creative Sound for Games & Beyond,Design sonores à l'image et jeux vidéos<br>Développement audio<br>Compositions musicales interactives
 nav_portfolio,Portfolio,Portfolio
+nav_skills,Skills,Compétences
 nav_tools,Tools,Outils
+nav_education,Training,Formations
 nav_audio_demos,Audio demos,Démos audio
 nav_contact,Contact,Contacts
 view_work,View my work,Voir mon travail
@@ -13,14 +15,16 @@ tags_sd,Sound Design,Design Sonore
 tags_soundtrack,Soundtracks,Bande Sons
 tags_ai,Audio Integration, Intégration Audio
 tags_at,Audio Tool,Outils Audio
+skills,Skills,Compétences
 tools,Software & Hardware,Logiciels & Matériel Audio
+education,Education & Training,Formations
 software,Software,Logiciels
 contact,Contact,Contact
 get_in_touch,Get in touch,Entrer en contact
 contact_text,For project inquiries or collaborations feel free to reach out via email.,Pour des demandes de projets ou collaborations n'hésitez pas à me contacter par email.
-copyright,© 2023 David Tourdot-Fuentes. All rights reserved.,© 2023 David Tourdot-Fuentes. Tous droits réservés.
+copyright,© 2026 David Tourdot-Fuentes. All rights reserved.,© 2026 David Tourdot-Fuentes. Tous droits réservés.
 cards_welcome_title,Welcome! Here is your first booster,Bienvenue ! Voici votre premier booster
-cards_welcome_text,This portfolio is a card collection: open boosters to discover my projects and my tools.,Ce portfolio est une collection de cartes : ouvrez des boosters pour découvrir mes projets et mes outils.
+cards_welcome_text,"This portfolio is a card collection: open boosters to discover my projects, my skills and my tools.","Ce portfolio est une collection de cartes : ouvrez des boosters pour découvrir mes projets, mes compétences et mes outils."
 cards_pack_title,New booster,Nouveau booster
 cards_pack_text,Only cards you have not discovered yet.,Uniquement des cartes que vous n'avez pas encore découvertes.
 cards_open_hint,"Swipe across the pack to tear it open, or click on it","Glissez sur le paquet pour le déchirer, ou cliquez dessus"
@@ -35,19 +39,21 @@ cards_later,Later,Plus tard
 cards_open_booster,Open a booster,Ouvrir un booster
 cards_again,Open another booster,Ouvrir un autre booster
 cards_see_collection,See my collection,Voir ma collection
-cards_reveal_all,See the whole portfolio,Voir tout le portfolio
+cards_reveal_all,Reveal all,Tout révéler
+reveal_hint,In a hurry?,Pressé ?
 cards_reset,Start over,Recommencer
-cards_reset_confirm,Hide all the cards again and start over?,Cacher à nouveau toutes les cartes et recommencer ?
 cards_collection,Collection,Collection
 cards_complete,Collection complete!,Collection complète !
-cards_hidden,Not seen yet,Pas encore vue
+cards_hidden,Not discovered yet,Pas encore découverte
 cards_new,New,Nouveau
 type_project,Project,Projet
 type_software,Software,Logiciel
 type_hardware,Hardware,Matériel
+type_skill,Skill,Compétence
+type_education-training,Training,Formation
 rarity_common,Common,Commune
 rarity_rare,Rare,Rare
-rarity_ultra,Ultra rare,Ultra rare
+rarity_epic,Epic,Épique
 rarity_legendary,Legendary,Légendaire
 cards_close,Close,Fermer
 ticket_role,Role,Rôle
@@ -61,11 +67,10 @@ dial_open,Open the card,Ouvrir la fiche
 dial_previous,Previous card,Carte précédente
 dial_next,Next card,Carte suivante
 timeline_title,Timeline,Timeline
-timeline_text,"All my projects, from the newest to the oldest.","Tous mes projets, du plus récent au plus ancien."
-meter_none,Zero seen,Zéro vu
-meter_one,seen,vue
-meter_many,seen,vues
-meter_all,All seen,Tout vu
+meter_none,None discovered,Aucune découverte
+meter_one,discovered,découverte
+meter_many,discovered,découvertes
+meter_all,All discovered,Toutes découvertes
 meter_of,of,sur
 meter_cards,cards,cartes
 player_listen,Listen to,Écouter

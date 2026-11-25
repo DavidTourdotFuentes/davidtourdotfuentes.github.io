@@ -5,7 +5,7 @@
 /* La rareté est un niveau : largeur des lettres, couleur sur la page (--level), couleur sur les objets (--led). */
 [data-rarity="common"] { --wdth: 72; --level: var(--commune); --led: var(--led-commune); }
 [data-rarity="rare"] { --wdth: 90; --level: var(--rare); --led: var(--led-rare); }
-[data-rarity="ultra"] { --wdth: 108; --level: var(--ultra); --led: var(--led-ultra); }
+[data-rarity="epic"] { --wdth: 108; --level: var(--epic); --led: var(--led-epic); }
 [data-rarity="legendary"] { --wdth: 128; --level: var(--crete); --led: var(--led-crete); }
 
 /* Potard : le seul signe de rareté */
@@ -58,12 +58,20 @@
 /* Deux bandes qui se fondent l'une dans l'autre : ::before au repos, ::after sous la souris. Aucune ne change de place d'un coup. */
 .light__sheen::before, .light__sheen::after { content: ""; position: absolute; top: -30%; bottom: -30%; left: 78%; width: 70cqw; translate: -50% 0; rotate: 18deg; background: var(--sheen); transition: opacity 0.4s; }
 .light__sheen::after { left: var(--mx, 50%); opacity: 0; }
-[data-rarity="rare"] { --sheen: linear-gradient(90deg, transparent, #ffffff14 42%, #ffffff24 50%, #ffffff14 58%, transparent); }
-[data-rarity="ultra"] { --sheen: linear-gradient(90deg, transparent, #f190b41f 30%, #ffffff30 50%, #58bcc426 70%, transparent); --edge: #ffd3e4; --sweep: 7s; }
-[data-rarity="legendary"] { --sheen: linear-gradient(90deg, transparent, #ffb84d38 24%, #fff0c27a 46%, #ffffff94 50%, #fff0c27a 54%, #ff8a5a38 78%, transparent); --edge: #ffe9a8; --sweep: 5s; }
-/* Le bord s'éclaire près du pointeur, et le reflet balaie l'image */
-:is([data-rarity="ultra"], [data-rarity="legendary"]) .light::after { content: ""; position: absolute; inset: 0; padding: 1.1cqw; border-radius: 5.6cqw; background: radial-gradient(circle at var(--mx, 22%) var(--my, 4%), #fff, var(--edge) 22%, transparent 68%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
-:is([data-rarity="ultra"], [data-rarity="legendary"]) .light__sheen::before { animation: sweep var(--sweep) ease-in-out infinite; }
+[data-rarity="rare"] { --sheen: linear-gradient(90deg, transparent, #58bcc424 34%, #58bcc44d 50%, #58bcc424 66%, transparent); --edge: #58bcc4; }
+[data-rarity="epic"] { --sheen: linear-gradient(90deg, transparent, #f190b42b 28%, #f190b466 50%, #f190b42b 72%, transparent); --core: #ffd3e4; --edge: #f190b4; --sweep: 7s; }
+[data-rarity="legendary"] { --sheen: linear-gradient(90deg, transparent, #ffb84d38 24%, #fff0c27a 46%, #ffffff94 50%, #fff0c27a 54%, #ff8a5a38 78%, transparent); --core: #fff; --edge: #ffe9a8; --sweep: 5s; }
+/* Épique et Légendaire : le bord s'éclaire près du pointeur, et le reflet balaie l'image. Déclarées ici, ces positions peuvent s'animer :
+   la lumière du bord suit le pointeur, puis revient doucement à sa place quand il sort. */
+@property --edge-x { syntax: "<percentage>"; inherits: true; initial-value: 22%; }
+@property --edge-y { syntax: "<percentage>"; inherits: true; initial-value: 4%; }
+.tcard[data-rarity="epic"] { --edge-x: 50%; --edge-y: 0%; } /* au repos, la carte est de face : sa lumière vient du haut, au centre */
+.light { transition: --edge-x 0.6s ease-out, --edge-y 0.6s ease-out; }
+.tcard:hover .light { transition: none; } /* une transition relancée à chaque image traînerait derrière la souris */
+.light::after { content: ""; position: absolute; inset: 0; padding: 1.1cqw; border-radius: 5.6cqw; background: radial-gradient(circle at var(--edge-x, 22%) var(--edge-y, 4%), var(--core), var(--edge) 22%, transparent 68%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+/* Rare : un liseré bleuté et un reflet de même couleur, fixes */
+[data-rarity="rare"] .light::after { padding: 0.9cqw; background: radial-gradient(circle at 50% 0%, var(--edge), color-mix(in srgb, var(--edge) 55%, transparent) 45%, transparent 85%); }
+:is([data-rarity="epic"], [data-rarity="legendary"]) .light__sheen::before { animation: sweep var(--sweep) ease-in-out infinite; }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     .tcard:hover .light__sheen::before { opacity: 0; }
     .tcard:hover .light__sheen::after { opacity: 1; }
@@ -80,9 +88,8 @@
 [data-rarity="legendary"] .tcard__art:not(.tcard__art--logo) { position: absolute; inset: 0 0 42%; border-radius: 0; }
 [data-rarity="legendary"] .light__sheen { inset: 0 0 42%; border-radius: 0; }
 [data-rarity="legendary"] .tcard__front::after { content: ""; position: absolute; inset: 58% 0 0; background: var(--bakelite); }
-[data-rarity="legendary"] .tcard__body { grid-area: 2 / 1; justify-content: flex-end; }
-[data-rarity="legendary"] .tcard__name { align-self: start; margin-bottom: auto; padding: 1.8cqw 2.6cqw; border-radius: 1.6cqw; background: var(--led-crete); color: #15110e; font-size: 8.2cqw; }
-[data-rarity="legendary"] .tcard__footer { margin-top: 1cqw; }
+[data-rarity="legendary"] .tcard__body { grid-area: 2 / 1; }
+[data-rarity="legendary"] .tcard__name { align-self: start; margin-bottom: 1cqw; padding: 1.8cqw 2.6cqw; border-radius: 1.6cqw; background: var(--led-crete); color: #15110e; font-size: 8.2cqw; }
 
 /* Petite carte : le nom et la rareté suffisent */
 @container (max-width: 11rem) {
@@ -96,14 +103,15 @@
 /* ---------- Cadran : la main de cartes est la graduation ---------- */
 
 .dial { position: relative; overflow: hidden; container-type: inline-size; }
-.dial__scene { --w: min(100cqw, 92rem, max(44rem, (100svh - var(--top) - 4rem) * 1.86)); position: relative; left: 50%; width: var(--w); height: calc(var(--w) * 0.535); translate: -50% 0; touch-action: pan-y; user-select: none; }
-.dial__pivot { position: absolute; left: 50%; top: calc(var(--w) * 0.565); width: 0; height: 0; transform: rotate(var(--turn, 0deg)); transition: transform var(--vu) cubic-bezier(0.3, 1.2, 0.5, 1); }
-.dial__scale { position: absolute; left: calc(var(--w) * -0.5); top: calc(var(--w) * -0.565); width: var(--w); max-width: none; height: calc(var(--w) * 0.565); overflow: visible; pointer-events: none; }
+/* --radius, --center, --size, --dome et --half viennent de dial.js. --plate : hauteur de la plaque */
+.dial__scene { --free: calc(100svh - var(--top) - 5rem); --w: min(100cqw, 108rem, max(44rem, min(var(--free) * 2.06, (var(--free) - 11rem) / 0.35))); --plate: max(var(--w) * 0.135, 11rem); --tall: calc(var(--w) * (var(--center) - var(--dome)) + var(--plate)); position: relative; left: 50%; width: var(--w); height: var(--tall); margin-top: clamp(1rem, (var(--free) - var(--tall)) / 2, 4rem); translate: -50% 0; touch-action: pan-y; user-select: none; }
+.dial__pivot { position: absolute; left: 50%; top: calc(var(--w) * var(--center)); width: 0; height: 0; transform: rotate(var(--turn, 0deg)); transition: transform var(--vu) cubic-bezier(0.3, 1.2, 0.5, 1); }
+.dial__scale { position: absolute; left: calc(var(--w) * -0.5); top: calc(var(--w) * var(--center) * -1); width: var(--w); max-width: none; height: calc(var(--w) * var(--center)); overflow: visible; pointer-events: none; }
 .dial__scale text { font: 750 1.5px var(--font-texte); fill: var(--encre); text-anchor: middle; }
 .dial__scale text.is-red { fill: var(--crete); }
 .dial__hand { position: absolute; left: 0; top: 0; width: 0; height: 0; }
-.dial__card { --card: calc(var(--w) * 0.128); position: absolute; left: calc(var(--card) / -2); top: 0; width: var(--card); height: calc(var(--card) * 1.4); transform-origin: 50% 0; transform: rotate(calc(var(--a) + 8deg)) translateY(calc(var(--w) * -0.44)); transition: transform var(--vu) cubic-bezier(0.3, 1.35, 0.5, 1); }
-.dial__card.is-raised { z-index: 50; transform: rotate(calc(var(--a) * 0.92 + 12.5deg)) translateY(calc(var(--w) * -0.488)) rotate(calc(var(--a) * -0.65 - 4deg)) scale(1.3); }
+.dial__card { --card: calc(var(--w) * var(--size)); position: absolute; left: calc(var(--card) / -2); top: 0; width: var(--card); height: calc(var(--card) * 1.4); transform-origin: 50% 0; transform: rotate(var(--a)) translateY(calc(var(--w) * (0.01 - var(--radius)))); transition: transform var(--vu) cubic-bezier(0.3, 1.35, 0.5, 1); }
+.dial__card.is-raised { z-index: 50; transform: rotate(var(--up)) translateY(calc(var(--w) * (-0.03 - var(--radius)))) rotate(calc(var(--up) * -0.55)) scale(1.3); }
 .dial__card .tcard { pointer-events: none; }
 .dial__card:focus-visible { outline: 0; }
 .dial__card:focus-visible .tcard__inner { outline: 4px solid var(--anneau); outline-offset: 2px; }
@@ -115,34 +123,36 @@
 /* Les Légendaires gardent leur liseré doré et un halo plus discret */
 .dial__card:not(.is-raised) .tcard[data-rarity="legendary"] .light::after { padding: 1.6cqw; background: linear-gradient(160deg, #fff, var(--edge) 30%, #d99a2b 100%); }
 .dial__card:not(.is-raised) .tcard[data-rarity="legendary"].is-flipped .tcard__inner { box-shadow: 0 0 5cqw 0.5cqw var(--halo), var(--ombre-carte); }
-.dial__needle { position: absolute; left: -2px; bottom: 0; width: 4px; height: calc(var(--w) * 0.452); border-radius: 2px; background: var(--aiguille); clip-path: inset(0 0 calc(var(--w) * 0.2)); transform-origin: 50% 100%; transform: rotate(var(--needle, -48deg)); transition: transform var(--vu) cubic-bezier(0.3, 1.5, 0.5, 1); pointer-events: none; }
-.dial__plate { position: absolute; z-index: 60; left: 50%; top: calc(var(--w) * 0.565); display: grid; align-content: end; justify-items: center; gap: calc(var(--w) * 0.007); width: calc(var(--w) * 0.47); height: calc(var(--w) * 0.235); padding: 0 calc(var(--w) * 0.035) calc(var(--w) * 0.042); translate: -50% -100%; clip-path: inset(0 0 calc(var(--w) * 0.03)); border-radius: calc(var(--w) * 0.235) calc(var(--w) * 0.235) 0 0; background: var(--bakelite); color: var(--sur-bakelite); text-align: center; }
+.dial__needle { position: absolute; left: -2px; bottom: 0; width: 4px; height: calc(var(--w) * (var(--radius) + 0.002)); border-radius: 2px; background: var(--aiguille); clip-path: inset(0 0 calc(var(--w) * (var(--dome) - 0.02))); transform-origin: 50% 100%; transform: rotate(var(--needle, calc(var(--half) * -1))); transition: transform var(--vu) cubic-bezier(0.3, 1.5, 0.5, 1); pointer-events: none; }
+/* La plaque est une tranche de cercle, concentrique à la main */
+.dial__plate { position: absolute; z-index: 60; left: 50%; bottom: 0; display: flex; align-items: center; justify-content: center; gap: clamp(0.75rem, calc(var(--w) * 0.03), 3rem); width: min(var(--w), 100cqw); height: var(--plate); padding-top: calc(var(--w) * 0.008); translate: -50% 0; clip-path: circle(calc(var(--w) * var(--dome)) at 50% calc(var(--w) * var(--dome))); background: var(--bakelite); color: var(--sur-bakelite); text-align: center; }
+.dial__info { display: grid; justify-items: center; gap: calc(var(--w) * 0.004); width: calc(var(--w) * 0.36); }
+.dial__info .btn { min-height: 2.75rem; margin-top: 0.25rem; }
 .dial__level { font-size: clamp(0.8125rem, calc(var(--w) * 0.0125), 1rem); font-weight: 700; line-height: 1; color: var(--led, var(--sur-bakelite-douce)); }
-.dial__name { font: 850 clamp(1.25rem, calc(var(--w) * 0.026), 2.125rem)/0.95 var(--font-display); font-variation-settings: "wdth" var(--wdth, 100); text-wrap: balance; }
+.dial__name { font: 850 clamp(1.25rem, calc(var(--w) * 0.0235), 2.125rem)/0.95 var(--font-display); font-variation-settings: "wdth" var(--wdth, 100); text-wrap: balance; }
 .dial__role { font-size: clamp(0.8125rem, calc(var(--w) * 0.0135), 1.0625rem); font-weight: 600; line-height: 1.25; color: var(--sur-bakelite-douce); text-wrap: balance; }
-.dial__controls { display: flex; align-items: center; justify-content: center; gap: clamp(0.5rem, calc(var(--w) * 0.016), 1.5rem); margin-top: 0.25rem; }
-.dial__controls .btn { min-height: 2.75rem; }
-.dial__arrow { display: grid; flex: none; place-items: center; width: clamp(3.25rem, calc(var(--w) * 0.055), 4.5rem); aspect-ratio: 1; border-radius: 50%; color: var(--sur-bakelite); box-shadow: inset 0 0 0 3px var(--sur-bakelite); transition: background-color 0.12s, color 0.12s; }
+.dial__arrow { align-self: flex-end; margin-bottom: calc(var(--w) * 0.014); display: grid; flex: none; place-items: center; width: clamp(3.25rem, calc(var(--w) * 0.055), 4.5rem); aspect-ratio: 1; border-radius: 50%; color: var(--sur-bakelite); box-shadow: inset 0 0 0 3px var(--sur-bakelite); transition: background-color 0.12s, color 0.12s; }
 .dial__arrow svg { width: 46%; }
 .dial__arrow:hover { background: var(--sur-bakelite); color: #1f1a17; }
 .dial__arrow:active { translate: 0 1px; }
 .dial__arrow:focus-visible { outline-color: var(--led-rare); }
 .dial__head, .dial__side { position: absolute; z-index: 2; top: clamp(1rem, 2.4cqw, 2rem); display: grid; gap: 0.75rem; }
-.dial__head { left: var(--gutter); max-width: 25cqw; }
-.dial__side { right: var(--gutter); max-width: 22cqw; text-align: right; }
-.dial__title { font: 850 clamp(1.5rem, 3.5cqw, 3.5rem)/0.9 var(--font-display); font-variation-settings: "wdth" 100; letter-spacing: -0.01em; }
+.dial__head { left: var(--gutter); gap: 0.5rem; }
+.dial__side { right: var(--gutter); max-width: 34cqw; text-align: right; }
+.dial__title { white-space: nowrap; font: 850 clamp(1.5rem, 3.2cqw, 3.5rem)/0.9 var(--font-display); font-variation-settings: "wdth" 100; letter-spacing: -0.01em; }
 .dial__motto { font-weight: 600; line-height: 1.3; color: var(--encre-douce); }
 .dial__tagline { font-size: clamp(0.9375rem, 1.45cqw, 1.25rem); font-weight: 550; line-height: 1.35; }
 .dial__links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.25rem 1.25rem; }
 @container (max-width: 56rem) {
     /* L'aiguille reste au zénith, on fait tourner la main sous elle */
-    .dial__scene { --w: min(205cqw, 60rem); margin-top: -1.5rem; }
-    .dial__card.is-raised { transform: rotate(calc(var(--a) + 6deg)) translateY(calc(var(--w) * -0.478)) rotate(-6deg) scale(1.3); }
-    .dial__plate { width: calc(var(--w) * 0.44); padding-bottom: calc(var(--w) * 0.045); }
-    .dial__controls .btn { padding-inline: 0.875rem; }
+    .dial__scene { --w: min(205cqw, 60rem); --plate: 10.5rem; margin-top: -2.5rem; }
+    .dial__card.is-raised { transform: rotate(calc(var(--a) + 3deg)) translateY(calc(var(--w) * (-0.03 - var(--radius)))) rotate(-4deg) scale(1.3); }
+    .dial__plate { gap: 0.5rem; }
+    .dial__info { width: min(24rem, 100cqw - 9.5rem); }
+    .dial__arrow { align-self: center; margin: 0; }
     .dial__head, .dial__side { position: relative; inset: auto; max-width: none; padding: 1.25rem 1rem 0; text-align: left; }
     .dial__side { padding-top: 0.5rem; }
-    .dial__title { font-size: min(10cqw, 3rem); }
+    .dial__title { font-size: min(10cqw, 3rem); white-space: normal; }
     .dial__links { justify-content: flex-start; }
 }
 
@@ -248,15 +258,14 @@
 .collection__chip { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 650; color: var(--level); }
 .collection__chip .knob path { stroke: var(--fond); }
 
-.project-grid, .software-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(14rem, 42%), 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
-.project-card, .software-card { --card: 100%; position: relative; aspect-ratio: 5 / 7; cursor: pointer; border-radius: 0.875rem; }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(14rem, 42%), 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
+.grid-card { --card: 100%; position: relative; aspect-ratio: 5 / 7; cursor: pointer; border-radius: 0.875rem; }
 .is-undiscovered { cursor: default; }
 [data-card]:not(.is-undiscovered):hover { z-index: 2; }
 [data-card] .tcard { transition: transform 0.25s; }
 [data-card]:not(.is-undiscovered):hover .tcard { transform: translateY(-0.4rem); }
 
 .hidden-card { display: grid; place-content: center; justify-items: center; gap: 0.375rem; height: 100%; padding: 0.75rem; border: 2px dashed var(--trait); border-radius: 0.875rem; color: var(--encre-douce); font-size: 0.9375rem; font-weight: 600; line-height: 1.3; text-align: center; }
-.hidden-card__mark { color: var(--encre); font: 850 2.25rem/1 var(--font-display); font-variation-settings: "wdth" 72; }
 .hidden-card__text { line-height: 1.3; }
 
 .new-tag { position: absolute; top: -0.5rem; left: 0.75rem; z-index: 3; display: none; padding: 0.25rem 0.6rem; border-radius: 4px; background: var(--encre); color: var(--sur-encre); font: 700 0.8125rem/1.1 var(--font-display); pointer-events: none; }
@@ -271,16 +280,30 @@
 /* ---------- Timeline : les années sur une règle, les projets en clips ---------- */
 
 .timeline { --axis: 12rem; position: relative; }
-/* La règle : un trait, des graduations, et la tête de lecture qui descend avec la page */
-.timeline__rail { position: absolute; inset: 0 auto 0 var(--axis); width: 1.5rem; background: linear-gradient(var(--trait) 0 0) 0 0 / 3px 100% no-repeat, repeating-linear-gradient(var(--trait) 0 2px, transparent 2px 1.25rem) 0 0 / 0.75rem 100% no-repeat; }
+/* La règle : un trait, une graduation par mois (longue aux trimestres), et la tête de lecture qui descend avec la page */
+.timeline__rail { position: absolute; inset: 0 auto 0 var(--axis); width: 1.5rem; background: linear-gradient(var(--trait) 0 0) 0 0 / 3px 100% no-repeat; }
+.timeline__months { position: absolute; inset: 4.75rem auto 1.5rem var(--axis); width: 1.5rem; background: linear-gradient(var(--trait) 0 2px, transparent 0) 0 0 / 100% 25% repeat-y, linear-gradient(var(--trait) 0 2px, transparent 0) 0 0 / 0.75rem calc(100% / 12) repeat-y; }
 .timeline__played { position: absolute; left: 0; top: 0; width: 3px; height: var(--played, 0); background: var(--aiguille); }
-.timeline__head { position: absolute; left: 1.5px; top: var(--played, 0); width: 1.25rem; height: 1.25rem; translate: -50% -50%; border-radius: 50%; background: var(--aiguille); box-shadow: 0 0 0 4px var(--fond); }
-.timeline__years { display: grid; gap: clamp(2.5rem, 6vw, 4.5rem); }
-.timeline__year { position: relative; display: grid; grid-template-columns: calc(var(--axis) - 1.5rem) minmax(0, 1fr); gap: 1rem 4rem; align-items: start; }
-.timeline__label { position: sticky; top: calc(var(--top) + 1.5rem); text-align: right; font: 850 clamp(2.75rem, 5vw, 4.25rem)/0.8 var(--font-display); font-variation-settings: "wdth" 74; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--trait); transition: color var(--vu); }
+.timeline__head { position: absolute; z-index: 1; left: 1.5px; top: var(--played, 0); width: 1.25rem; height: 1.25rem; translate: -50% -50%; border-radius: 50%; background: var(--aiguille); box-shadow: 0 0 0 4px var(--fond); }
+.timeline__years { display: grid; }
+.timeline__year { position: relative; display: grid; grid-template-columns: calc(var(--axis) - 1.5rem) minmax(0, 1fr); gap: 1rem 4rem; align-items: start; padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+.timeline__year:has(.marker) { min-height: 20rem; }
+.timeline__label { position: sticky; z-index: 1; top: var(--top); margin: -1.5rem -0.625rem 0 0; padding: 1.5rem 0.625rem 0.5rem 0; background: var(--fond); text-align: right; font: 850 clamp(2.75rem, 5vw, 4.25rem)/0.8 var(--font-display); font-variation-settings: "wdth" 74; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--trait); transition: color var(--vu); }
+/* Collée en haut de l'écran, l'année efface en douceur les étiquettes qui passent dessous */
+.timeline__label::after { content: ""; position: absolute; inset: 100% 0 auto; height: 0.75rem; background: linear-gradient(var(--fond), transparent); }
 .is-played > .timeline__label { color: var(--encre); }
 .timeline__clips { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr)); gap: 1rem; }
-.timeline__clips > li { display: grid; }
+.timeline__clips > li:not(.marker) { display: grid; }
+
+/* Un évènement : une étiquette, reliée à sa date sur la règle */
+.marker { --reach: 1.5rem; position: absolute; left: 0; top: var(--at, 0); display: flex; justify-content: flex-end; width: calc(var(--axis) - var(--reach)); }
+.marker__flag { --point: 0.625rem; display: grid; gap: 0.125rem; max-width: 100%; padding: 0.4375rem calc(var(--point) + 0.375rem) 0.5rem 0.625rem; background: var(--cadran); clip-path: polygon(0 0, calc(100% - var(--point)) 0, 100% 50%, calc(100% - var(--point)) 100%, 0 100%); line-height: 1.15; transition: background-color var(--vu), color var(--vu); }
+.marker__date { font-size: 0.9375rem; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.marker__title { font: 800 1.0625rem/1.1 var(--font-display); font-variation-settings: "wdth" 84; text-wrap: balance; overflow-wrap: anywhere; }
+.marker__link { position: absolute; left: 100%; top: 50%; width: hypot(var(--reach), var(--shift, 0px)); height: 2px; margin-top: -1px; background: var(--encre); transform: rotate(atan2(var(--shift, 0px), var(--reach))); transform-origin: 0 50%; }
+.marker__pin { position: absolute; left: calc(100% + var(--reach) + 1.5px); top: calc(50% + var(--shift, 0px)); width: 0.875rem; height: 0.875rem; translate: -50% -50%; rotate: 45deg; background: var(--encre); box-shadow: 0 0 0 3px var(--fond); transition: background-color var(--vu); }
+.marker.is-played .marker__flag { background: var(--encre); color: var(--sur-encre); }
+.marker.is-played .marker__pin { background: var(--aiguille); }
 
 .clip { display: grid; align-content: start; gap: 0.375rem; overflow: hidden; padding: 0 1rem 1rem; border-radius: var(--r-commande); background: var(--bakelite); color: var(--sur-bakelite); line-height: 1.3; }
 .clip__wave { display: block; margin: 0 -1rem 0.5rem; padding: 0.5rem 0 0.375rem; overflow: hidden; background: var(--bakelite-creux); color: var(--led); }
@@ -298,7 +321,16 @@
 @media (max-width: 54rem) {
     .timeline { --axis: 0.5rem; }
     .timeline__year { grid-template-columns: minmax(0, 1fr); padding-left: 2.75rem; }
-    .timeline__label { position: static; text-align: left; }
+    .timeline__label { position: static; margin: 0; padding: 0; text-align: left; }
+    .timeline__label::after { content: none; }
+    /* Les clips s'empilent : les marqueurs se glissent entre eux, à leur rang, et la règle perd ses mois */
+    .timeline__year:has(.marker) { min-height: 0; }
+    .timeline__rail { background: linear-gradient(var(--trait) 0 0) 0 0 / 3px 100% no-repeat, repeating-linear-gradient(var(--trait) 0 2px, transparent 2px 1.25rem) 0 0 / 0.75rem 100% no-repeat; }
+    .timeline__months { display: none; }
+    .marker { --reach: 2.25rem; --shift: 0px !important; position: relative; top: 0; grid-column: 1 / -1; justify-content: flex-start; width: auto; }
+    .marker__flag { padding: 0.4375rem 0.75rem 0.5rem calc(var(--point) + 0.625rem); clip-path: polygon(0 50%, var(--point) 0, 100% 0, 100% 100%, var(--point) 100%); }
+    .marker__link { left: calc(var(--reach) * -1); }
+    .marker__pin { left: calc(var(--reach) * -1 + 1.5px); }
 }
 
 /* ---------- Lecteur : il ne charge qu'au clic ---------- */

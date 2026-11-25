@@ -1,7 +1,6 @@
-// Lecture de data.js : textes traduits, lecteurs, et vérification des erreurs. Sans page web : tools/check-cards.mjs s'en sert aussi.
+// Lecture de data.js et events.js : textes traduits, dates, lecteurs, et vérification des erreurs. Sans page web : tools/check-cards.mjs s'en sert aussi.
 
 export const LANGUAGES = ['fr', 'en'];
-const TYPES = ['project', 'software', 'hardware'];
 
 /** Texte dans la langue demandée. Une simple chaîne vaut pour toutes ; sans traduction, on garde le français. */
 export function textOf(value, lang) {
@@ -46,8 +45,34 @@ export function playerOf(link) {
     return { type: '', src: '' };
 }
 
-/** Erreurs de data.js, en phrases prêtes à lire. rarities et tags viennent de config.js. */
-export function checkCards(cards, { rarities, tags }) {
+/** '2026/05/01' : ce jour, à minuit UTC, ou null si la date n'existe pas. */
+export function dayOf(date) {
+    const [, year, month, day] = /^(\d{4})\/(\d{2})\/(\d{2})$/.exec(date) ?? [];
+    const found = new Date(Date.UTC(year, month - 1, day));
+    return found.getUTCMonth() === month - 1 && found.getUTCDate() === Number(day) ? found : null; // le 31/02 deviendrait mars
+}
+
+/** 1er mai 2026, 1 May 2026. */
+export function dateText(day, lang) {
+    const written = new Intl.DateTimeFormat(lang === 'fr' ? 'fr-FR' : 'en-GB', { dateStyle: 'long', timeZone: 'UTC' }).format(day);
+    return lang === 'fr' ? written.replace(/^1 /, '1er ') : written;
+}
+
+/** Erreurs de events.js. */
+export function checkEvents(events) {
+    const problems = [];
+    events.forEach(({ date, title, ...others }, i) => {
+        const say = (message) => problems.push(`évènement n° ${i + 1}${date ? ` (${date})` : ''} : ${message}`);
+        if (!dayOf(date)) say(`date illisible, attendu année/mois/jour comme '2026/05/01' : l'évènement ne s'affiche pas`);
+        if (!title) say('title manquant');
+        else if (typeof title !== 'string') for (const lang of LANGUAGES) if (!title[lang]?.trim()) say(`title : texte ${lang} manquant`);
+        for (const field of Object.keys(others)) say(`champ '${field}' inconnu (faute de frappe ?)`);
+    });
+    return problems;
+}
+
+/** Erreurs de data.js, en phrases prêtes à lire. rarities, tags et types viennent de config.js. */
+export function checkCards(cards, { rarities, tags, types }) {
     const problems = [];
     const seen = new Set();
     const list = (values) => values.map((value) => `'${value}'`).join(', ');
@@ -60,7 +85,7 @@ export function checkCards(cards, { rarities, tags }) {
         else if (seen.has(card.id)) say('id déjà pris par une autre carte');
         seen.add(card.id);
 
-        if (!TYPES.includes(card.type)) say(`type '${card.type ?? ''}' inconnu, choisir parmi ${list(TYPES)}`);
+        if (!(card.type in types)) say(`type '${card.type ?? ''}' inconnu, choisir parmi ${list(Object.keys(types))}`);
         if (!rarities.some(({ id }) => id === card.rarity)) say(`rarity '${card.rarity ?? ''}' inconnue, choisir parmi ${list(rarities.map(({ id }) => id))}`);
 
         for (const field of ['name', 'role', 'short', 'long']) {
@@ -84,6 +109,7 @@ export function checkCards(cards, { rarities, tags }) {
         if (card.player && !playerOf(card.player).src) say('player : lien non reconnu (YouTube, Vimeo, Spotify ou SoundCloud)');
 
         for (const tag of card.tags ?? []) if (!(tag in tags)) say(`tag '${tag}' inconnu, choisir parmi ${list(Object.keys(tags))}`);
+        if (card.type !== 'project' && card.tags?.length) say('tags : réservés aux projets, ils servent aux filtres du portfolio');
         if (card.type === 'project' && !card.tags?.length) say('aucun tag : le projet ne sort que dans « Tous les projets »');
 
         const known = ['id', 'type', 'rarity', 'tags', 'name', 'role', 'year', 'short', 'long', 'image', 'crop', 'zoom', 'player'];

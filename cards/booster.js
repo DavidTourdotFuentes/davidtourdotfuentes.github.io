@@ -1,5 +1,5 @@
 // Ouverture d'un booster : on déchire le paquet, on retourne les cartes une à une, puis on voit le résultat.
-import { burst, createCard, el, reducedMotion, setText, text } from './card.js';
+import { burst, createCard, createReveal, el, reducedMotion, setText, text } from './card.js';
 import { createMeter, createWave } from './meter.js';
 import { createModal } from './modal.js';
 
@@ -65,7 +65,8 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
 
         const later = button('cards_later', 'booster__link', close);
         actions.replaceChildren(later);
-        if (onRevealAll) actions.append(button('cards_reveal_all', 'booster__link', () => { onRevealAll(); close(); }));
+        const isFirst = remaining() === cards.length; // ensuite, l'accueil et la collection suffisent
+        if (onRevealAll && isFirst) actions.prepend(el('div', 'reveal', {}, ...createReveal(() => { onRevealAll(); close(); })));
         pack.focus({ preventScroll: true });
     }
 

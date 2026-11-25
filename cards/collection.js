@@ -24,7 +24,7 @@ function shuffle(list, random) {
 
 /**
  * Tire un booster sans doublon parmi pool (cartes non découvertes). Une carte : { id, isProject, rarity } ;
- * rarity.level augmente avec la rareté. L'ordre est mélangé : la plus rare peut sortir à n'importe quel moment.
+ * rarity.level augmente avec la rareté. Elles sortent de la moins rare à la plus rare ; à rareté égale, l'ordre est tiré au hasard.
  */
 export function drawBooster(pool, { size, guaranteed }, random = Math.random) {
     const left = [...pool];
@@ -52,7 +52,7 @@ export function drawBooster(pool, { size, guaranteed }, random = Math.random) {
         picks.splice(picks.indexOf(pickOne(removable, random)), 1);
         take(others);
     }
-    return shuffle(picks, random);
+    return shuffle(picks, random).sort((a, b) => a.rarity.level - b.rarity.level);
 }
 
 export class Collection {
