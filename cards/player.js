@@ -85,11 +85,20 @@ async function driveYouTube({ src }, name, screen) {
     const frame = player.getIframe();
     frame.classList.add('deck__frame');
     frame.title = name;
+
+    // Pendant une publicité, YouTube se dit « non démarré » alors que le temps avance : on s'y fie aussi.
+    const last = { time: 0, at: -Infinity };
+    function isPlaying() {
+        const state = player.getPlayerState();
+        const time = player.getCurrentTime?.() ?? 0;
+        if (time !== last.time) Object.assign(last, { time, at: performance.now() });
+        return !ended && ([1, 3].includes(state) || (state === -1 && performance.now() - last.at < 1200));
+    }
     return {
-        toggle: () => (player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo()),
+        toggle: () => (isPlaying() ? player.pauseVideo() : player.playVideo()),
         seek: (time) => player.seekTo(time, true),
         setVolume: (value) => { player.unMute(); player.setVolume(value * 100); },
-        state: () => ({ playing: [1, 3].includes(player.getPlayerState()) && !ended, time: player.getCurrentTime?.(), duration: player.getDuration?.() }),
+        state: () => ({ playing: isPlaying(), time: player.getCurrentTime?.(), duration: player.getDuration?.() }),
     };
 }
 
