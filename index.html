@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <!-- En tout premier : la page doit l'annoncer avant son premier affichage -->
+    <style>@media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }</style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>David Tourdot-Fuentes | Sound Designer & Composer</title>
     <link rel="icon" type="image/png" href="/ressources/Generic/David_Tourdot_Fuentes_1.jpg">
@@ -77,8 +79,12 @@
             <a class="nav__link nav__link--wide" href="#skills" data-i18n="nav_skills">Compétences</a>
             <a class="nav__link" href="#tools" data-i18n="nav_tools">Outils</a>
             <a class="nav__link nav__link--wide" href="#education" data-i18n="nav_education">Formations</a>
-            <a class="nav__link" href="audio-demos/" data-i18n="nav_audio_demos">Démos audio</a>
             <a class="nav__link" href="#contact" data-i18n="nav_contact">Contact</a>
+            <!-- Autre page du site : un instrument à allumer, pas une ancre -->
+            <a class="nav__lab" href="audio-demos/">
+                <svg class="nav__screen" viewBox="0 0 44 24" aria-hidden="true"><path d="M-44 12c5.5-16 5.5-16 11 0s5.5 16 11 0 5.5-16 11 0 5.5 16 11 0 5.5-16 11 0 5.5 16 11 0 5.5-16 11 0 5.5 16 11 0 5.5-16 11 0 5.5 16 11 0"/></svg>
+                <span data-i18n="nav_audio_demos">Labo audio</span>
+            </a>
         </nav>
         <div class="theme" role="group" aria-label="Thème / Theme">
             <button type="button" data-set-theme="light" aria-label="Light" title="Light"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.6" fill="currentColor"/><path d="M12 1.6v2.8M12 19.6v2.8M1.6 12h2.8M19.6 12h2.8M4.65 4.65l2 2M17.35 17.35l2 2M4.65 19.35l2-2M17.35 6.65l2-2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>

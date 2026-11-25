@@ -1,7 +1,8 @@
-// Point d'entrée : lit le manifeste, le valide et construit l'UI.
+// Point d'entrée : lit le manifeste, le valide et construit le laboratoire.
 import { EngineError, engine } from './fmod-engine.js';
+import { createScope } from './scope.js';
 import {
-    initialValue, perFrame, renderDemos, setEventPlaying, setEventState, setStatus, showPageError,
+    initialValue, perFrame, renderDemos, renderLamps, setEventPlaying, setEventState, setLive, setStatus, showPageError,
 } from './ui.js';
 import { watchCards, watchPage } from './visibility.js';
 
@@ -14,6 +15,7 @@ function validateParameter(p, at, errors) {
     if (p?.global !== undefined && typeof p.global !== 'boolean') errors.push(`${at}.global : true ou false attendu`);
 
     if (p?.reversed !== undefined && typeof p.reversed !== 'boolean') errors.push(`${at}.reversed : true ou false attendu`);
+    if (p?.visual !== undefined && p.visual !== 'eyes') errors.push(`${at}.visual : "eyes" attendu`);
     if (p?.ends !== undefined && !(isTextList(p.ends) && p.ends.length === 2)) errors.push(`${at}.ends : deux textes attendus`);
 
     if (p?.type === 'stepped') {
@@ -61,6 +63,10 @@ function validateManifest(manifest) {
 
         if (!isText(demo?.title)) errors.push(`${at}.title : texte attendu`);
         if (!isText(demo?.description)) errors.push(`${at}.description : texte attendu`);
+        for (const field of ['name', 'project', 'observation']) if (demo?.[field] !== undefined && !isText(demo[field])) errors.push(`${at}.${field} : texte attendu`);
+        if (demo?.steps !== undefined && !(Array.isArray(demo.steps) && demo.steps.every((step) => isText(step?.text) && ['play', 'param', 'move'].includes(step.when)))) {
+            errors.push(`${at}.steps : liste de { text, when: "play", "param" ou "move" } attendue`);
+        }
         // Liste vide si tout le contenu de la démo est déjà dans les shared banks.
         if (!Array.isArray(demo?.banks) || !demo.banks.every(isText)) errors.push(`${at}.banks : liste de textes attendue`);
         if (!Array.isArray(demo?.events) || demo.events.length === 0) {
@@ -111,6 +117,18 @@ const values = new Map(); // paramètre du manifeste → valeur choisie
 const displays = new Map(); // paramètre du manifeste → fonction qui ajoute sa valeur temps réel à sa courbe
 const maps = new Map(); // event 3D du manifeste → vue de dessus
 const listeners = new Map(); // event 3D du manifeste → position { x, z } du listener
+let reports = new Map(); // démo → fonction qui fait avancer son protocole
+let updateLamps = () => {};
+
+const isPlaying = (event) => Boolean(slots.get(event)?.handle);
+
+/** Aiguille et écrans : ils montrent le son qui sort vraiment du moteur. */
+const needle = $('needle');
+const scope = createScope({
+    getNode: () => engine.outputNode,
+    onLevel: (level) => needle.style.setProperty('--needle', `${(-46 + 92 * level).toFixed(1)}deg`),
+    isBusy: () => [...slots.values()].some(({ handle }) => handle),
+});
 let manifest = null;
 let lastRequest = 0; // numéro du dernier lancement demandé, pour que le plus récent l'emporte
 
@@ -138,7 +156,7 @@ function attempt(action) {
 
 let lockTimer = 0;
 function showReady() {
-    setStatus('ready', 'Audio prêt');
+    setStatus('ready', 'Sous tension');
     // Le contexte audio met un instant à redémarrer : on ne conclut au blocage qu'après ce délai.
     clearTimeout(lockTimer);
     lockTimer = setTimeout(() => {
@@ -148,13 +166,13 @@ function showReady() {
 
 function showInactive() {
     clearTimeout(lockTimer);
-    setStatus('idle', 'Audio inactif');
+    setStatus('idle', 'En veille');
 }
 
 /** Démarre le moteur au premier geste ; sans effet s'il est déjà prêt. */
 async function ensureEngine() {
     if (engine.isReady) return;
-    setStatus('loading', 'Chargement du moteur audio…');
+    setStatus('loading', 'Mise sous tension…');
     await engine.init({ sharedBanks: manifest.sharedBanks });
     showReady();
 }
@@ -187,7 +205,7 @@ async function start(slot, event) {
     const request = ++lastRequest;
     setEventState(slot.button, 'loading');
     await ensureEngine();
-    setStatus('loading', 'Chargement de la démo…');
+    setStatus('loading', 'Branchement de l’expérience…');
     await engine.loadBanks(slot.demo.banks);
     setEventState(slot.button, 'idle');
     if (request !== lastRequest) return; // un autre event a été demandé pendant le chargement
@@ -199,12 +217,16 @@ async function start(slot, event) {
         onStopped: () => {
             if (slot.handle !== handle) return;
             slot.handle = null;
+            setLive(slot.demo, false);
             if (event.mode === 'loop') setEventPlaying(slot.button, false);
         },
     });
     slot.handle = handle;
     slot.hasRange = false; // relu à chaque lancement
+    setLive(slot.demo, true);
+    scope.start();
     maps.get(event)?.pulse();
+    reports.get(slot.demo)?.({ type: 'play' });
     if (event.mode === 'loop') setEventPlaying(slot.button, true);
     // Au départ, l'event prend directement la valeur choisie ; le seek ne joue que sur les changements suivants.
     for (const param of event.parameters ?? []) applyParam(slot, param, values.get(param), { immediate: true });
@@ -215,6 +237,7 @@ function stop(slot) {
     if (!slot.handle) return;
     const { handle } = slot;
     slot.handle = null;
+    setLive(slot.demo, false);
     setEventPlaying(slot.button, false);
     engine.stop(handle, { fade: true });
 }
@@ -227,6 +250,7 @@ function stopLoops(demo) {
 
 function stopEverything() {
     stopLoops();
+    for (const slot of slots.values()) if (slot.handle) setLive(slot.demo, false);
     engine.stopAll({ fade: true });
 }
 
@@ -289,8 +313,22 @@ async function main() {
         }
     }
 
-    const cards = renderDemos($('demos'), manifest.demos, { onTrigger, onParam, onListener, displays, maps });
-    watchCards(cards.keys(), (card) => attempt(() => stopLoops(cards.get(card))));
+    updateLamps = renderLamps($('lamps'), $('lamps-count'), manifest.demos);
+    const onDone = (demo) => {
+        $(`demo-${demo.id}`).classList.add('is-tried');
+        updateLamps();
+    };
+    const cards = renderDemos($('demos'), manifest.demos, { onTrigger, onParam, onListener, onDone, isPlaying, scope, displays, maps });
+    reports = new Map([...cards.values()].map(({ demo, report }) => [demo, report]));
+    updateLamps();
+    const main = scope.addScreen($('main-scope'));
+    for (const button of document.querySelectorAll('[data-scope]')) {
+        button.addEventListener('click', () => {
+            for (const other of document.querySelectorAll('[data-scope]')) other.setAttribute('aria-pressed', String(other === button));
+            main.setMode(button.dataset.scope);
+        });
+    }
+    watchCards(cards.keys(), (card) => attempt(() => stopLoops(cards.get(card).demo)));
     watchPage(engine, { onError: reportError, onReleased: showInactive });
 }
 

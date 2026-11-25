@@ -3,8 +3,16 @@
   "demos": [
     {
       "id": "darkest-canopy",
-      "title": "Darkest Canopy : musique adaptative",
-      "description": "La musique évolue entre exploration et combat. Lancez-la, puis basculez l'interrupteur pour passer de l'une à l'autre.",
+      "name": "Musique adaptative",
+      "project": "Darkest Canopy",
+      "title": "Comment passer de l'exploration au combat sans couper la musique ?",
+      "description": "Dans un jeu, personne ne sait quand l'ennemi va surgir. La musique doit pouvoir changer à tout instant.",
+      "steps": [
+        { "text": "Lancez la musique.", "when": "play" },
+        { "text": "Basculez le levier sur Combat.", "when": "param", "value": 100 },
+        { "text": "Revenez à l'exploration, au moment de votre choix.", "when": "param", "value": 0 }
+      ],
+      "observation": "Les deux musiques ont exactement la même durée et bouclent. Le jeu peut donc glisser de l'une à l'autre à n'importe quel moment : regardez la courbe, la valeur ne saute pas, elle voyage.",
       "banks": ["DarkestCanopy.bank"],
       "events": [
         {
@@ -26,8 +34,16 @@
     },
     {
       "id": "hide-and-flee-monster",
-      "title": "Hide And Flee : proximité du monstre",
-      "description": "L'ambiance se tend à mesure que le monstre approche. Lancez-la, puis rapprochez-le.",
+      "name": "Tension",
+      "project": "Hide And Flee",
+      "title": "Comment faire sentir qu'un monstre approche ?",
+      "description": "On entend le danger avant de le voir. Ici, une seule valeur règle toute la tension : la distance du monstre.",
+      "steps": [
+        { "text": "Lancez l'ambiance, le monstre est loin.", "when": "play" },
+        { "text": "Tournez le potard pour l'amener tout près.", "when": "param", "below": 10 },
+        { "text": "Faites-le reculer et écoutez la tension retomber.", "when": "param", "above": 80 }
+      ],
+      "observation": "Vous venez de faire le travail du jeu : mesurer une distance et l'envoyer au son. L'ambiance calme laisse la place à une ambiance de stress, à une montée de basses et à une note aiguë de cordes. Le joueur n'a rien lu, mais il a compris.",
       "banks": ["HideAndFlee.bank"],
       "events": [
         {
@@ -39,6 +55,7 @@
               "name": "EyesDistance_param",
               "label": "Distance du monstre",
               "type": "continuous",
+              "visual": "eyes",
               "global": true,
               "min": 0,
               "max": 100,
@@ -53,8 +70,16 @@
     },
     {
       "id": "hide-and-flee-music",
-      "title": "Hide And Flee : musique et progression",
-      "description": "La musique suit la progression dans le jeu. Lancez-la, puis changez d'étape : la valeur du paramètre évolue en douceur jusqu'au cran choisi.",
+      "name": "Progression",
+      "project": "Hide And Flee",
+      "title": "Comment une musique raconte-t-elle l'avancée du joueur ?",
+      "description": "De la maison au générique, la musique passe du mignon à l'effrayant en suivant les étapes du jeu.",
+      "steps": [
+        { "text": "Lancez la musique, au début du jeu.", "when": "play" },
+        { "text": "Avancez d'étape en étape : essayez-en au moins trois.", "when": "param", "count": 3 },
+        { "text": "Allez jusqu'au générique.", "when": "param", "value": 5 }
+      ],
+      "observation": "La valeur ne saute pas à l'étape choisie, elle y glisse : chaque repère de la courbe est un cran franchi. La musique traverse donc toutes les étapes entre les deux, et l'histoire garde sa continuité.",
       "banks": ["HideAndFlee.bank"],
       "events": [
         {
@@ -76,8 +101,15 @@
     },
     {
       "id": "explosion",
-      "title": "Explosion : spatialisation 3D",
-      "description": "Cliquez sur le point central pour déclencher l'explosion, puis déplacez le listener pour entendre l'atténuation et la direction changer.",
+      "name": "Spatialisation 3D",
+      "title": "Comment sait-on d'où vient une explosion ?",
+      "description": "Vue de dessus : l'explosion est au centre, vous portez le casque. Mettez le vôtre, l'effet est bien plus net.",
+      "steps": [
+        { "text": "Cliquez sur le point central pour déclencher l'explosion.", "when": "play" },
+        { "text": "Déplacez le casque, par exemple de l'autre côté.", "when": "move" },
+        { "text": "Déclenchez à nouveau : la direction et la force ont changé.", "when": "play" }
+      ],
+      "observation": "Le son est toujours le même, c'est votre place qui change. Le moteur en déduit la direction et l'atténuation : plein volume dans le petit cercle, puis de plus en plus faible jusqu'au grand.",
       "banks": ["Explosion.bank"],
       "events": [
         {

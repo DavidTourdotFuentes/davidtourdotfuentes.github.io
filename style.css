@@ -88,10 +88,18 @@ button { padding: 0; border: 0; border-radius: 0; background: none; cursor: poin
 .social:hover { color: var(--encre); }
 .social:focus-visible { outline-offset: -3px; }
 .social svg { width: 1.375rem; height: 1.375rem; fill: currentColor; }
-.nav { display: flex; align-self: stretch; gap: 1.5rem; }
+.nav { display: flex; flex: none; align-self: stretch; gap: 1.5rem; }
 .nav__link { display: flex; align-items: center; font: 650 1rem/1 var(--font-display); font-variation-settings: "wdth" 88; text-decoration: none; white-space: nowrap; color: var(--encre-douce); }
 .nav__link:hover, .nav__link[aria-current] { color: var(--encre); }
 .nav__link[aria-current] { box-shadow: inset 0 -4px 0 var(--encre); }
+/* Le labo audio s'ouvre sur une autre page : un petit module en bakélite, dont l'écran s'allume au survol */
+.nav__lab { align-self: center; display: flex; flex: none; align-items: center; gap: 0.625rem; min-height: 2.75rem; padding: 0 0.875rem 0 0.375rem; border-radius: var(--r-commande); background: var(--bakelite); color: var(--sur-bakelite); font: 650 1rem/1 var(--font-display); font-variation-settings: "wdth" 92; text-decoration: none; white-space: nowrap; view-transition-name: labo; }
+.nav__screen { width: 2.75rem; height: 1.875rem; border-radius: 4px; background: var(--bakelite-creux); overflow: hidden; }
+.nav__screen path { fill: none; stroke: var(--led-rare); stroke-width: 2; transform: translateX(22px) scaleY(0.25); transform-origin: 0 12px; transition: transform 0.35s, stroke 0.35s; }
+.nav__lab:is(:hover, :focus-visible) .nav__screen path { stroke: var(--led-crete); animation: scope 0.9s linear infinite; }
+.nav__lab:hover { box-shadow: 0 0 0 2px var(--led-crete); }
+@keyframes scope { from { transform: translateX(0) scaleY(0.8); } to { transform: translateX(22px) scaleY(0.8); } }
+/* En l'ouvrant, le module s'agrandit jusqu'à la console du labo (view-transition-name, ici et dans audio-demos/css/demos.css) */
 /* Thème et langue : le même interrupteur à deux positions */
 .theme, .lang { display: flex; padding: 3px; border-radius: var(--r-commande); box-shadow: inset 0 0 0 2px var(--encre); }
 :is(.theme, .lang) button { display: grid; place-items: center; width: 2.5rem; min-height: 2.375rem; border-radius: 4px; font: 650 0.9375rem/1 var(--font-display); font-variation-settings: "wdth" 88; }
@@ -141,13 +149,13 @@ button { padding: 0; border: 0; border-radius: 0; background: none; cursor: poin
 .stretch__line { display: block; width: max-content; white-space: nowrap; }
 .contact__copyright { margin-top: 2rem; font-size: 0.9375rem; color: var(--sur-bakelite-douce); }
 
-@media (max-width: 84rem) {
+@media (max-width: 88rem) {
     .nav { gap: 1rem; }
 }
-@media (max-width: 79.5rem) {
+@media (max-width: 84.25rem) {
     .nav__link--wide { display: none; } /* la bannière, puis la barre du bas, n'ont de place que pour quatre liens */
 }
-@media (max-width: 66rem) {
+@media (max-width: 69.5rem) {
     .top { column-gap: 1rem; }
     .theme + .lang { margin-left: -0.375rem; }
     /* Le nom sur deux lignes laisse la place aux réseaux */
@@ -157,6 +165,10 @@ button { padding: 0; border: 0; border-radius: 0; background: none; cursor: poin
     .social { width: 1.625rem; }
     .social svg { width: 1.25rem; height: 1.25rem; }
 }
+@media (max-width: 57.5rem) {
+    .nav__lab { gap: 0; padding-left: 0.875rem; }
+    .nav__screen { display: none; }
+}
 @media (max-width: 54rem) {
     :root { --nav: 3.25rem; --top: 3.5rem; }
     body { padding-bottom: calc(var(--nav) + env(safe-area-inset-bottom, 0px)); }
@@ -165,6 +177,14 @@ button { padding: 0; border: 0; border-radius: 0; background: none; cursor: poin
     .nav { position: fixed; inset: auto 0 0; z-index: 70; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; height: calc(var(--nav) + env(safe-area-inset-bottom, 0px)); background: var(--cadran); border-top: 2px solid var(--encre); }
     .nav__link { justify-content: center; min-width: 0; padding: 0 0.25rem env(safe-area-inset-bottom, 0px); font-size: 0.875rem; font-variation-settings: "wdth" 74; white-space: normal; text-align: center; }
     .nav__link[aria-current] { box-shadow: inset 0 4px 0 var(--encre); }
+    .nav__lab { align-self: stretch; justify-content: center; gap: 0.375rem; min-width: 0; min-height: 0; margin: 0.25rem; padding: 0 0.375rem; margin-bottom: calc(0.25rem + env(safe-area-inset-bottom, 0px)); font-size: 0.875rem; font-variation-settings: "wdth" 74; }
+    .nav__screen { display: block; flex: none; width: 1.5rem; height: 1.25rem; }
+}
+@media (max-width: 30rem) {
+    .nav__lab::before { content: ""; flex: none; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--led-rare); } /* plus la place pour l'écran : un voyant */
+    .nav__screen { display: none; }
+}
+@media (max-width: 54rem) {
     :is(.theme, .lang) button[aria-pressed="true"] { display: none; } /* un seul bouton : celui de l'autre choix */
     .theme + .lang { margin-left: 0; }
     .filters { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; }

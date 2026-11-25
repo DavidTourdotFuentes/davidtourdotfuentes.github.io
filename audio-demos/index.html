@@ -2,57 +2,76 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <!-- En tout premier : la page doit l'annoncer avant son premier affichage -->
+    <style>@media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }</style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Démos audio | David Tourdot-Fuentes</title>
-    <meta name="description" content="Démos d'intégration audio FMOD Studio jouables dans le navigateur : events, paramètres en temps réel et musique adaptative.">
+    <title>Laboratoire audio | David Tourdot-Fuentes</title>
+    <meta name="description" content="De petites expériences d'audio interactif à mener dans le navigateur : lancez un son, tournez un bouton, écoutez ce qui change.">
     <meta name="theme-color" content="#f3c34b">
     <script src="../theme.js"></script>
     <link rel="icon" type="image/jpeg" href="../ressources/Generic/David_Tourdot_Fuentes_1.jpg">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Police non bloquante : la page s'affiche d'abord avec la police système. -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,400..900&family=Atkinson+Hyperlegible+Next:wght@400..700&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,400..900&family=Atkinson+Hyperlegible+Next:wght@400..700&family=Wavefont:wght,ROND@4..1000,0..100&display=swap" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/demos.css">
     <script type="module" src="js/main.js"></script>
 </head>
 <body>
-    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <a class="skip-link" href="#demos">Aller aux expériences</a>
 
     <header class="site-header">
-        <div class="wrap site-header__inner">
-            <a class="brand" href="../index.html">David Tourdot-Fuentes</a>
-            <div class="site-header__tools">
-                <div class="volume">
-                    <label for="master-volume">Volume<span class="volume__more"> général</span></label>
-                    <input id="master-volume" type="range" min="0" max="1" step="0.01" value="1" autocomplete="off">
-                    <output id="master-volume-value" for="master-volume">100 %</output>
-                </div>
-                <div class="theme" role="group" aria-label="Thème">
-                    <button type="button" data-set-theme="light" aria-label="Light" title="Light"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.6" fill="currentColor"/><path d="M12 1.6v2.8M12 19.6v2.8M1.6 12h2.8M19.6 12h2.8M4.65 4.65l2 2M17.35 17.35l2 2M4.65 19.35l2-2M17.35 6.65l2-2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
-                    <button type="button" data-set-theme="dark" aria-label="Dark" title="Dark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 14.6A8.8 8.8 0 019.4 3.6a8.8 8.8 0 1011 11z" fill="currentColor"/></svg></button>
-                </div>
-                <a class="back" href="../index.html"><span aria-hidden="true">←</span> Portfolio</a>
-            </div>
+        <a class="back" href="../index.html"><span class="back__arrow" aria-hidden="true"></span>Portfolio</a>
+        <div class="volume">
+            <label for="master-volume">Volume<span class="volume__more"> général</span></label>
+            <input id="master-volume" type="range" min="0" max="1" step="0.01" value="1" autocomplete="off">
+            <output id="master-volume-value" for="master-volume">100 %</output>
+        </div>
+        <div class="theme" role="group" aria-label="Thème">
+            <button type="button" data-set-theme="light" aria-label="Light" title="Light"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.6" fill="currentColor"/><path d="M12 1.6v2.8M12 19.6v2.8M1.6 12h2.8M19.6 12h2.8M4.65 4.65l2 2M17.35 17.35l2 2M4.65 19.35l2-2M17.35 6.65l2-2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+            <button type="button" data-set-theme="dark" aria-label="Dark" title="Dark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 14.6A8.8 8.8 0 019.4 3.6a8.8 8.8 0 1011 11z" fill="currentColor"/></svg></button>
         </div>
     </header>
 
-    <main id="contenu" class="wrap" tabindex="-1">
-        <section class="intro" aria-labelledby="titre">
-            <div class="intro__title">
-                <span id="status-dot" class="dot" data-state="idle" aria-hidden="true"></span>
-                <h1 id="titre">Démos audio</h1>
+    <main id="contenu" tabindex="-1">
+        <section class="console" aria-labelledby="titre">
+            <div class="console__head">
+                <p class="console__name">David Tourdot-Fuentes</p>
+                <h1 id="titre">Laboratoire audio</h1>
+                <p class="console__intro">De petites expériences pour comprendre mon métier : lancez un son, tournez un bouton, écoutez ce qui change.</p>
+                <div class="console__progress">
+                    <p><strong id="lamps-count">0</strong> expériences menées</p>
+                    <ol id="lamps" class="lamps"></ol>
+                </div>
             </div>
-            <p>Des intégrations FMOD Studio à manipuler directement ici : déclenchez les events, faites varier les paramètres et écoutez le résultat.</p>
-            <p id="status" class="status" role="status" aria-live="polite" data-state="idle">Audio inactif</p>
+            <div class="console__panel">
+                <figure class="screen screen--main">
+                    <canvas id="main-scope" class="scope" role="img" aria-label="Oscilloscope du son en cours"></canvas>
+                </figure>
+                <div class="console__meter">
+                    <svg class="vu" viewBox="0 0 100 62" aria-hidden="true"><path d="M16.91 30.05L12.95 26.23" class=""/><path d="M21.47 25.92L19.61 23.56" class=""/><path d="M26.54 22.43L25.01 19.85" class=""/><path d="M32.03 19.66L30.85 16.90" class=""/><path d="M37.84 17.64L37.04 14.74" class=""/><path d="M43.86 16.41L43.46 13.44" class=""/><path d="M50.00 16.00L50.00 13.00" class=""/><path d="M56.14 16.41L56.54 13.44" class=""/><path d="M62.16 17.64L62.96 14.74" class=""/><path d="M67.97 19.66L70.12 14.59" class="is-red"/><path d="M73.46 22.43L74.99 19.85" class="is-red"/><path d="M78.53 25.92L80.39 23.56" class="is-red"/><path d="M83.09 30.05L87.05 26.23" class="is-red"/><path d="M16.91 30.05A46 46 0 0 1 67.97 19.66"/><path class="is-red is-thick" d="M67.58 20.58A45 45 0 0 1 82.37 30.74"/><text x="30.44" y="30.00" class="">−20</text><text x="64.65" y="27.48" class="is-red">0</text><text x="75.54" y="34.54" class="is-red">+3</text><g id="needle" class="vu__needle"><path d="M50 62V13"/></g><circle cx="50" cy="62" r="11"/></svg>
+                    <div class="modes" role="group" aria-label="Affichage de l'écran">
+                        <button type="button" data-scope="wave" aria-pressed="true">Onde</button>
+                        <button type="button" data-scope="spectrum" aria-pressed="false">Spectre</button>
+                    </div>
+                    <p class="console__power"><span id="status-dot" class="dot" data-state="idle" aria-hidden="true"></span><span id="status" class="status" role="status" aria-live="polite" data-state="idle">En veille</span></p>
+                </div>
+            </div>
         </section>
 
         <p id="page-error" class="notice" role="alert" hidden></p>
-        <noscript><p class="notice">JavaScript est nécessaire pour utiliser les démos.</p></noscript>
+        <noscript><p class="notice">JavaScript est nécessaire pour mener les expériences.</p></noscript>
 
-        <section id="demos" class="demos" aria-label="Liste des démos"></section>
+        <section id="demos" class="demos" aria-label="Expériences"></section>
+
+        <section class="outro" aria-labelledby="fin">
+            <h2 id="fin">Le même travail, dans de vrais jeux</h2>
+            <p>Décider ce qu'on entend, quand et pourquoi, puis le brancher au jeu : c'est le design sonore et l'intégration audio.</p>
+            <a class="outro__link" href="../index.html#portfolio">Voir les projets</a>
+        </section>
     </main>
 
     <footer class="site-footer">
-        <p class="wrap">Réalisé avec FMOD Studio par Firelight Technologies Pty Ltd.</p>
+        <p>Réalisé avec FMOD Studio par Firelight Technologies Pty Ltd.</p>
     </footer>
 </body>
 </html>

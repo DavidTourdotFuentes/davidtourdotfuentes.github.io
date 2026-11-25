@@ -1,6 +1,6 @@
-# Démos audio FMOD
+# Laboratoire audio (FMOD)
 
-Page statique autonome. L'interface est générée depuis `demos.json` ; rien d'audio n'est chargé avant le premier clic.
+Page statique autonome : une suite d'expériences. L'interface est générée depuis `demos.json` ; rien d'audio n'est chargé avant le premier clic.
 
 ## Versions
 
@@ -16,7 +16,7 @@ Pour changer de version majeure, remplacer le runtime, réexporter toutes les ba
 
 Viser moins de 3 Mo par bank : elle est téléchargée en entier au lancement.
 
-## Ajouter une démo
+## Ajouter une expérience
 
 1. Exporter la bank dans `banks/`.
 2. Ajouter une entrée dans `demos.json`. Les chemins de banks sont relatifs à `banks/`.
@@ -24,8 +24,16 @@ Viser moins de 3 Mo par bank : elle est téléchargée en entier au lancement.
 ```json
 {
   "id": "footsteps",
-  "title": "Pas adaptatifs",
-  "description": "Changement de surface et de vitesse en temps réel.",
+  "name": "Pas",
+  "title": "Comment entendre où l'on marche ?",
+  "description": "Le sol et la vitesse changent le son des pas.",
+  "project": "Mon jeu",
+  "steps": [
+    { "text": "Lancez la marche.", "when": "play" },
+    { "text": "Passez sur la pierre.", "when": "param", "value": 1 },
+    { "text": "Courez.", "when": "param", "above": 0.9 }
+  ],
+  "observation": "Ce que l'on vient de comprendre.",
   "banks": ["footsteps.bank"],
   "events": [
     {
@@ -43,6 +51,11 @@ Viser moins de 3 Mo par bank : elle est téléchargée en entier au lancement.
 
 | Champ | Valeur |
 |---|---|
+| `title` | La question posée par l'expérience |
+| `name` | Nom court, sur le module (facultatif : `title` sinon) |
+| `project` | Projet d'où vient l'extrait, facultatif |
+| `steps` | Protocole, facultatif : des étapes cochées dans l'ordre, voir ci-dessous |
+| `observation` | Explication, montrée d'elle-même une fois le protocole fini, facultative |
 | `banks` | Banks de la démo ; `[]` si tout est dans les `sharedBanks` |
 | `mode` | `"oneshot"` (déclenche) ou `"loop"` (bascule marche/arrêt) |
 | `parameters[].name` | Nom exact du paramètre dans FMOD Studio |
@@ -55,16 +68,21 @@ Event 3D : ajouter `"spatial": { "distance": [min, max], "listener": [x, z] }` �
 `distance` n'est que l'affichage avant le premier lancement ; les vraies distances (celles du spatializer en « Override Range », sinon celles de l'event) sont lues à chaque lancement.
 `listener` est la position de départ (x vers la droite, z vers le haut de la carte).
 
+Étapes du protocole : `when` vaut `"play"` (lancer), `"param"` (changer un paramètre) ou `"move"` (déplacer le casque).
+Pour `"param"`, on peut exiger `value` (valeur exacte), `below`, `above`, ou `count` (nombre de valeurs essayées).
+Les expériences menées sont retenues dans le navigateur (`labo-experiences`).
+
 Types de contrôle :
 
 | `type` | Contrôle | Champs propres |
 |---|---|---|
-| `"continuous"` | Curseur | `min`, `max`, `step` ; `reversed: true` met le maximum à gauche ; `ends` : deux textes aux extrémités |
-| `"stepped"` | Curseur à crans nommés | `labels` ; `min` : valeur du premier cran, puis +1 par cran |
-| `"toggle"` | Interrupteur | `labels` et `values` : deux textes et leurs deux valeurs ; `default` : `0` ou `1` |
-| `"labeled"` | Boutons | `labels` (valeur = index du label) |
+| `"continuous"` | Potard | `min`, `max`, `step` ; `reversed: true` met le maximum à gauche ; `ends` : deux textes aux extrémités ; `visual: "eyes"` : des yeux qui approchent |
+| `"stepped"` | Touches nommées | `labels` ; `min` : valeur du premier cran, puis +1 par cran |
+| `"toggle"` | Levier | `labels` et `values` : deux textes et leurs deux valeurs ; `default` : `0` ou `1` |
+| `"labeled"` | Touches | `labels` (valeur = index du label) |
 
 Sauf pour `"labeled"`, une courbe montre la valeur temps réel du paramètre (seek compris). Elle défile pendant la lecture de l'event et se fige à l'arrêt. Pour `"stepped"`, un repère marque chaque cran atteint.
+L'oscilloscope, le spectre et l'aiguille montrent le son réellement émis : `js/scope.js` branche un analyseur sur la sortie de FMOD (`engine.outputNode`, propriété non documentée : sans elle, les écrans restent plats).
 Lancer un event arrête celui en cours : un seul joue à la fois.
 Au lancement, l'event prend directement la valeur choisie ; le seek s'applique aux changements suivants.
 

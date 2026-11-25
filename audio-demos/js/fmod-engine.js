@@ -80,6 +80,11 @@ class FmodEngine {
         return this.#ready && this.#mixing && this.#context?.state === 'suspended';
     }
 
+    /** Nœud de sortie, pour brancher un analyseur : propriété non documentée, undefined si elle manque. */
+    get outputNode() {
+        return this.#ready && this.#usesWorklet ? this.#fmod.mWorkletNode : undefined;
+    }
+
     get #usesWorklet() {
         return this.#output === this.#fmod.OUTPUTTYPE_AUDIOWORKLET;
     }
