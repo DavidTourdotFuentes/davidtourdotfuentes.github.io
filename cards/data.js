@@ -52,7 +52,8 @@
 // art: 'logo' montre un petit logo blanc centré, comme pour les logiciels, au lieu d'une image qui remplit le haut.
 // year place un projet dans la timeline : il y est obligatoire. Une étape du parcours s'y montre par un évènement (events.js).
 // Le type choisit la section du site et l'aspect de la carte. Les affiches des compétences font 500 x 400.
-// Dossiers : un par projet dans ressources, les compétences dans ressources/Skills, le parcours dans ressources/Career.
+// Dossiers : un par projet dans ressources, les compétences dans ressources/Skills, les logiciels dans ressources/Software
+// (leur logo reste dans ressources/Generic), le parcours dans ressources/Career.
 // Textes : fr est obligatoire ; sans en, le site anglais affiche le français.
 // Un texte avec une apostrophe s'écrit entre accents graves (AltGr + 7) : `L'outil`.
 
@@ -241,7 +242,7 @@ export const CARDS = [
                 The exploration and combat musics have exactly the same duration and loop to transition between one and the other at any time during the game.`,
         },
         image: 'ressources/DarkestCanopy/Card.jpg',
-        fullArt: 'ressources/DarkestCanopy/FullArt.jpg',
+        fullArt: 'ressources/DarkestCanopy/FullArt.png',
         player: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1646295394&color=%230ea5e9&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true',
     },
     {
@@ -447,7 +448,7 @@ export const CARDS = [
             fr: `Spring est un court métrage créé sur Blender et mis a disposition lors d'un concours de composition. Ceci est donc ma version de la bande son de ce court métrage composé sur Blender.`,
             en: 'Spring is a short film created on Blender and made available during a composition competition. This is therefore my version of the soundtrack of this short film composed on Blender.',
         },
-        image: 'ressources/Spring/Card.png',
+        image: 'ressources/Spring/Card.jpg',
         fullArt: 'ressources/Spring/FullArt.jpg',
         banner: 'ressources/Spring/Banner.png',
         crop: 62,
@@ -473,7 +474,8 @@ export const CARDS = [
                 Creating the sounds of games, cinematics and interactive objects, from art direction to integration.
                 Main tool: Reaper`,
         },
-        image: 'ressources/Skills/SoundDesign/Card.svg',
+        image: 'ressources/Skills/SoundDesign/Card.jpg',
+        fullArt: 'ressources/Skills/SoundDesign/FullArt.jpg',
     },
     {
         id: 'skill-composition',
@@ -492,7 +494,8 @@ export const CARDS = [
                 Original music, interactive for games or written to picture.
                 Main tool: Bitwig Studio`,
         },
-        image: 'ressources/Skills/Composition/Card.svg',
+        image: 'ressources/Skills/Composition/Card.jpg',
+        fullArt: 'ressources/Skills/Composition/Card.jpg',
     },
     {
         id: 'skill-integration',
@@ -513,7 +516,8 @@ export const CARDS = [
                 - Middleware: Wwise and FMOD
                 - Engines: Unity and Unreal`,
         },
-        image: 'ressources/Skills/Integration/Card.svg',
+        image: 'ressources/Skills/Integration/Card.jpg',
+        fullArt: 'ressources/Skills/Integration/FullArt.jpg',
     },
     {
         id: 'skill-programming',
@@ -536,7 +540,8 @@ export const CARDS = [
                 - Javascript
                 - Godot Scripts`,
         },
-        image: 'ressources/Skills/Programming/Card.svg',
+        image: 'ressources/Skills/Programming/Card.jpg',
+        fullArt: 'ressources/Skills/Programming/FullArt.jpg',
     },
     {
         id: 'skill-mixing',
@@ -559,7 +564,8 @@ export const CARDS = [
                 - Voices in Pro Tools, cleaning in Audition
                 - Quad environments mixing`,
         },
-        image: 'ressources/Skills/Mixing/Card.svg',
+        image: 'ressources/Skills/Mixing/Card.jpg',
+        fullArt: 'ressources/Skills/Mixing/FullArt.jpg',
     },
     {
         id: 'skill-recording',
@@ -582,7 +588,8 @@ export const CARDS = [
                 - Foley: sessions, editing and cleaning at G4F
                 - Cello recoding for the themes of Phantom Memories`,
         },
-        image: 'ressources/Skills/Recording/Card.svg',
+        image: 'ressources/Skills/Recording/Card.jpg',
+        fullArt: 'ressources/Skills/Recording/FullArt.jpg',
     },
 
     // ---------- Compétences : logiciels ----------
@@ -603,6 +610,7 @@ export const CARDS = [
                 Main working tool that I use every day for Sound Design`,
         },
         image: 'ressources/Generic/Reaper_White.svg',
+        fullArt: 'ressources/Software/Reaper/FullArt.jpg',
     },
     {
         id: 'bitwig',
@@ -620,6 +628,7 @@ export const CARDS = [
                 Main composition software, robust on large orchestral projects`,
         },
         image: 'ressources/Generic/Bitwig_White.svg',
+        fullArt: 'ressources/Software/Bitwig/FullArt.jpg',
     },
     {
         id: 'wwise',
@@ -637,6 +646,7 @@ export const CARDS = [
                 I use it for most in-game audio integration`,
         },
         image: 'ressources/Generic/Wwise_White.svg',
+        fullArt: 'ressources/Software/Wwise/FullArt.jpg',
     },
     {
         id: 'fmod',
@@ -654,6 +664,7 @@ export const CARDS = [
                 I use it for indie game in-game audio integration projects`,
         },
         image: 'ressources/Generic/FMOD_White.svg',
+        fullArt: 'ressources/Software/FMOD/FullArt.jpg',
     },
     {
         id: 'unity',
@@ -671,6 +682,7 @@ export const CARDS = [
                 I use it for most of my video game projects`,
         },
         image: 'ressources/Generic/Unity_White.svg',
+        fullArt: 'ressources/Software/Unity/FullArt.jpg',
     },
     {
         id: 'unreal',
@@ -688,6 +700,7 @@ export const CARDS = [
                 I use it for some of my G4F projects`,
         },
         image: 'ressources/Generic/UE_White.svg',
+        fullArt: 'ressources/Software/Unreal/FullArt.jpg',
     },
     {
         id: 'maxmsp',
@@ -705,6 +718,7 @@ export const CARDS = [
                 I use it to create procedural audio tools on Ableton`,
         },
         image: 'ressources/Generic/Ableton_White.svg',
+        fullArt: 'ressources/Software/MaxMSP/FullArt.jpg',
     },
     {
         id: 'ableton',
@@ -722,6 +736,7 @@ export const CARDS = [
                 I mainly use it for Max4Live`,
         },
         image: 'ressources/Generic/Ableton_White.svg',
+        fullArt: 'ressources/Software/Ableton/FullArt.jpg',
     },
     {
         id: 'audition',
@@ -739,6 +754,7 @@ export const CARDS = [
                 I mainly use it for cleaning voice recordings`,
         },
         image: 'ressources/Generic/AA_White.svg',
+        fullArt: 'ressources/Software/Audition/FullArt.jpg',
     },
     {
         id: 'protools',
@@ -756,6 +772,7 @@ export const CARDS = [
                 I sometimes use it when recording voices or professional mixes at G4F`,
         },
         image: 'ressources/Generic/PT_White.svg',
+        fullArt: 'ressources/Software/ProTools/FullArt.jpg',
     },
 
     // ---------- Parcours : études et postes ----------
@@ -789,6 +806,7 @@ export const CARDS = [
                 - La Route des Sommets (2023)`,
         },
         image: 'ressources/Career/3iS/Card.png',
+        fullArt: 'ressources/Career/3iS/FullArt.jpg',
     },
     {
         id: 'g4f',
@@ -825,5 +843,6 @@ export const CARDS = [
                 - The Roaming`,
         },
         image: 'ressources/Career/G4F/Card.jpg',
+        fullArt: 'ressources/Career/G4F/FullArt.jpg',
     },
 ];
