@@ -33,6 +33,8 @@ cards_reveal_all,Reveal all,Tout révéler
 confirm_reveal_all,Do you want to reveal all the available cards?,Voulez-vous révéler l'entièreté des cartes disponibles ?
 confirm_reset,Start over? All the cards you have discovered will be lost.,Recommencer ? Toutes les cartes découvertes seront perdues.
 confirm_yes,Yes,Oui
+detail_refs,Related cards,Cartes liées
+detail_links,Links,Liens
 confirm_no,No,Non
 cards_reset,Start over,Recommencer
 cards_collection,Collection,Collection
@@ -72,16 +74,5 @@ timeline_title,Timeline,Timeline
 projects_title,Projects,Projets
 timeline_lead,Discover my projects over time,Découvrez mes projets réalisés au fil du temps
 meter_cards,Cards,Cartes
-player_listen,Listen to,Écouter
-player_play,Play,Lire
-player_pause,Pause,Pause
-player_previous,Previous track,Piste précédente
-player_next,Next track,Piste suivante
-player_seek,Position,Position
-player_volume,Volume,Volume
-player_fullscreen,Full screen,Plein écran
-player_loading,Loading the player…,Chargement du lecteur…
-player_track,Track,Piste
 player_open_on,Open on,Ouvrir sur
-player_open,Opens the player:,Ouvre le lecteur
 pack_count,cards,cartes

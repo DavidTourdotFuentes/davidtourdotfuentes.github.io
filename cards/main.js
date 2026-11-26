@@ -44,6 +44,8 @@ function describe({ data }) {
         role: get(data.role),
         label: get(data.label),
         kind: data.kind,
+        links: (data.links ?? []).map((link) => ({ url: link.url, label: get(link.label) })),
+        refs: data.refs ?? [],
         year: data.year ? String(data.year) : '',
         html: toHtml(short),
         longHtml: toHtml(get(data.long) || short),
@@ -91,7 +93,7 @@ function showCard(card) {
     node.replaceChildren(face);
 }
 
-const detail = createDetail({ cards, describe });
+const detail = createDetail({ cards, describe, has: (card) => collection.has(card) });
 const timeline = createTimeline(document.getElementById('timeline-years'), {
     cards: cards.filter(({ type }) => TYPES[type].timeline), // les formations y sont déjà en évènements
     events: EVENTS,

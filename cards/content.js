@@ -116,7 +116,21 @@ export function checkCards(cards, { rarities, tags, types }) {
         const kinds = types[card.type]?.kinds ?? [];
         if (card.kind !== undefined && !kinds.includes(card.kind)) say(kinds.length ? `kind '${card.kind}' inconnu, choisir parmi ${list(kinds)}` : `kind : ce type n'a pas de sortes`);
 
-        const known = ['id', 'type', 'rarity', 'tags', 'name', 'role', 'year', 'short', 'long', 'image', 'crop', 'zoom', 'player', 'art', 'label', 'kind'];
+        if (card.links !== undefined) {
+            if (!Array.isArray(card.links)) say('links : attendu une liste [{ url: ... }]');
+            else card.links.forEach((link, n) => {
+                if (!/^https?:\/\/\S+$/.test(link?.url ?? '')) say(`links n° ${n + 1} : url manquante ou invalide (elle commence par https://)`);
+            });
+        }
+        if (card.refs !== undefined) {
+            if (!Array.isArray(card.refs)) say("refs : attendu une liste d'id ['id-1', 'id-2']");
+            else for (const id of card.refs) {
+                if (id === card.id) say('refs : une carte ne se cite pas elle-même');
+                else if (!cards.some((other) => other.id === id)) say(`refs : aucune carte n'a l'id '${id}'`);
+            }
+        }
+
+        const known = ['id', 'type', 'rarity', 'tags', 'name', 'role', 'year', 'short', 'long', 'image', 'crop', 'zoom', 'player', 'art', 'label', 'kind', 'links', 'refs'];
         for (const field of Object.keys(card)) if (!known.includes(field)) say(`champ '${field}' inconnu (faute de frappe ?)`);
     });
     return problems;

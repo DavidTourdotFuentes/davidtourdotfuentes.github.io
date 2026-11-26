@@ -31,9 +31,16 @@
 //         crop: 50,                        // point de l'image à garder, de 0 (gauche) à 100 (droite). 50 par défaut
 //         zoom: 1.2,                       // grossit l'image depuis le bas. 1 par défaut
 //         player: 'https://youtu.be/...',  // YouTube, Vimeo, Spotify ou SoundCloud. Un lien normal suffit
+//         links: [                         // en haut à droite de la fiche, avec le logo du site (YouTube, Steam, itch.io…)
+//             { url: 'https://store.steampowered.com/app/...' },
+//             { url: 'https://monstudio.com', label: { fr: 'Site du studio', en: 'Studio website' } },
+//         ],
+//         refs: ['furyball', 'al'],        // id d'autres cartes, montrées en bas de la fiche ; un clic ouvre la leur
 //     },
 //
-// Facultatifs : tags, role, long (sinon short), crop, zoom, player, art, kind, label.
+// Facultatifs : tags, role, long (sinon short), crop, zoom, player, links, refs, art, kind, label.
+// links : le logo vient du nom de domaine (liste : cards/links.js) ; label remplace le nom du site au survol, facultatif.
+// refs : une carte citée pas encore découverte reste floue et ne s'ouvre pas.
 // kind : une sorte à l'intérieur du type, que les filtres de sa section savent trier ; kind: 'software' pour un logiciel (liste : TYPES dans config.js).
 // label remplace la ligne sous le nom (« Projet, 2026 » : le type et l'année, ou la sorte : « Logiciel »), par exemple pour un poste.
 // art: 'logo' montre un petit logo blanc centré, comme pour les logiciels, au lieu d'une image qui remplit le haut.
@@ -90,6 +97,10 @@ export const CARDS = [
         crop: 74,
         zoom: 1.4,
         player: 'https://www.youtube.com/embed/-gwJ_qL7aWE',
+        links: [
+            { url: 'https://store.steampowered.com/app/2713120/Furyball_Rogue_Revenge/?l=french' },
+            { url: 'https://www.reboundcg.com/our-games', label: { fr: 'Studio Rebound', en: 'Rebound Studio' } },
+        ],
     },
     {
         id: 'mechanicus',
@@ -722,6 +733,7 @@ export const CARDS = [
         type: 'career',
         rarity: 'rare',
         name: '3iS Bordeaux',
+        refs: ['aa', 'polarnatt', 'pm', 'lrds'], // les projets nés pendant ces études
         label: { fr: 'École de 2020 à 2024', en: 'School from 2020 to 2024' },
         year: 2020,
         short: {
@@ -751,6 +763,7 @@ export const CARDS = [
         type: 'career',
         rarity: 'legendary',
         name: 'G4F Prod',
+        refs: ['furyball', 'al', 'mol', 'tr'], // les projets réalisés chez G4F
         label: { fr: 'Poste de Sound Designer depuis 2023', en: 'Sound Designer since 2023' },
         year: 2023,
         short: {
