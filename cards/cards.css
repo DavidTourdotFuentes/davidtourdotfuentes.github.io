@@ -140,10 +140,6 @@
 .tcard__art .tcard__full { display: none; position: absolute; inset: 0; width: 100%; height: 100%; transform: none; object-fit: cover; object-position: 50% 50%; }
 .dial__card:not(.is-raised) .tcard__art:has(.tcard__full) img:not(.tcard__full) { visibility: hidden; }
 .dial__card:not(.is-raised) .tcard__full { display: block; }
-/* TEMPORAIRE : au survol de l'éventail, la carte levée montre sa FullArt en entier (dial.js). Retirer ces trois lignes et le code de dial.js marqué TEMPORAIRE. */
-.tcard__preview { display: none; position: absolute; z-index: 2; inset: 3cqw; width: calc(100% - 6cqw); height: calc(100% - 6cqw); border-radius: 3cqw; object-fit: cover; pointer-events: none; }
-.is-previewing .dial__card.is-raised .tcard__preview { display: block; }
-.is-previewing .dial__card.is-raised .tcard__front:has(.tcard__preview) > :is(.tcard__art, .tcard__body) { visibility: hidden; } /* sinon l'image de la carte dépasse autour, sur les légendaires */
 .dial__card:not(.is-raised) .tcard[data-rarity] .tcard__front > .knob { left: 3cqw; top: 3cqw; width: 21cqw; height: 21cqw; padding: 2.4cqw; border-radius: 0 0 8.5cqw 0; }
 .dial__card:not(.is-raised) .tcard[data-rarity] .tcard__badge { right: 3cqw; top: 3cqw; width: 21cqw; height: 21cqw; padding: 4cqw; border-radius: 0 0 0 8.5cqw; }
 /* Les Légendaires gardent leur liseré doré et un halo plus discret */

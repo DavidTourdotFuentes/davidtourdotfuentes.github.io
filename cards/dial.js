@@ -170,9 +170,7 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster, onR
         }
         const angle = event.pointerType === 'touch' ? null : angleAt(event);
         if (angle !== null) aim(closest(angle));
-        scene.classList.toggle('is-previewing', angle !== null); // TEMPORAIRE : aperçu des FullArt
     });
-    scene.addEventListener('pointerleave', () => scene.classList.remove('is-previewing')); // TEMPORAIRE : aperçu des FullArt
     scene.addEventListener('pointerdown', (event) => {
         dragged = false;
         pressed = { index: current, touch: event.pointerType !== 'mouse' };
@@ -206,8 +204,6 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster, onR
             face.classList.toggle('is-flipped', isShown);
             // Dans l'éventail, la carte entière est une image : la FullArt, si la carte en a une
             if (content.fullArt) face.querySelector('.tcard__art').append(el('img', 'tcard__full', { src: content.fullArt, alt: '' }));
-            // TEMPORAIRE : au survol de l'éventail, la carte levée montre sa FullArt en entier, pour juger son dessin
-            if (content.fullArt) face.querySelector('.tcard__front').append(el('img', 'tcard__preview', { src: content.fullArt, alt: '' }));
             slots[i].replaceChildren(face);
             slots[i].setAttribute('aria-label', isShown
                 ? [content.name, ...(content.label ? [content.label] : content.kind ? [getTranslation(`kind_${content.kind}`)] : [getTranslation(`type_${card.type}`), content.year]), getTranslation(`rarity_${card.rarity.id}`)].filter(Boolean).join(', ')
