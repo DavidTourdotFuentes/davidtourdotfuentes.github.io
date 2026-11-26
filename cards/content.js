@@ -113,8 +113,10 @@ export function checkCards(cards, { rarities, tags, types }) {
         if (card.type === 'project' && !card.tags?.length) say('aucun tag : le projet ne sort que dans « Tous les projets »');
 
         if (card.art !== undefined && !['cover', 'logo'].includes(card.art)) say(`art : 'cover' ou 'logo'`);
+        const kinds = types[card.type]?.kinds ?? [];
+        if (card.kind !== undefined && !kinds.includes(card.kind)) say(kinds.length ? `kind '${card.kind}' inconnu, choisir parmi ${list(kinds)}` : `kind : ce type n'a pas de sortes`);
 
-        const known = ['id', 'type', 'rarity', 'tags', 'name', 'role', 'year', 'short', 'long', 'image', 'crop', 'zoom', 'player', 'art', 'label'];
+        const known = ['id', 'type', 'rarity', 'tags', 'name', 'role', 'year', 'short', 'long', 'image', 'crop', 'zoom', 'player', 'art', 'label', 'kind'];
         for (const field of Object.keys(card)) if (!known.includes(field)) say(`champ '${field}' inconnu (faute de frappe ?)`);
     });
     return problems;

@@ -33,9 +33,10 @@
 //         player: 'https://youtu.be/...',  // YouTube, Vimeo, Spotify ou SoundCloud. Un lien normal suffit
 //     },
 //
-// Facultatifs : tags, role, long (sinon short), crop, zoom, player, art, label.
-// label remplace la ligne sous le nom (« Projet, 2026 » : le type et l'année), par exemple { fr: 'Logiciel', en: 'Software' }.
-// art: 'logo' montre un petit logo blanc au-dessus d'une onde, comme pour les logiciels, au lieu d'une image qui remplit le haut.
+// Facultatifs : tags, role, long (sinon short), crop, zoom, player, art, kind, label.
+// kind : une sorte à l'intérieur du type, que les filtres de sa section savent trier ; kind: 'software' pour un logiciel (liste : TYPES dans config.js).
+// label remplace la ligne sous le nom (« Projet, 2026 » : le type et l'année, ou la sorte : « Logiciel »), par exemple pour un poste.
+// art: 'logo' montre un petit logo blanc centré, comme pour les logiciels, au lieu d'une image qui remplit le haut.
 // year place un projet dans la timeline : il y est obligatoire. Une étape du parcours s'y montre par un évènement (events.js).
 // Le type choisit la section du site et l'aspect de la carte. Les affiches skill-*.svg et education.svg font 500 x 400.
 // Textes : fr est obligatoire ; sans en, le site anglais affiche le français.
@@ -547,7 +548,7 @@ export const CARDS = [
         id: 'reaper',
         type: 'skill',
         art: 'logo',
-        label: { fr: 'Logiciel', en: 'Software' },
+        kind: 'software',
         rarity: 'epic',
         name: 'Reaper',
         short: {
@@ -564,7 +565,7 @@ export const CARDS = [
         id: 'bitwig',
         type: 'skill',
         art: 'logo',
-        label: { fr: 'Logiciel', en: 'Software' },
+        kind: 'software',
         rarity: 'epic',
         name: 'Bitwig Studio',
         short: {
@@ -581,7 +582,7 @@ export const CARDS = [
         id: 'wwise',
         type: 'skill',
         art: 'logo',
-        label: { fr: 'Logiciel', en: 'Software' },
+        kind: 'software',
         rarity: 'rare',
         name: 'Wwise',
         short: {
@@ -598,7 +599,7 @@ export const CARDS = [
         id: 'fmod',
         type: 'skill',
         art: 'logo',
-        label: { fr: 'Logiciel', en: 'Software' },
+        kind: 'software',
         rarity: 'rare',
         name: 'FMOD',
         short: {
@@ -615,7 +616,7 @@ export const CARDS = [
         id: 'unity',
         type: 'skill',
         art: 'logo',
-        label: { fr: 'Logiciel', en: 'Software' },
+        kind: 'software',
         rarity: 'rare',
         name: 'Unity',
         short: {
@@ -632,7 +633,7 @@ export const CARDS = [
         id: 'unreal',
         type: 'skill',
         art: 'logo',
-        label: { fr: 'Logiciel', en: 'Software' },
+        kind: 'software',
         rarity: 'rare',
         name: 'Unreal',
         short: {
@@ -649,7 +650,7 @@ export const CARDS = [
         id: 'maxmsp',
         type: 'skill',
         art: 'logo',
-        label: { fr: 'Logiciel', en: 'Software' },
+        kind: 'software',
         rarity: 'common',
         name: 'Max MSP',
         short: {
@@ -666,7 +667,7 @@ export const CARDS = [
         id: 'ableton',
         type: 'skill',
         art: 'logo',
-        label: { fr: 'Logiciel', en: 'Software' },
+        kind: 'software',
         rarity: 'common',
         name: 'Ableton Live',
         short: {
@@ -683,7 +684,7 @@ export const CARDS = [
         id: 'audition',
         type: 'skill',
         art: 'logo',
-        label: { fr: 'Logiciel', en: 'Software' },
+        kind: 'software',
         rarity: 'common',
         name: 'Audition',
         short: {
@@ -700,7 +701,7 @@ export const CARDS = [
         id: 'protools',
         type: 'skill',
         art: 'logo',
-        label: { fr: 'Logiciel', en: 'Software' },
+        kind: 'software',
         rarity: 'common',
         name: 'Pro Tools',
         short: {
@@ -721,7 +722,7 @@ export const CARDS = [
         type: 'career',
         rarity: 'rare',
         name: '3iS Bordeaux',
-        label: { fr: 'École, de 2020 à 2024', en: 'School, from 2020 to 2024' },
+        label: { fr: 'École de 2020 à 2024', en: 'School from 2020 to 2024' },
         year: 2020,
         short: {
             fr: `École où j'ai été formé, à partir de septembre 2020 jusqu'a juillet 2024`,

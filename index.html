@@ -2,8 +2,6 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <!-- En tout premier : la page doit l'annoncer avant son premier affichage -->
-    <style>@media (prefers-reduced-motion: no-preference) { @view-transition { navigation: auto; } }</style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>David Tourdot-Fuentes | Sound Designer & Composer</title>
     <link rel="icon" type="image/png" href="/ressources/Generic/David_Tourdot_Fuentes_1.jpg">
@@ -67,7 +65,8 @@
 
 <body>
     <header class="top">
-        <a class="top__name" href="#home">David <span>Tourdot-Fuentes</span></a>
+        <!-- DTF tant que le grand titre est visible, puis le nom en entier (app.js : --name) -->
+        <a class="top__name" href="#home" aria-label="David Tourdot-Fuentes"><span class="top__short" aria-hidden="true">DTF</span><span class="top__full" aria-hidden="true">David <span>Tourdot-Fuentes</span></span></a>
         <div class="socials">
             <a class="social" target="_blank" rel="noopener" href="https://fr.linkedin.com/in/david-tourdot-fuentes-01713623a?trk=public_post_main-feed-card-text" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
             <a class="social" target="_blank" rel="noopener" href="https://soundcloud.com/david-tourdot-fuentes?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" aria-label="SoundCloud" title="SoundCloud"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 18.5V6.3a6.2 6.2 0 018 4.6 3.85 3.85 0 11.4 7.6z"/><path d="M1 13v4M4.2 11v7.4M7.4 8.8v9.6M10 6.8v11.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></a>
@@ -100,9 +99,6 @@
         <section id="home" class="dial">
             <div class="dial__head">
                 <h1 class="dial__title">David Tourdot-Fuentes</h1>
-                <p class="dial__motto" data-i18n="header"></p>
-                <!-- Rempli par cards/main.js : tout révéler, pour le visiteur pressé -->
-                <div id="reveal" class="reveal"></div>
             </div>
             <div class="dial__side">
                 <p class="dial__tagline" data-i18n="tagline"></p>
@@ -120,20 +116,21 @@
         </section>
 
         <section id="portfolio" class="sheet">
-            <h2 class="title" data-i18n="portfolio">Portfolio</h2>
-
             <!-- Collection : remplie par cards/main.js -->
             <div id="collection" class="collection"></div>
 
-            <!-- Filtres et cartes : remplis par cards/main.js, à partir de cards/data.js -->
-            <div id="filters" class="filters" role="group"></div>
+            <h2 class="title" id="projects-title" data-i18n="projects_title">Projets</h2>
 
-            <div class="card-grid" data-types="project"></div>
+            <!-- Filtres et cartes : remplis par cards/main.js, à partir de cards/data.js -->
+            <div id="filters" class="filters" role="group" aria-labelledby="projects-title"></div>
+
+            <div id="project-grid" class="card-grid" data-types="project"></div>
         </section>
 
         <section id="skills" class="sheet">
-            <h2 class="title" data-i18n="skills">Compétences</h2>
-            <div class="card-grid" data-types="skill"></div>
+            <h2 class="title" id="skills-title" data-i18n="skills">Compétences</h2>
+            <div id="skill-filters" class="filters" role="group" aria-labelledby="skills-title"></div>
+            <div id="skill-grid" class="card-grid" data-types="skill"></div>
         </section>
 
         <section id="career" class="sheet">
@@ -152,6 +149,12 @@
             <h2 class="title" data-i18n="get_in_touch">Entrer en contact</h2>
             <p class="contact__text" data-i18n="contact_text"></p>
             <a class="contact__email stretch stretch--line" href="mailto:davidtourdotfuentes@gmail.com" data-stretch-text="davidtourdotfuentes@gmail.com"></a>
+            <div class="socials socials--contact">
+                <a class="social" target="_blank" rel="noopener" href="https://fr.linkedin.com/in/david-tourdot-fuentes-01713623a?trk=public_post_main-feed-card-text" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                <a class="social" target="_blank" rel="noopener" href="https://soundcloud.com/david-tourdot-fuentes?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" aria-label="SoundCloud" title="SoundCloud"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 18.5V6.3a6.2 6.2 0 018 4.6 3.85 3.85 0 11.4 7.6z"/><path d="M1 13v4M4.2 11v7.4M7.4 8.8v9.6M10 6.8v11.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></a>
+                <a class="social" target="_blank" rel="noopener" href="https://open.spotify.com/intl-fr/artist/7oGqWiwp6Y6WQFZveQz3o1?si=dvMnSu3ESUufe6Vw9S0hog" aria-label="Spotify" title="Spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg></a>
+                <a class="social" target="_blank" rel="noopener" href="https://www.instagram.com/david.tfs/" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.1" y="1.1" width="21.8" height="21.8" rx="6" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="18.2" cy="5.8" r="1.5"/></svg></a>
+            </div>
             <p class="contact__copyright" data-i18n="copyright"></p>
         </section>
     </main>

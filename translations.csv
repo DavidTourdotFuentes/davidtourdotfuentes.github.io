@@ -1,20 +1,12 @@
 key,en,fr,es
-header,Design - Imagin - Develop,Concevoir - Imaginer - Développer,Crear - Imaginar - Desarollar
 tagline,Image-based sound design and video games<br>Audio development<br>Interactive music compositions,Design sonores à l'image et jeux vidéos<br>Développement audio<br>Compositions musicales interactives
 nav_portfolio,Portfolio,Portfolio
 nav_skills,Skills,Compétences
 nav_career,Background,Parcours
-nav_audio_demos,Audio lab,Labo audio
+nav_audio_demos,Lab'Audio,Lab'Audio
 nav_timeline,Timeline,Timeline
-nav_contact,Contact,Contacts
-view_work,View my work,Voir mon travail
+nav_contact,Contact,Contacter
 contact_me,Contact me,Me contacter
-portfolio,Portfolio,Portfolio
-tags_all,All projects,Tous les projets
-tags_sd,Sound Design,Design Sonore
-tags_soundtrack,Soundtracks,Bande Sons
-tags_ai,Audio Integration, Intégration Audio
-tags_at,Audio Tool,Outils Audio
 skills,Skills,Compétences
 career,Background,Parcours
 contact,Contact,Contact
@@ -38,7 +30,10 @@ cards_open_booster,Open a booster,Ouvrir un booster
 cards_again,Open another booster,Ouvrir un autre booster
 cards_see_collection,See my collection,Voir ma collection
 cards_reveal_all,Reveal all,Tout révéler
-reveal_hint,In a hurry?,Pressé ?
+confirm_reveal_all,Do you want to reveal all the available cards?,Voulez-vous révéler l'entièreté des cartes disponibles ?
+confirm_reset,Start over? All the cards you have discovered will be lost.,Recommencer ? Toutes les cartes découvertes seront perdues.
+confirm_yes,Yes,Oui
+confirm_no,No,Non
 cards_reset,Start over,Recommencer
 cards_collection,Collection,Collection
 cards_complete,Collection complete!,Collection complète !
@@ -46,11 +41,22 @@ cards_hidden,Not discovered yet,Pas encore découverte
 cards_new,New,Nouveau
 type_project,Project,Projet
 type_skill,Skill,Compétence
+kind_software,Software,Logiciel
+filter_projects_all,All,Tout
+filter_sound_design,Sound Design,Design Sonore
+filter_soundtrack,Soundtrack,Bande Son
+filter_audio_integration,Audio Integration,Intégration Audio
+filter_audio_tool,Audio Tool,Outils Audio
+filter_all,All,Tout
+filter_skills,Skill,Compétence
+filter_software,Software,Logiciel
 type_career,Background,Parcours
 rarity_common,Common,Commune
 rarity_rare,Rare,Rare
 rarity_epic,Epic,Épique
 rarity_legendary,Legendary,Légendaire
+rarity_note_title,About the rarities,Note sur les raretés
+rarity_note,"The closer a project is to Legendary, the more it mattered to me, professionally and personally.|The closer a skill is to Legendary, the better I master it.|The closer a step of my background is to Legendary, the more it shaped me and the richer the experience it gave me.","Plus un projet s'approche du Légendaire, plus il a compté pour moi, sur le plan professionnel comme humain.|Plus une compétence s'approche du Légendaire, plus je la maîtrise.|Plus une étape de mon parcours s'approche du Légendaire, plus elle m'a formé et apporté d'expérience."
 cards_close,Close,Fermer
 ticket_role,Role,Rôle
 ticket_year,Year,Année
@@ -63,6 +69,7 @@ dial_open,Open the card,Ouvrir la fiche
 dial_previous,Previous card,Carte précédente
 dial_next,Next card,Carte suivante
 timeline_title,Timeline,Timeline
+projects_title,Projects,Projets
 timeline_lead,Discover my projects over time,Découvrez mes projets réalisés au fil du temps
 meter_cards,Cards,Cartes
 player_listen,Listen to,Écouter

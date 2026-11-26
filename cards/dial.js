@@ -1,6 +1,7 @@
 // L'ouverture du site : une main de cartes en éventail sert de graduation à un VU-mètre, l'aiguille désigne une carte.
-import { createCard, el, setText, text, typeLine } from './card.js';
+import { createCard, el, iconButton, setText, text, typeLine } from './card.js';
 import { arc, point, svg, tick } from './meter.js';
+import { TYPES } from './config.js';
 
 // Géométrie, en part de la largeur du cadran. cards.css la reçoit en variables : --radius, --center, --size et --dome.
 const RADIUS = 0.86; // rayon de la graduation : plus il est grand, plus la courbe est douce
@@ -17,10 +18,12 @@ const CLICK_THRESHOLD = 6;
 
 /**
  * Les cartes découvertes sont de face, les autres de dos.
- * onOpen(card, origin) ouvre une fiche, onBooster() propose un booster.
+ * onOpen(card, origin) ouvre une fiche, onBooster() propose un booster, onRevealAll() (facultatif) propose de tout révéler.
  */
-export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
-    const hand = [...cards].sort((a, b) => a.rarity.level - b.rarity.level);
+export function createDial(scene, { cards, describe, has, onOpen, onBooster, onRevealAll }) {
+    // De la Commune à la Légendaire, puis par type dans l'ordre de TYPES (projets, compétences, parcours)
+    const typeOrder = Object.keys(TYPES);
+    const hand = [...cards].sort((a, b) => a.rarity.level - b.rarity.level || typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type));
     const weights = hand.map((card) => WEIGHTS[card.rarity.id] ?? 1);
     // La dernière carte n'est recouverte par aucune autre : elle prend toute sa largeur, les autres se partagent le reste.
     const unit = (2 * HALF - FULL) / weights.slice(0, -1).reduce((sum, weight) => sum + weight, 0);
@@ -81,6 +84,9 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
     const button = text('button', 'btn btn--plate', 'dial_open');
     button.type = 'button';
     button.addEventListener('click', () => act());
+    // À droite du bouton, tant qu'il reste des cartes à découvrir. Sur téléphone, son icône seule (cards.css).
+    const reveal = iconButton('cards_reveal_all', 'reveal', 'btn btn--plate-line dial__reveal', () => onRevealAll());
+    reveal.hidden = !onRevealAll;
     /** Flèche vers la carte voisine ; au bout de la main, on repart de l'autre côté. */
     function arrow(step, path) {
         const node = el('button', 'dial__arrow', { type: 'button' }, svg('dial__chevron', '0 0 24 24',
@@ -90,7 +96,7 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
     }
     const previous = arrow(-1, 'M15 4 7 12l8 8');
     const next = arrow(1, 'M9 4l8 8-8 8');
-    const plate = el('div', 'dial__plate', {}, previous, el('div', 'dial__info', {}, level, name, role, button), next);
+    const plate = el('div', 'dial__plate', {}, previous, el('div', 'dial__info', {}, level, name, role, el('div', 'dial__buttons', {}, button, reveal)), next);
     scene.style.cssText = `--radius:${RADIUS};--center:${CENTER};--size:${SIZE};--dome:${DOME};--half:${HALF}deg`;
     scene.append(pivot, plate);
 
@@ -186,6 +192,8 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
 
     /** Refait les cartes : découvertes, langue. */
     function update() {
+        reveal.hidden = !onRevealAll || cards.every(has);
+        reveal.setAttribute('aria-label', getTranslation('cards_reveal_all'));
         handNode.setAttribute('aria-label', getTranslation('dial_hand'));
         previous.setAttribute('aria-label', getTranslation('dial_previous'));
         next.setAttribute('aria-label', getTranslation('dial_next'));
@@ -196,7 +204,7 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
             face.classList.toggle('is-flipped', isShown);
             slots[i].replaceChildren(face);
             slots[i].setAttribute('aria-label', isShown
-                ? [content.name, ...(content.label ? [content.label] : [getTranslation(`type_${card.type}`), content.year]), getTranslation(`rarity_${card.rarity.id}`)].filter(Boolean).join(', ')
+                ? [content.name, ...(content.label ? [content.label] : content.kind ? [getTranslation(`kind_${content.kind}`)] : [getTranslation(`type_${card.type}`), content.year]), getTranslation(`rarity_${card.rarity.id}`)].filter(Boolean).join(', ')
                 : `${getTranslation('cards_hidden')}, ${cards.indexOf(card) + 1} / ${cards.length}`);
         });
         if (current >= 0) {

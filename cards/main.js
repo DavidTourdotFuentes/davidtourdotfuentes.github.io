@@ -1,8 +1,10 @@
 // Relie les cartes au site : les grilles ne montrent que les cartes découvertes.
 // Fonctions de app.js et translations.js utilisées ici : getTranslation, applyTranslations, currentLang, lockScroll, unlockScroll.
 import { createBooster } from './booster.js';
-import { createCard, createReveal, el, iconButton, text } from './card.js';
+import { createCard, el, iconButton, text } from './card.js';
+import { createConfirm } from './confirm.js';
 import { createDetail } from './detail.js';
+import { attachTip } from './tip.js';
 import { createDial } from './dial.js';
 import { createTimeline } from './timeline.js';
 import { checkCards, checkEvents, dateText, playerOf, textOf, toHtml } from './content.js';
@@ -40,6 +42,7 @@ function describe({ data }) {
         name: get(data.name),
         role: get(data.role),
         label: get(data.label),
+        kind: data.kind,
         year: data.year ? String(data.year) : '',
         html: toHtml(short),
         longHtml: toHtml(get(data.long) || short),
@@ -101,6 +104,7 @@ const dial = createDial(document.getElementById('dial'), {
     has: (card) => collection.has(card),
     onOpen: detail.open,
     onBooster: () => booster.open(),
+    onRevealAll: BOOSTER.allowRevealAll ? askRevealAll : null,
 });
 for (const card of cards) {
     const open = () => { if (collection.has(card)) detail.open(card); };
@@ -112,19 +116,27 @@ for (const card of cards) {
     });
 }
 
-// --- Filtres des projets ---
+// --- Filtres : un sélecteur au-dessus d'une grille. options : [valeur, clé de traduction] ; la première montre tout ---
 
-const filters = document.getElementById('filters');
-for (const [tag, key] of [['', 'tags_all'], ...Object.entries(TAGS)]) {
-    const button = text('button', 'filter-btn', key);
-    button.type = 'button';
-    button.setAttribute('aria-pressed', String(!tag));
-    button.addEventListener('click', () => {
-        for (const other of filters.children) other.setAttribute('aria-pressed', String(other === button));
-        for (const { isProject, node, data } of cards) if (isProject) node.hidden = Boolean(tag) && !data.tags?.includes(tag);
-    });
-    filters.append(button);
+function createFilters(group, grid, options, matches) {
+    for (const [value, key] of options) {
+        const button = text('button', 'filter-btn', key);
+        button.type = 'button';
+        button.setAttribute('aria-pressed', String(!value));
+        button.setAttribute('aria-controls', grid.id); // le filtre agit sur la grille juste en dessous
+        button.addEventListener('click', () => {
+            for (const other of group.children) other.setAttribute('aria-pressed', String(other === button));
+            for (const card of cards) if (grid.contains(card.node)) card.node.hidden = Boolean(value) && !matches(card.data, value);
+        });
+        group.append(button);
+    }
 }
+// Projets : par métier (tags)
+createFilters(document.getElementById('filters'), document.getElementById('project-grid'),
+    [['', 'filter_projects_all'], ...Object.entries(TAGS)], (data, tag) => data.tags?.includes(tag));
+// Compétences : savoir-faire ou logiciels (kind)
+createFilters(document.getElementById('skill-filters'), document.getElementById('skill-grid'),
+    [['', 'filter_all'], ['skill', 'filter_skills'], ['software', 'filter_software']], (data, value) => (data.kind ?? 'skill') === value);
 
 // --- Barre de collection ---
 
@@ -134,40 +146,38 @@ const legendaries = cards.filter((card) => card.rarity === rarities.at(-1)).leng
 const meter = createMeter({ ticks: cards.length + 1, red: cards.length - legendaries, labels: [], crete: 'var(--crete)', needle: 'var(--aiguille)' });
 const count = el('span', ''); // « 10 / 33 Cartes »
 const gauge = el('div', 'gauge', {}, meter, el('strong', 'gauge__count', {}, count, ` / ${cards.length} `, text('span', '', 'meter_cards')));
-const chips = el('div', 'collection__chips');
-const openButton = text('button', 'btn', 'cards_open_booster');
-openButton.type = 'button';
-openButton.addEventListener('click', () => booster.open());
+// Les raretés, chacune avec son potard : une légende, sans compte (le total est dans la jauge).
+// Ensemble, elles ouvrent une note qui justifie le classement : rarity_note_title et rarity_note (les points, séparés par |) dans translations.csv.
+const legend = el('button', 'collection__chips', { type: 'button' }, ...rarities.map((rarity) => {
+    const chip = el('span', 'collection__chip', {}, createKnob(rarity), text('span', '', `rarity_${rarity.id}`));
+    chip.dataset.rarity = rarity.id;
+    return chip;
+}));
+const note = attachTip(legend, (box) => {
+    const points = getTranslation('rarity_note').split('|').map((point) => point.trim()).filter(Boolean);
+    box.replaceChildren(el('p', 'tip__title', { textContent: getTranslation('rarity_note_title') }),
+        el('ul', 'tip__list', {}, ...points.map((point) => el('li', '', { textContent: point }))));
+});
+const chips = el('div', 'collection__rarities', {}, legend, note);
 
-function link(key, onClick) {
-    const node = text('button', 'booster__link', key);
-    node.type = 'button';
-    node.addEventListener('click', onClick);
-    return node;
-}
-const revealButton = iconButton('cards_reveal_all', 'reveal', 'btn btn--line', revealAll);
-const resetButton = iconButton('cards_reset', 'reset', 'btn btn--line', resetAll);
-const resetLink = link('cards_reset', resetAll);
+// Recommencer efface toute la collection : un vrai bouton, comme Tout révéler, et une confirmation
+const resetButton = iconButton('cards_reset', 'reset', 'btn btn--line', askResetAll);
+const resetConfirm = createConfirm('confirm_reset');
 
-// Sous le nom, à l'accueil : tout révéler, puis descendre aux projets.
-const reveal = document.getElementById('reveal');
-const revealInvite = createReveal(revealAll);
-const workLink = el('a', 'btn', { href: '#portfolio' }, text('span', '', 'view_work'));
-reveal.append(...revealInvite, workLink);
 
 const floating = el('button', 'floating-booster', { type: 'button' }, text('span', '', 'cards_open_booster'));
 floating.addEventListener('click', () => booster.open());
 
-bar.append(el('div', 'collection__main', {}, gauge, chips), el('div', 'collection__actions', {}, openButton, revealButton, resetButton, resetLink));
+// Recommencer : au bout de la ligne des raretés
+bar.append(el('div', 'collection__main', {}, gauge, chips, resetButton)); // les boosters s'ouvrent au cadran et par le paquet flottant
 document.body.append(floating);
 
-// Inutile près du cadran et du bouton, et il gênerait la page contact.
+// Inutile près du cadran, qui a son propre bouton, et il gênerait la page contact.
 const inView = new Set();
 const tuck = new IntersectionObserver((entries) => {
     for (const { target, isIntersecting } of entries) inView[isIntersecting ? 'add' : 'delete'](target);
     floating.classList.toggle('is-tucked', inView.size > 0);
 });
-tuck.observe(openButton);
 tuck.observe(document.getElementById('dial'));
 tuck.observe(document.querySelector('.contact__email'));
 
@@ -179,20 +189,13 @@ function update() {
     const found = collection.count;
     meter.style.setProperty('--needle', `${needleAngle(found / cards.length)}deg`);
     count.textContent = found;
-    chips.replaceChildren(...rarities.map((rarity) => {
-        const all = cards.filter((card) => card.rarity === rarity);
-        const shown = all.filter((card) => collection.has(card)).length;
-        const chip = el('span', 'collection__chip', {}, createKnob(rarity), text('span', '', `rarity_${rarity.id}`), ` ${shown}/${all.length}`);
-        chip.dataset.rarity = rarity.id;
-        return chip;
-    }));
-    openButton.hidden = floating.hidden = isComplete;
-    const canReveal = !isComplete && BOOSTER.allowRevealAll;
-    for (const node of [...revealInvite, revealButton]) node.hidden = !canReveal;
-    workLink.hidden = canReveal;
-    resetButton.hidden = !isComplete;
-    resetLink.hidden = collection.count === 0 || isComplete; // en cours de collection, plus discret
+    floating.hidden = isComplete;
+    resetButton.hidden = collection.count === 0;
     applyTranslations(translations);
+}
+
+async function askResetAll() {
+    if (await resetConfirm.ask()) resetAll();
 }
 
 function resetAll() {
@@ -200,6 +203,16 @@ function resetAll() {
     collection.reset();
     update();
     booster.open();
+}
+
+// Tout révéler gâche la découverte : on demande d'abord.
+const revealConfirm = createConfirm('confirm_reveal_all');
+
+/** Renvoie une promesse : true si le visiteur a dit Oui et que tout est révélé. */
+async function askRevealAll() {
+    if (!(await revealConfirm.ask())) return false;
+    revealAll();
+    return true;
 }
 
 function revealAll() {
@@ -223,7 +236,7 @@ const booster = createBooster({
         return drawn;
     },
     onOpen: detail.open,
-    onRevealAll: BOOSTER.allowRevealAll ? revealAll : null,
+    onRevealAll: BOOSTER.allowRevealAll ? askRevealAll : null,
     onClose(opened) {
         collection.save(); // le booster de bienvenue n'est proposé qu'une fois
         update();

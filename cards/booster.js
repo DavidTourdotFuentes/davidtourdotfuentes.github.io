@@ -1,6 +1,6 @@
 // Ouverture d'un booster : on déchire le paquet, on retourne les cartes une à une, puis on voit le résultat.
 import { burst, createCard, createReveal, el, reducedMotion, setText, text } from './card.js';
-import { createMeter, createWave } from './meter.js';
+import { createMeter } from './meter.js';
 import { createModal } from './modal.js';
 
 const FLIP = 220; // en millisecondes : passé ce temps, la carte est lisible et un clic passe à la suivante
@@ -9,6 +9,7 @@ const CLICK_THRESHOLD = 6; // en pixels : en dessous, c'est un clic et non un ge
 const wait = (ms) => new Promise((resolve) => { setTimeout(resolve, ms); });
 
 /**
+ * onRevealAll() demande confirmation et renvoie une promesse : true si tout a été révélé.
  * draw() renvoie les cartes du booster (déjà ajoutées à la collection), describe(card) leur contenu,
  * remaining() le nombre de cartes encore cachées. onOpen(card, origin) ouvre la fiche d'une carte du résultat. onClose est appelé à la fermeture, avec le nombre de cartes ouvertes.
  */
@@ -55,7 +56,6 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
                 el('span', 'pack__band'),
                 el('span', 'pack__meter', {}, createMeter()),
                 el('span', 'pack__foot', {},
-                    createWave('booster', 3),
                     el('span', 'pack__label', { textContent: 'Booster' }),
                     el('span', 'pack__count', {}, `${Math.min(size, remaining())} `, text('span', '', 'pack_count')))));
         const pack = el('button', 'pack', { type: 'button' }, half('bottom'), half('top'));
@@ -66,7 +66,7 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
         const later = button('cards_later', 'booster__link', close);
         actions.replaceChildren(later);
         const isFirst = remaining() === cards.length; // ensuite, l'accueil et la collection suffisent
-        if (onRevealAll && isFirst) actions.prepend(el('div', 'reveal', {}, ...createReveal(() => { onRevealAll(); close(); })));
+        if (onRevealAll && isFirst) actions.prepend(el('div', 'reveal', {}, ...createReveal(async () => { if (await onRevealAll()) close(); })));
         pack.focus({ preventScroll: true });
     }
 

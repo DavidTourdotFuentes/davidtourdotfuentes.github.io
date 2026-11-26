@@ -52,9 +52,6 @@
 [data-led="jaune"] { --led: var(--led-jaune); }
 [data-led="crete"] { --led: var(--led-crete); }
 
-/* Arrivée depuis le menu du portfolio : le bouton s'ouvre en console. */
-.console { view-transition-name: labo; }
-
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

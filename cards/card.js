@@ -1,5 +1,5 @@
 // Aspect d'une carte à collectionner, et effets d'apparition selon sa rareté.
-import { createKnob, createMeter, createWave, svg } from './meter.js';
+import { createKnob, createMeter, svg } from './meter.js';
 
 export const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -33,9 +33,9 @@ export function iconButton(key, icon, className, onClick) {
     return node;
 }
 
-/** « Pressé ? Tout révéler » : la même invite à l'accueil et sur le paquet. */
+/** « Tout révéler », sur le premier paquet. */
 export function createReveal(onClick) {
-    return [text('span', 'reveal__hint', 'reveal_hint'), iconButton('cards_reveal_all', 'reveal', 'btn', onClick)];
+    return [iconButton('cards_reveal_all', 'reveal', 'btn', onClick)];
 }
 
 /** Éclats du Légendaire : x et y en % de la carte, taille en cqw, retard en secondes. */
@@ -55,9 +55,10 @@ function light({ effect }) {
     return node;
 }
 
-/** Sous le nom : « Projet, 2026 », le type et l'année. Une carte peut écrire autre chose avec label (« Logiciel »). */
-export function typeLine({ type }, { label, year }) {
+/** Sous le nom : « Projet, 2026 », le type et l'année ; « Logiciel » pour une sorte (kind). Une carte peut écrire autre chose avec label. */
+export function typeLine({ type }, { label, kind, year }) {
     if (label) return [label];
+    if (kind) return [text('span', '', `kind_${kind}`)];
     return [text('span', '', `type_${type}`), ...(year ? [`, ${year}`] : [])];
 }
 
@@ -66,7 +67,6 @@ function front(card, info, number, total) {
     const art = el('span', `tcard__art${card.art === 'logo' ? ' tcard__art--logo' : ''}`, {}, el('img', '', { src: info.image, alt: '' }));
     if (info.crop) art.style.setProperty('--crop', info.crop);
     if (info.zoom) art.style.setProperty('--zoom', info.zoom);
-    if (card.art === 'logo') art.append(createWave(info.name, 6));
     const description = el('span', 'tcard__text');
     description.innerHTML = info.html; // textes de translations.csv, qui contiennent des <br>
 

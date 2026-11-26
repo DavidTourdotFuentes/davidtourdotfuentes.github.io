@@ -30,19 +30,20 @@ export const BOOSTER = {
  * Types de cartes. Ajouter un type : une ligne ici, son nom dans translations.csv (type_xxx), sa grille dans index.html
  * (data-types="xxx" ; plusieurs types peuvent partager une grille), et la couleur de son recto dans cards/cards.css ([data-type="xxx"]).
  * timeline : true si les cartes de ce type, datées par year, sortent dans la timeline
- * art : 'cover' (l'image remplit le haut de la carte) ou 'logo' (petit logo blanc au-dessus d'une onde) ; une carte peut le changer
+ * art : 'cover' (l'image remplit le haut de la carte) ou 'logo' (petit logo blanc centré sur fond sombre) ; une carte peut le changer
+ * kinds : sortes possibles à l'intérieur du type (champ kind d'une carte), filtrables dans sa section ; leur nom : kind_xxx dans translations.csv
  * icon : pictogramme de la pastille en haut à droite de la carte, en SVG 24 x 24 (traits de 2, sans remplissage)
  */
 export const TYPES = {
     project: { art: 'cover', timeline: true, icon: '<path class="fill" d="M8.5 5.5v13l10-6.5z"/>' }, // touche lecture
-    skill: { art: 'cover', icon: '<path d="M6 4v16M12 4v16M18 4v16"/><rect class="fill" x="3.5" y="13" width="5" height="3.4" rx="1"/><rect class="fill" x="9.5" y="6.5" width="5" height="3.4" rx="1"/><rect class="fill" x="15.5" y="10.5" width="5" height="3.4" rx="1"/>' }, // savoir-faire et logiciels : des faders
+    skill: { art: 'cover', kinds: ['software'], icon: '<path d="M6 4v16M12 4v16M18 4v16"/><rect class="fill" x="3.5" y="13" width="5" height="3.4" rx="1"/><rect class="fill" x="9.5" y="6.5" width="5" height="3.4" rx="1"/><rect class="fill" x="15.5" y="10.5" width="5" height="3.4" rx="1"/>' }, // savoir-faire et logiciels : des faders
     career: { art: 'cover', icon: '<circle class="fill" cx="5" cy="18.5" r="2.2"/><circle class="fill" cx="19" cy="5.5" r="2.2"/><path d="M5 18.5c0-5 7-3 7-7s7-1 7-6" stroke-dasharray="2.4 2.6"/>' }, // parcours : études et postes, un chemin d'étape en étape
 };
 
 /** Filtres du portfolio, dans l'ordre : la valeur à mettre dans les tags d'une carte, et sa clé dans translations.csv. */
 export const TAGS = {
-    'sound-design': 'tags_sd',
-    soundtrack: 'tags_soundtrack',
-    'audio-integration': 'tags_ai',
-    'audio-tool': 'tags_at',
+    'sound-design': 'filter_sound_design',
+    soundtrack: 'filter_soundtrack',
+    'audio-integration': 'filter_audio_integration',
+    'audio-tool': 'filter_audio_tool',
 };

@@ -81,9 +81,13 @@ button { padding: 0; border: 0; border-radius: 0; background: none; cursor: poin
 
 .top { position: sticky; top: 0; z-index: 70; display: flex; align-items: center; gap: 0.5rem 1.5rem; height: var(--top); padding-inline: var(--gutter); background: var(--fond); border-bottom: 2px solid var(--encre); overflow: clip; }
 /* --name va de 0 à 1 quand le nom passe du titre à la bannière (app.js) : il monte de sous le bord en rapetissant */
-.top__name { --left: calc(1 - var(--name, 1)); opacity: calc(var(--name, 1) * 2 - 1); transform: translateY(calc(var(--left) * 2.5rem)) scale(calc(1 + var(--left) * 0.15)); transform-origin: 0 50%; font: 800 1.125rem/1 var(--font-display); font-variation-settings: "wdth" 92; text-decoration: none; white-space: nowrap; }
-/* Les réseaux tiennent la place du nom tant qu'il est caché, puis s'écartent à sa droite pendant qu'il monte */
-.socials { display: flex; margin: 0 auto 0 -0.5625rem; transform: translateX(calc((1 - min(var(--name, 1) * 2, 1)) * var(--name-room, 0px) * -1)); }
+.top__name { display: grid; align-items: center; margin-right: auto; font: 800 1.125rem/1 var(--font-display); font-variation-settings: "wdth" 92; text-decoration: none; white-space: nowrap; }
+.top__name > * { grid-area: 1 / 1; }
+/* DTF s'efface pendant que le nom se dévoile de gauche à droite : il s'étend à mesure que le grand titre sort de l'écran */
+.top__short { opacity: calc(1 - var(--name, 1) * 6); } /* parti avant que « David » ne le recouvre */
+.top__full { clip-path: inset(-0.25em calc((1 - var(--name, 1)) * 100%) -0.25em 0); }
+/* Les réseaux : à gauche du menu dans la bannière, et dans le contact */
+.socials { display: flex; margin: 0 0.25rem 0 -0.75rem; } /* un peu d'air avant le menu */
 .social { display: grid; place-items: center; width: 2.5rem; height: 2.75rem; color: var(--encre-douce); }
 .social:hover { color: var(--encre); }
 .social:focus-visible { outline-offset: -3px; }
@@ -93,13 +97,12 @@ button { padding: 0; border: 0; border-radius: 0; background: none; cursor: poin
 .nav__link:hover, .nav__link[aria-current] { color: var(--encre); }
 .nav__link[aria-current] { box-shadow: inset 0 -4px 0 var(--encre); }
 /* Le labo audio s'ouvre sur une autre page : un petit module en bakélite, dont l'écran s'allume au survol */
-.nav__lab { align-self: center; display: flex; flex: none; align-items: center; gap: 0.625rem; min-height: 2.75rem; padding: 0 0.875rem 0 0.375rem; border-radius: var(--r-commande); background: var(--bakelite); color: var(--sur-bakelite); font: 650 1rem/1 var(--font-display); font-variation-settings: "wdth" 92; text-decoration: none; white-space: nowrap; view-transition-name: labo; }
+.nav__lab { align-self: center; display: flex; flex: none; align-items: center; gap: 0.625rem; min-height: 2.75rem; padding: 0 0.875rem 0 0.375rem; border-radius: var(--r-commande); background: var(--bakelite); color: var(--sur-bakelite); font: 650 1rem/1 var(--font-display); font-variation-settings: "wdth" 92; text-decoration: none; white-space: nowrap; }
 .nav__screen { width: 2.75rem; height: 1.875rem; border-radius: 4px; background: var(--bakelite-creux); overflow: hidden; }
 .nav__screen path { fill: none; stroke: var(--led-rare); stroke-width: 2; transform: translateX(22px) scaleY(0.25); transform-origin: 0 12px; transition: transform 0.35s, stroke 0.35s; }
 .nav__lab:is(:hover, :focus-visible) .nav__screen path { stroke: var(--led-crete); animation: scope 0.9s linear infinite; }
 .nav__lab:hover { box-shadow: 0 0 0 2px var(--led-crete); }
 @keyframes scope { from { transform: translateX(0) scaleY(0.8); } to { transform: translateX(22px) scaleY(0.8); } }
-/* En l'ouvrant, le module s'agrandit jusqu'à la console du labo (view-transition-name, ici et dans audio-demos/css/demos.css) */
 /* Thème et langue : le même interrupteur à deux positions */
 .theme, .lang { display: flex; padding: 3px; border-radius: var(--r-commande); box-shadow: inset 0 0 0 2px var(--encre); }
 :is(.theme, .lang) button { display: grid; place-items: center; width: 2.5rem; min-height: 2.375rem; border-radius: 4px; font: 650 0.9375rem/1 var(--font-display); font-variation-settings: "wdth" 88; }
@@ -132,12 +135,13 @@ button { padding: 0; border: 0; border-radius: 0; background: none; cursor: poin
 .btn .icon { width: 1.25rem; height: 1.25rem; margin-right: 0.5rem; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 .btn { text-decoration: none; }
 .reveal { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.875rem; }
-.reveal__hint { font-weight: 650; }
 .btn--line { background: transparent; color: var(--encre); }
 .btn--line:hover { background: var(--encre); color: var(--sur-encre); }
 .btn--plate { background: var(--sur-bakelite); color: #1f1a17; box-shadow: inset 0 0 0 2px var(--sur-bakelite); }
 .btn--plate:hover { background: transparent; color: var(--sur-bakelite); }
-.btn--plate:focus-visible { outline-color: var(--led-rare); }
+.btn--plate:focus-visible, .btn--plate-line:focus-visible { outline-color: var(--led-rare); }
+.btn--plate-line { background: transparent; color: var(--sur-bakelite); box-shadow: inset 0 0 0 2px var(--sur-bakelite); }
+.btn--plate-line:hover { background: var(--sur-bakelite); color: #1f1a17; }
 
 /* ---------- Sections ---------- */
 
@@ -147,16 +151,24 @@ button { padding: 0; border: 0; border-radius: 0; background: none; cursor: poin
 .lead { max-width: 40rem; margin-bottom: 2rem; font-size: 1.25rem; line-height: 1.4; color: var(--encre-douce); } /* sous-titre d'une section */
 #skills, #career, #timeline { padding-top: 0; }
 
-.filters { display: flex; flex-wrap: wrap; gap: 0.25rem 0; margin-bottom: 1.5rem; }
-.filters button { min-height: 2.75rem; padding: 0 1rem; border-radius: var(--r-commande); font: 650 1rem/1 var(--font-display); font-variation-settings: "wdth" 88; color: var(--encre-douce); }
-.filters button:hover { color: var(--encre); }
-.filters button[aria-pressed="true"] { background: var(--encre); color: var(--sur-encre); }
+/* Filtres : un sélecteur d'entrée posé sur un rail, au-dessus de la grille qu'il trie. Pas des boutons d'action :
+   ni fond ni cadre, un voyant qui s'allume et un trait qui se pose sur le rail. */
+.filters { display: flex; flex-wrap: wrap; gap: 0 1.75rem; margin-bottom: 1.25rem; border-bottom: 2px solid var(--trait); }
+.filters button { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.75rem; padding: 0 0.125rem; font: 650 1rem/1 var(--font-display); font-variation-settings: "wdth" 88; color: var(--encre-douce); transition: color 0.15s, box-shadow 0.15s; }
+.filters button::before { content: ""; flex: none; width: 0.5rem; height: 0.5rem; border-radius: 50%; box-shadow: inset 0 0 0 1.5px currentColor; transition: background-color 0.15s, box-shadow 0.15s; }
+.filters button:hover { color: var(--encre); box-shadow: inset 0 -2px 0 var(--encre-douce); }
+.filters button[aria-pressed="true"] { color: var(--encre); box-shadow: inset 0 -4px 0 var(--encre); }
+.filters button[aria-pressed="true"]::before { background: var(--aiguille); box-shadow: 0 0 0.375rem var(--aiguille); }
+.filters button:focus-visible { outline-offset: 2px; }
 
 /* ---------- Contact ---------- */
 
 .contact { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-bottom: clamp(5rem, 14vh, 8rem); background: var(--bakelite); color: var(--sur-bakelite); }
 .contact :focus-visible { outline-color: var(--led-rare); }
 .contact > .title { margin: 0; }
+.socials--contact { margin: 0 0 0 -0.5625rem; }
+.socials--contact .social { color: var(--sur-bakelite-douce); }
+.socials--contact .social:hover { color: var(--sur-bakelite); }
 .contact__text { max-width: 34rem; font-size: 1.25rem; line-height: 1.4; }
 .contact__email { margin-block: clamp(0.5rem, 3vh, 2rem); text-decoration: none; }
 .contact__email:hover { color: var(--jaune); }
@@ -174,9 +186,11 @@ button { padding: 0; border: 0; border-radius: 0; background: none; cursor: poin
     .top { column-gap: 1rem; }
     .theme + .lang { margin-left: -0.375rem; }
     /* Le nom sur deux lignes laisse la place aux réseaux */
-    .top__name { width: min-content; font-size: 0.875rem; font-variation-settings: "wdth" 76; white-space: normal; }
-    .top__name span { white-space: nowrap; }
-    .socials { margin-left: -0.1875rem; }
+    .top__name { font-size: 0.875rem; font-variation-settings: "wdth" 76; }
+    .top__full { width: min-content; white-space: normal; }
+    .top__full span { white-space: nowrap; }
+    .top__short { font-size: 1.125rem; }
+    .socials { margin: 0 0.125rem 0 -0.5rem; }
     .social { width: 1.625rem; }
     .social svg { width: 1.25rem; height: 1.25rem; }
 }
