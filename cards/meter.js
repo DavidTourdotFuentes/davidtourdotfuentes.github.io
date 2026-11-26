@@ -55,11 +55,3 @@ export function createKnob(rarity) {
         <path d="M12 11V2.5" stroke-width="4" stroke-linecap="round" transform="rotate(${rarity.knob} 12 12)"/>`);
 }
 
-/** Un titre composé en Wavefont devient une forme d'onde. C'est une signature, pas le signal réel. */
-export function createWave(text, repeat = 4) {
-    const node = document.createElement('span');
-    node.className = 'wave';
-    node.setAttribute('aria-hidden', 'true');
-    node.textContent = `${text.toLowerCase().normalize('NFD').replace(/[^a-z0-9 ]/g, '')} `.repeat(repeat);
-    return node;
-}

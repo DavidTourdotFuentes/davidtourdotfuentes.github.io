@@ -35,6 +35,12 @@ const cards = CARDS.filter(({ type }) => type in TYPES).map(readCard); // une ca
 const collection = new Collection(cards);
 const newCards = new Set(); // découvertes pendant cette visite
 
+/** Bannière de la timeline : banner est un chemin, ou { image, focus } ; sans banner, l'image de la carte. */
+function bannerOf({ banner, image }) {
+    const { image: src = image, focus } = typeof banner === 'string' ? { image: banner } : banner ?? {};
+    return { image: src, focus: focus === undefined ? '' : `${focus}%` };
+}
+
 /** Contenu d'une carte, dans la langue courante. */
 function describe({ data }) {
     const get = (value) => textOf(value, currentLang);
@@ -52,6 +58,8 @@ function describe({ data }) {
         image: data.image,
         crop: data.crop === undefined ? '' : `${data.crop}%`,
         zoom: data.zoom,
+        banner: bannerOf(data),
+        fullArt: data.fullArt ?? '',
         embed: playerOf(data.player),
     };
 }

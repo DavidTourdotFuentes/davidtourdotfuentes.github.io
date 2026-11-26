@@ -1,7 +1,8 @@
 // Toutes les cartes du site. C'est le seul fichier à modifier pour ajouter, changer ou retirer une carte.
 //
 // AJOUTER UNE CARTE
-// 1. Mettre son image dans ressources/Cards (640 px de haut suffisent, en .jpg).
+// 1. Mettre ses images dans le dossier du projet, ressources/MonProjet : Card pour la carte (640 px de haut suffisent, en .jpg),
+//    FullArt pour la carte dans l'éventail du haut de page, Banner pour sa bannière dans la timeline (facultatives). Les autres images du projet restent à côté.
 // 2. Copier le modèle ci-dessous à l'endroit voulu de la liste : l'ordre de la liste donne le numéro de la carte.
 // 3. Vérifier : `node tools/check-cards.mjs`, ou la console du navigateur (F12) qui signale les mêmes erreurs.
 //
@@ -27,9 +28,11 @@
 //                 - One task
 //                 - Another one`,
 //         },
-//         image: 'ressources/Cards/mon-projet.jpg',
+//         image: 'ressources/MonProjet/Card.jpg',
 //         crop: 50,                        // point de l'image à garder, de 0 (gauche) à 100 (droite). 50 par défaut
 //         zoom: 1.2,                       // grossit l'image depuis le bas. 1 par défaut
+//         fullArt: 'ressources/MonProjet/FullArt.jpg', // la carte entière en image, dans l'éventail du haut de page (sinon l'image de la carte)
+//         banner: 'ressources/MonProjet/Banner.jpg', // bannière du projet dans la timeline (sinon l'image de la carte)
 //         player: 'https://youtu.be/...',  // YouTube, Vimeo, Spotify ou SoundCloud. Un lien normal suffit
 //         links: [                         // en haut à droite de la fiche, avec le logo du site (YouTube, Steam, itch.io…)
 //             { url: 'https://store.steampowered.com/app/...' },
@@ -38,14 +41,18 @@
 //         refs: ['furyball', 'al'],        // id d'autres cartes, montrées en bas de la fiche ; un clic ouvre la leur
 //     },
 //
-// Facultatifs : tags, role, long (sinon short), crop, zoom, player, links, refs, art, kind, label.
+// fullArt : une image au format de la carte (5 x 7, 700 x 1000 environ, en .jpg), montrée telle quelle : crop et zoom ne s'y appliquent pas.
+// Facultatifs : tags, role, long (sinon short), crop, zoom, fullArt, banner, player, links, refs, art, kind, label.
+// banner : une image large (1200 x 400 environ, en .jpg). Pour choisir la hauteur gardée : banner: { image: '...', focus: 30 },
+// de 0 (le haut de l'image) à 100 (le bas), 50 par défaut.
 // links : le logo vient du nom de domaine (liste : cards/links.js) ; label remplace le nom du site au survol, facultatif.
 // refs : une carte citée pas encore découverte reste floue et ne s'ouvre pas.
 // kind : une sorte à l'intérieur du type, que les filtres de sa section savent trier ; kind: 'software' pour un logiciel (liste : TYPES dans config.js).
 // label remplace la ligne sous le nom (« Projet, 2026 » : le type et l'année, ou la sorte : « Logiciel »), par exemple pour un poste.
 // art: 'logo' montre un petit logo blanc centré, comme pour les logiciels, au lieu d'une image qui remplit le haut.
 // year place un projet dans la timeline : il y est obligatoire. Une étape du parcours s'y montre par un évènement (events.js).
-// Le type choisit la section du site et l'aspect de la carte. Les affiches skill-*.svg et education.svg font 500 x 400.
+// Le type choisit la section du site et l'aspect de la carte. Les affiches des compétences font 500 x 400.
+// Dossiers : un par projet dans ressources, les compétences dans ressources/Skills, le parcours dans ressources/Career.
 // Textes : fr est obligatoire ; sans en, le site anglais affiche le français.
 // Un texte avec une apostrophe s'écrit entre accents graves (AltGr + 7) : `L'outil`.
 
@@ -68,7 +75,9 @@ export const CARDS = [
             fr: `Mallow est une enceinte audio interactive dont l'enfant parle pour devenir acteur d'histoire et jouer a des minijeux. L'IA est utilisé comme maitre du jeu pour guider l'enfant tout en lui laissant choisir les différentes issues de l'histoire. J'ai été en charge du sound design d'une grande partie des figurines (Oli et l'arbre d'or, Bébé Dragon, Miraculous, Quiz des Chevaliers, Mini jeux de charlie et d'autres en préparation). J'ai ainsi pu défini la direction artistique de ses figurines ainsi que l'intégration des sons dans leur moteur audio fait maison`,
             en: `Mallow is an interactive audio speaker that the child talks about to become a history actor and play mini-games. AI is used as a game master to guide the child while letting him choose the different outcomes of the story. I was in charge of the sound design of a large part of the figurines (Oli and the Golden Tree, Baby Dragon, Miraculous, Knights Quiz, Charlie's mini games and others in preparation). I was thus able to define the artistic direction of his figurines as well as the integration of sounds into their homemade audio engine`,
         },
-        image: 'ressources/Cards/mallow.jpg',
+        image: 'ressources/Mallow/Card.jpg',
+        fullArt: 'ressources/Mallow/FullArt.jpg',
+        banner: 'ressources/Mallow/Banner.png',
         crop: 56,
     },
     {
@@ -93,7 +102,9 @@ export const CARDS = [
                 Take control of the chaos, pulverize your enemies and survive in sports-inspired arenas, pinball machines and grindhouse cinema.
                 On this project, I was commissioned with Laurent Bariet (G4F) to create and integrate all the sounds of the game, from the interface to the different attacks by Azami and his enemies, the ambiances and the integration of the music composed by Toxic Avenger`,
         },
-        image: 'ressources/Cards/furyball.jpg',
+        image: 'ressources/FuryBall/Card.jpg',
+        fullArt: 'ressources/FuryBall/FullArt.jpg',
+        banner: 'ressources/FuryBall/Banner.png',
         crop: 74,
         zoom: 1.4,
         player: 'https://www.youtube.com/embed/-gwJ_qL7aWE',
@@ -118,8 +129,10 @@ export const CARDS = [
             fr: `Warhammer 40K : Mechanicus II est la suite du jeu de tactique Mechanicus, développée par Bulwark Studios et éditée par Kasedo Games. J'ai eu la chance de pouvoir sonoriser une grande partie des cinématiques ingame dont la direction artistique a été défini aupréalable par Guillaume David`,
             en: 'Warhammer 40K: Mechanicus II is the sequel to the tactical game Mechanicus, developed by Bulwark Studios and published by Kasedo Games. I was lucky enough to be able to sound a large part of the ingame cinematics, whose artistic direction was previously defined by Guillaume David',
         },
-        image: 'ressources/Cards/mechanicus.jpg',
+        image: 'ressources/Mechanicus/Card.jpg',
+        fullArt: 'ressources/Mechanicus/FullArt.jpg',
         crop: 44,
+        banner: 'ressources/Mechanicus/Banner.jpg',
         player: 'https://www.youtube.com/embed/ekWDGK76-tA',
     },
     {
@@ -146,8 +159,10 @@ export const CARDS = [
                 The audio stream content of each cluster is then modulated based on the number of entities in the group.
                 Everything is fully configurable and dynamic in order to be used as a "toolbox" for any system requiring the sound of a large number of entities (crowd, herd, fish school, bee swarms, etc...)`,
         },
-        image: 'ressources/Cards/meot.jpg',
+        image: 'ressources/MEOT/Card.jpg',
+        fullArt: 'ressources/MEOT/FullArt.jpg',
         crop: 30,
+        banner: 'ressources/MEOT/Banner.png',
         player: 'https://www.youtube.com/embed/nACOWAFpqb0',
     },
     {
@@ -166,7 +181,8 @@ export const CARDS = [
             fr: `Architect Life est un jeu de simulation d'architecture permettant de passer de la modélisation des plans 3D basé sur les critères du client au décisions sur le chantier. Sur ce projet G4F a été missionné pour créer tous les assets audios du jeu de l'interface aux différents materiaux peintures et meubles posés lors de la modélisation.`,
             en: 'Architect Life is an architecture simulation game that allows you to move from modeling 3D plans based on client criteria to making decisions on the construction site. On this project G4F was commissioned to create all the audio assets of the interface game with the different materials paints and furniture installed during modeling.',
         },
-        image: 'ressources/Cards/al.jpg',
+        image: 'ressources/AL/Card.jpg',
+        fullArt: 'ressources/AL/FullArt.jpg',
         crop: 25,
         player: 'https://www.youtube.com/embed/HXyH9aJs2qA',
     },
@@ -194,7 +210,8 @@ export const CARDS = [
                 - Player spells sound design
                 - In-game tests with the VR headset for audio mixing`,
         },
-        image: 'ressources/Cards/mol.jpg',
+        image: 'ressources/MOL/Card.jpg',
+        fullArt: 'ressources/MOL/FullArt.jpg',
         player: 'https://www.youtube.com/embed/v4n8ufGG90I',
     },
     {
@@ -223,7 +240,8 @@ export const CARDS = [
                 - Combat theme
                 The exploration and combat musics have exactly the same duration and loop to transition between one and the other at any time during the game.`,
         },
-        image: 'ressources/Cards/dc.jpg',
+        image: 'ressources/DarkestCanopy/Card.jpg',
+        fullArt: 'ressources/DarkestCanopy/FullArt.jpg',
         player: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1646295394&color=%230ea5e9&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true',
     },
     {
@@ -246,7 +264,8 @@ export const CARDS = [
                 La Route des sommets is a short film by 3iS Bordeaux students about the Basque country and geographical isolation.
                 I chose retro guitars and synthesizers to create a melancholic soundtrack that illustrates the two visions of the two young girls: Stay participate in transhumance or move to the city.`,
         },
-        image: 'ressources/Cards/lrds.jpg',
+        image: 'ressources/LRDS/Card.jpg',
+        fullArt: 'ressources/LRDS/FullArt.jpg',
         crop: 58,
         player: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1697210334&color=%230ea5e9&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=true',
     },
@@ -266,7 +285,9 @@ export const CARDS = [
             fr: `Lofi Clicker est un jeu de rythme musical créé lors de la Winter Jam 2022 sur FMod / Unity. L'audio se démarque notamment par des morceaux orginaux évolutifs créé pour évoluer au rythme du joueur (detection de tempo dans Unity basé sur les information du morceau actuel donné par FMod).`,
             en: `Lofi Clicker is a musical rhythm game created during the Winter Jam 2022 on FMod / Unity. The audio is notably distinguished by evolutionary orginal pieces created to evolve according to the player's rhythm (tempo detection in Unity based on the information of the current piece given by FMod).`,
         },
-        image: 'ressources/Cards/lc.jpg',
+        image: 'ressources/LofiClicker/Card.jpg',
+        fullArt: 'ressources/LofiClicker/FullArt.jpg',
+        banner: 'ressources/LofiClicker/Banner.png',
         player: 'https://open.spotify.com/embed/album/2WLig8GusnxG5Qt9VCJw51?utm_source=generator&theme=0',
     },
     {
@@ -274,7 +295,7 @@ export const CARDS = [
         type: 'project',
         rarity: 'common',
         tags: ['sound-design'],
-        name: 'The Roaming',
+        name: { fr: `L'Érrance`, en: `The Roaming` },
         role: { fr: 'Sound Designer', en: 'Sound Designer' },
         year: 2022,
         short: {
@@ -283,17 +304,19 @@ export const CARDS = [
         },
         long: {
             fr: `
-                THE ROAMING est un conte présenté sous la forme d'une piece de théatre immersive et interractive dans lequel j'ai pu donner un coup de main lors de la création du son pendant mon stage a G4F :
+                L'Érrance est un conte présenté sous la forme d'une piece de théatre immersive et interractive dans lequel j'ai pu donner un coup de main lors de la création du son pendant mon stage a G4F :
                 - Sonorisations des environnements en format Quad
                 - Participation et dépilage des enregistrements des foleys sur les animations
                 - Intégration des sons en jeu via Wwise et Unity (pose des évènements audio sur la timeline)`,
             en: `
-                THE ROAMING is a tale presented as an immersive and interactive theater piece in which I was able to lend a hand during the creation of sound during my internship at G4F :
+                The Roaming is a tale presented as an immersive and interactive theater piece in which I was able to lend a hand during the creation of sound during my internship at G4F :
                 - Sound reinforcement of environments in Quad format
                 - Post production of foleys recordings over animations
                 - Integration of in-game sounds via Wwise and Unity (placing audio events on the timeline)`,
         },
-        image: 'ressources/Cards/tr.jpg',
+        image: 'ressources/TR/Card.jpg',
+        fullArt: 'ressources/TR/FullArt.jpg',
+        banner: 'ressources/TR/Banner.png',
         player: 'https://player.vimeo.com/video/652819674?h=7de0b67f2d',
     },
     {
@@ -322,7 +345,8 @@ export const CARDS = [
                 - Composer of few part of the final OST of the game
                 - Recording of the original themes with a semi-professional cellist`,
         },
-        image: 'ressources/Cards/pm.jpg',
+        image: 'ressources/PhantomMemories/Card.png',
+        fullArt: 'ressources/PhantomMemories/FullArt.jpg',
     },
     {
         id: 'polarnatt',
@@ -348,8 +372,10 @@ export const CARDS = [
                 - Mixing of voice recordings on Protools
                 - Music composition on Bitwig Studio`,
         },
-        image: 'ressources/Cards/polarnatt.jpg',
-        crop: 45,
+        image: 'ressources/Polarnatt/Card.png',
+        fullArt: 'ressources/Polarnatt/FullArt.jpg',
+        banner: 'ressources/Polarnatt/Banner.png',
+
         player: 'https://www.youtube.com/embed/4Wsf-ILv3VA?si=2rMGF-0IX_XtqQEA',
     },
     {
@@ -376,7 +402,9 @@ export const CARDS = [
                 - FMod / Unity Sound Integration allowing the sound to evolve over the narrative
                 - Original composition allowing to set the atmosphere`,
         },
-        image: 'ressources/Cards/hf.jpg',
+        image: 'ressources/HideAndFlee/Card.png',
+        fullArt: 'ressources/HideAndFlee/FullArt.jpg',
+        banner: 'ressources/HideAndFlee/Banner.png',
         crop: 60,
         zoom: 1.1,
         player: 'https://open.spotify.com/embed/album/3IMaxVIqnao0gLb7jlIj11?utm_source=generator&theme=0',
@@ -397,7 +425,9 @@ export const CARDS = [
             fr: `Alpha Alpha est une série de 4 épisodes créé par les étudiants en réalisation de 3iS Bordeaux dont j'ai pu m'occuper de la bande son de l'épisode 3 : Une composition a l'image créé sur Bitwig Studio reflétant l'anxiétée et le stress des évènements du 3eme épisode.`,
             en: 'Alpha Alpha is a 4-episode series created by the directing students of 3iS Bordeaux for which I was able to take care of the soundtrack of episode 3: A composition with the image created on Bitwig Studio reflecting the anxiety and stress of the events of the 3rd episode.',
         },
-        image: 'ressources/Cards/aa.jpg',
+        image: 'ressources/AlphaAlpha/Card.png',
+        fullArt: 'ressources/AlphaAlpha/FullArt.jpg',
+        banner: 'ressources/AlphaAlpha/Banner.png',
         crop: 30,
         player: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1469265319&color=%230369a1&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true',
     },
@@ -417,7 +447,9 @@ export const CARDS = [
             fr: `Spring est un court métrage créé sur Blender et mis a disposition lors d'un concours de composition. Ceci est donc ma version de la bande son de ce court métrage composé sur Blender.`,
             en: 'Spring is a short film created on Blender and made available during a composition competition. This is therefore my version of the soundtrack of this short film composed on Blender.',
         },
-        image: 'ressources/Cards/spring.jpg',
+        image: 'ressources/Spring/Card.png',
+        fullArt: 'ressources/Spring/FullArt.jpg',
+        banner: 'ressources/Spring/Banner.png',
         crop: 62,
         player: 'https://www.youtube.com/embed/WB5QWPH_wgk',
     },
@@ -441,7 +473,7 @@ export const CARDS = [
                 Creating the sounds of games, cinematics and interactive objects, from art direction to integration.
                 Main tool: Reaper`,
         },
-        image: 'ressources/Cards/skill-sound-design.svg',
+        image: 'ressources/Skills/SoundDesign/Card.svg',
     },
     {
         id: 'skill-composition',
@@ -460,7 +492,7 @@ export const CARDS = [
                 Original music, interactive for games or written to picture.
                 Main tool: Bitwig Studio`,
         },
-        image: 'ressources/Cards/skill-composition.svg',
+        image: 'ressources/Skills/Composition/Card.svg',
     },
     {
         id: 'skill-integration',
@@ -481,7 +513,7 @@ export const CARDS = [
                 - Middleware: Wwise and FMOD
                 - Engines: Unity and Unreal`,
         },
-        image: 'ressources/Cards/skill-integration.svg',
+        image: 'ressources/Skills/Integration/Card.svg',
     },
     {
         id: 'skill-programming',
@@ -504,7 +536,7 @@ export const CARDS = [
                 - Javascript
                 - Godot Scripts`,
         },
-        image: 'ressources/Cards/skill-programming.svg',
+        image: 'ressources/Skills/Programming/Card.svg',
     },
     {
         id: 'skill-mixing',
@@ -527,7 +559,7 @@ export const CARDS = [
                 - Voices in Pro Tools, cleaning in Audition
                 - Quad environments mixing`,
         },
-        image: 'ressources/Cards/skill-mixing.svg',
+        image: 'ressources/Skills/Mixing/Card.svg',
     },
     {
         id: 'skill-recording',
@@ -550,7 +582,7 @@ export const CARDS = [
                 - Foley: sessions, editing and cleaning at G4F
                 - Cello recoding for the themes of Phantom Memories`,
         },
-        image: 'ressources/Cards/skill-recording.svg',
+        image: 'ressources/Skills/Recording/Card.svg',
     },
 
     // ---------- Compétences : logiciels ----------
@@ -756,7 +788,7 @@ export const CARDS = [
                 - Phantom Memories (2022)
                 - La Route des Sommets (2023)`,
         },
-        image: 'ressources/Cards/3iS.png',
+        image: 'ressources/Career/3iS/Card.png',
     },
     {
         id: 'g4f',
@@ -792,6 +824,6 @@ export const CARDS = [
                 - Masters of Light
                 - The Roaming`,
         },
-        image: 'ressources/Cards/g4f.jpg',
+        image: 'ressources/Career/G4F/Card.jpg',
     },
 ];

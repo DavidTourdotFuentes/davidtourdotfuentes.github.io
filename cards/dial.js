@@ -202,6 +202,8 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster, onR
             const content = describe(card);
             const face = createCard('span', card, content, cards.indexOf(card) + 1, cards.length, { tilts: false });
             face.classList.toggle('is-flipped', isShown);
+            // Dans l'éventail, la carte entière est une image : la FullArt, si la carte en a une
+            if (content.fullArt) face.querySelector('.tcard__art').append(el('img', 'tcard__full', { src: content.fullArt, alt: '' }));
             slots[i].replaceChildren(face);
             slots[i].setAttribute('aria-label', isShown
                 ? [content.name, ...(content.label ? [content.label] : content.kind ? [getTranslation(`kind_${content.kind}`)] : [getTranslation(`type_${card.type}`), content.year]), getTranslation(`rarity_${card.rarity.id}`)].filter(Boolean).join(', ')

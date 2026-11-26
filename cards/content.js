@@ -104,6 +104,13 @@ export function checkCards(cards, { rarities, tags, types }) {
         if (!card.image) say('image manquante');
         if (card.crop !== undefined && !(card.crop >= 0 && card.crop <= 100)) say('crop : un nombre de 0 à 100');
         if (card.zoom !== undefined && !(card.zoom >= 1)) say('zoom : un nombre, 1 ou plus');
+        if (card.fullArt !== undefined && !(typeof card.fullArt === 'string' && card.fullArt)) say("fullArt : un chemin d'image");
+        if (card.banner !== undefined) {
+            const banner = typeof card.banner === 'string' ? { image: card.banner } : card.banner;
+            if (!banner?.image) say("banner : un chemin d'image, ou { image: '...', focus: 30 }");
+            if (banner?.focus !== undefined && !(banner.focus >= 0 && banner.focus <= 100)) say('banner.focus : un nombre de 0 (haut) à 100 (bas)');
+            if (card.type !== 'project') say('banner : seuls les projets sortent dans la timeline');
+        }
         if (card.type === 'project' && card.year === undefined) say('year manquant : le projet ne sort pas dans la timeline');
         if (card.year !== undefined && !/^\d{4}$/.test(card.year)) say('year : quatre chiffres');
         if (card.player && !playerOf(card.player).src) say('player : lien non reconnu (YouTube, Vimeo, Spotify ou SoundCloud)');
@@ -130,7 +137,7 @@ export function checkCards(cards, { rarities, tags, types }) {
             }
         }
 
-        const known = ['id', 'type', 'rarity', 'tags', 'name', 'role', 'year', 'short', 'long', 'image', 'crop', 'zoom', 'player', 'art', 'label', 'kind', 'links', 'refs'];
+        const known = ['id', 'type', 'rarity', 'tags', 'name', 'role', 'year', 'short', 'long', 'image', 'crop', 'zoom', 'player', 'art', 'label', 'kind', 'links', 'refs', 'banner', 'fullArt'];
         for (const field of Object.keys(card)) if (!known.includes(field)) say(`champ '${field}' inconnu (faute de frappe ?)`);
     });
     return problems;

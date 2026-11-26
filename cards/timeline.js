@@ -2,7 +2,7 @@
 // Les évènements s'y posent en marqueurs, à leur date : chaque année de la règle est graduée en douze mois, décembre en haut.
 import { el, text } from './card.js';
 import { dayOf } from './content.js';
-import { createKnob, createWave } from './meter.js';
+import { createKnob } from './meter.js';
 
 const PLAYHEAD = 0.55; // hauteur de la tête de lecture dans l'écran, de 0 (haut) à 1 (bas)
 const MARKER_GAP = 8; // px entre deux marqueurs
@@ -21,13 +21,20 @@ export function createTimeline(root, { cards, events, describe, describeEvent, o
     root.append(el('span', 'timeline__rail', {}, el('span', 'timeline__played'), head), list);
     const dates = events.map((event) => ({ event, day: dayOf(event.date) })).filter(({ day }) => day).sort((a, b) => b.day - a.day);
 
+    /** Bannière du clip : l'image du projet (banner dans data.js, sinon celle de la carte), calée sur focus. */
+    function clipBanner({ image, focus }) {
+        const img = el('img', '', { src: image, alt: '', loading: 'lazy', decoding: 'async' });
+        if (focus) img.style.setProperty('--focus', focus);
+        return el('span', 'clip__banner', {}, img);
+    }
+
     function clip(card) {
-        const { name, role, html } = describe(card);
+        const { name, role, html, banner } = describe(card);
         const knob = createKnob(card.rarity);
         const description = el('span', 'clip__text');
         description.innerHTML = html; // textes de data.js, qui contiennent des <br>
         const node = el('button', 'clip', { type: 'button' },
-            el('span', 'clip__wave', {}, createWave(name, 16)), // nombre pair : le défilement boucle sans saut
+            clipBanner(banner),
             el('span', 'clip__head', {}, el('span', 'clip__name', { textContent: name }), knob),
             el('span', 'clip__role', {}, role || text('span', '', `type_${card.type}`)),
             description,
