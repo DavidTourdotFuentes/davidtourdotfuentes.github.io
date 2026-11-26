@@ -13,8 +13,14 @@ contact,Contact,Contact
 get_in_touch,Get in touch,Entrer en contact
 contact_text,For project inquiries or collaborations feel free to reach out.,Pour des demandes de projets ou collaborations n'hésitez pas à me contacter.
 copyright,© 2026 David Tourdot-Fuentes. All rights reserved.,© 2026 David Tourdot-Fuentes. Tous droits réservés.
-cards_welcome_title,Welcome! Here is your first booster,Bienvenue ! Voici votre premier booster
-cards_welcome_text,"This portfolio is a card collection: open boosters to discover my projects and my skills.","Ce portfolio est une collection de cartes : ouvrez des boosters pour découvrir mes projets et mes compétences."
+onboard_title,Welcome!,Bienvenue !
+onboard_text,"This portfolio is a card collection. How would you like to explore it?","Ce portfolio est une collection de cartes. Comment voulez-vous le parcourir ?"
+onboard_quick_title,Quick browsing,Navigation simplifiée
+onboard_quick_text,"The whole portfolio is shown right away: every card is revealed, for a quick look around.","Tout le portfolio est affiché tout de suite : toutes les cartes sont révélées, pour une exploration rapide."
+onboard_quick_go,See everything,Tout voir
+onboard_full_title,The full experience,L'expérience complète
+onboard_full_text,"No card is revealed: open boosters to discover my projects and skills one by one.","Aucune carte n'est révélée : ouvrez des boosters pour découvrir mes projets et mes compétences une à une."
+onboard_full_go,Play,Jouer
 cards_pack_title,New booster,Nouveau booster
 cards_pack_text,Only cards you have not discovered yet.,Uniquement des cartes que vous n'avez pas encore découvertes.
 cards_open_hint,"Swipe across the pack to tear it open, or click on it","Glissez sur le paquet pour le déchirer, ou cliquez dessus"

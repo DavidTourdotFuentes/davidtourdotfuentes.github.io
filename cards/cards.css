@@ -530,3 +530,42 @@
 .detail__ref:focus-visible { outline-offset: 4px; }
 .detail__ref.is-locked { cursor: default; }
 .detail__ref.is-locked .tcard--locked { overflow: hidden; }
+
+/* ---------- Première arrivée : deux façons de parcourir le site (onboarding.js) ---------- */
+.onboard { position: fixed; inset: 0; z-index: 1200; display: flex; overflow-y: auto; padding: 1rem; outline: none; }
+.onboard__bg { position: fixed; inset: 0; background: color-mix(in srgb, var(--bakelite-creux) 72%, transparent); animation: fade 0.3s ease-out; }
+.onboard__box { position: relative; width: min(46rem, 100%); margin: auto; /* centrée, et défile depuis le haut si l'écran est trop petit */ padding: 2rem 1.75rem 1.75rem; border-radius: var(--r-commande); background: var(--cadran); color: var(--encre); box-shadow: inset 0 0 0 2px var(--encre), var(--ombre-carte); text-align: center; animation: info-in 0.4s ease-out both; }
+.onboard__lang { position: absolute; top: 0.75rem; right: 0.75rem; }
+.onboard__title { padding-inline: 5.5rem; font: 800 clamp(1.75rem, 5vw, 2.5rem)/1 var(--font-display); font-variation-settings: "wdth" 96; }
+.onboard__intro { max-width: 30rem; margin: 0.75rem auto 0; font-size: 1.0625rem; text-wrap: balance; }
+.onboard__choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr)); gap: 1rem; margin-top: 1.75rem; }
+.onboard__choice { display: grid; justify-items: center; align-content: start; gap: 0.5rem; padding: 1.25rem 1.25rem 1.375rem; border-radius: var(--r-commande); background: var(--bakelite); color: var(--sur-bakelite); text-align: center; transition: box-shadow 0.15s, translate 0.15s; }
+.onboard__choice:hover, .onboard__choice:focus-visible { box-shadow: inset 0 0 0 3px var(--jaune); translate: 0 -2px; }
+.onboard__choice:focus-visible { outline: 3px solid var(--anneau); outline-offset: 3px; }
+.onboard__name { font: 800 1.375rem/1.1 var(--font-display); font-variation-settings: "wdth" 96; }
+.onboard__desc { font-size: 0.9375rem; line-height: 1.35; color: var(--sur-bakelite-douce); text-wrap: balance; }
+.onboard__go { display: inline-flex; align-items: center; min-height: 2.5rem; margin-top: 0.5rem; padding: 0 1.25rem; border-radius: var(--r-commande); background: var(--sur-bakelite); color: #1f1a17; font: 650 1rem/1 var(--font-display); font-variation-settings: "wdth" 92; transition: background-color 0.12s, color 0.12s; }
+.onboard__choice:is(:hover, :focus-visible) .onboard__go { background: var(--jaune); color: var(--sur-jaune); }
+
+/* Les petites cartes : de face (couleurs des raretés) ou de dos, devant un booster */
+.onboard__art { position: relative; display: block; width: 9rem; height: 6.25rem; margin-bottom: 0.25rem; }
+.onboard__mini { --tilt: calc((var(--i) - 1) * 14deg); position: absolute; left: calc(50% - 1.875rem); bottom: 0; width: 3.75rem; aspect-ratio: 5 / 7; border-radius: 0.4rem; transform-origin: 50% 120%; transform: rotate(var(--tilt)); transition: transform 0.25s cubic-bezier(0.3, 1.4, 0.5, 1); box-shadow: 0 0.25rem 0.5rem #0006; }
+.onboard__art--quick .onboard__mini { padding: 0.25rem; background: var(--bakelite-creux); box-shadow: inset 0 0 0 2px var(--color), 0 0.25rem 0.5rem #0006; }
+.onboard__art--quick .onboard__mini::before { content: ""; display: block; height: 55%; border-radius: 0.2rem; background: var(--color); }
+.onboard__art--quick .onboard__mini::after { content: ""; display: block; width: 70%; height: 0.25rem; margin-top: 0.3rem; border-radius: 1px; background: var(--sur-bakelite-douce); }
+.onboard__art--quick .onboard__mini:nth-child(1) { --color: var(--led-rare); }
+.onboard__art--quick .onboard__mini:nth-child(2) { --color: var(--led-epic); }
+.onboard__art--quick .onboard__mini:nth-child(3) { --color: var(--led-crete); }
+.onboard__art--full .onboard__mini { background: var(--jaune); box-shadow: inset 0 0 0 0.3rem var(--sur-jaune), 0 0.25rem 0.5rem #0006; }
+.onboard__pack { position: absolute; left: calc(50% - 2.25rem); bottom: -0.375rem; width: 4.5rem; height: 5.25rem; border-radius: 0.3rem; background: linear-gradient(var(--sur-jaune) 0 18%, var(--jaune) 18% 82%, var(--sur-jaune) 82%); box-shadow: 0 0.375rem 0.75rem #0008; }
+.onboard__pack::after { content: "?"; position: absolute; inset: 0; display: grid; place-items: center; font: 800 1.75rem/1 var(--font-display); color: var(--sur-jaune); }
+.onboard__choice:is(:hover, :focus-visible) .onboard__mini { transform: rotate(calc(var(--tilt) * 1.7)) translateY(-0.25rem); }
+/* Sur téléphone, le choix de langue passe au-dessus du titre */
+@media (max-width: 36rem) {
+    .onboard__box { padding: 4rem 1rem 1rem; }
+    .onboard__title { padding-inline: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .onboard__choice, .onboard__mini { transition: none; }
+    .onboard__choice:is(:hover, :focus-visible) { translate: none; }
+}

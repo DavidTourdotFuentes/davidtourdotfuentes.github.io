@@ -22,25 +22,42 @@ function shuffle(list, random) {
     return shuffled;
 }
 
+/** Une carte de plus de sa rareté dépasserait-elle le max de cette rareté dans le booster ? */
+const isFull = (card, picks) => card.rarity.max !== undefined && picks.filter((pick) => pick.rarity === card.rarity).length >= card.rarity.max;
+
+/** Nombre de cartes du prochain booster : size, sauf s'il reste trop peu de cartes, ou que des cartes limitées par rarity.max. */
+export function boosterSize(pool, size) {
+    let count = 0;
+    const taken = new Map();
+    for (const card of pool) {
+        const n = taken.get(card.rarity) ?? 0;
+        if (card.rarity.max !== undefined && n >= card.rarity.max) continue;
+        taken.set(card.rarity, n + 1);
+        count++;
+    }
+    return Math.min(size, count);
+}
+
 /**
  * Tire un booster sans doublon parmi pool (cartes non découvertes). Une carte : { id, isProject, rarity } ;
- * rarity.level augmente avec la rareté. Elles sortent de la moins rare à la plus rare ; à rareté égale, l'ordre est tiré au hasard.
+ * rarity.level augmente avec la rareté ; rarity.max limite le nombre de cartes de cette rareté dans le booster. Elles sortent de la moins rare à la plus rare ; à rareté égale, l'ordre est tiré au hasard.
  */
 export function drawBooster(pool, { size, guaranteed }, random = Math.random) {
     const left = [...pool];
     const picks = [];
+    const allowed = (cards) => cards.filter((card) => !isFull(card, picks));
     const take = (candidates) => {
         const card = pickWeighted(candidates, random);
         left.splice(left.indexOf(card), 1);
         picks.push(card);
     };
 
-    while (picks.length < size && left.length) {
+    while (picks.length < size && allowed(left).length) {
         const isLast = picks.length === size - 1;
         const best = isLast && guaranteed && !picks.some((card) => card.rarity.level >= guaranteed.level)
-            ? left.filter((card) => card.rarity.level >= guaranteed.level)
+            ? allowed(left).filter((card) => card.rarity.level >= guaranteed.level)
             : [];
-        take(best.length ? best : left);
+        take(best.length ? best : allowed(left));
     }
 
     // Un booster mélange projets et logiciels tant qu'il reste des deux : une carte au hasard cède sa place,
@@ -49,8 +66,12 @@ export function drawBooster(pool, { size, guaranteed }, random = Math.random) {
     if (picks.length > 1 && others.length && picks.every((card) => card.isProject === picks[0].isProject)) {
         const holders = guaranteed ? picks.filter((card) => card.rarity.level >= guaranteed.level) : [];
         const removable = picks.filter((card) => holders.length !== 1 || card !== holders[0]);
-        picks.splice(picks.indexOf(pickOne(removable, random)), 1);
-        take(others);
+        const removed = pickOne(removable, random);
+        picks.splice(picks.indexOf(removed), 1);
+        // La remplaçante respecte aussi les max ; s'il n'y en a aucune, la carte retirée reprend sa place
+        const replacements = allowed(others);
+        if (replacements.length) take(replacements);
+        else picks.push(removed);
     }
     return shuffle(picks, random).sort((a, b) => a.rarity.level - b.rarity.level);
 }

@@ -11,12 +11,12 @@ const wait = (ms) => new Promise((resolve) => { setTimeout(resolve, ms); });
 /**
  * onRevealAll() demande confirmation et renvoie une promesse : true si tout a été révélé.
  * draw() renvoie les cartes du booster (déjà ajoutées à la collection), describe(card) leur contenu,
- * remaining() le nombre de cartes encore cachées. onOpen(card, origin) ouvre la fiche d'une carte du résultat. onClose est appelé à la fermeture, avec le nombre de cartes ouvertes.
+ * remaining() le nombre de cartes encore cachées, packSize() celui du prochain booster. onOpen(card, origin) ouvre la fiche d'une carte du résultat. onClose est appelé à la fermeture, avec le nombre de cartes ouvertes.
  */
-export function createBooster({ cards, size, draw, describe, remaining, onRevealAll, onOpen, onClose }) {
-    const title = text('h2', 'booster__title', 'cards_welcome_title');
+export function createBooster({ cards, size, draw, describe, remaining, packSize, onRevealAll, onOpen, onClose }) {
+    const title = text('h2', 'booster__title', 'cards_pack_title');
     title.id = 'booster-title';
-    const intro = text('p', 'booster__intro', 'cards_welcome_text');
+    const intro = text('p', 'booster__intro', 'cards_pack_text');
     const stage = el('div', 'booster__stage');
     const hint = text('p', 'booster__hint', 'cards_open_hint');
     const live = el('p', 'booster__live');
@@ -44,11 +44,11 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
 
     // --- 1. Le paquet ---
 
-    function showPack(isWelcome) {
+    function showPack() {
         session++;
         setPhase('pack');
-        setText(title, isWelcome ? 'cards_welcome_title' : 'cards_pack_title');
-        setText(intro, isWelcome ? 'cards_welcome_text' : 'cards_pack_text');
+        setText(title, 'cards_pack_title');
+        setText(intro, 'cards_pack_text');
         setText(hint, 'cards_open_hint');
 
         const half = (part) => el('span', `pack__half pack__half--${part}`, {},
@@ -57,7 +57,7 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
                 el('span', 'pack__meter', {}, createMeter()),
                 el('span', 'pack__foot', {},
                     el('span', 'pack__label', { textContent: 'Booster' }),
-                    el('span', 'pack__count', {}, `${Math.min(size, remaining())} `, text('span', '', 'pack_count')))));
+                    el('span', 'pack__count', {}, `${packSize()} `, text('span', '', 'pack_count')))));
         const pack = el('button', 'pack', { type: 'button' }, half('bottom'), half('top'));
         pack.setAttribute('aria-label', getTranslation('cards_open_booster'));
         bindTear(pack, () => openPack(pack));
@@ -244,11 +244,11 @@ export function createBooster({ cards, size, draw, describe, remaining, onReveal
 
     // --- Ouverture et fermeture ---
 
-    function open({ isWelcome = false } = {}) {
+    function open() {
         if (!overlay.hidden) return;
         opened = 0;
         modal.open();
-        showPack(isWelcome);
+        showPack();
     }
 
     function close() {

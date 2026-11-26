@@ -11,18 +11,19 @@
  * particles : nombre de particules à l'apparition
  * effect    : lumière et mise en scène. 'none' (aucune), 'glow' (reflet, aplat),
  *             'burst' (reflet coloré, liseré, aplat et onde), 'legend' (reflet doré, halo, éclats, rayons et éclair)
+ * max       : facultatif, nombre de cartes de cette rareté au plus dans un même booster (sans max : pas de limite)
  */
 export const RARITIES = [
     { id: 'common', weight: 10, color: '#bfb296', knob: -135, needle: -26, charge: 0, particles: 0, effect: 'none' },
     { id: 'rare', weight: 9, color: '#58bcc4', knob: -45, needle: -4, charge: 250, particles: 12, effect: 'glow' },
     { id: 'epic', weight: 8, color: '#f190b4', knob: 45, needle: 14, charge: 700, particles: 28, effect: 'burst' },
-    { id: 'legendary', weight: 7, color: '#ff5a3a', knob: 135, needle: 42, charge: 1300, particles: 60, effect: 'legend' },
+    { id: 'legendary', max: 1, weight: 7, color: '#ff5a3a', knob: 135, needle: 42, charge: 1300, particles: 60, effect: 'legend' },
 ];
 
 export const BOOSTER = {
     size: 5, // cartes par booster
     guaranteed: 'rare', // une carte au moins vaut cette rareté, tant qu'il en reste (null : aucune garantie)
-    openOnFirstVisit: true, // propose un booster à la première arrivée sur le site
+    onboarding: true, // à la première arrivée, propose de tout voir tout de suite ou d'ouvrir des boosters (cards/onboarding.js)
     allowRevealAll: true, // affiche « Tout révéler », pour les visiteurs pressés
 };
 

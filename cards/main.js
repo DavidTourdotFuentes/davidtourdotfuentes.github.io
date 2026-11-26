@@ -5,6 +5,7 @@ import { createCard, el, iconButton, text } from './card.js';
 import { createCelebration } from './celebrate.js';
 import { createConfirm } from './confirm.js';
 import { createDetail } from './detail.js';
+import { createOnboarding } from './onboarding.js';
 import { attachTip } from './tip.js';
 import { createDial } from './dial.js';
 import { createTimeline } from './timeline.js';
@@ -12,7 +13,7 @@ import { checkCards, checkEvents, dateText, playerOf, textOf, toHtml } from './c
 import { CARDS } from './data.js';
 import { EVENTS } from './events.js';
 import { createKnob, createMeter, needleAngle, svg } from './meter.js';
-import { Collection, drawBooster } from './collection.js';
+import { boosterSize, Collection, drawBooster } from './collection.js';
 import { BOOSTER, RARITIES, TAGS, TYPES } from './config.js';
 
 const rarities = RARITIES.map((rarity, level) => ({ ...rarity, level }));
@@ -214,7 +215,7 @@ function resetAll() {
     newCards.clear();
     collection.reset();
     update();
-    booster.open();
+    onboarding.open(); // on recommence comme à la première visite : le visiteur choisit à nouveau
 }
 
 // Tout révéler gâche la découverte : on demande d'abord.
@@ -250,6 +251,15 @@ function celebrateIfComplete() {
     celebration.play(cards.length);
 }
 
+/** La grande animation ne se joue pas : par exemple quand le visiteur a choisi de tout voir dès son arrivée. */
+function skipCelebration() {
+    try {
+        localStorage.setItem(CELEBRATED, '1');
+    } catch {
+        // Même cas que plus haut.
+    }
+}
+
 function forgetCelebration() {
     try {
         localStorage.removeItem(CELEBRATED);
@@ -265,6 +275,7 @@ const booster = createBooster({
     size: BOOSTER.size,
     describe,
     remaining: () => collection.hidden.length,
+    packSize: () => boosterSize(collection.hidden, BOOSTER.size),
     draw() {
         const drawn = drawBooster(collection.hidden, { size: BOOSTER.size, guaranteed: findRarity(BOOSTER.guaranteed) });
         for (const card of drawn) newCards.add(card);
@@ -275,7 +286,6 @@ const booster = createBooster({
     onOpen: detail.open,
     onRevealAll: BOOSTER.allowRevealAll ? askRevealAll : null,
     onClose(opened) {
-        collection.save(); // le booster de bienvenue n'est proposé qu'une fois
         update();
         if (opened) document.getElementById('collection').scrollIntoView({ behavior: 'smooth' });
         if (opened && collection.count === cards.length) setTimeout(celebrateIfComplete, 650); // la dernière carte : on revient à la collection, puis tout explose
@@ -288,5 +298,19 @@ document.addEventListener('translationschange', () => {
     update();
 });
 
+// --- Première arrivée : tout voir tout de suite, ou découvrir les cartes en ouvrant des boosters ---
+
+const onboarding = createOnboarding({
+    quick() {
+        skipCelebration(); // rien n'a été gagné : pas de fête
+        collection.add(cards);
+        update();
+    },
+    full() {
+        collection.save(); // aucune carte, mais le choix est fait : il ne sera plus proposé
+        update();
+    },
+});
+
 update();
-if (collection.isFirstVisit && BOOSTER.openOnFirstVisit) booster.open({ isWelcome: true });
+if (collection.isFirstVisit && BOOSTER.onboarding) onboarding.open();
