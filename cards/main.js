@@ -8,7 +8,7 @@ import { createTimeline } from './timeline.js';
 import { checkCards, checkEvents, dateText, playerOf, textOf, toHtml } from './content.js';
 import { CARDS } from './data.js';
 import { EVENTS } from './events.js';
-import { createKnob, createMeter, needleAngle } from './meter.js';
+import { createKnob, createMeter, needleAngle, svg } from './meter.js';
 import { Collection, drawBooster } from './collection.js';
 import { BOOSTER, RARITIES, TAGS, TYPES } from './config.js';
 
@@ -23,7 +23,7 @@ function readCard(data) {
     const node = el('div', 'grid-card');
     node.dataset.card = data.id;
     grids.find((grid) => grid.dataset.types.split(' ').includes(data.type)).append(node);
-    return { id: data.id, data, node, isProject, type: data.type, art: TYPES[data.type].art, rarity: findRarity(data.rarity) ?? rarities[0], isShown: null };
+    return { id: data.id, data, node, isProject, type: data.type, art: data.art ?? TYPES[data.type].art, icon: TYPES[data.type].icon, rarity: findRarity(data.rarity) ?? rarities[0], isShown: null };
 }
 
 for (const problem of checkCards(CARDS, { rarities: RARITIES, tags: TAGS, types: TYPES })) console.warn(`cards/data.js, ${problem}`);
@@ -39,6 +39,7 @@ function describe({ data }) {
     return {
         name: get(data.name),
         role: get(data.role),
+        label: get(data.label),
         year: data.year ? String(data.year) : '',
         html: toHtml(short),
         longHtml: toHtml(get(data.long) || short),
@@ -51,10 +52,15 @@ function describe({ data }) {
 
 // --- Grilles ---
 
-/** Place d'une carte pas encore vue. */
-function placeholder() {
-    return el('div', 'hidden-card', {},
-        text('p', 'hidden-card__text', 'cards_hidden'));
+const LOCK = '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 018 0v2.5"/>';
+
+/** Carte pas encore vue : on la devine, floue et en noir et blanc, pour donner envie de la débloquer. */
+function lockedCard(card) {
+    const face = createCard('div', card, describe(card), cards.indexOf(card) + 1, cards.length, { tilts: false });
+    face.classList.add('is-flipped', 'tcard--locked');
+    face.setAttribute('aria-hidden', 'true'); // rien à lire tant qu'elle est floue
+    face.querySelector('img').loading = 'lazy'; // les cartes cachées sont nombreuses : leur image attend d'approcher de l'écran
+    return [face, el('span', 'locked-badge', {}, svg('', '0 0 24 24', LOCK)), text('span', 'sr-only', 'cards_hidden')];
 }
 
 function showCard(card) {
@@ -72,7 +78,7 @@ function showCard(card) {
     if (isShown) node.setAttribute('role', 'button');
     else node.removeAttribute('role');
     if (!isShown) {
-        node.replaceChildren(placeholder());
+        node.replaceChildren(...lockedCard(card));
         return;
     }
     const face = createCard('div', card, describe(card), cards.indexOf(card) + 1, cards.length);
@@ -126,9 +132,8 @@ const bar = document.getElementById('collection');
 // Progression : une graduation par carte, les plus rares dans le rouge.
 const legendaries = cards.filter((card) => card.rarity === rarities.at(-1)).length;
 const meter = createMeter({ ticks: cards.length + 1, red: cards.length - legendaries, labels: [], crete: 'var(--crete)', needle: 'var(--aiguille)' });
-const count = el('strong', 'gauge__count');
-const totalText = el('span', 'gauge__total', {}, text('span', '', 'meter_of'), ` ${cards.length} `, text('span', '', 'meter_cards'));
-const gauge = el('div', 'gauge', {}, meter, el('div', 'gauge__text', {}, count, totalText));
+const count = el('span', ''); // « 10 / 33 Cartes »
+const gauge = el('div', 'gauge', {}, meter, el('strong', 'gauge__count', {}, count, ` / ${cards.length} `, text('span', '', 'meter_cards')));
 const chips = el('div', 'collection__chips');
 const openButton = text('button', 'btn', 'cards_open_booster');
 openButton.type = 'button';
@@ -173,8 +178,7 @@ function update() {
     dial.update();
     const found = collection.count;
     meter.style.setProperty('--needle', `${needleAngle(found / cards.length)}deg`);
-    const isWord = found === 0 || isComplete;
-    count.replaceChildren(isWord ? '' : `${found} `, text('span', '', found === 0 ? 'meter_none' : isComplete ? 'meter_all' : found === 1 ? 'meter_one' : 'meter_many'));
+    count.textContent = found;
     chips.replaceChildren(...rarities.map((rarity) => {
         const all = cards.filter((card) => card.rarity === rarity);
         const shown = all.filter((card) => collection.has(card)).length;

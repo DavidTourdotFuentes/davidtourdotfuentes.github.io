@@ -55,9 +55,10 @@ function light({ effect }) {
     return node;
 }
 
-/** « Design Sonore, 2026 ». Sans rôle, le type de la carte. */
-export function typeLine({ type }, { role, year }) {
-    return [role || text('span', '', `type_${type}`), ...(year ? [`, ${year}`] : [])];
+/** Sous le nom : « Projet, 2026 », le type et l'année. Une carte peut écrire autre chose avec label (« Logiciel »). */
+export function typeLine({ type }, { label, year }) {
+    if (label) return [label];
+    return [text('span', '', `type_${type}`), ...(year ? [`, ${year}`] : [])];
 }
 
 /** Recto d'une carte. info, renvoyé par describe() dans main.js : { name, role, year, html, image, crop, zoom }. */
@@ -74,6 +75,7 @@ function front(card, info, number, total) {
     return el('span', 'tcard__face tcard__front', {},
         art,
         createKnob(card.rarity),
+        ...(card.icon ? [svg('tcard__badge', '0 0 24 24', card.icon)] : []), // le type, en face du potard qui dit la rareté
         el('span', 'tcard__body', {},
             el('span', 'tcard__name', { textContent: info.name }),
             type,
@@ -98,6 +100,7 @@ export function createCard(tag, card, info, number, total, { tilts = true } = {}
     if (tag === 'button') node.type = 'button';
     node.dataset.effect = card.rarity.effect;
     node.dataset.rarity = card.rarity.id;
+    node.dataset.type = card.type;
     node.style.setProperty('--rarity', card.rarity.color);
     node.style.setProperty('--target', `${card.rarity.needle}deg`);
     if (tilts) followPointer(node);

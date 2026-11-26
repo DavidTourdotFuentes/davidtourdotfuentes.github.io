@@ -1,6 +1,6 @@
 // Détail d'une carte de la collection : elle sort de sa case et se pose à gauche, ses informations s'affichent à droite.
 import { createCard, el, reducedMotion, text } from './card.js';
-import { createKnob } from './meter.js';
+import { createKnob, svg } from './meter.js';
 import { createModal } from './modal.js';
 import { createPlayer } from './player.js';
 
@@ -15,11 +15,14 @@ const landed = (flight, duration) => Promise.race([
 
 export function createDetail({ cards, describe }) {
     const background = el('div', 'detail__bg');
-    const closeButton = el('button', 'detail__close', { type: 'button', textContent: '×' });
+    // Une croix dessinée plutôt que « × », dont le dessin n'est pas centré dans sa boîte
+    const closeButton = el('button', 'detail__close', { type: 'button' }, svg('detail__cross', '0 0 24 24', '<path d="M6 6l12 12M18 6L6 18"/>'));
     const slot = el('div', 'detail__card');
     const info = el('div', 'detail__info');
-    const layout = el('div', 'detail__layout', {}, slot, info);
-    const overlay = el('div', 'detail', {}, background, layout, closeButton);
+    // Le bouton se pose dans le coin de l'encart, hors de la partie qui défile
+    const panel = el('div', 'detail__panel', {}, info, closeButton);
+    const layout = el('div', 'detail__layout', {}, slot, panel);
+    const overlay = el('div', 'detail', {}, background, layout);
     overlay.setAttribute('aria-labelledby', 'detail-title');
     const modal = createModal(overlay, close);
 

@@ -88,7 +88,7 @@ export function checkCards(cards, { rarities, tags, types }) {
         if (!(card.type in types)) say(`type '${card.type ?? ''}' inconnu, choisir parmi ${list(Object.keys(types))}`);
         if (!rarities.some(({ id }) => id === card.rarity)) say(`rarity '${card.rarity ?? ''}' inconnue, choisir parmi ${list(rarities.map(({ id }) => id))}`);
 
-        for (const field of ['name', 'role', 'short', 'long']) {
+        for (const field of ['name', 'role', 'label', 'short', 'long']) {
             const value = card[field];
             if (value === undefined) {
                 if (field === 'name' || field === 'short') say(`${field} manquant`);
@@ -112,7 +112,9 @@ export function checkCards(cards, { rarities, tags, types }) {
         if (card.type !== 'project' && card.tags?.length) say('tags : réservés aux projets, ils servent aux filtres du portfolio');
         if (card.type === 'project' && !card.tags?.length) say('aucun tag : le projet ne sort que dans « Tous les projets »');
 
-        const known = ['id', 'type', 'rarity', 'tags', 'name', 'role', 'year', 'short', 'long', 'image', 'crop', 'zoom', 'player'];
+        if (card.art !== undefined && !['cover', 'logo'].includes(card.art)) say(`art : 'cover' ou 'logo'`);
+
+        const known = ['id', 'type', 'rarity', 'tags', 'name', 'role', 'year', 'short', 'long', 'image', 'crop', 'zoom', 'player', 'art', 'label'];
         for (const field of Object.keys(card)) if (!known.includes(field)) say(`champ '${field}' inconnu (faute de frappe ?)`);
     });
     return problems;

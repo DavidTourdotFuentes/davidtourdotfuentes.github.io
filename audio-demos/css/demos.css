@@ -1,7 +1,7 @@
 /* Laboratoire audio. Direction artistique de style.css, en Light et en Dark : le cahier est en papier, l'établi en bakélite. */
 :root {
     color-scheme: light;
-    --ground: #f3c34b;
+    --ground: #e4c681;
     --ink: #1b1610;
     --on-ink: #fbe4a6;
     --surface: #fbe4a6;
@@ -94,7 +94,19 @@ canvas, svg { display: block; }
 .theme { display: flex; padding: 3px; border-radius: var(--radius); box-shadow: inset 0 0 0 2px var(--ink); }
 .theme button { display: grid; place-items: center; width: 2.5rem; min-height: 2.375rem; border-radius: 4px; }
 .theme svg { width: 1.375rem; height: 1.375rem; }
-.theme button[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
+.theme button[aria-pressed="true"] { color: var(--on-ink); }
+/* Le curseur glisse d'un choix à l'autre, et le choix fait s'anime. :root.is-ready (theme.js) : le curseur ne glisse pas au chargement. .is-switching : posée au clic, elle anime le nouveau choix. */
+.theme { position: relative; isolation: isolate; }
+.theme::before { content: ""; position: absolute; z-index: -1; inset: 3px auto 3px 3px; width: calc(50% - 3px); border-radius: 4px; background: var(--ink); }
+.theme:has(> :last-child[aria-pressed="true"])::before { translate: 100% 0; }
+:root.is-ready .theme::before { transition: translate 0.35s cubic-bezier(0.3, 1.4, 0.5, 1); }
+:root.is-ready .theme button { transition: color 0.25s; }
+.theme.is-switching [data-set-theme="light"][aria-pressed="true"] svg { animation: sun-in 0.6s cubic-bezier(0.3, 1.4, 0.5, 1); }
+.theme.is-switching [data-set-theme="dark"][aria-pressed="true"] svg { animation: moon-in 0.6s cubic-bezier(0.3, 1.4, 0.5, 1); }
+@keyframes sun-in { from { rotate: -90deg; scale: 0.6; } }
+@keyframes moon-in { from { rotate: 40deg; scale: 0.6; } 60% { rotate: -12deg; } }
+@keyframes switch-pop { from { scale: 0.7; } }
+@media (prefers-reduced-motion: reduce) { :root.is-ready .theme::before, .theme * { transition: none !important; animation: none !important; } }
 
 /* ---------- Console : le titre, l'oscilloscope et l'aiguille ---------- */
 
@@ -307,6 +319,8 @@ canvas, svg { display: block; }
     .volume input { flex: 1; width: auto; min-width: 3rem; max-width: 8rem; }
     .volume output { min-width: 2.75rem; }
     .theme button[aria-pressed="true"] { display: none; }
+    .theme::before { display: none; }
+    .theme.is-switching button { animation: switch-pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1); }
     .console__panel { grid-template-columns: minmax(0, 1fr); }
     .console__meter { grid-template-columns: 8rem minmax(0, 1fr); align-items: center; }
     .vu { grid-row: span 2; }

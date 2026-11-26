@@ -3,9 +3,9 @@ header,Design - Imagin - Develop,Concevoir - Imaginer - Développer,Crear - Imag
 tagline,Image-based sound design and video games<br>Audio development<br>Interactive music compositions,Design sonores à l'image et jeux vidéos<br>Développement audio<br>Compositions musicales interactives
 nav_portfolio,Portfolio,Portfolio
 nav_skills,Skills,Compétences
-nav_tools,Tools,Outils
-nav_education,Training,Formations
+nav_career,Background,Parcours
 nav_audio_demos,Audio lab,Labo audio
+nav_timeline,Timeline,Timeline
 nav_contact,Contact,Contacts
 view_work,View my work,Voir mon travail
 contact_me,Contact me,Me contacter
@@ -16,15 +16,13 @@ tags_soundtrack,Soundtracks,Bande Sons
 tags_ai,Audio Integration, Intégration Audio
 tags_at,Audio Tool,Outils Audio
 skills,Skills,Compétences
-tools,Software & Hardware,Logiciels & Matériel Audio
-education,Education & Training,Formations
-software,Software,Logiciels
+career,Background,Parcours
 contact,Contact,Contact
 get_in_touch,Get in touch,Entrer en contact
-contact_text,For project inquiries or collaborations feel free to reach out via email.,Pour des demandes de projets ou collaborations n'hésitez pas à me contacter par email.
+contact_text,For project inquiries or collaborations feel free to reach out.,Pour des demandes de projets ou collaborations n'hésitez pas à me contacter.
 copyright,© 2026 David Tourdot-Fuentes. All rights reserved.,© 2026 David Tourdot-Fuentes. Tous droits réservés.
 cards_welcome_title,Welcome! Here is your first booster,Bienvenue ! Voici votre premier booster
-cards_welcome_text,"This portfolio is a card collection: open boosters to discover my projects, my skills and my tools.","Ce portfolio est une collection de cartes : ouvrez des boosters pour découvrir mes projets, mes compétences et mes outils."
+cards_welcome_text,"This portfolio is a card collection: open boosters to discover my projects and my skills.","Ce portfolio est une collection de cartes : ouvrez des boosters pour découvrir mes projets et mes compétences."
 cards_pack_title,New booster,Nouveau booster
 cards_pack_text,Only cards you have not discovered yet.,Uniquement des cartes que vous n'avez pas encore découvertes.
 cards_open_hint,"Swipe across the pack to tear it open, or click on it","Glissez sur le paquet pour le déchirer, ou cliquez dessus"
@@ -47,10 +45,8 @@ cards_complete,Collection complete!,Collection complète !
 cards_hidden,Not discovered yet,Pas encore découverte
 cards_new,New,Nouveau
 type_project,Project,Projet
-type_software,Software,Logiciel
-type_hardware,Hardware,Matériel
 type_skill,Skill,Compétence
-type_education-training,Training,Formation
+type_career,Background,Parcours
 rarity_common,Common,Commune
 rarity_rare,Rare,Rare
 rarity_epic,Epic,Épique
@@ -67,12 +63,8 @@ dial_open,Open the card,Ouvrir la fiche
 dial_previous,Previous card,Carte précédente
 dial_next,Next card,Carte suivante
 timeline_title,Timeline,Timeline
-meter_none,None discovered,Aucune découverte
-meter_one,discovered,découverte
-meter_many,discovered,découvertes
-meter_all,All discovered,Toutes découvertes
-meter_of,of,sur
-meter_cards,cards,cartes
+timeline_lead,Discover my projects over time,Découvrez mes projets réalisés au fil du temps
+meter_cards,Cards,Cartes
 player_listen,Listen to,Écouter
 player_play,Play,Lire
 player_pause,Pause,Pause

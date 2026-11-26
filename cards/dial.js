@@ -9,8 +9,7 @@ const SIZE = 0.122; // largeur d'une carte
 const DOME = 0.655; // rayon de la plaque, concentrique à la main
 const HALF = 32; // demi-ouverture de l'éventail, en degrés
 const FULL = SIZE / RADIUS * 180 / Math.PI; // ouverture d'une carte entière, en degrés
-const LIFT = 5.6; // écart entre l'aiguille et le milieu de la carte levée, en degrés
-const LIFT_MAX = 26.5; // au-delà, la carte levée sortirait de l'écran : elle passe à gauche de l'aiguille
+const LIFT_MAX = 26.5; // la carte levée se centre sur l'aiguille, mais pas au-delà de cet angle : elle sortirait de l'écran
 const WEIGHTS = { legendary: 1.9, epic: 1.2 }; // largeur d'une carte sur la graduation (1 par défaut)
 const NARROW = 896; // en pixels : en dessous, l'aiguille reste au zénith et la main tourne
 const DRAG_STEP = 22; // en pixels, pour passer d'une carte à la suivante au doigt
@@ -58,8 +57,9 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
     const slots = hand.map((card, i) => {
         const slot = el('button', 'dial__card', { type: 'button', tabIndex: -1 });
         slot.style.setProperty('--a', `${(edge(i) + FULL / 2).toFixed(2)}deg`);
-        const isRight = angles[i] + LIFT > LIFT_MAX;
-        slot.style.setProperty('--up', `${(angles[i] + (isRight ? -LIFT : LIFT)).toFixed(2)}deg`);
+        const up = Math.min(Math.max(angles[i], -LIFT_MAX), LIFT_MAX);
+        slot.style.setProperty('--up', `${up.toFixed(2)}deg`);
+        slot.style.setProperty('--aim', `${angles[i].toFixed(2)}deg`); // sur téléphone, la main tourne : jamais hors de l'écran
         slot.addEventListener('focus', () => aim(i));
         slot.addEventListener('click', (event) => {
             if (dragged && event.detail) return; // fin d'un glisser
@@ -196,7 +196,7 @@ export function createDial(scene, { cards, describe, has, onOpen, onBooster }) {
             face.classList.toggle('is-flipped', isShown);
             slots[i].replaceChildren(face);
             slots[i].setAttribute('aria-label', isShown
-                ? [content.name, content.role || getTranslation(`type_${card.type}`), content.year, getTranslation(`rarity_${card.rarity.id}`)].filter(Boolean).join(', ')
+                ? [content.name, ...(content.label ? [content.label] : [getTranslation(`type_${card.type}`), content.year]), getTranslation(`rarity_${card.rarity.id}`)].filter(Boolean).join(', ')
                 : `${getTranslation('cards_hidden')}, ${cards.indexOf(card) + 1} / ${cards.length}`);
         });
         if (current >= 0) {

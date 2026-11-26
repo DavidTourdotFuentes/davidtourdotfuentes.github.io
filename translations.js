@@ -75,10 +75,23 @@ function setLanguage(lang) {
     loadTranslations(lang);
 }
 
+/** Le temps d'une animation, le groupe porte .is-switching : seul un clic anime le choix, jamais le chargement. */
+function markSwitching(group) {
+    if (!group) return;
+    group.classList.remove('is-switching');
+    void group.offsetWidth; // relance l'animation si l'on clique vite
+    group.classList.add('is-switching');
+    clearTimeout(group.switchTimer);
+    group.switchTimer = setTimeout(() => group.classList.remove('is-switching'), 700);
+}
+
 // Set initial language
 setLanguage(currentLang);
 
 // Add event listeners for language buttons
 document.querySelectorAll('[data-set-lang]').forEach(button => {
-    button.addEventListener('click', () => setLanguage(button.dataset.setLang));
+    button.addEventListener('click', () => {
+        markSwitching(button.parentElement);
+        setLanguage(button.dataset.setLang);
+    });
 });

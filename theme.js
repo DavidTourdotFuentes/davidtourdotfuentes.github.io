@@ -14,7 +14,7 @@
 
     function apply() {
         root.dataset.theme = (chosen ?? (system.matches ? 'dark' : 'light')) === 'dark' ? 'dark' : 'light';
-        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', root.dataset.theme === 'dark' ? '#15110e' : '#f3c34b');
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', root.dataset.theme === 'dark' ? '#15110e' : '#e4c681');
         for (const button of document.querySelectorAll('[data-set-theme]')) {
             button.setAttribute('aria-pressed', button.dataset.setTheme === root.dataset.theme);
         }
@@ -24,8 +24,16 @@
     system.addEventListener('change', apply);
     document.addEventListener('DOMContentLoaded', () => {
         apply();
+        // Les interrupteurs s'animent ensuite, pas au premier affichage (style.css, demos.css : :root.is-ready)
+        requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('is-ready')));
         for (const button of document.querySelectorAll('[data-set-theme]')) {
             button.addEventListener('click', () => {
+                const group = button.parentElement;
+                group.classList.remove('is-switching');
+                void group.offsetWidth; // relance l'animation si l'on clique vite
+                group.classList.add('is-switching'); // seul un clic anime le choix, jamais le chargement
+                clearTimeout(group.switchTimer);
+                group.switchTimer = setTimeout(() => group.classList.remove('is-switching'), 700);
                 chosen = button.dataset.setTheme;
                 try {
                     localStorage.setItem(STORAGE_KEY, chosen);

@@ -7,7 +7,7 @@
 //
 //     {
 //         id: 'mon-projet',                // unique, en minuscules. Ne plus le changer ensuite : il est enregistré chez les visiteurs.
-//         type: 'project',                 // 'project', 'skill', 'software', 'hardware' ou 'education-training' (liste : TYPES dans config.js)
+//         type: 'project',                 // 'project', 'skill' ou 'career' (études et postes) (liste : TYPES dans config.js)
 //         rarity: 'rare',                  // 'common', 'rare', 'epic' ou 'legendary' (réglages : config.js)
 //         tags: ['sound-design'],          // filtres du portfolio, projets seulement (liste : TAGS dans config.js)
 //         name: 'Mon projet',              // ou { fr: 'Mon projet', en: 'My project' }
@@ -33,8 +33,10 @@
 //         player: 'https://youtu.be/...',  // YouTube, Vimeo, Spotify ou SoundCloud. Un lien normal suffit
 //     },
 //
-// Facultatifs : tags, role, long (sinon short), crop, zoom, player.
-// year place un projet dans la timeline : il y est obligatoire. Une formation s'y montre par un évènement (events.js).
+// Facultatifs : tags, role, long (sinon short), crop, zoom, player, art, label.
+// label remplace la ligne sous le nom (« Projet, 2026 » : le type et l'année), par exemple { fr: 'Logiciel', en: 'Software' }.
+// art: 'logo' montre un petit logo blanc au-dessus d'une onde, comme pour les logiciels, au lieu d'une image qui remplit le haut.
+// year place un projet dans la timeline : il y est obligatoire. Une étape du parcours s'y montre par un évènement (events.js).
 // Le type choisit la section du site et l'aspect de la carte. Les affiches skill-*.svg et education.svg font 500 x 400.
 // Textes : fr est obligatoire ; sans en, le site anglais affiche le français.
 // Un texte avec une apostrophe s'écrit entre accents graves (AltGr + 7) : `L'outil`.
@@ -48,7 +50,7 @@ export const CARDS = [
         rarity: 'legendary',
         tags: ['sound-design'],
         name: 'Mallow',
-        role: { fr: 'Design Sonore', en: 'Sound Design' },
+        role: { fr: 'Sound Designer', en: 'Sound Designer' },
         year: 2026,
         short: {
             fr: `Enceinte de jeux audio interactive destinés aux enfants de 4 à 10 ans (basé sur l'IA)`,
@@ -67,7 +69,7 @@ export const CARDS = [
         rarity: 'legendary',
         tags: ['audio-integration', 'sound-design'],
         name: 'Furyball',
-        role: { fr: 'Design Sonore', en: 'Sound Design' },
+        role: { fr: 'Sound Designer', en: 'Sound Designer' },
         year: 2026,
         short: {
             fr: 'Furyball : Rogue Revenge : un roguelite d’action rapide développé par Rebound',
@@ -94,7 +96,7 @@ export const CARDS = [
         rarity: 'legendary',
         tags: ['sound-design'],
         name: 'Mechanicus II',
-        role: { fr: 'Design Sonore', en: 'Sound Design' },
+        role: { fr: 'Sound Designer', en: 'Sound Designer' },
         year: 2026,
         short: {
             fr: 'Warhammer 40K : Mechanicus II est la suite du jeu de tactique Mechanicus, développée par Bulwark Studios et éditée par Kasedo Games.',
@@ -114,7 +116,7 @@ export const CARDS = [
         rarity: 'epic',
         tags: ['audio-tool'],
         name: { fr: `Génération audio procédurale`, en: 'Procedural audio generation' },
-        role: { fr: 'Outil Audio', en: 'Audio Tool' },
+        role: { fr: 'Développeur Audio', en: 'Audio Programer' },
         year: 2025,
         short: {
             fr: `Outil Unity C# Wwise de génération de masses d'entités (foules / essaims)`,
@@ -142,7 +144,7 @@ export const CARDS = [
         rarity: 'rare',
         tags: ['sound-design'],
         name: 'Architect Life',
-        role: { fr: 'Design Sonore', en: 'Sound Design' },
+        role: { fr: 'Sound Designer', en: 'Sound Designer' },
         year: 2024,
         short: {
             fr: `Jeu Vidéo de simulation d'architecture développé par Shine Research et édité par Nacon`,
@@ -162,7 +164,7 @@ export const CARDS = [
         rarity: 'epic',
         tags: ['sound-design'],
         name: 'Masters of Light',
-        role: { fr: 'Design Sonore', en: 'Sound Design' },
+        role: { fr: 'Sound Designer', en: 'Sound Designer' },
         year: 2024,
         short: {
             fr: 'Wave Shooter en réalité mixte développé par COVEN & ALBYON et sonorisé par G4F',
@@ -189,7 +191,7 @@ export const CARDS = [
         rarity: 'epic',
         tags: ['soundtrack'],
         name: 'Darkest Canopy',
-        role: { fr: 'Bande Son', en: 'Soundtrack' },
+        role: { fr: 'Compositeur', en: 'Composer' },
         year: 2023,
         short: {
             fr: 'Une bande son épique aux influences incas',
@@ -218,7 +220,7 @@ export const CARDS = [
         rarity: 'rare',
         tags: ['soundtrack'],
         name: 'La Route des Sommets',
-        role: { fr: 'Bande Son', en: 'Soundtrack' },
+        role: { fr: 'Composer', en: 'Composer' },
         year: 2023,
         short: {
             fr: 'Une bande son douce et mélancolique entre sonorités acoustiques du pays basque et nappes electroniques',
@@ -242,7 +244,7 @@ export const CARDS = [
         rarity: 'epic',
         tags: ['audio-integration', 'sound-design', 'soundtrack'],
         name: 'Lofi Clicker',
-        role: { fr: 'Design Sonore / Intégration / Bande Son', en: 'Sound Design / Integration / Soundtrack' },
+        role: { fr: 'Sound Designer / Programmeur Audio / Compositeur', en: 'Sound Designer / Audio Programer / Composer' },
         year: 2023,
         short: {
             fr: 'Jeu de rythme musical issu de la Winter Jam 2023',
@@ -261,7 +263,7 @@ export const CARDS = [
         rarity: 'common',
         tags: ['sound-design'],
         name: 'The Roaming',
-        role: { fr: 'Design Sonore', en: 'Sound Design' },
+        role: { fr: 'Sound Designer', en: 'Sound Designer' },
         year: 2022,
         short: {
             fr: 'Théâtre immersif en réalité mixte',
@@ -288,7 +290,7 @@ export const CARDS = [
         rarity: 'rare',
         tags: ['audio-integration', 'sound-design', 'soundtrack'],
         name: 'Phantom Memories',
-        role: { fr: 'Design Sonore & Bande Son', en: 'Sound Design & Soundtrack' },
+        role: { fr: 'Sound Designer / Compositeur', en: 'Sound Designer Composer' },
         year: 2022,
         short: {
             fr: `Jeu vidéo d'enquête narratif en huis clos créé par la classe d'animation Jeu Vidéo de 3iS Bordeaux`,
@@ -316,7 +318,7 @@ export const CARDS = [
         rarity: 'rare',
         tags: ['sound-design', 'soundtrack'],
         name: 'Polarnatt',
-        role: { fr: 'Design Sonore & Bande Son', en: 'Sound Design & Soundtrack' },
+        role: { fr: 'Sound Designer / Compositeur', en: 'Sound Designer & Composer' },
         year: 2022,
         short: {
             fr: `Court Métrage d'animation de fin d'études 3iS Bordeaux`,
@@ -344,7 +346,7 @@ export const CARDS = [
         rarity: 'rare',
         tags: ['audio-integration', 'sound-design', 'soundtrack'],
         name: 'Hide And Flee',
-        role: { fr: 'Design Sonore / Intégration / Bande Son', en: 'Sound Design / Integration / Soundtrack' },
+        role: { fr: 'Sound Designer / Programmeur Audio / Compositeur', en: 'Sound Designer / Audio Programer    / Composer' },
         year: 2022,
         short: {
             fr: 'Jeu de platforming puzzle créé pour la Simiji Game Jam 2022',
@@ -393,7 +395,7 @@ export const CARDS = [
         rarity: 'rare',
         tags: ['soundtrack'],
         name: 'Spring',
-        role: { fr: 'Exercice Bande Son', en: 'Soundtrack Exercise' },
+        role: { fr: 'Compositeur', en: 'Composer' },
         year: 2021,
         short: {
             fr: 'Recomposition de la bande son du court métrage Blender Spring',
@@ -539,11 +541,13 @@ export const CARDS = [
         image: 'ressources/Cards/skill-recording.svg',
     },
 
-    // ---------- Logiciels et matériel ----------
+    // ---------- Compétences : logiciels ----------
 
     {
         id: 'reaper',
-        type: 'software',
+        type: 'skill',
+        art: 'logo',
+        label: { fr: 'Logiciel', en: 'Software' },
         rarity: 'epic',
         name: 'Reaper',
         short: {
@@ -558,7 +562,9 @@ export const CARDS = [
     },
     {
         id: 'bitwig',
-        type: 'software',
+        type: 'skill',
+        art: 'logo',
+        label: { fr: 'Logiciel', en: 'Software' },
         rarity: 'epic',
         name: 'Bitwig Studio',
         short: {
@@ -573,7 +579,9 @@ export const CARDS = [
     },
     {
         id: 'wwise',
-        type: 'software',
+        type: 'skill',
+        art: 'logo',
+        label: { fr: 'Logiciel', en: 'Software' },
         rarity: 'rare',
         name: 'Wwise',
         short: {
@@ -588,7 +596,9 @@ export const CARDS = [
     },
     {
         id: 'fmod',
-        type: 'software',
+        type: 'skill',
+        art: 'logo',
+        label: { fr: 'Logiciel', en: 'Software' },
         rarity: 'rare',
         name: 'FMOD',
         short: {
@@ -603,7 +613,9 @@ export const CARDS = [
     },
     {
         id: 'unity',
-        type: 'software',
+        type: 'skill',
+        art: 'logo',
+        label: { fr: 'Logiciel', en: 'Software' },
         rarity: 'rare',
         name: 'Unity',
         short: {
@@ -618,7 +630,9 @@ export const CARDS = [
     },
     {
         id: 'unreal',
-        type: 'software',
+        type: 'skill',
+        art: 'logo',
+        label: { fr: 'Logiciel', en: 'Software' },
         rarity: 'rare',
         name: 'Unreal',
         short: {
@@ -633,7 +647,9 @@ export const CARDS = [
     },
     {
         id: 'maxmsp',
-        type: 'software',
+        type: 'skill',
+        art: 'logo',
+        label: { fr: 'Logiciel', en: 'Software' },
         rarity: 'common',
         name: 'Max MSP',
         short: {
@@ -648,7 +664,9 @@ export const CARDS = [
     },
     {
         id: 'ableton',
-        type: 'software',
+        type: 'skill',
+        art: 'logo',
+        label: { fr: 'Logiciel', en: 'Software' },
         rarity: 'common',
         name: 'Ableton Live',
         short: {
@@ -663,7 +681,9 @@ export const CARDS = [
     },
     {
         id: 'audition',
-        type: 'software',
+        type: 'skill',
+        art: 'logo',
+        label: { fr: 'Logiciel', en: 'Software' },
         rarity: 'common',
         name: 'Audition',
         short: {
@@ -678,7 +698,9 @@ export const CARDS = [
     },
     {
         id: 'protools',
-        type: 'software',
+        type: 'skill',
+        art: 'logo',
+        label: { fr: 'Logiciel', en: 'Software' },
         rarity: 'common',
         name: 'Pro Tools',
         short: {
@@ -692,13 +714,14 @@ export const CARDS = [
         image: 'ressources/Generic/PT_White.svg',
     },
 
-    // ---------- Formations ----------
+    // ---------- Parcours : études et postes ----------
 
     {
         id: '3is',
-        type: 'education-training',
+        type: 'career',
         rarity: 'rare',
         name: '3iS Bordeaux',
+        label: { fr: 'École, de 2020 à 2024', en: 'School, from 2020 to 2024' },
         year: 2020,
         short: {
             fr: `École où j'ai été formé, à partir de septembre 2020 jusqu'a juillet 2024`,
@@ -724,9 +747,10 @@ export const CARDS = [
     },
     {
         id: 'g4f',
-        type: 'education-training',
+        type: 'career',
         rarity: 'legendary',
         name: 'G4F Prod',
+        label: { fr: 'Poste de Sound Designer depuis 2023', en: 'Sound Designer since 2023' },
         year: 2023,
         short: {
             fr: 'Studio français basé a Angoulème spécialisé dans la production sonore interractive. Je suis actuellement Sound Designer en CDI',
