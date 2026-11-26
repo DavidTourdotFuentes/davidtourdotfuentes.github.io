@@ -2,6 +2,7 @@
 // Fonctions de app.js et translations.js utilisées ici : getTranslation, applyTranslations, currentLang, lockScroll, unlockScroll.
 import { createBooster } from './booster.js';
 import { createCard, el, iconButton, text } from './card.js';
+import { createCelebration } from './celebrate.js';
 import { createConfirm } from './confirm.js';
 import { createDetail } from './detail.js';
 import { attachTip } from './tip.js';
@@ -199,6 +200,7 @@ async function askResetAll() {
 }
 
 function resetAll() {
+    forgetCelebration();
     newCards.clear();
     collection.reset();
     update();
@@ -219,6 +221,31 @@ function revealAll() {
     collection.add(cards);
     dial.aimAt(cards.find((card) => card.rarity === rarities.at(-1)));
     update();
+    celebrateIfComplete();
+}
+
+// --- Collection complète : la grande animation, une fois par collection terminée ---
+
+const celebration = createCelebration();
+const CELEBRATED = 'portfolio-complete-seen';
+
+function celebrateIfComplete() {
+    if (collection.count !== cards.length) return;
+    try {
+        if (localStorage.getItem(CELEBRATED)) return;
+        localStorage.setItem(CELEBRATED, '1');
+    } catch {
+        // Stockage bloqué : elle se rejouera à la prochaine visite, ce n'est pas grave.
+    }
+    celebration.play(cards.length);
+}
+
+function forgetCelebration() {
+    try {
+        localStorage.removeItem(CELEBRATED);
+    } catch {
+        // Même cas que plus haut.
+    }
 }
 
 // --- Boosters ---
@@ -241,6 +268,7 @@ const booster = createBooster({
         collection.save(); // le booster de bienvenue n'est proposé qu'une fois
         update();
         if (opened) document.getElementById('collection').scrollIntoView({ behavior: 'smooth' });
+        if (opened && collection.count === cards.length) setTimeout(celebrateIfComplete, 650); // la dernière carte : on revient à la collection, puis tout explose
     },
 });
 
