@@ -434,17 +434,24 @@
 .detail__close { position: absolute; top: 0.75rem; right: 0.75rem; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: var(--r-commande); background: var(--encre); color: var(--sur-encre); }
 .detail__cross { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
 .detail__close:hover { background: var(--cadran); color: var(--encre); box-shadow: inset 0 0 0 2px var(--encre); }
-.detail.is-closing :is(.detail__bg, .detail__panel) { opacity: 0; animation: none; }
+.detail.is-closing :is(.detail__bg, .detail__panel, .detail__bar) { opacity: 0; animation: none; }
+.detail__bar { display: none; }
 
 @media (max-width: 54rem) {
     .detail { --card: min(15.5rem, 62vw); }
     .detail__layout { grid-template-columns: minmax(0, 1fr); align-content: start; padding: 1.5rem 1rem 3rem; }
     .detail__card { justify-self: center; }
     .detail__info { max-height: none; overflow: visible; }
-    /* Sur téléphone, l'ouverture dépasse l'écran : la flèche flotte dans un coin jusqu'au premier défilement */
-    .scrollcue { position: fixed; z-index: 64; right: 0.75rem; bottom: calc(var(--nav) + env(safe-area-inset-bottom, 0px) + 0.75rem); width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--cadran); box-shadow: inset 0 0 0 2px var(--encre), var(--ombre-carte); transition: opacity 0.25s, visibility 0.25s; }
-    .scrollcue svg { width: 1.75rem; }
-    .scrollcue.is-away { opacity: 0; visibility: hidden; }
+    /* La barre « Fermer » reste en haut pendant qu'on lit ; la croix de l'encart, en double, disparaît */
+    .detail__bar { position: sticky; top: 0; z-index: 5; display: flex; padding: 0.75rem 1rem 1rem; background: linear-gradient(var(--fond) 65%, transparent); transition: opacity 0.2s; animation: fade 0.3s ease-out; }
+    .detail__back { display: inline-flex; align-items: center; gap: 0.375rem; min-height: 2.75rem; padding: 0 1.125rem 0 0.75rem; border-radius: var(--r-commande); background: var(--encre); color: var(--sur-encre); font: 650 1rem/1 var(--font-display); box-shadow: var(--ombre-carte); }
+    .detail__arrow { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+    .detail__panel > .detail__close { display: none; }
+    .detail__head { padding-right: 0; }
+    .detail__layout { padding-top: 0; }
+    /* Sur téléphone, la flèche vers le bas reste sous le cadran, petite et discrète : elle ne passe plus sur ses flèches */
+    .scrollcue { width: 3rem; height: 2.75rem; margin-top: 0.25rem; opacity: 0.6; }
+    .scrollcue svg { width: 1.5rem; stroke-width: 4; }
     .floating-booster { bottom: calc(var(--nav) + env(safe-area-inset-bottom, 0px) - var(--hidden)); width: 7rem; height: calc(4.5rem + var(--hidden)); }
 }
 

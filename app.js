@@ -87,13 +87,6 @@ window.addEventListener('resize', moveName);
 document.fonts.addEventListener('loadingdone', moveName);
 moveName();
 
-// --- Flèche vers le bas : elle s'efface au premier défilement (sur téléphone, où elle flotte) ---
-
-const scrollCue = document.querySelector('.scrollcue');
-const hideCue = () => scrollCue.classList.toggle('is-away', window.scrollY > 40);
-window.addEventListener('scroll', hideCue, { passive: true });
-hideCue();
-
 // --- Défilement bloqué sous les fenêtres (cards/modal.js) ---
 
 let locks = 0; // fenêtres ouvertes : une fiche peut s'ouvrir par-dessus le booster

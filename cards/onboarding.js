@@ -60,7 +60,7 @@ export function createOnboarding(choices) {
     const overlay = el('div', 'onboard', {}, el('div', 'onboard__bg'), box);
     overlay.setAttribute('aria-labelledby', title.id);
     overlay.setAttribute('aria-describedby', intro.id);
-    const modal = createModal(overlay, () => {}); // Échap ne choisit pas à la place du visiteur
+    const modal = createModal(overlay, () => {}, { back: false }); // Échap et le retour ne choisissent pas à la place du visiteur
 
     return {
         open() {

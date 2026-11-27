@@ -24,7 +24,10 @@ export function createDetail({ cards, describe, has }) {
     // Le bouton se pose dans le coin de l'encart, hors de la partie qui défile
     const panel = el('div', 'detail__panel', {}, info, closeButton);
     const layout = el('div', 'detail__layout', {}, slot, panel);
-    const overlay = el('div', 'detail', {}, background, layout);
+    // Sur téléphone, la croix de l'encart est loin sous la carte : une barre « Fermer » reste en haut de l'écran à la place
+    const backButton = el('button', 'detail__back', { type: 'button' }, svg('detail__arrow', '0 0 24 24', '<path d="M15 5l-7 7 7 7"/>'), text('span', '', 'cards_close'));
+    const bar = el('div', 'detail__bar', {}, backButton);
+    const overlay = el('div', 'detail', {}, background, bar, layout);
     overlay.setAttribute('aria-labelledby', 'detail-title');
     const modal = createModal(overlay, close);
 
@@ -32,6 +35,9 @@ export function createDetail({ cards, describe, has }) {
     let origin = null; // case d'où elle sort, et où elle retourne
     let node = null; // sa version agrandie
     let isClosing = false;
+
+    /** Le bouton de fermeture visible : la barre sur téléphone, la croix ailleurs. */
+    const focusClose = () => (getComputedStyle(bar).display === 'none' ? closeButton : backButton).focus({ preventScroll: true });
 
     /** Transformation qui ramène la grande carte sur la case de la collection. */
     function toTile() {
@@ -87,7 +93,7 @@ export function createDetail({ cards, describe, has }) {
         node.classList.add('is-flipped', 'tcard--detail');
         slot.replaceChildren(node);
         origin.classList.add('is-out');
-        closeButton.focus({ preventScroll: true });
+        focusClose();
         if (!reducedMotion()) {
             const arrive = [{ opacity: 0, transform: 'translateY(1.5rem) scale(0.96)' }, { opacity: 1, transform: 'none' }];
             node.animate(arrive, { duration: 380, easing: 'cubic-bezier(0.2, 0.8, 0.3, 1)' });
@@ -125,7 +131,7 @@ export function createDetail({ cards, describe, has }) {
         node.classList.add('is-flipped', 'tcard--detail');
         slot.replaceChildren(node);
         modal.open();
-        closeButton.focus({ preventScroll: true });
+        focusClose();
         origin.classList.add('is-out'); // sa case reste vide
         overlay.classList.remove('is-closing');
 
@@ -171,9 +177,10 @@ export function createDetail({ cards, describe, has }) {
     }
 
     closeButton.addEventListener('click', close);
+    backButton.addEventListener('click', close);
     // Un clic à côté de la carte et du texte ferme aussi.
     overlay.addEventListener('click', (event) => {
-        if (event.target === overlay || event.target === layout || event.target === background) close();
+        if (event.target === overlay || event.target === layout || event.target === background || event.target === bar) close();
     });
 
     return { open };
