@@ -47,7 +47,7 @@
 // de 0 (le haut de l'image) à 100 (le bas), 50 par défaut.
 // links : le logo vient du nom de domaine (liste : cards/links.js) ; label remplace le nom du site au survol, facultatif.
 // refs : une carte citée pas encore découverte reste floue et ne s'ouvre pas.
-// kind : une sorte à l'intérieur du type, que les filtres de sa section savent trier ; kind: 'software' pour un logiciel (liste : TYPES dans config.js).
+// kind : une sorte à l'intérieur du type, que les filtres de sa section savent trier ; kind: 'software' pour un logiciel, 'language' pour un langage de programmation (liste : TYPES dans config.js).
 // label remplace la ligne sous le nom (« Projet, 2026 » : le type et l'année, ou la sorte : « Logiciel »), par exemple pour un poste.
 // art: 'logo' montre un petit logo blanc centré, comme pour les logiciels, au lieu d'une image qui remplit le haut.
 // year place un projet dans la timeline : il y est obligatoire. Une étape du parcours s'y montre par un évènement (events.js).
@@ -80,6 +80,10 @@ export const CARDS = [
         fullArt: 'ressources/Mallow/FullArt.jpg',
         banner: 'ressources/Mallow/Banner.png',
         crop: 56,
+        links: [
+            { url: 'https://mallow.fr/', label: { fr: 'Site officiel Mallow', en: `Mallow's official website` } },
+        ],
+        refs: ['g4f','skill-sound-design','skill-mixing','skill-recording','skill-integration','reaper'],
     },
     {
         id: 'furyball',
@@ -110,9 +114,10 @@ export const CARDS = [
         zoom: 1.4,
         player: 'https://www.youtube.com/embed/-gwJ_qL7aWE',
         links: [
-            { url: 'https://store.steampowered.com/app/2713120/Furyball_Rogue_Revenge/?l=french' },
+            { url: 'https://store.steampowered.com/app/2713120/Furyball_Rogue_Revenge/' },
             { url: 'https://www.reboundcg.com/our-games', label: { fr: 'Studio Rebound', en: 'Rebound Studio' } },
         ],
+        refs: ['g4f','skill-sound-design','skill-mixing', 'skill-integration', 'unreal', 'fmod', 'reaper'],
     },
     {
         id: 'mechanicus',
@@ -135,6 +140,11 @@ export const CARDS = [
         crop: 44,
         banner: 'ressources/Mechanicus/Banner.jpg',
         player: 'https://www.youtube.com/embed/ekWDGK76-tA',
+        links: [
+            { url: 'https://store.steampowered.com/app/2532480/Warhammer_40000_Mechanicus_II/' },
+            { url: 'http://www.bulwarkstudios.com/', label: { fr: 'Site officiel Bulwark', en: `Bulwark's official website` } },
+        ],
+        refs: ['g4f','skill-sound-design', 'reaper', 'audition'],
     },
     {
         id: 'meot',
@@ -165,6 +175,7 @@ export const CARDS = [
         crop: 30,
         banner: 'ressources/MEOT/Banner.png',
         player: 'https://www.youtube.com/embed/nACOWAFpqb0',
+        refs: ['unity','skill-programming','skill-integration', 'wwise','fmod'],
     },
     {
         id: 'al',
@@ -186,6 +197,11 @@ export const CARDS = [
         fullArt: 'ressources/AL/FullArt.jpg',
         crop: 25,
         player: 'https://www.youtube.com/embed/HXyH9aJs2qA',
+        links: [
+            { url: 'https://store.steampowered.com/app/1296400/Architect_Life_A_House_Design_Simulator/' },
+            { url: 'https://shine-group.tech/', label: { fr: 'Site officiel Shine', en: `Shine's official website` } },
+        ],
+        refs: ['g4f','skill-sound-design','skill-mixing', 'unreal', 'reaper'],
     },
     {
         id: 'mol',
@@ -214,6 +230,11 @@ export const CARDS = [
         image: 'ressources/MOL/Card.jpg',
         fullArt: 'ressources/MOL/FullArt.jpg',
         player: 'https://www.youtube.com/embed/v4n8ufGG90I',
+        links: [
+            { url: 'https://store.steampowered.com/app/2885690/Masters_of_Light/' },
+            { url: 'https://wearecoven.com/', label: { fr: 'Site officiel Coven', en: `Coven's official website` } },
+        ],
+        refs: ['g4f','skill-sound-design','skill-mixing', 'skill-integration', 'unity', 'wwise', 'reaper'],
     },
     {
         id: 'dc',
@@ -244,6 +265,11 @@ export const CARDS = [
         image: 'ressources/DarkestCanopy/Card.jpg',
         fullArt: 'ressources/DarkestCanopy/FullArt.png',
         player: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1646295394&color=%230ea5e9&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true',
+        links: [
+            { url: 'https://mendiagames.itch.io/darkest-canopy/' },
+            { url: 'https://soundcloud.com/david-tourdot-fuentes/sets/darkest-canopy' },
+        ],
+        refs: ['skill-composition', 'bitwig'],
     },
     {
         id: 'lrds',
@@ -269,6 +295,11 @@ export const CARDS = [
         fullArt: 'ressources/LRDS/FullArt.jpg',
         crop: 58,
         player: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1697210334&color=%230ea5e9&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=true',
+        links: [
+            { url: 'https://www.instagram.com/laroutedessommets/' },
+            { url: 'https://soundcloud.com/david-tourdot-fuentes/sets/darkest-canopy' },
+        ],
+        refs: ['3is','skill-composition', 'bitwig'],
     },
     {
         id: 'lc',
@@ -290,6 +321,11 @@ export const CARDS = [
         fullArt: 'ressources/LofiClicker/FullArt.jpg',
         banner: 'ressources/LofiClicker/Banner.png',
         player: 'https://open.spotify.com/embed/album/2WLig8GusnxG5Qt9VCJw51?utm_source=generator&theme=0',
+        links: [
+            { url: 'https://catincup.itch.io/lofi-clicker' },
+            { url: 'https://open.spotify.com/intl-fr/album/2WLig8GusnxG5Qt9VCJw51' },
+        ],
+        refs: ['skill-composition','skill-sound-design','skill-integration','skill-mixing','bitwig','reaper','unity','fmod']
     },
     {
         id: 'tr',
@@ -319,6 +355,11 @@ export const CARDS = [
         fullArt: 'ressources/TR/FullArt.jpg',
         banner: 'ressources/TR/Banner.png',
         player: 'https://player.vimeo.com/video/652819674?h=7de0b67f2d',
+        links: [
+            { url: 'https://www.unifrance.org/annuaires/personne/403346/mathieu-pradat', label: { fr: 'Projets de Mathieu Pradat', en: `Mathieu Pradat's projects` } },
+            { url: 'https://vimeo.com/652819674' },
+        ],
+        refs: ['g4f','skill-sound-design','skill-integration','skill-mixing','reaper','unity','wwise']
     },
     {
         id: 'pm',
@@ -348,6 +389,7 @@ export const CARDS = [
         },
         image: 'ressources/PhantomMemories/Card.png',
         fullArt: 'ressources/PhantomMemories/FullArt.jpg',
+        refs: ['3is','skill-composition', 'skill-sound-design','skill-integration','skill-mixing','bitwig','reaper','unity','wwise']
     },
     {
         id: 'polarnatt',
@@ -376,8 +418,11 @@ export const CARDS = [
         image: 'ressources/Polarnatt/Card.png',
         fullArt: 'ressources/Polarnatt/FullArt.jpg',
         banner: 'ressources/Polarnatt/Banner.png',
-
         player: 'https://www.youtube.com/embed/4Wsf-ILv3VA?si=2rMGF-0IX_XtqQEA',
+        links: [
+            { url: 'https://www.youtube.com/watch?v=4Wsf-ILv3VA' }
+        ],
+        refs: ['3is','skill-composition', 'skill-sound-design','skill-mixing','bitwig','reaper']
     },
     {
         id: 'hf',
@@ -409,6 +454,11 @@ export const CARDS = [
         crop: 60,
         zoom: 1.1,
         player: 'https://open.spotify.com/embed/album/3IMaxVIqnao0gLb7jlIj11?utm_source=generator&theme=0',
+        links: [
+            { url: 'https://mendiagames.itch.io/hide-and-flee' },
+            { url : 'https://open.spotify.com/intl-fr/album/3IMaxVIqnao0gLb7jlIj11' }
+        ],
+        refs: ['skill-composition','skill-sound-design','skill-integration','skill-mixing','bitwig','reaper','fmod','unity']
     },
     {
         id: 'aa',
@@ -431,6 +481,10 @@ export const CARDS = [
         banner: 'ressources/AlphaAlpha/Banner.png',
         crop: 30,
         player: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1469265319&color=%230369a1&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true',
+        links: [
+            { url: 'https://soundcloud.com/david-tourdot-fuentes/sets/alpha-alpha-ep3-soundtrack' }
+        ],
+        refs: ['3is','skill-composition','bitwig']
     },
     {
         id: 'spring',
@@ -453,6 +507,10 @@ export const CARDS = [
         banner: 'ressources/Spring/Banner.png',
         crop: 62,
         player: 'https://www.youtube.com/embed/WB5QWPH_wgk',
+        links: [
+            { url: 'https://www.youtube.com/watch?v=WB5QWPH_wgk' }
+        ],
+        refs: ['skill-composition','bitwig']
     },
 
     // ---------- Compétences ----------
@@ -460,7 +518,7 @@ export const CARDS = [
     {
         id: 'skill-sound-design',
         type: 'skill',
-        rarity: 'common',
+        rarity: 'epic',
         name: 'Sound design',
         short: {
             fr: `Créer les sons de jeux, de cinématiques et des ambiances`,
@@ -476,6 +534,7 @@ export const CARDS = [
         },
         image: 'ressources/Skills/SoundDesign/Card.jpg',
         fullArt: 'ressources/Skills/SoundDesign/FullArt.jpg',
+        refs: ['reaper'],
     },
     {
         id: 'skill-composition',
@@ -496,6 +555,7 @@ export const CARDS = [
         },
         image: 'ressources/Skills/Composition/Card.jpg',
         fullArt: 'ressources/Skills/Composition/Card.jpg',
+        refs: ['bitwig'],
     },
     {
         id: 'skill-integration',
@@ -518,6 +578,7 @@ export const CARDS = [
         },
         image: 'ressources/Skills/Integration/Card.jpg',
         fullArt: 'ressources/Skills/Integration/FullArt.jpg',
+        refs: ['wwise', 'fmod', 'unity', 'unreal'],
     },
     {
         id: 'skill-programming',
@@ -533,13 +594,14 @@ export const CARDS = [
                 - C#
                 - Python
                 - Javascript
-                - Godot Scripts`,
+                - GD Scripts`,
             en: `Develop custom-made tools and audio systems as well as software/algorithms to automate long tasks
                 - C#
                 - Python
                 - Javascript
-                - Godot Scripts`,
+                - GD Scripts`,
         },
+        refs: ['csharp', 'python', 'javascript', 'unity', 'unreal'],
         image: 'ressources/Skills/Programming/Card.jpg',
         fullArt: 'ressources/Skills/Programming/FullArt.jpg',
     },
@@ -566,6 +628,7 @@ export const CARDS = [
         },
         image: 'ressources/Skills/Mixing/Card.jpg',
         fullArt: 'ressources/Skills/Mixing/FullArt.jpg',
+        refs: ['reaper', 'protools', 'audition'],
     },
     {
         id: 'skill-recording',
@@ -590,6 +653,7 @@ export const CARDS = [
         },
         image: 'ressources/Skills/Recording/Card.jpg',
         fullArt: 'ressources/Skills/Recording/FullArt.jpg',
+        refs: ['reaper', 'protools'],
     },
 
     // ---------- Compétences : logiciels ----------
@@ -611,6 +675,7 @@ export const CARDS = [
         },
         image: 'ressources/Generic/Reaper_White.svg',
         fullArt: 'ressources/Software/Reaper/FullArt.jpg',
+        refs: ['skill-sound-design', 'skill-mixing', 'skill-recording'],
     },
     {
         id: 'bitwig',
@@ -629,6 +694,7 @@ export const CARDS = [
         },
         image: 'ressources/Generic/Bitwig_White.svg',
         fullArt: 'ressources/Software/Bitwig/FullArt.jpg',
+        refs: ['skill-composition'],
     },
     {
         id: 'wwise',
@@ -647,13 +713,14 @@ export const CARDS = [
         },
         image: 'ressources/Generic/Wwise_White.svg',
         fullArt: 'ressources/Software/Wwise/FullArt.jpg',
+        refs: ['skill-integration'],
     },
     {
         id: 'fmod',
         type: 'skill',
         art: 'logo',
         kind: 'software',
-        rarity: 'rare',
+        rarity: 'epic',
         name: 'FMOD',
         short: {
             fr: `
@@ -665,13 +732,14 @@ export const CARDS = [
         },
         image: 'ressources/Generic/FMOD_White.svg',
         fullArt: 'ressources/Software/FMOD/FullArt.jpg',
+        refs: ['skill-integration'],
     },
     {
         id: 'unity',
         type: 'skill',
         art: 'logo',
         kind: 'software',
-        rarity: 'rare',
+        rarity: 'epic',
         name: 'Unity',
         short: {
             fr: `
@@ -683,6 +751,7 @@ export const CARDS = [
         },
         image: 'ressources/Generic/Unity_White.svg',
         fullArt: 'ressources/Software/Unity/FullArt.jpg',
+        refs: ['skill-programming', 'skill-integration'],
     },
     {
         id: 'unreal',
@@ -701,13 +770,14 @@ export const CARDS = [
         },
         image: 'ressources/Generic/UE_White.svg',
         fullArt: 'ressources/Software/Unreal/FullArt.jpg',
+        refs: ['skill-programming', 'skill-integration'],
     },
     {
         id: 'maxmsp',
         type: 'skill',
         art: 'logo',
         kind: 'software',
-        rarity: 'common',
+        rarity: 'rare',
         name: 'Max MSP',
         short: {
             fr: `
@@ -719,6 +789,7 @@ export const CARDS = [
         },
         image: 'ressources/Generic/Ableton_White.svg',
         fullArt: 'ressources/Software/MaxMSP/FullArt.jpg',
+        refs: ['ableton'],
     },
     {
         id: 'ableton',
@@ -737,6 +808,7 @@ export const CARDS = [
         },
         image: 'ressources/Generic/Ableton_White.svg',
         fullArt: 'ressources/Software/Ableton/FullArt.jpg',
+        refs: ['maxmsp'],
     },
     {
         id: 'audition',
@@ -755,6 +827,7 @@ export const CARDS = [
         },
         image: 'ressources/Generic/AA_White.svg',
         fullArt: 'ressources/Software/Audition/FullArt.jpg',
+        refs: ['skill-mixing'],
     },
     {
         id: 'protools',
@@ -773,6 +846,70 @@ export const CARDS = [
         },
         image: 'ressources/Generic/PT_White.svg',
         fullArt: 'ressources/Software/ProTools/FullArt.jpg',
+        refs: ['skill-mixing'],
+    },
+
+    // ---------- Compétences : langages de programmation ----------
+
+    {
+        id: 'csharp',
+        type: 'skill',
+        art: 'logo',
+        kind: 'language',
+        rarity: 'rare',
+        name: 'C#',
+        short: {
+            fr: `Langage de programation utilisé par Unity`,
+            en: `Unity's main programming language`,
+        },
+        image: 'ressources/Generic/CSharp_White.svg',
+        fullArt: 'ressources/Languages/CSharp/FullArt.jpg',
+        refs: ['skill-programming'],
+    },
+    {
+        id: 'python',
+        type: 'skill',
+        art: 'logo',
+        kind: 'language',
+        rarity: 'epic',
+        name: 'Python',
+        short: {
+            fr: `Langage polyvalent que j'utilise pour écrire des scripts d'automatisation`,
+            en: `Versatile language I use to write automatisations scripts`,
+        },
+        image: 'ressources/Generic/Python.svg',
+        fullArt: 'ressources/Languages/Python/FullArt.jpg',
+        refs: ['skill-programming'],
+    },
+    {
+        id: 'javascript',
+        type: 'skill',
+        art: 'logo',
+        kind: 'language',
+        rarity: 'common',
+        name: 'JavaScript',
+        short: {
+            fr: `Langage web : ce portfolio et son Lab'Audio ont été développé en JavaScript`,
+            en: `Web language: this portfolio and its Audio Lab are built in JavaScript`,
+        },
+        image: 'ressources/Generic/JavaScript.svg',
+        fullArt: 'ressources/Languages/JavaScript/FullArt.jpg',
+        refs: ['skill-programming'],
+    },
+    {
+        id: 'godot',
+        type: 'skill',
+        art: 'logo',
+        kind: 'language',
+        rarity: 'common',
+        name: 'GD Scripts',
+        short: {
+            fr: `GDScript, le langage de script du moteur de jeu Godot`,
+            en: `GDScript, the scripting language of the Godot game engine`,
+        },
+        image: 'ressources/Generic/Godot.svg',
+        fullArt: 'ressources/Languages/Godot/FullArt.jpg',
+        refs: ['skill-programming', 'skill-integration'],
     },
 
     // ---------- Parcours : études et postes ----------
@@ -813,7 +950,7 @@ export const CARDS = [
         type: 'career',
         rarity: 'legendary',
         name: 'G4F Prod',
-        refs: ['furyball', 'al', 'mol', 'tr'], // les projets réalisés chez G4F
+        refs: ['mallow','furyball', 'mechanicus','al', 'mol', 'tr'],
         label: { fr: 'Poste de Sound Designer depuis 2023', en: 'Sound Designer since 2023' },
         year: 2023,
         short: {

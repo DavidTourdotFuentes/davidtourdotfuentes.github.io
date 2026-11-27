@@ -37,7 +37,7 @@ export const BOOSTER = {
  */
 export const TYPES = {
     project: { art: 'cover', timeline: true, icon: '<path class="fill" d="M8.5 5.5v13l10-6.5z"/>' }, // touche lecture
-    skill: { art: 'cover', kinds: ['software'], icon: '<path d="M6 4v16M12 4v16M18 4v16"/><rect class="fill" x="3.5" y="13" width="5" height="3.4" rx="1"/><rect class="fill" x="9.5" y="6.5" width="5" height="3.4" rx="1"/><rect class="fill" x="15.5" y="10.5" width="5" height="3.4" rx="1"/>' }, // savoir-faire et logiciels : des faders
+    skill: { art: 'cover', kinds: ['software', 'language'], icon: '<path d="M6 4v16M12 4v16M18 4v16"/><rect class="fill" x="3.5" y="13" width="5" height="3.4" rx="1"/><rect class="fill" x="9.5" y="6.5" width="5" height="3.4" rx="1"/><rect class="fill" x="15.5" y="10.5" width="5" height="3.4" rx="1"/>' }, // savoir-faire et logiciels : des faders
     career: { art: 'cover', icon: '<circle class="fill" cx="5" cy="18.5" r="2.2"/><circle class="fill" cx="19" cy="5.5" r="2.2"/><path d="M5 18.5c0-5 7-3 7-7s7-1 7-6" stroke-dasharray="2.4 2.6"/>' }, // parcours : études et postes, un chemin d'étape en étape
 };
 

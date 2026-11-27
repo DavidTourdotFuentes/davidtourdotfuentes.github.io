@@ -148,7 +148,7 @@ createFilters(document.getElementById('filters'), document.getElementById('proje
     [['', 'filter_projects_all'], ...Object.entries(TAGS)], (data, tag) => data.tags?.includes(tag));
 // Compétences : savoir-faire ou logiciels (kind)
 createFilters(document.getElementById('skill-filters'), document.getElementById('skill-grid'),
-    [['', 'filter_all'], ['skill', 'filter_skills'], ['software', 'filter_software']], (data, value) => (data.kind ?? 'skill') === value);
+    [['', 'filter_all'], ['skill', 'filter_skills'], ['software', 'filter_software'], ['language', 'filter_language']], (data, value) => (data.kind ?? 'skill') === value);
 
 // --- Barre de collection ---
 

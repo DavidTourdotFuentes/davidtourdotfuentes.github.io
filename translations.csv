@@ -50,6 +50,7 @@ cards_new,New,Nouveau
 type_project,Project,Projet
 type_skill,Skill,Compétence
 kind_software,Software,Logiciel
+kind_language,Language,Langage
 filter_projects_all,All,Tout
 filter_sound_design,Sound Design,Design Sonore
 filter_soundtrack,Soundtrack,Bande Son
@@ -58,6 +59,7 @@ filter_audio_tool,Audio Tool,Outils Audio
 filter_all,All,Tout
 filter_skills,Skill,Compétence
 filter_software,Software,Logiciel
+filter_language,Language,Langage
 type_career,Background,Parcours
 rarity_common,Common,Commune
 rarity_rare,Rare,Rare
