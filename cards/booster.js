@@ -51,13 +51,23 @@ export function createBooster({ cards, size, draw, describe, remaining, packSize
         setText(intro, 'cards_pack_text');
         setText(hint, 'cards_open_hint');
 
+        // Un sachet scellé : sous la soudure du haut, le même cadran jaune qu'au dos des cartes. Les quatre voyants sont les raretés.
+        const leds = () => ['commune', 'rare', 'epic', 'crete'].map((led) => {
+            const node = el('span', 'pack__led');
+            node.style.setProperty('--c', `var(--led-${led})`);
+            return node;
+        });
         const half = (part) => el('span', `pack__half pack__half--${part}`, {},
             el('span', 'pack__art', {},
-                el('span', 'pack__band'),
-                el('span', 'pack__meter', {}, createMeter()),
-                el('span', 'pack__foot', {},
+                el('span', 'pack__seal'),
+                el('span', 'pack__panel', {},
                     el('span', 'pack__label', { textContent: 'Booster' }),
-                    el('span', 'pack__count', {}, `${packSize()} `, text('span', '', 'pack_count')))));
+                    el('span', 'pack__meter', {}, createMeter())),
+                el('span', 'pack__foot', {},
+                    el('span', 'pack__count', {}, `${packSize()} `, text('span', '', 'pack_count')),
+                    el('span', 'pack__leds', {}, ...leds())),
+                el('span', 'pack__seal pack__seal--bottom'),
+                el('span', 'pack__shine')));
         const pack = el('button', 'pack', { type: 'button' }, half('bottom'), half('top'));
         pack.setAttribute('aria-label', getTranslation('cards_open_booster'));
         bindTear(pack, () => openPack(pack));
