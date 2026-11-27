@@ -1,5 +1,8 @@
-let currentLang = 'fr';
+// Langue de départ : le français, sauf si l'adresse demande ?lang=en (le lien d'une page à l'autre garde ainsi la langue choisie).
+let currentLang = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'fr';
 const translations = {};
+// Le fichier est à côté de ce script : la même table sert au portfolio et au labo audio (audio-demos/).
+const TRANSLATIONS_URL = new URL('translations.csv', document.currentScript.src);
 
 function parseCSV(text) {
     const rows = [];
@@ -24,7 +27,7 @@ function parseCSV(text) {
 }
 
 function loadTranslations(lang = 'fr') {
-    fetch('translations.csv')
+    fetch(TRANSLATIONS_URL)
         .then(response => response.text())
         .then(text => {
             const rows = parseCSV(text.trim());
@@ -37,6 +40,7 @@ function loadTranslations(lang = 'fr') {
             }
 
             currentLang = lang;
+            document.documentElement.lang = lang;
             applyTranslations(translations);
             document.dispatchEvent(new Event('translationschange'));
         })
@@ -55,6 +59,8 @@ function applyTranslations(translations) {
                 el.textContent = text;
             }
         });
+        // Libellé lu par les lecteurs d'écran, pour un élément sans texte visible
+        document.querySelectorAll(`[data-i18n-aria="${key}"]`).forEach(el => el.setAttribute('aria-label', text));
     }
 }
 

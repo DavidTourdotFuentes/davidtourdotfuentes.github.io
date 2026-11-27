@@ -3,29 +3,30 @@
   "demos": [
     {
       "id": "darkest-canopy",
-      "name": "Musique adaptative",
+      "name": "lab_dc_name",
       "project": "Darkest Canopy",
-      "title": "Comment passer de l'exploration au combat sans couper la musique ?",
-      "description": "Dans un jeu, personne ne sait quand l'ennemi va surgir. La musique doit pouvoir changer à tout instant.",
+      "image": "../ressources/DarkestCanopy/Lab.jpg",
+      "title": "lab_dc_title",
+      "description": "lab_dc_text",
       "steps": [
-        { "text": "Lancez la musique.", "when": "play" },
-        { "text": "Basculez le levier sur Combat.", "when": "param", "value": 100 },
-        { "text": "Revenez à l'exploration, au moment de votre choix.", "when": "param", "value": 0 }
+        { "text": "lab_dc_step1", "when": "play" },
+        { "text": "lab_dc_step2", "when": "param", "value": 100 },
+        { "text": "lab_dc_step3", "when": "param", "value": 0 }
       ],
-      "observation": "Les deux musiques ont exactement la même durée et bouclent. Le jeu peut donc glisser de l'une à l'autre à n'importe quel moment : regardez la courbe, la valeur ne saute pas, elle voyage.",
+      "observation": "lab_dc_observation",
       "banks": ["DarkestCanopy.bank"],
       "events": [
         {
           "path": "event:/DarkestCanopy/Music",
-          "label": "Musique",
+          "label": "lab_event_music",
           "mode": "loop",
           "parameters": [
             {
               "name": "ExplorationOrFight_param",
-              "label": "État du jeu",
+              "label": "lab_dc_param",
               "type": "toggle",
               "global": true,
-              "labels": ["Exploration", "Combat"],
+              "labels": ["lab_dc_explore", "lab_dc_fight"],
               "values": [0, 100]
             }
           ]
@@ -34,35 +35,35 @@
     },
     {
       "id": "hide-and-flee-monster",
-      "name": "Tension",
+      "name": "lab_hm_name",
       "project": "Hide And Flee",
-      "title": "Comment faire sentir qu'un monstre approche ?",
-      "description": "On entend le danger avant de le voir. Ici, une seule valeur règle toute la tension : la distance du monstre.",
+      "image": "../ressources/HideAndFlee/Lab_Tension.jpg",
+      "title": "lab_hm_title",
+      "description": "lab_hm_text",
       "steps": [
-        { "text": "Lancez l'ambiance, le monstre est loin.", "when": "play" },
-        { "text": "Tournez le potard pour l'amener tout près.", "when": "param", "below": 10 },
-        { "text": "Faites-le reculer et écoutez la tension retomber.", "when": "param", "above": 80 }
+        { "text": "lab_hm_step1", "when": "play" },
+        { "text": "lab_hm_step2", "when": "param", "below": 10 },
+        { "text": "lab_hm_step3", "when": "param", "above": 80 }
       ],
-      "observation": "Vous venez de faire le travail du jeu : mesurer une distance et l'envoyer au son. L'ambiance calme laisse la place à une ambiance de stress, à une montée de basses et à une note aiguë de cordes. Le joueur n'a rien lu, mais il a compris.",
+      "observation": "lab_hm_observation",
       "banks": ["HideAndFlee.bank"],
       "events": [
         {
           "path": "event:/HideAndFlee/Monster Proximity",
-          "label": "Ambiance",
+          "label": "lab_event_ambience",
           "mode": "loop",
           "parameters": [
             {
               "name": "EyesDistance_param",
-              "label": "Distance du monstre",
+              "label": "lab_hm_param",
               "type": "continuous",
-              "visual": "eyes",
               "global": true,
               "min": 0,
               "max": 100,
               "step": 1,
               "default": 100,
               "reversed": true,
-              "ends": ["Loin", "Proche"]
+              "ends": ["lab_hm_far", "lab_hm_near"]
             }
           ]
         }
@@ -70,30 +71,32 @@
     },
     {
       "id": "hide-and-flee-music",
-      "name": "Progression",
+      "name": "lab_hp_name",
       "project": "Hide And Flee",
-      "title": "Comment une musique raconte-t-elle l'avancée du joueur ?",
-      "description": "De la maison au générique, la musique passe du mignon à l'effrayant en suivant les étapes du jeu.",
+      "image": "../ressources/HideAndFlee/Lab_Progression.jpg",
+      "title": "lab_hp_title",
+      "description": "lab_hp_text",
       "steps": [
-        { "text": "Lancez la musique, au début du jeu.", "when": "play" },
-        { "text": "Avancez d'étape en étape : essayez-en au moins trois.", "when": "param", "count": 3 },
-        { "text": "Allez jusqu'au générique.", "when": "param", "value": 5 }
+        { "text": "lab_hp_step1", "when": "play" },
+        { "text": "lab_hp_step2", "when": "param", "count": 2 },
+        { "text": "lab_hp_step3", "when": "param", "value": 5 }
       ],
-      "observation": "La valeur ne saute pas à l'étape choisie, elle y glisse : chaque repère de la courbe est un cran franchi. La musique traverse donc toutes les étapes entre les deux, et l'histoire garde sa continuité.",
+      "observation": "lab_hp_observation",
       "banks": ["HideAndFlee.bank"],
       "events": [
         {
           "path": "event:/HideAndFlee/Music",
-          "label": "Musique",
+          "label": "lab_event_music",
           "mode": "loop",
           "parameters": [
             {
               "name": "LevelStage_param",
-              "label": "Progression dans le jeu",
+              "label": "lab_hp_param",
               "type": "stepped",
+              "sequential": true,
               "global": true,
               "min": 1,
-              "labels": ["The House", "Hide And Seek Minigame", "Dark Forest Discover", "Dark Forest Theme", "Credits"]
+              "labels": ["lab_hp_stage1", "lab_hp_stage2", "lab_hp_stage3", "lab_hp_stage4", "lab_hp_stage5"]
             }
           ]
         }
@@ -101,22 +104,22 @@
     },
     {
       "id": "explosion",
-      "name": "Spatialisation 3D",
-      "title": "Comment sait-on d'où vient une explosion ?",
-      "description": "Vue de dessus : l'explosion est au centre, vous portez le casque. Mettez le vôtre, l'effet est bien plus net.",
+      "name": "lab_ex_name",
+      "title": "lab_ex_title",
+      "description": "lab_ex_text",
       "steps": [
-        { "text": "Cliquez sur le point central pour déclencher l'explosion.", "when": "play" },
-        { "text": "Déplacez le casque, par exemple de l'autre côté.", "when": "move" },
-        { "text": "Déclenchez à nouveau : la direction et la force ont changé.", "when": "play" }
+        { "text": "lab_ex_step1", "when": "play", "below": 25 },
+        { "text": "lab_ex_step2", "when": "play", "above": 65 },
+        { "text": "lab_ex_step3", "when": "move" }
       ],
-      "observation": "Le son est toujours le même, c'est votre place qui change. Le moteur en déduit la direction et l'atténuation : plein volume dans le petit cercle, puis de plus en plus faible jusqu'au grand.",
+      "observation": "lab_ex_observation",
       "banks": ["Explosion.bank"],
       "events": [
         {
           "path": "event:/Explosion/Explode",
-          "label": "Exploser",
+          "label": "lab_event_explode",
           "mode": "oneshot",
-          "spatial": { "distance": [10, 100], "listener": [30, -40] }
+          "spatial": { "distance": [10, 100] }
         }
       ]
     }

@@ -1,19 +1,32 @@
 // Construction des expériences à partir du manifeste : à gauche le cahier, à droite l'établi.
+// Les textes du manifeste sont des clés de ../translations.csv : ils changent avec la langue (i18n.js).
 import { createKnob, createLever, createPads, el, perFrame, svg } from './controls.js';
 import { createCurve } from './curve.js';
+import { attr, live, t, text } from './i18n.js';
 import { createMap } from './map.js';
-import { createProtocol, isDone } from './protocol.js';
+import { createProtocol, isDone, isStarted } from './protocol.js';
 
 export { perFrame };
 
 const LEDS = ['rare', 'epic', 'jaune', 'crete']; // couleur de la trace, d'une expérience à l'autre
 
-/** state : "idle", "loading", "ready", "locked" ou "error". Le texte n'est mis en avant que pour les deux derniers. */
-export function setStatus(state, text) {
-    const status = document.getElementById('status');
+// --- Voyant de mise sous tension, dans l'en-tête ---
+
+const statusNode = document.getElementById('status');
+let status = { key: 'lab_status_idle', vars: {} };
+function drawStatus() {
+    const words = t(status.key, status.vars);
+    if (statusNode.textContent !== words) statusNode.textContent = words;
+    statusNode.parentElement.title = words; // sur téléphone, seul le voyant est visible
+}
+live(drawStatus);
+
+/** state : "idle", "loading", "ready", "locked" ou "error" ; key : clé du texte, vars : ses variables. */
+export function setStatus(state, key, vars = {}) {
+    status = { key, vars };
     document.getElementById('status-dot').dataset.state = state;
-    status.dataset.state = state;
-    if (status.textContent !== text) status.textContent = text;
+    statusNode.dataset.state = state;
+    drawStatus();
 }
 
 /** Ajoute un message à la zone d'erreur de la page. */
@@ -23,16 +36,33 @@ export function showPageError(message) {
     box.hidden = false;
 }
 
-const STATE_LABELS = { loading: 'Chargement…', missing: 'Bank manquante', error: 'Erreur audio' };
+// --- Touches de lecture (et vue de dessus, qui déclenche aussi un event) ---
+
+const STATE_KEYS = { loading: 'lab_state_loading', missing: 'lab_state_missing', error: 'lab_state_error' };
+const triggers = new Set();
+
+function drawTrigger(button) {
+    const key = STATE_KEYS[button.dataset.state];
+    const label = button.querySelector('.key__label');
+    if (label) label.textContent = t(key ?? button.dataset.label);
+    else button.title = key ? t(key) : ''; // vue de dessus : elle garde son propre libellé
+}
+live(() => triggers.forEach(drawTrigger));
 
 /** state : "idle", "loading", "missing" ou "error". Le bouton reste cliquable pour réessayer. */
 export function setEventState(button, state) {
+    triggers.add(button);
     button.dataset.state = state;
-    const text = STATE_LABELS[state] ?? button.dataset.label;
-    const label = button.querySelector('.key__label');
-    if (label) label.textContent = text;
-    else button.title = button.ariaLabel = text; // point de la vue de dessus : pas de texte visible
+    drawTrigger(button);
     button.setAttribute('aria-busy', String(state === 'loading'));
+}
+
+/** Pendant qu'une expérience se charge, les autres touches de lecture attendent. active : la touche qui charge, ou null. */
+export function setBusy(active) {
+    for (const button of triggers) {
+        if (active && button !== active) button.setAttribute('aria-disabled', 'true');
+        else button.removeAttribute('aria-disabled');
+    }
 }
 
 export function setEventPlaying(button, playing) {
@@ -51,107 +81,110 @@ export function initialValue(param) {
     return param.default ?? param.min;
 }
 
-const nameOf = (param) => param.label ?? param.name;
+/** Clé du nom d'un paramètre ; sans label, le nom FMOD s'affiche tel quel. */
+const nameKey = (param) => param.label ?? param.name;
+
+/** Les textes d'une liste de nœuds suivent une liste de clés. */
+function texts(nodes, keys) {
+    nodes.forEach((node, i) => text(node, keys[i]));
+}
 
 /** Courbe temps réel du paramètre, sur l'étendue de ses valeurs possibles. */
 function paramCurve(param, min, max, steps) {
-    return createCurve({ min, max, steps, stepLabels: steps && param.labels, initial: initialValue(param), label: nameOf(param) });
+    const stepLabels = [];
+    if (steps) live(() => stepLabels.splice(0, Infinity, ...param.labels.map((key) => t(key))));
+    const curve = createCurve({ min, max, steps, stepLabels, initial: initialValue(param) });
+    attr(curve.node, 'aria-label', 'lab_curve', () => ({ name: t(nameKey(param)) }));
+    return curve;
 }
-
-/** Les yeux du monstre : ils s'ouvrent et grandissent quand il approche. near va de 0 à 1. */
-function createEyes() {
-    const eye = '<path class="eyes__lid" d="M0-11C9-11 16-5 18 0 16 5 9 11 0 11S-16 5-18 0C-16-5-9-11 0-11z"/><ellipse class="eyes__pupil" rx="3.4" ry="8"/>';
-    const node = el('div', { className: 'eyes' }, svg('0 0 120 60', `<g transform="translate(34 30)"><g class="eyes__one">${eye}</g></g><g transform="translate(86 30)"><g class="eyes__one">${eye}</g></g>`));
-    return { node, set: (near) => node.style.setProperty('--near', near.toFixed(3)) };
-}
-const VISUALS = { eyes: createEyes };
 
 function renderContinuous(param, id, onChange) {
     const { min, max } = param;
     const knob = createKnob({ id, min, max, step: param.step ?? (max - min) / 100, value: initialValue(param), reversed: param.reversed }, onChange);
-    const node = el('div', { className: 'control control--knob' }, el('label', { className: 'control__name', htmlFor: id, textContent: nameOf(param) }));
+    const node = el('div', { className: 'control control--knob' }, text(el('label', { className: 'control__name', htmlFor: id }), nameKey(param)));
     const row = el('div', { className: 'control__knob' });
-    if (param.ends) row.append(el('span', { className: 'control__end', textContent: param.ends[0] }));
+    if (param.ends) row.append(text(el('span', { className: 'control__end' }), param.ends[0]));
     row.append(knob.node);
-    if (param.ends) row.append(el('span', { className: 'control__end', textContent: param.ends[1] }));
+    if (param.ends) row.append(text(el('span', { className: 'control__end' }), param.ends[1]));
     node.append(row);
     return { node, curve: paramCurve(param, min, max) };
 }
 
-/** Touches nommées ; la première vaut param.min. */
+/** Touches nommées ; la première vaut param.min. sequential : on n'avance que d'un cran à la fois, puis on recommence au début. */
 function renderStepped(param, id, onChange) {
     const values = param.labels.map((_, i) => param.min + i);
-    const node = createPads({ id, legend: nameOf(param), labels: param.labels, numbers: values, index: initialValue(param) - param.min }, (i) => onChange(values[i]));
+    const node = createPads({ id, labels: param.labels.map(() => ''), numbers: values, index: initialValue(param) - param.min, sequential: param.sequential }, (i, options) => onChange(values[i], options));
+    text(node.querySelector('legend'), nameKey(param));
+    texts([...node.querySelectorAll('.pad__name')], param.labels);
+    const reset = node.querySelector('.pads__reset');
+    if (reset) text(reset.querySelector('span'), 'lab_restart');
     return { node, curve: paramCurve(param, values[0], values.at(-1), values) };
 }
 
 function renderToggle(param, id, onChange) {
-    const lever = createLever({ id, label: nameOf(param), labels: param.labels, index: param.default ?? 0 }, (i) => onChange(param.values[i]));
-    const node = el('div', { className: 'control' }, el('span', { className: 'control__name', textContent: nameOf(param) }), lever);
+    const lever = createLever({ id, labels: ['', ''], index: param.default ?? 0 }, (i) => onChange(param.values[i]));
+    texts([...lever.querySelectorAll('.lever__side')], param.labels);
+    attr(lever, 'aria-label', nameKey(param));
+    const node = el('div', { className: 'control' }, text(el('span', { className: 'control__name' }), nameKey(param)), lever);
     return { node, curve: paramCurve(param, Math.min(...param.values), Math.max(...param.values)) };
 }
 
-const PARAM_RENDERERS = {
-    continuous: renderContinuous,
-    stepped: renderStepped,
-    toggle: renderToggle,
-    labeled: (param, id, onChange) => ({
-        node: createPads({ id, legend: nameOf(param), labels: param.labels, index: param.default ?? 0 }, onChange),
-        curve: null,
-    }),
-};
-
-function screen(title, canvas) {
-    return el('figure', { className: 'screen' }, canvas, el('figcaption', { className: 'screen__title', textContent: title }));
+function renderLabeled(param, id, onChange) {
+    const node = createPads({ id, labels: param.labels.map(() => ''), index: param.default ?? 0 }, onChange);
+    text(node.querySelector('legend'), nameKey(param));
+    texts([...node.querySelectorAll('.pad__name')], param.labels);
+    return { node, curve: null };
 }
 
-/** Un event : sa touche, ses écrans et ses commandes. */
-function renderEvent(demo, event, id, { onTrigger, onParam, onListener, displays, maps, scope, isPlaying, report }) {
+const PARAM_RENDERERS = { continuous: renderContinuous, stepped: renderStepped, toggle: renderToggle, labeled: renderLabeled };
+
+function screen(key, canvas) {
+    return el('figure', { className: 'screen' }, canvas, text(el('figcaption', { className: 'screen__title' }), key));
+}
+
+/** Un event : sa touche (ou sa vue de dessus), ses écrans et ses commandes. */
+function renderEvent(demo, event, id, { onTrigger, onParam, onAim, displays, maps, scope, isPlaying, report }) {
+    let button;
     let map = null;
     if (event.spatial) {
-        const { distance: range, listener } = event.spatial;
+        // Le listener est au centre ; un clic dans sa portée y fait partir l'explosion.
         map = createMap({
-            range,
-            listener,
-            onMove: perFrame((position) => {
-                onListener(event, position);
-                report({ type: 'move' });
-            }),
+            range: event.spatial.distance,
+            onFire(position, { flipped }) {
+                onAim(event, position);
+                if (flipped) report({ type: 'move' }); // l'explosion est passée de l'autre côté de l'oreille
+                onTrigger(map.surface, demo, event);
+            },
         });
         maps.set(event, map);
+        button = map.surface;
+    } else {
+        button = el('button', { type: 'button', className: 'key' }, el('span', { className: 'key__cap', ariaHidden: 'true' }), el('span', { className: 'key__label' }));
+        button.addEventListener('click', () => onTrigger(button, demo, event));
     }
-    const button = map?.source ?? el('button', { type: 'button', className: 'key' }, el('span', { className: 'key__cap', ariaHidden: 'true' }), el('span', { className: 'key__label' }));
     button.dataset.label = event.label;
-    setEventState(button, 'idle');
     button.dataset.mode = event.mode;
+    setEventState(button, 'idle');
     if (event.mode === 'loop') setEventPlaying(button, false);
-    button.addEventListener('click', () => onTrigger(button, demo, event));
 
     const wave = el('canvas', { className: 'scope' });
     wave.setAttribute('role', 'img');
-    wave.setAttribute('aria-label', 'Forme d’onde du son en cours');
+    attr(wave, 'aria-label', 'lab_wave');
     scope.addScreen(wave, { isActive: () => isPlaying(event) });
-    const screens = el('div', { className: 'screens' }, screen('Signal', wave));
+    const screens = el('div', { className: 'screens' }, screen('lab_signal', wave));
 
     const controls = el('div', { className: 'controls' });
     if (map) controls.append(map.node);
     else controls.append(el('div', { className: 'control control--key' }, button));
     (event.parameters ?? []).forEach((param, i) => {
-        const { node, curve } = PARAM_RENDERERS[param.type](param, `${id}-p${i}`, (value) => {
-            onParam(event, param, value);
+        const { node, curve } = PARAM_RENDERERS[param.type](param, `${id}-p${i}`, (value, options) => {
+            onParam(event, param, value, options);
             report({ type: 'param', value });
         });
-        const visual = VISUALS[param.visual]?.();
         if (curve) {
-            screens.append(screen(nameOf(param), curve.node));
-            const near = (value) => visual?.set((param.reversed ? param.max - value : value - param.min) / (param.max - param.min));
-            near(initialValue(param));
-            displays.set(param, (value) => {
-                curve.push(value);
-                near(value);
-            });
+            screens.append(screen(nameKey(param), curve.node));
+            displays.set(param, (value) => curve.push(value));
         }
-        if (visual) controls.append(visual.node);
         controls.append(node);
     });
     return el('div', { className: 'event' }, screens, controls);
@@ -166,6 +199,15 @@ function cable(index) {
     return node;
 }
 
+/** En-tête du module : le projet en titre, la technique au-dessus. Sans projet, la technique seule. */
+function plate(demo) {
+    const name = demo.name ?? demo.title;
+    const words = demo.project
+        ? [text(el('p', { className: 'bench__kind' }), name), el('p', { className: 'bench__name', textContent: demo.project })]
+        : [text(el('p', { className: 'bench__name' }), name)];
+    return el('div', { className: 'bench__plate' }, el('span', { className: 'bench__led', ariaHidden: 'true' }), el('div', { className: 'bench__words' }, ...words));
+}
+
 const jack = (side) => el('span', { className: `jack jack--${side}`, ariaHidden: 'true' });
 
 /** Construit les expériences, remplit handlers.displays et handlers.maps, et renvoie une Map article → { demo, report }. */
@@ -174,19 +216,23 @@ export function renderDemos(container, demos, handlers) {
     const nodes = demos.flatMap((demo, i) => {
         const titleId = `demo-${demo.id}-title`;
         const number = String(i + 1).padStart(2, '0');
-        const protocol = createProtocol(demo, { onDone: handlers.onDone });
+        const protocol = createProtocol(demo, { onDone: handlers.onDone, onStart: handlers.onStart });
         const notes = el('div', { className: 'notes' },
-            el('p', { className: 'notes__number' }, el('span', { className: 'sr-only', textContent: 'Expérience ' }), number),
-            el('h2', { id: titleId, className: 'notes__title', textContent: demo.title }),
-            el('p', { className: 'notes__text', textContent: demo.description }),
+            el('p', { className: 'notes__number' }, text(el('span', { className: 'sr-only' }), 'lab_experiment_sr'), number),
+            text(el('h2', { id: titleId, className: 'notes__title' }), demo.title),
+            text(el('p', { className: 'notes__text' }), demo.description),
             protocol.node);
-        if (demo.project) notes.append(el('p', { className: 'notes__project', textContent: `Extrait de ${demo.project}` }));
+        if (demo.project) notes.append(text(el('p', { className: 'notes__project' }), 'lab_extract', { project: demo.project }));
 
         const bench = el('div', { className: 'bench' },
             jack('in'),
-            el('div', { className: 'bench__plate' }, el('span', { className: 'bench__led', ariaHidden: 'true' }), el('p', { className: 'bench__name', textContent: demo.name ?? demo.title })),
+            plate(demo),
             ...demo.events.map((event, e) => renderEvent(demo, event, `demo-${demo.id}-e${e}`, { ...handlers, report: protocol.report })),
             jack('out'));
+        if (demo.image) { // l'illustration du projet, au fond du module (adresse absolue : la variable est lue depuis demos.css)
+            bench.classList.add('has-art');
+            bench.style.setProperty('--art', `url("${new URL(demo.image, document.baseURI).href}")`);
+        }
         const card = el('article', { className: 'exp', id: `demo-${demo.id}` }, notes, bench);
         card.dataset.led = LEDS[i % LEDS.length];
         card.classList.toggle('is-tried', isDone(demo.id));
@@ -194,26 +240,31 @@ export function renderDemos(container, demos, handlers) {
         cards.set(card, { demo, report: protocol.report });
         return i ? [cable(i), card] : [card];
     });
-    container.replaceChildren(...(nodes.length ? nodes : [el('p', { textContent: 'Aucune expérience pour le moment.' })]));
+    container.replaceChildren(...(nodes.length ? nodes : [text(el('p'), 'lab_empty')]));
     return cards;
 }
 
 /** Voyants de l'en-tête : un par expérience, allumé une fois menée. */
 export function renderLamps(list, count, demos) {
     const lamps = new Map(demos.map((demo, i) => {
-        const link = el('a', { className: 'lamp', href: `#demo-${demo.id}` }, el('span', { className: 'sr-only', textContent: `Expérience ${i + 1} : ${demo.name ?? demo.title}` }), el('span', { textContent: i + 1, ariaHidden: 'true' }));
-        link.title = demo.name ?? demo.title;
-        link.dataset.led = LEDS[i % LEDS.length];
+        const name = () => (demo.project ? `${demo.project} · ${t(demo.name ?? demo.title)}` : t(demo.name ?? demo.title));
+        const link = el('a', { className: 'lamp', href: `#demo-${demo.id}` },
+            text(el('span', { className: 'sr-only' }), 'lab_lamp', () => ({ number: i + 1, name: name() })),
+            el('span', { textContent: i + 1, ariaHidden: 'true' }));
+        live(() => { link.title = name(); });
         return [demo.id, link];
     }));
     list.replaceChildren(...[...lamps.values()].map((link) => el('li', {}, link)));
+    let total = 0;
+    text(count, 'lab_count', () => ({ done: total, total: demos.length }));
     return function update() {
-        let total = 0;
+        total = 0;
         for (const [id, link] of lamps) {
-            link.classList.toggle('is-on', isDone(id));
+            link.classList.toggle('is-on', isDone(id)); // menée : vert
+            link.classList.toggle('is-started', isStarted(id)); // commencée : orange
             total += isDone(id);
         }
-        count.textContent = `${total} sur ${demos.length}`;
+        count.textContent = t('lab_count', { done: total, total: demos.length });
         document.body.classList.toggle('is-complete', total === demos.length && total > 0);
     };
 }

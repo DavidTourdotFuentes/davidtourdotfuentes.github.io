@@ -15,60 +15,56 @@
     <script type="module" src="js/main.js"></script>
 </head>
 <body>
-    <a class="skip-link" href="#demos">Aller aux expériences</a>
+    <!-- Les textes viennent de ../translations.csv (clés lab_…) ; ceux écrits ici ne servent qu'en attendant leur chargement. -->
+    <a class="skip-link" href="#demos" data-i18n="lab_skip">Aller aux expériences</a>
 
     <header class="site-header">
         <a class="back" href="../index.html"><span class="back__arrow" aria-hidden="true"></span>Portfolio</a>
+        <!-- Progression : un voyant par expérience, orange une fois commencée, vert une fois menée -->
+        <div class="progress">
+            <ol id="lamps" class="lamps"></ol>
+            <p class="progress__count"><strong id="lamps-count">0</strong> <span data-i18n="lab_done_count">expériences menées</span></p>
+        </div>
+        <!-- Voyant de mise sous tension du moteur audio, à gauche du volume -->
+        <p class="power"><span id="status-dot" class="dot" data-state="idle" aria-hidden="true"></span><span id="status" class="status" role="status" aria-live="polite" data-state="idle">En veille</span></p>
         <div class="volume">
-            <label for="master-volume">Volume<span class="volume__more"> général</span></label>
+            <label for="master-volume"><span data-i18n="lab_volume">Volume</span><span class="volume__more" data-i18n="lab_volume_more"> général</span></label>
             <input id="master-volume" type="range" min="0" max="1" step="0.01" value="0.5" autocomplete="off">
             <output id="master-volume-value" for="master-volume">50 %</output>
         </div>
-        <div class="theme" role="group" aria-label="Thème">
+        <div class="theme" role="group" aria-label="Thème / Theme">
             <button type="button" data-set-theme="light" aria-label="Light" title="Light"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.6" fill="currentColor"/><path d="M12 1.6v2.8M12 19.6v2.8M1.6 12h2.8M19.6 12h2.8M4.65 4.65l2 2M17.35 17.35l2 2M4.65 19.35l2-2M17.35 6.65l2-2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
             <button type="button" data-set-theme="dark" aria-label="Dark" title="Dark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 14.6A8.8 8.8 0 019.4 3.6a8.8 8.8 0 1011 11z" fill="currentColor"/></svg></button>
+        </div>
+        <div class="lang" role="group" aria-label="Langue / Language">
+            <button type="button" data-set-lang="fr">FR</button>
+            <button type="button" data-set-lang="en">EN</button>
         </div>
     </header>
 
     <main id="contenu" tabindex="-1">
         <section class="console" aria-labelledby="titre">
             <div class="console__head">
-                <h1 id="titre">Laboratoire audio</h1>
-                <p class="console__intro">De petites expériences pour comprendre le métier de Sound Designer: lancez un son, tournez un bouton, écoutez ce qui change.</p>
-                <div class="console__progress">
-                    <p><strong id="lamps-count">0</strong> expériences menées</p>
-                    <ol id="lamps" class="lamps"></ol>
-                </div>
-            </div>
-            <div class="console__panel">
-                <figure class="screen screen--main">
-                    <canvas id="main-scope" class="scope" role="img" aria-label="Oscilloscope du son en cours"></canvas>
-                </figure>
-                <div class="console__meter">
-                    <svg class="vu" viewBox="0 0 100 62" aria-hidden="true"><path d="M16.91 30.05L12.95 26.23" class=""/><path d="M21.47 25.92L19.61 23.56" class=""/><path d="M26.54 22.43L25.01 19.85" class=""/><path d="M32.03 19.66L30.85 16.90" class=""/><path d="M37.84 17.64L37.04 14.74" class=""/><path d="M43.86 16.41L43.46 13.44" class=""/><path d="M50.00 16.00L50.00 13.00" class=""/><path d="M56.14 16.41L56.54 13.44" class=""/><path d="M62.16 17.64L62.96 14.74" class=""/><path d="M67.97 19.66L70.12 14.59" class="is-red"/><path d="M73.46 22.43L74.99 19.85" class="is-red"/><path d="M78.53 25.92L80.39 23.56" class="is-red"/><path d="M83.09 30.05L87.05 26.23" class="is-red"/><path d="M16.91 30.05A46 46 0 0 1 67.97 19.66"/><path class="is-red is-thick" d="M67.58 20.58A45 45 0 0 1 82.37 30.74"/><text x="30.44" y="30.00" class="">−20</text><text x="64.65" y="27.48" class="is-red">0</text><text x="75.54" y="34.54" class="is-red">+3</text><g id="needle" class="vu__needle"><path d="M50 62V13"/></g><circle cx="50" cy="62" r="11"/></svg>
-                    <div class="modes" role="group" aria-label="Affichage de l'écran">
-                        <button type="button" data-scope="wave" aria-pressed="true">Onde</button>
-                        <button type="button" data-scope="spectrum" aria-pressed="false">Spectre</button>
-                    </div>
-                    <p class="console__power"><span id="status-dot" class="dot" data-state="idle" aria-hidden="true"></span><span id="status" class="status" role="status" aria-live="polite" data-state="idle">En veille</span></p>
-                </div>
+                <h1 id="titre" data-i18n="lab_title">Laboratoire audio</h1>
+                <p class="console__intro" data-i18n="lab_intro">De petites expériences pour comprendre le métier de Sound Designer : lancez un son, tournez un bouton, écoutez ce qui change.</p>
             </div>
         </section>
 
         <p id="page-error" class="notice" role="alert" hidden></p>
-        <noscript><p class="notice">JavaScript est nécessaire pour mener les expériences.</p></noscript>
+        <noscript><p class="notice">JavaScript est nécessaire pour mener les expériences. / JavaScript is required to run the experiments.</p></noscript>
 
-        <section id="demos" class="demos" aria-label="Expériences"></section>
+        <section id="demos" class="demos" aria-label="Expériences" data-i18n-aria="lab_experiments"></section>
 
         <section class="outro" aria-labelledby="fin">
-            <h2 id="fin">Le même travail, dans de vrais jeux</h2>
-            <p>Décider ce qu'on entend, quand et pourquoi, puis le brancher au jeu : c'est le design sonore et l'intégration audio.</p>
-            <a class="outro__link" href="../index.html#portfolio">Voir les projets</a>
+            <h2 id="fin" data-i18n="lab_outro_title">Le même travail, dans de vrais jeux</h2>
+            <p data-i18n="lab_outro_text">Décider ce qu'on entend, quand et pourquoi, puis le brancher au jeu : c'est le design sonore et l'intégration audio.</p>
+            <a class="outro__link" href="../index.html#portfolio" data-i18n="lab_outro_link">Voir les projets</a>
         </section>
     </main>
 
     <footer class="site-footer">
-        <p>Réalisé avec FMOD Studio par Firelight Technologies Pty Ltd.</p>
+        <p data-i18n="lab_footer">Réalisé avec FMOD Studio par Firelight Technologies Pty Ltd.</p>
     </footer>
+    <script src="../translations.js"></script>
 </body>
 </html>

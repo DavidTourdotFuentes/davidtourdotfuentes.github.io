@@ -87,6 +87,13 @@ window.addEventListener('resize', moveName);
 document.fonts.addEventListener('loadingdone', moveName);
 moveName();
 
+// --- Le labo audio s'ouvre dans la langue choisie ici (translations.js y lit ?lang=en) ---
+
+const labLink = document.querySelector('.nav__lab');
+document.addEventListener('translationschange', () => {
+    if (labLink) labLink.href = currentLang === 'en' ? 'audio-demos/?lang=en' : 'audio-demos/';
+});
+
 // --- Défilement bloqué sous les fenêtres (cards/modal.js) ---
 
 let locks = 0; // fenêtres ouvertes : une fiche peut s'ouvrir par-dessus le booster

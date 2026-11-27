@@ -30,11 +30,10 @@ export function fitText(text, width, measure) {
  * le temps défile même si la valeur est stable, et s'arrête quand push() n'est plus appelé.
  * steps : valeurs croissantes dont le passage laisse un repère sur la courbe, nommé par stepLabels.
  */
-export function createCurve({ min, max, initial, label, steps = [], stepLabels = [] }) {
+export function createCurve({ min, max, initial, steps = [], stepLabels = [] }) {
     const canvas = document.createElement('canvas');
     canvas.className = 'curve';
-    canvas.setAttribute('role', 'img');
-    canvas.setAttribute('aria-label', `Évolution en temps réel : ${label}`);
+    canvas.setAttribute('role', 'img'); // son aria-label est posé par ui.js, dans la langue choisie
 
     const tolerance = (max - min) / 1000; // ignore le bruit d'arrondi
     const decimals = max - min > 10 ? 0 : 2;

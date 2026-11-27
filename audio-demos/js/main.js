@@ -1,8 +1,10 @@
 // Point d'entrée : lit le manifeste, le valide et construit le laboratoire.
+// Les textes du manifeste sont des clés de ../translations.csv (voir README.md).
 import { EngineError, engine } from './fmod-engine.js';
+import { keepLanguage } from './i18n.js';
 import { createScope } from './scope.js';
 import {
-    initialValue, perFrame, renderDemos, renderLamps, setEventPlaying, setEventState, setLive, setStatus, showPageError,
+    initialValue, perFrame, renderDemos, renderLamps, setBusy, setEventPlaying, setEventState, setLive, setStatus, showPageError,
 } from './ui.js';
 import { watchCards, watchPage } from './visibility.js';
 
@@ -15,8 +17,9 @@ function validateParameter(p, at, errors) {
     if (p?.global !== undefined && typeof p.global !== 'boolean') errors.push(`${at}.global : true ou false attendu`);
 
     if (p?.reversed !== undefined && typeof p.reversed !== 'boolean') errors.push(`${at}.reversed : true ou false attendu`);
-    if (p?.visual !== undefined && p.visual !== 'eyes') errors.push(`${at}.visual : "eyes" attendu`);
     if (p?.ends !== undefined && !(isTextList(p.ends) && p.ends.length === 2)) errors.push(`${at}.ends : deux textes attendus`);
+
+    if (p?.sequential !== undefined && !(p.type === 'stepped' && typeof p.sequential === 'boolean')) errors.push(`${at}.sequential : true ou false attendu, pour un paramètre "stepped"`);
 
     if (p?.type === 'stepped') {
         if (!isTextList(p.labels) || p.labels.length < 2) errors.push(`${at}.labels : au moins deux textes attendus`);
@@ -63,7 +66,7 @@ function validateManifest(manifest) {
 
         if (!isText(demo?.title)) errors.push(`${at}.title : texte attendu`);
         if (!isText(demo?.description)) errors.push(`${at}.description : texte attendu`);
-        for (const field of ['name', 'project', 'observation']) if (demo?.[field] !== undefined && !isText(demo[field])) errors.push(`${at}.${field} : texte attendu`);
+        for (const field of ['name', 'project', 'image', 'observation']) if (demo?.[field] !== undefined && !isText(demo[field])) errors.push(`${at}.${field} : texte attendu`);
         if (demo?.steps !== undefined && !(Array.isArray(demo.steps) && demo.steps.every((step) => isText(step?.text) && ['play', 'param', 'move'].includes(step.when)))) {
             errors.push(`${at}.steps : liste de { text, when: "play", "param" ou "move" } attendue`);
         }
@@ -80,10 +83,9 @@ function validateManifest(manifest) {
             if (!isText(event?.label)) errors.push(`${atEvent}.label : texte attendu`);
             if (!['oneshot', 'loop'].includes(event?.mode)) errors.push(`${atEvent}.mode : "oneshot" ou "loop" attendu`);
             if (event?.spatial !== undefined) {
-                const { distance, listener } = event.spatial ?? {};
+                const { distance } = event.spatial ?? {};
                 const isPair = (v) => Array.isArray(v) && v.length === 2 && v.every(Number.isFinite);
                 if (!isPair(distance) || distance[0] < 0 || distance[0] >= distance[1]) errors.push(`${atEvent}.spatial.distance : [min, max] attendu, avec min < max`);
-                if (!isPair(listener)) errors.push(`${atEvent}.spatial.listener : [x, z] attendu`);
             }
             if (event?.parameters === undefined) return;
             if (!Array.isArray(event.parameters)) errors.push(`${atEvent}.parameters : liste attendue`);
@@ -116,33 +118,33 @@ const slots = new Map(); // event du manifeste → { button, demo, handle }
 const values = new Map(); // paramètre du manifeste → valeur choisie
 const displays = new Map(); // paramètre du manifeste → fonction qui ajoute sa valeur temps réel à sa courbe
 const maps = new Map(); // event 3D du manifeste → vue de dessus
-const listeners = new Map(); // event 3D du manifeste → position { x, z } du listener
+const sources = new Map(); // event 3D du manifeste → position { x, z } de la prochaine explosion ; le listener reste au centre
+const CENTER = { x: 0, z: 0 };
 let reports = new Map(); // démo → fonction qui fait avancer son protocole
 let updateLamps = () => {};
+let loading = null; // touche dont l'expérience se charge : les autres attendent
 
 const isPlaying = (event) => Boolean(slots.get(event)?.handle);
 
-/** Aiguille et écrans : ils montrent le son qui sort vraiment du moteur. */
-const needle = $('needle');
+/** Écrans des expériences : ils montrent le son qui sort vraiment du moteur. */
 const scope = createScope({
     getNode: () => engine.outputNode,
-    onLevel: (level) => needle.style.setProperty('--needle', `${(-46 + 92 * level).toFixed(1)}deg`),
     isBusy: () => [...slots.values()].some(({ handle }) => handle),
 });
 let manifest = null;
-let lastRequest = 0; // numéro du dernier lancement demandé, pour que le plus récent l'emporte
 
+/** Clé du message d'erreur, et ses variables. */
 function describe(error) {
-    if (!(error instanceof EngineError)) return 'Erreur audio inattendue';
-    if (error.code === 'missing-fmod') return 'Fichiers FMOD manquants';
-    if (error.code === 'missing-bank') return 'Bank manquante';
-    if (error.code === 'bank-version') return 'Bank incompatible avec la version du moteur FMOD';
-    return `Erreur FMOD : ${error.message}`;
+    if (!(error instanceof EngineError)) return ['lab_error_unexpected'];
+    if (error.code === 'missing-fmod') return ['lab_error_fmod'];
+    if (error.code === 'missing-bank') return ['lab_error_bank'];
+    if (error.code === 'bank-version') return ['lab_error_version'];
+    return ['lab_error_other', { message: error.message }];
 }
 
 function reportError(error) {
     console.error(error);
-    setStatus('error', describe(error));
+    setStatus('error', ...describe(error));
 }
 
 /** Exécute une action du moteur et affiche l'erreur éventuelle. */
@@ -156,23 +158,23 @@ function attempt(action) {
 
 let lockTimer = 0;
 function showReady() {
-    setStatus('ready', 'Sous tension');
+    setStatus('ready', 'lab_status_ready');
     // Le contexte audio met un instant à redémarrer : on ne conclut au blocage qu'après ce délai.
     clearTimeout(lockTimer);
     lockTimer = setTimeout(() => {
-        if (engine.isLocked) setStatus('locked', 'Touchez la page pour activer le son');
+        if (engine.isLocked) setStatus('locked', 'lab_status_locked');
     }, 500);
 }
 
 function showInactive() {
     clearTimeout(lockTimer);
-    setStatus('idle', 'En veille');
+    setStatus('idle', 'lab_status_idle');
 }
 
 /** Démarre le moteur au premier geste ; sans effet s'il est déjà prêt. */
 async function ensureEngine() {
     if (engine.isReady) return;
-    setStatus('loading', 'Mise sous tension…');
+    setStatus('loading', 'lab_status_starting');
     await engine.init({ sharedBanks: manifest.sharedBanks });
     showReady();
 }
@@ -201,19 +203,29 @@ function showLiveValues() {
     }
 }
 
-async function start(slot, event) {
-    const request = ++lastRequest;
+/** Pendant le chargement, la touche reste enfoncée et les autres touches de lecture ne répondent pas. */
+async function load(slot) {
+    loading = slot.button;
     setEventState(slot.button, 'loading');
-    await ensureEngine();
-    setStatus('loading', 'Branchement de l’expérience…');
-    await engine.loadBanks(slot.demo.banks);
-    setEventState(slot.button, 'idle');
-    if (request !== lastRequest) return; // un autre event a été demandé pendant le chargement
+    setBusy(slot.button);
+    try {
+        await ensureEngine();
+        setStatus('loading', 'lab_status_connecting');
+        await engine.loadBanks(slot.demo.banks);
+    } finally {
+        loading = null;
+        setBusy(null);
+        setEventState(slot.button, 'idle');
+    }
+}
 
+async function start(slot, event) {
+    await load(slot);
     stopEverything(); // un seul event à la fois
-    if (event.spatial) engine.setListener(listeners.get(event));
+    const position = event.spatial && (sources.get(event) ?? CENTER);
+    if (event.spatial) engine.setListener(CENTER);
     const handle = engine.play(event.path, {
-        position: event.spatial && { x: 0, z: 0 },
+        position,
         onStopped: () => {
             if (slot.handle !== handle) return;
             slot.handle = null;
@@ -226,7 +238,8 @@ async function start(slot, event) {
     setLive(slot.demo, true);
     scope.start();
     maps.get(event)?.pulse();
-    reports.get(slot.demo)?.({ type: 'play' });
+    // Pour une explosion, l'étape peut demander qu'elle soit proche (below) ou loin (above) de l'oreille.
+    reports.get(slot.demo)?.({ type: 'play', value: position ? Math.hypot(position.x, position.z) : undefined });
     if (event.mode === 'loop') setEventPlaying(slot.button, true);
     // Au départ, l'event prend directement la valeur choisie ; le seek ne joue que sur les changements suivants.
     for (const param of event.parameters ?? []) applyParam(slot, param, values.get(param), { immediate: true });
@@ -257,7 +270,7 @@ function stopEverything() {
 async function onTrigger(button, demo, event) {
     const slot = slots.get(event) ?? { button, demo, handle: null };
     slots.set(event, slot);
-    if (button.dataset.state === 'loading') return;
+    if (loading) return; // une expérience se charge déjà : on attend qu'elle soit prête
 
     try {
         if (event.mode === 'loop' && slot.handle) stop(slot);
@@ -270,21 +283,25 @@ async function onTrigger(button, demo, event) {
     }
 }
 
-function onParam(event, param, value) {
+function onParam(event, param, value, options) {
     values.set(param, value);
-    attempt(() => applyParam(slots.get(event), param, value));
+    attempt(() => applyParam(slots.get(event), param, value, options));
 }
 
-function onListener(event, position) {
-    listeners.set(event, position);
-    attempt(() => engine.setListener(position));
+/** Un clic sur la vue de dessus : l'explosion partira de là. */
+function onAim(event, position) {
+    sources.set(event, position);
 }
 
 const sendVolume = perFrame((value) => attempt(() => engine.setMasterVolume(value)));
+const showVolume = () => { $('master-volume-value').textContent = `${Math.round(volume.value * 100)} %`; };
 volume.addEventListener('input', () => {
-    $('master-volume-value').textContent = `${Math.round(volume.value * 100)} %`;
+    showVolume();
     sendVolume(Number(volume.value));
 });
+// Le moteur part de la position du curseur (50 %), et non de son volume plein : il l'applique au démarrage.
+showVolume();
+engine.setMasterVolume(Number(volume.value));
 
 // Safari peut exiger un second geste, car le téléchargement a consommé le premier.
 document.addEventListener('click', () => {
@@ -300,14 +317,15 @@ engine.onFailure = (error) => {
 };
 
 async function main() {
+    for (const link of document.querySelectorAll('a[href^="../index.html"]')) keepLanguage(link);
+    showInactive();
     if (typeof WebAssembly !== 'object') {
-        showPageError('Votre navigateur ne prend pas en charge WebAssembly, nécessaire au moteur audio.');
+        showPageError(getTranslation('lab_error_wasm') || 'WebAssembly ?');
         return;
     }
     manifest = await loadManifest();
 
     for (const event of manifest.demos.flatMap((demo) => demo.events)) {
-        if (event.spatial) listeners.set(event, { x: event.spatial.listener[0], z: event.spatial.listener[1] });
         for (const param of event.parameters ?? []) {
             values.set(param, initialValue(param));
         }
@@ -318,16 +336,10 @@ async function main() {
         $(`demo-${demo.id}`).classList.add('is-tried');
         updateLamps();
     };
-    const cards = renderDemos($('demos'), manifest.demos, { onTrigger, onParam, onListener, onDone, isPlaying, scope, displays, maps });
+    const onStart = () => updateLamps(); // une première étape cochée : le voyant passe à l'orange
+    const cards = renderDemos($('demos'), manifest.demos, { onTrigger, onParam, onAim, onDone, onStart, isPlaying, scope, displays, maps });
     reports = new Map([...cards.values()].map(({ demo, report }) => [demo, report]));
     updateLamps();
-    const main = scope.addScreen($('main-scope'));
-    for (const button of document.querySelectorAll('[data-scope]')) {
-        button.addEventListener('click', () => {
-            for (const other of document.querySelectorAll('[data-scope]')) other.setAttribute('aria-pressed', String(other === button));
-            main.setMode(button.dataset.scope);
-        });
-    }
     watchCards(cards.keys(), (card) => attempt(() => stopLoops(cards.get(card).demo)));
     watchPage(engine, { onError: reportError, onReleased: showInactive });
 }

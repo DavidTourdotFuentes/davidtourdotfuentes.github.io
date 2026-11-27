@@ -103,7 +103,7 @@ export function createLever({ id, label, labels, index }, onChange) {
     const button = el('button', { type: 'button', className: 'lever', id },
         sides[0], el('span', { className: 'lever__plate', ariaHidden: 'true' }, el('span', { className: 'lever__stick' })), sides[1]);
     button.setAttribute('role', 'switch');
-    button.setAttribute('aria-label', label);
+    if (label) button.setAttribute('aria-label', label);
     let current = index;
     const draw = () => {
         button.setAttribute('aria-checked', String(current === 1));
@@ -118,13 +118,47 @@ export function createLever({ id, label, labels, index }, onChange) {
     return button;
 }
 
-/** Rangée de touches : une seule enfoncée. */
-export function createPads({ id, legend, labels, index, numbers }, onChange) {
+/**
+ * Rangée de touches : une seule enfoncée. onChange(index, options) ; options.immediate : sauter à la valeur sans glisser.
+ * sequential : comme dans le jeu, on n'avance que vers la touche suivante, de gauche à droite ;
+ * arrivé à la dernière, « Recommencer » ramène à la première.
+ */
+export function createPads({ id, legend, labels, index, numbers, sequential = false }, onChange) {
+    let current = index;
+    const inputs = [];
     const pads = labels.map((text, i) => {
         const input = el('input', { type: 'radio', name: id, value: i, checked: i === index });
-        input.addEventListener('change', () => onChange(i));
+        input.addEventListener('change', () => {
+            current = i;
+            lock();
+            onChange(i);
+        });
+        inputs.push(input);
         return el('label', { className: 'pad' }, input,
-            el('span', { className: 'pad__key' }, el('span', { className: 'pad__number', textContent: numbers?.[i] ?? i + 1, ariaHidden: 'true' }), el('span', { textContent: text })));
+            el('span', { className: 'pad__key' }, el('span', { className: 'pad__number', textContent: numbers?.[i] ?? i + 1, ariaHidden: 'true' }), el('span', { className: 'pad__name', textContent: text })));
     });
-    return el('fieldset', { className: 'pads' }, el('legend', { className: 'control__name', textContent: legend }), el('div', { className: 'pads__row' }, ...pads));
+    const node = el('fieldset', { className: 'pads' }, el('legend', { className: 'control__name', textContent: legend ?? '' }), el('div', { className: 'pads__row' }, ...pads));
+    if (!sequential) return node;
+
+    const reset = el('button', { type: 'button', className: 'pads__reset', hidden: true },
+        svg('0 0 24 24', '<path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4.5h4.5"/>'), el('span'));
+    node.append(reset);
+    /** Seules la touche enfoncée et la suivante répondent ; les étapes passées s'éteignent. */
+    function lock() {
+        inputs.forEach((input, i) => {
+            input.disabled = i !== current && i !== current + 1;
+            input.parentElement.classList.toggle('is-next', i === current + 1);
+            input.parentElement.classList.toggle('is-passed', i < current);
+        });
+        reset.hidden = current !== inputs.length - 1;
+    }
+    reset.addEventListener('click', () => {
+        current = 0;
+        inputs[0].checked = true;
+        lock();
+        onChange(0, { immediate: true }); // on recommence le jeu : la musique revient d'un coup au début
+        inputs[0].focus();
+    });
+    lock();
+    return node;
 }

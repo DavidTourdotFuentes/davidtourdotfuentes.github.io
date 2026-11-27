@@ -20,6 +20,9 @@ Viser moins de 3 Mo par bank : elle est téléchargée en entier au lancement.
 
 1. Exporter la bank dans `banks/`.
 2. Ajouter une entrée dans `demos.json`. Les chemins de banks sont relatifs à `banks/`.
+3. Écrire ses textes dans `../translations.csv`, en anglais et en français : dans `demos.json`, `name`, `title`, `description`, `steps[].text`, `observation`, les `label`, `labels` et `ends` sont des **clés** de ce fichier (préfixe `lab_`). `project` reste un nom propre, écrit tel quel. Une clé absente du fichier s'affiche telle quelle.
+
+L'exemple ci-dessous garde des textes lisibles pour la clarté ; en vrai, chacun est une clé (`"title": "lab_footsteps_title"`).
 
 ```json
 {
@@ -53,7 +56,8 @@ Viser moins de 3 Mo par bank : elle est téléchargée en entier au lancement.
 |---|---|
 | `title` | La question posée par l'expérience |
 | `name` | Nom court, sur le module (facultatif : `title` sinon) |
-| `project` | Projet d'où vient l'extrait, facultatif |
+| `project` | Projet d'où vient l'extrait, facultatif : il devient le titre du module, la technique (`name`) passe au-dessus |
+| `image` | Illustration du projet, au fond du module, facultative ; chemin relatif à `audio-demos/` (une version légère, vers 1400 px de large) |
 | `steps` | Protocole, facultatif : des étapes cochées dans l'ordre, voir ci-dessous |
 | `observation` | Explication, montrée d'elle-même une fois le protocole fini, facultative |
 | `banks` | Banks de la démo ; `[]` si tout est dans les `sharedBanks` |
@@ -64,20 +68,20 @@ Viser moins de 3 Mo par bank : elle est téléchargée en entier au lancement.
 | `parameters[].global` | `true` pour un paramètre global du projet |
 | `parameters[].default` | Valeur de départ, facultative |
 
-Event 3D : ajouter `"spatial": { "distance": [min, max], "listener": [x, z] }` à l'event pour afficher la vue de dessus.
+Event 3D : ajouter `"spatial": { "distance": [min, max] }` à l'event pour afficher la vue de dessus. Le listener (une oreille) reste au centre ; un clic dans sa portée y fait partir l'event.
 `distance` n'est que l'affichage avant le premier lancement ; les vraies distances (celles du spatializer en « Override Range », sinon celles de l'event) sont lues à chaque lancement.
-`listener` est la position de départ (x vers la droite, z vers le haut de la carte).
 
-Étapes du protocole : `when` vaut `"play"` (lancer), `"param"` (changer un paramètre) ou `"move"` (déplacer le casque).
+Étapes du protocole : `when` vaut `"play"` (lancer), `"param"` (changer un paramètre) ou `"move"` (event 3D : déclencher de l'autre côté de l'oreille).
+Pour un `"play"` d'event 3D, `below` et `above` portent sur la distance entre l'explosion et l'oreille.
 Pour `"param"`, on peut exiger `value` (valeur exacte), `below`, `above`, ou `count` (nombre de valeurs essayées).
-Les expériences menées sont retenues dans le navigateur (`labo-experiences`).
+Rien n'est gardé d'une visite à l'autre : chaque chargement de la page repart de zéro.
 
 Types de contrôle :
 
 | `type` | Contrôle | Champs propres |
 |---|---|---|
-| `"continuous"` | Potard | `min`, `max`, `step` ; `reversed: true` met le maximum à gauche ; `ends` : deux textes aux extrémités ; `visual: "eyes"` : des yeux qui approchent |
-| `"stepped"` | Touches nommées | `labels` ; `min` : valeur du premier cran, puis +1 par cran |
+| `"continuous"` | Potard | `min`, `max`, `step` ; `reversed: true` met le maximum à gauche ; `ends` : deux textes aux extrémités |
+| `"stepped"` | Touches nommées | `labels` ; `min` : valeur du premier cran, puis +1 par cran ; `sequential: true` : on n'avance que vers le cran suivant, et « Recommencer » ramène au premier une fois le dernier atteint |
 | `"toggle"` | Levier | `labels` et `values` : deux textes et leurs deux valeurs ; `default` : `0` ou `1` |
 | `"labeled"` | Touches | `labels` (valeur = index du label) |
 

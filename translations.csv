@@ -84,3 +84,86 @@ timeline_lead,Discover my projects over time,Découvrez mes projets réalisés a
 meter_cards,Cards,Cartes
 player_open_on,Open on,Ouvrir sur
 pack_count,cards,cartes
+lab_skip,Skip to the experiments,Aller aux expériences
+lab_volume,Volume,Volume
+lab_volume_more," (master)"," général"
+lab_title,Audio lab,Laboratoire audio
+lab_intro,"Small experiments to understand what a sound designer does: play a sound, turn a knob, hear what changes.","De petites expériences pour comprendre le métier de Sound Designer : lancez un son, tournez un bouton, écoutez ce qui change."
+lab_done_count,experiments done,expériences menées
+lab_count,{done} of {total},{done} sur {total}
+lab_experiments,Experiments,Expériences
+lab_outro_title,"The same work, in real games","Le même travail, dans de vrais jeux"
+lab_outro_text,"Deciding what you hear, when and why, then wiring it into the game: that is sound design and audio integration.","Décider ce qu'on entend, quand et pourquoi, puis le brancher au jeu : c'est le design sonore et l'intégration audio."
+lab_outro_link,See the projects,Voir les projets
+lab_footer,Made with FMOD Studio by Firelight Technologies Pty Ltd.,Réalisé avec FMOD Studio par Firelight Technologies Pty Ltd.
+lab_status_idle,Standby,En veille
+lab_status_starting,Powering up…,Mise sous tension…
+lab_status_connecting,Connecting the experiment…,Branchement de l’expérience…
+lab_status_ready,Powered on,Sous tension
+lab_status_locked,Tap the page to enable sound,Touchez la page pour activer le son
+lab_error_unexpected,Unexpected audio error,Erreur audio inattendue
+lab_error_fmod,FMOD files missing,Fichiers FMOD manquants
+lab_error_bank,Missing bank,Bank manquante
+lab_error_version,Bank incompatible with the FMOD engine version,Bank incompatible avec la version du moteur FMOD
+lab_error_other,FMOD error: {message},Erreur FMOD : {message}
+lab_error_wasm,"Your browser does not support WebAssembly, which the audio engine needs.","Votre navigateur ne prend pas en charge WebAssembly, nécessaire au moteur audio."
+lab_state_loading,Loading…,Chargement…
+lab_state_missing,Missing bank,Bank manquante
+lab_state_error,Audio error,Erreur audio
+lab_signal,Signal,Signal
+lab_wave,Waveform of the current sound,Forme d’onde du son en cours
+lab_curve,Real-time change: {name},Évolution en temps réel : {name}
+lab_experiment_sr,"Experiment ","Expérience "
+lab_extract,From {project},Extrait de {project}
+lab_empty,No experiments yet.,Aucune expérience pour le moment.
+lab_lamp,Experiment {number}: {name},Expérience {number} : {name}
+lab_protocol,Protocol,Protocole
+lab_observation,Observation,Observation
+lab_step_done,(done),(fait)
+lab_finished,"Experiment complete, observation shown.","Expérience terminée, observation affichée."
+lab_restart,Start over,Recommencer
+lab_map_label,"Top view: click around the ear to set off an explosion there. With the keyboard, the arrows move the target and Enter sets it off.","Vue de dessus : cliquez autour de l'oreille pour déclencher une explosion à cet endroit. Au clavier, les flèches déplacent la cible et Entrée déclenche."
+lab_map_distance,Distance: {distance},Distance : {distance}
+lab_event_music,Music,Musique
+lab_event_ambience,Ambience,Ambiance
+lab_event_explode,Explode,Exploser
+lab_dc_name,Adaptive music,Musique adaptative
+lab_dc_title,How do you go from exploration to combat without cutting the music?,Comment passer de l'exploration au combat sans couper la musique ?
+lab_dc_text,"In a game, nobody knows when the enemy will show up. The music must be able to change at any moment.","Dans un jeu, personne ne sait quand l'ennemi va surgir. La musique doit pouvoir changer à tout instant."
+lab_dc_step1,Start the music.,Lancez la musique.
+lab_dc_step2,Flip the lever to Combat.,Basculez le levier sur Combat.
+lab_dc_step3,"Go back to exploration, whenever you like.","Revenez à l'exploration, au moment de votre choix."
+lab_dc_observation,"Both pieces have exactly the same length and loop. The game can therefore slide from one to the other at any moment: watch the curve, the value doesn't jump, it travels.","Les deux musiques ont exactement la même durée et bouclent. Le jeu peut donc glisser de l'une à l'autre à n'importe quel moment : regardez la courbe, la valeur ne saute pas, elle voyage."
+lab_dc_param,Game state,État du jeu
+lab_dc_explore,Exploration,Exploration
+lab_dc_fight,Combat,Combat
+lab_hm_name,Tension,Tension
+lab_hm_title,How do you make players feel a monster coming closer?,Comment faire sentir qu'un monstre approche ?
+lab_hm_text,"You hear danger before you see it. Here, a single value drives all the tension: the monster's distance.","On entend le danger avant de le voir. Ici, une seule valeur règle toute la tension : la distance du monstre."
+lab_hm_step1,"Start the ambience, the monster is far away.","Lancez l'ambiance, le monstre est loin."
+lab_hm_step2,Turn the knob to bring it very close.,Tournez le potard pour l'amener tout près.
+lab_hm_step3,Move it back and hear the tension drop.,Faites-le reculer et écoutez la tension retomber.
+lab_hm_observation,"You just did the game's job: measure a distance and send it to the sound. The calm ambience gives way to a stressful one, rising bass and a high string note. The player read nothing, yet understood.","Vous venez de faire le travail du jeu : mesurer une distance et l'envoyer au son. L'ambiance calme laisse la place à une ambiance de stress, à une montée de basses et à une note aiguë de cordes. Le joueur n'a rien lu, mais il a compris."
+lab_hm_param,Monster distance,Distance du monstre
+lab_hm_far,Far,Loin
+lab_hm_near,Near,Proche
+lab_hp_name,Progression,Progression
+lab_hp_title,How does music tell the player's progress?,Comment une musique raconte-t-elle l'avancée du joueur ?
+lab_hp_text,"From the house to the credits, the music shifts from cute to scary, following the stages of the game.","De la maison au générique, la musique passe du mignon à l'effrayant en suivant les étapes du jeu."
+lab_hp_step1,"Start the music, at the beginning of the game.","Lancez la musique, au début du jeu."
+lab_hp_step2,"Move forward stage by stage, in the game's order.","Avancez d'étape en étape, dans l'ordre du jeu."
+lab_hp_step3,Go all the way to the credits.,Allez jusqu'au générique.
+lab_hp_observation,"The value doesn't jump to the next stage, it glides there: each mark on the curve is a step crossed. The music changes without a seam, and the story keeps its continuity.","La valeur ne saute pas à l'étape suivante, elle y glisse : chaque repère de la courbe est un cran franchi. La musique change donc sans couture, et l'histoire garde sa continuité."
+lab_hp_param,Progress in the game,Progression dans le jeu
+lab_hp_stage1,The House,The House
+lab_hp_stage2,Hide And Seek Minigame,Hide And Seek Minigame
+lab_hp_stage3,Dark Forest Discover,Dark Forest Discover
+lab_hp_stage4,Dark Forest Theme,Dark Forest Theme
+lab_hp_stage5,Credits,Credits
+lab_ex_name,3D spatialization,Spatialisation 3D
+lab_ex_title,How can you tell where an explosion comes from?,Comment sait-on d'où vient une explosion ?
+lab_ex_text,"Top view: you are the ear, in the middle. Click around it to set off an explosion at that spot. Put on headphones, the effect is much clearer.","Vue de dessus : vous êtes l'oreille, au centre. Cliquez autour pour déclencher une explosion à cet endroit. Mettez un casque, l'effet est bien plus net."
+lab_ex_step1,Click right next to the ear.,Cliquez tout près de l'oreille.
+lab_ex_step2,"Now click far away, near the edge of the big circle.","Cliquez maintenant loin, près du bord du grand cercle."
+lab_ex_step3,Click on the other side of the ear: the sound switches sides.,Cliquez de l'autre côté de l'oreille : le son change de côté.
+lab_ex_observation,"The sound is always the same, only its position changes. From it, the engine works out the direction and the attenuation: full volume inside the small circle, then fainter and fainter out to the big one.","Le son est toujours le même, c'est sa place qui change. Le moteur en déduit la direction et l'atténuation : plein volume dans le petit cercle, puis de plus en plus faible jusqu'au grand."

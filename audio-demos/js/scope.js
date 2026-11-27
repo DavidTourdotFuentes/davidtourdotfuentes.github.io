@@ -3,7 +3,6 @@
 const FFT_SIZE = 2048;
 const SILENCE = 0.002; // en dessous, l'écran se repose
 const FALL = 0.93; // retombée des barres du spectre, par image
-const NEEDLE_MS = 300; // temps d'intégration d'un VU-mètre
 const BARS = 40;
 const LOW_HZ = 40;
 const HIGH_HZ = 14000;
@@ -84,10 +83,10 @@ function drawSpectrum({ ctx, width, height, color }, bars) {
 }
 
 /**
- * getNode() renvoie la sortie du moteur ; addScreen(canvas, { mode, isActive }) ajoute un écran ; onLevel(0 à 1) suit l'aiguille.
+ * getNode() renvoie la sortie du moteur ; addScreen(canvas, { mode, isActive }) ajoute un écran.
  * Rien ne tourne tant que start() n'est pas appelé ; l'affichage s'arrête seul quand plus rien ne joue (isBusy) et que le silence est revenu.
  */
-export function createScope({ getNode, onLevel, isBusy }) {
+export function createScope({ getNode, isBusy }) {
     const screens = new Set();
     const samples = new Float32Array(FFT_SIZE);
     const bins = new Uint8Array(FFT_SIZE / 2);
@@ -95,8 +94,6 @@ export function createScope({ getNode, onLevel, isBusy }) {
     let analyser = null;
     let source = null;
     let frame = 0;
-    let level = 0;
-    let last = 0;
     let quietSince = 0;
 
     /** La sortie n'existe qu'un instant après le lancement, et change si le moteur redémarre. */
@@ -110,7 +107,7 @@ export function createScope({ getNode, onLevel, isBusy }) {
         node.connect(analyser); // en dérivation : le son n'est pas modifié
     }
 
-    function measure(now) {
+    function measure() {
         attach();
         let sum = 0;
         if (analyser?.context.state === 'running') {
@@ -122,10 +119,6 @@ export function createScope({ getNode, onLevel, isBusy }) {
         }
         for (const value of samples) sum += value * value;
         const rms = Math.sqrt(sum / samples.length);
-        const decibels = 20 * Math.log10(Math.max(rms, 1e-5));
-        const target = Math.min(Math.max((decibels + 46) / 40, 0), 1); // −46 dB en bas, −6 dB en haut
-        level += (target - level) * Math.min((now - last) / NEEDLE_MS, 1);
-        last = now;
 
         const nyquist = (analyser?.context.sampleRate ?? 48000) / 2;
         for (let i = 0; i < BARS; i++) {
@@ -146,12 +139,11 @@ export function createScope({ getNode, onLevel, isBusy }) {
             if (screen.mode === 'spectrum') drawSpectrum(pen, isActive ? bars : bars.map(() => 0));
             else drawWave(pen, isActive ? samples : new Float32Array(FFT_SIZE));
         }
-        onLevel(level);
     }
 
     function tick(now) {
         frame = 0;
-        const rms = measure(now);
+        const rms = measure();
         draw();
         if (rms > SILENCE) quietSince = 0;
         else quietSince ||= now;
@@ -161,7 +153,6 @@ export function createScope({ getNode, onLevel, isBusy }) {
 
     function start() {
         quietSince = 0;
-        last = performance.now();
         frame ||= requestAnimationFrame(tick);
     }
 
